@@ -5,42 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
-/* ============ INTERACTIVE INFOGRAPHIC CARDS ============ */
+/* ============ DOUBLE-BEZEL HARDWARE CARD ARCHITECTURE ============ */
 .jsw-interactive-card {
   background: #FFFFFF;
-  border: 1px solid var(--line-200, #D3D2CF);
-  border-radius: 14px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+  border: 1px solid rgba(22, 21, 19, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px -12px rgba(22, 21, 19, 0.06), 0 2px 6px rgba(22, 21, 19, 0.02);
   width: 100%;
   max-width: 1080px;
-  margin: 34px auto 44px auto;
-  padding: 26px 30px 32px 30px;
+  margin: 38px auto 48px auto;
+  padding: 8px; /* Outer chassis frame */
   box-sizing: border-box;
   position: relative;
-  overflow: hidden;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
 }
 .jsw-interactive-card:hover {
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-  border-color: #BDBDBD;
+  transform: translateY(-2px);
+  box-shadow: 0 24px 50px -12px rgba(22, 21, 19, 0.1), 0 4px 12px rgba(22, 21, 19, 0.04);
+  border-color: rgba(22, 21, 19, 0.16);
 }
 .jsw-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  padding-bottom: 14px;
+  padding: 16px 20px 14px 20px;
+  border-bottom: 1px solid rgba(22, 21, 19, 0.06);
+  margin-bottom: 16px;
 }
 .jsw-card-title {
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--font-display);
   font-weight: 800;
-  font-size: 24px;
-  color: #0A0A0A;
-  letter-spacing: -0.3px;
-  line-height: 1.2;
+  font-size: 20px;
+  color: #111113;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.jsw-card-title::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold, #C5A059);
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
 }
 
 .jsw-diagram-scaler {
@@ -48,6 +60,46 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
+  background: #F8F7F4;
+  border: 1px solid rgba(22, 21, 19, 0.04);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 2px rgba(22, 21, 19, 0.03);
+}
+
+/* Elevate diagram nodes from cheap slide gradients to precision architectural surfaces */
+.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#fdfdfd"],
+.jsw-diagram-canvas [style*="background:linear-gradient(145deg, #fdfdfd"],
+.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#fdfdfd 0%"],
+.jsw-diagram-canvas [style*="background: linear-gradient(145deg,#fdfdfd"],
+.jsw-diagram-canvas [style*="border-radius:12px"][style*="background:linear-gradient"] {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(22, 21, 19, 0.09) !important;
+  box-shadow: 0 10px 24px -6px rgba(22, 21, 19, 0.07), 0 1px 3px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+.jsw-diagram-canvas [style*="border-radius:12px"][style*="background:linear-gradient"]:hover {
+  transform: translateY(-4px) scale(1.015) !important;
+  box-shadow: 0 18px 36px -8px rgba(22, 21, 19, 0.12), 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(22, 21, 19, 0.16) !important;
+}
+/* Precision Swiss Step Number Badges */
+.jsw-diagram-canvas [style*="width:44px"][style*="border-radius:50%"][style*="background:linear-gradient"],
+.jsw-diagram-canvas [style*="width:50px"][style*="border-radius:50%"][style*="background:linear-gradient"] {
+  background: #161513 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+}
+/* Dimensional Hub Spheres: Calm, Weighted, No Gimmicky Breathing Animation */
+.jsw-diagram-canvas [style*="border-radius:50%"][style*="background:radial-gradient"] {
+  background: radial-gradient(circle at 35% 30%, #2E2D2A 0%, #161513 65%, #0A0A09 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 20px 40px -12px rgba(22, 21, 19, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+  animation: none !important;
+}
+.jsw-diagram-canvas .is-active[style*="background:linear-gradient"],
+.jsw-diagram-canvas .is-active[style*="border-radius:12px"] {
+  outline: 2px solid var(--gold, #C5A059) !important;
+  outline-offset: 2px;
 }
 .jsw-diagram-canvas {
   position: absolute;
@@ -206,9 +258,13 @@
   --serif-rule: 1px solid var(--line-200);
   --gold: #9A6B0A;
   --gold-lite: #D9A441;
-  --font-body:Calibri,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
-  --font-display:Calibri,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
-  --font-mono:'SF Mono',ui-monospace,'Cascadia Mono',Menlo,Consolas,monospace;
+  --font-body:'Plus Jakarta Sans','Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-display:'Plus Jakarta Sans','Manrope',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-mono:'JetBrains Mono','SF Mono',Consolas,monospace;
+  --paper:#FAFAF9;
+  --ink:#111113;
+  --gold:#C5A059;
+  --gold-lite:#DFBE7A;
   --topbar-h: 46px;
   --content-max: 1200px;
   --edge: max(40px, calc((100vw - var(--content-max)) / 2));
@@ -217,11 +273,13 @@
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
-  font-family:Calibri,'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  font-family:var(--font-body);
   background:var(--paper);
   color:var(--ink);
-  line-height:1.6;
+  line-height:1.65;
+  letter-spacing:-0.01em;
   -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 a{color:inherit;text-decoration:none}
 img,svg{display:block;max-width:100%}
@@ -2768,7 +2826,7 @@ section.chap > .chap-head .meta-row .meta-rule {
 section.chap > .chap-head .sec-title {
   color: #FFFFFF;
   margin: 10px 0 0 0;
-  font-family: 'Cinzel', Georgia, serif;
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;
   font-size: clamp(23px, 3.2vw, 32px);
   font-weight: 700;
   line-height: 1.2;
@@ -2901,22 +2959,28 @@ section.chap > .chap-head .rule {
   background: rgba(255, 255, 255, 0.14);
 }
 .jitter-btn {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 1px solid transparent;
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .jitter-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.18);
   border-color: rgba(255, 255, 255, 0.25);
   transform: scale(1.06);
+}
+.jitter-btn:active {
+  transform: scale(0.92) !important;
+}
+button:active {
+  transform: scale(0.97);
 }
 .jitter-current {
   display: flex;
@@ -3011,31 +3075,15 @@ section.chap > .chap-head .rule {
 }
 @media print{ .cover-ambient{ display:none !important; } }
 
-/* ============ LIVING PARTICLES CANVAS ============ */
+/* ============ ARCHITECTURAL AMBIENT LAYER (DE-AI TOY PARTICLES BANNED) ============ */
 #introParticlesCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.45s ease, visibility 0.45s;
+  display: none !important;
 }
 
 body.view-intro-active,
 body.view-home-active,
 body.view-ambient-active {
-  background: #ECEAE4 !important;
-}
-
-body.view-intro-active #introParticlesCanvas,
-body.view-home-active #introParticlesCanvas,
-body.view-ambient-active #introParticlesCanvas {
-  opacity: 1;
-  visibility: visible;
+  background: var(--paper) !important;
 }
 
 body.view-intro-active .main,
