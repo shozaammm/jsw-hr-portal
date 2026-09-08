@@ -3,6 +3,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800&display=swap');
+
+/* ============ RESPONSIVE EXECUTIVE INFOGRAPHICS EMBED ============ */
+.jsw-infographic-frame {
+  width: 100%;
+  max-width: 100%;
+  margin: 28px 0 36px 0;
+  border-radius: 8px;
+  border: 1px solid var(--line-200, #D3D2CF);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  background: #FFFFFF;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.jsw-infographic-scaler {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+.jsw-infographic-canvas {
+  width: 1920px;
+  height: 1080px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+.jsw-infographic-canvas * {
+  box-sizing: border-box;
+}
+
+
 /* ============ TOKENS ============ */
 :root{
   --white:#FFFFFF;
@@ -2738,439 +2773,6 @@ body.view-intro-active .chapter-nav {
   position: relative;
   z-index: 2;
 }
-
-
-/* ==========================================================================
-   EXECUTIVE 3D INFOGRAPHICS SUITE - RESPONSIVE STYLING
-   ========================================================================== */
-.jsw-infographic-card {
-  margin: 30px 0 38px 0;
-  background: linear-gradient(145deg, #0d131f 0%, #080c14 100%);
-  border: 1px solid rgba(56, 189, 248, 0.28);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  position: relative;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.jsw-infographic-card:hover {
-  border-color: rgba(56, 189, 248, 0.5);
-  box-shadow: 0 22px 50px -10px rgba(2, 132, 199, 0.25), 0 0 0 1px rgba(56, 189, 248, 0.2);
-}
-.jsw-info-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 18px;
-  background: rgba(15, 23, 42, 0.88);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.jsw-info-tag {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.jsw-info-pill {
-  background: linear-gradient(135deg, #0284c7, #2563eb);
-  color: #ffffff;
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 4px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-.jsw-info-sub {
-  color: #94a3b8;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-}
-.jsw-info-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.jsw-btn-fullscreen {
-  background: rgba(30, 41, 59, 0.9);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.15s ease;
-}
-.jsw-btn-fullscreen:hover {
-  background: #0284c7;
-  color: #ffffff;
-  border-color: #0284c7;
-  transform: translateY(-1px);
-}
-.jsw-btn-dl {
-  background: rgba(15, 23, 42, 0.8);
-  color: #cbd5e1;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 5px 11px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.15s ease;
-}
-.jsw-btn-dl:hover {
-  background: rgba(51, 65, 85, 0.9);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-.jsw-info-media-wrapper {
-  position: relative;
-  width: 100%;
-  background: #070a10;
-  cursor: pointer;
-  overflow: hidden;
-}
-.jsw-info-img {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  display: block;
-  transition: transform 0.25s ease;
-}
-.jsw-info-media-wrapper:hover .jsw-info-img {
-  transform: scale(1.006);
-}
-.jsw-info-hover-hint {
-  position: absolute;
-  inset: 0;
-  background: rgba(4, 8, 16, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
-}
-.jsw-info-media-wrapper:hover .jsw-info-hover-hint {
-  opacity: 1;
-}
-.jsw-info-hover-hint span {
-  background: rgba(15, 23, 42, 0.95);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-size: 13px;
-  font-weight: 700;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-.jsw-info-caption {
-  padding: 12px 18px;
-  background: rgba(11, 16, 26, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.jsw-info-caption-text {
-  font-size: 13px;
-  color: #94a3b8;
-  line-height: 1.45;
-  margin: 0;
-}
-.jsw-info-caption-text strong {
-  color: #f1f5f9;
-}
-.jsw-info-quick-link {
-  font-size: 12px;
-  font-weight: 700;
-  color: #38bdf8;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-.jsw-info-quick-link:hover {
-  text-decoration: underline;
-  color: #7dd3fc;
-}
-
-/* ============ HERO EXECUTIVE LAUNCHER ============ */
-.hero-infographics-launcher {
-  background: linear-gradient(135deg, #0b1120 0%, #151f32 100%);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 14px;
-  padding: 20px 24px;
-  margin: 24px var(--edge) 28px var(--edge);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.15);
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.launcher-left h3 {
-  font-size: 18px;
-  font-weight: 800;
-  color: #ffffff;
-  margin: 0 0 4px 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.launcher-left p {
-  font-size: 13px;
-  color: #94a3b8;
-  margin: 0;
-}
-.launcher-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.launcher-btn-primary {
-  background: linear-gradient(135deg, #0284c7, #2563eb);
-  color: #ffffff !important;
-  padding: 9px 18px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.launcher-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
-}
-.launcher-btn-secondary {
-  background: rgba(30, 41, 59, 0.85);
-  color: #f8fafc !important;
-  padding: 9px 16px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  transition: all 0.2s ease;
-}
-.launcher-btn-secondary:hover {
-  background: rgba(51, 65, 85, 0.95);
-  color: #38bdf8 !important;
-  border-color: rgba(56, 189, 248, 0.4);
-}
-
-/* ============ FULLSCREEN LIGHTBOX MODAL ============ */
-#jswInfoModal {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  background: rgba(4, 7, 13, 0.96);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 16px 24px;
-  box-sizing: border-box;
-}
-#jswInfoModal.active {
-  display: flex;
-}
-.modal-top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-.modal-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.modal-brand-tag {
-  background: #38bdf8;
-  color: #04070d;
-  font-weight: 900;
-  font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.modal-title-wrap {
-  color: #ffffff;
-}
-.modal-title-main {
-  font-size: 17px;
-  font-weight: 800;
-  color: #ffffff;
-}
-.modal-title-sub {
-  font-size: 12px;
-  color: #94a3b8;
-}
-.modal-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.modal-counter {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 800;
-  color: #38bdf8;
-}
-.modal-btn {
-  background: rgba(30, 41, 59, 0.9);
-  color: #f8fafc;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 7px 14px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-  text-decoration: none;
-}
-.modal-btn:hover {
-  background: #0284c7;
-  color: #ffffff;
-  border-color: #0284c7;
-}
-.modal-btn-close {
-  background: rgba(239, 68, 68, 0.2);
-  color: #fca5a5;
-  border-color: rgba(239, 68, 68, 0.4);
-}
-.modal-btn-close:hover {
-  background: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
-}
-.modal-stage {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 10px 0;
-  overflow: hidden;
-}
-.modal-nav-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  transition: all 0.2s ease;
-}
-.modal-nav-arrow:hover {
-  background: #0284c7;
-  border-color: #38bdf8;
-  transform: translateY(-50%) scale(1.08);
-}
-.modal-nav-arrow.prev { left: 16px; }
-.modal-nav-arrow.next { right: 16px; }
-.modal-slide-container {
-  max-width: 90vw;
-  max-height: 76vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modal-slide-img {
-  max-width: 100%;
-  max-height: 76vh;
-  object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-.modal-bottom-strip {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
-.modal-thumb-dot {
-  width: 34px;
-  height: 24px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: #1e293b;
-  color: #94a3b8;
-  font-size: 11px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-.modal-thumb-dot:hover {
-  border-color: #38bdf8;
-  color: #ffffff;
-}
-.modal-thumb-dot.active {
-  background: #0284c7;
-  border-color: #38bdf8;
-  color: #ffffff;
-  box-shadow: 0 0 10px rgba(2, 132, 199, 0.6);
-}
-
 </style>
 
 <header class="topbar">
@@ -3269,32 +2871,6 @@ body.view-intro-active .chapter-nav {
           <p>Lifecycle · Conduct · Policies · Annexure</p>
         </a>
       </div>
-
-    <!-- ============ EXECUTIVE 3D INFOGRAPHICS SUITE LAUNCHER ============ -->
-    <div class="hero-infographics-launcher" id="infographicsLauncher">
-      <div class="launcher-left">
-        <h3>
-          <span style="background:linear-gradient(135deg,#0284C7,#2563EB);color:#fff;font-size:11px;font-weight:900;padding:3px 8px;border-radius:4px;letter-spacing:1px;">3D INFOGRAPHICS</span>
-          Executive Visual Suite (15 Chapter Infographics)
-        </h3>
-        <p>Original 3D chevrons, pyramids, orbits, shields &amp; guardrails embedded chapter-wise</p>
-      </div>
-      <div class="launcher-actions">
-        <button class="launcher-btn-primary" onclick="openInfographicModal(1)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          Browse 15 Visuals (Modal Deck)
-        </button>
-        <a href="./JSW_HR_Manual_Infographics_3D_Dark.pptx" download="JSW_HR_Manual_Infographics_3D_Dark.pptx" class="launcher-btn-secondary">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-          Download PowerPoint (.pptx)
-        </a>
-        <a href="./infographics.html" class="launcher-btn-secondary">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Standalone Slide Deck
-        </a>
-      </div>
-    </div>
-
     </div>
 
     <!-- ============ INTRODUCTION ============ -->
@@ -3924,146 +3500,133 @@ body.view-intro-active .chapter-nav {
 </div>
 <p style="margin-top:18px">A dealership runs on people. If reporting lines are unclear, jobs get missed, customers wait longer, and no one owns the outcome.</p>
 <p><strong style="color:var(--ink)">Why this structure is required</strong></p>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 1 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-1">
-  <span id="info-2-1" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">01 / 15 · Chapter 2 · Sec. 2.0</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(1)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_1.png" download="JSW_HR_Infographic_01.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(1)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_1.webp" type="image/webp">
-      <img src="infographics/dark_slide_1.png" alt="Why This Structure Is Required" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>Why This Structure Is Required</strong> — Clear reporting structure right-sized for the outlet category so accountability is unambiguous.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(2)">
-      Next Visual #02 ➔
-    </span>
-  </div>
-</div>
-
-
 <div class="zigzag"><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">01</span>every customer touchpoint has an owner and a manager behind it</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">02</span>escalations go to the right person</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">03</span>new hires learn their role and reporting line quickly</div></div></div>
-<p><strong style="color:var(--ink)">How this structure work</strong></p>
 
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 2 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-2">
-  <span id="info-2-2" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">02 / 15 · Chapter 2 · Sec. 2.1</span>
+<div class="jsw-infographic-frame" id="infographic-1">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="2.1 Why Structure" data-speaker-notes="Chapter 2 - orbit diagram: three outcomes of a clear reporting structure." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 2 · Dealership Organisation Structure</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#0A0A0A;max-width:1150px;">Why This Structure Is Required</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Objective: a recommended reporting structure that is right-sized for the outlet category, so accountability is clear.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;">
+<svg sc-camel-view-box="0 0 1000 700" style="position: absolute; width: 900px; height: 630px; left: 49px; top: 29px">
+<defs><lineargradient id="ln1" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#b8b8b8"></stop><stop offset="100%" stop-color="#8a8a8a"></stop></lineargradient></defs>
+<line stroke="url(#ln1)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="500" y1="350" y2="150"></line>
+<line stroke="url(#ln1)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="760" y1="350" y2="410"></line>
+<line stroke="url(#ln1)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="240" y1="350" y2="410"></line>
+</svg>
+<div style="position:absolute;left:400px;top:250px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#3a3a3a 0%,#0a0a0a 55%,#000000 100%);box-shadow:0 30px 50px -14px rgba(0,0,0,0.5),inset 0 3px 8px rgba(255,255,255,0.15),inset 0 -8px 18px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;text-align:center;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#FFFFFF;line-height:1.25;position:relative;">Clear<br/>Structure</div>
+</div>
+<div style="position:absolute;left:350px;top:50px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),0 2px 5px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;box-sizing:border-box;text-align:center;">
+<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#FFFFFF;">01</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Every touchpoint has an owner — and a manager behind it</div>
+</div>
+<div style="position:absolute;left:610px;top:400px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),0 2px 5px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;box-sizing:border-box;text-align:center;">
+<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#FFFFFF;">02</div></div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Escalations go to the right person, every time</div>
+</div><div style="position:absolute;left:90px;top:400px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),0 2px 5px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;box-sizing:border-box;text-align:center;">
+<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#FFFFFF;">03</div></div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">New hires learn their role and reporting line quickly</div>
+</div>
+</div><div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 2 — Dealership Organisation Structure · Sec. 2.0</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">01 / 15</div>
+</div>
+</section>
     </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(2)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_2.png" download="JSW_HR_Infographic_02.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(2)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_2.webp" type="image/webp">
-      <img src="infographics/dark_slide_2.png" alt="How The Structure Works" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>How The Structure Works</strong> — Three foundational decisions: required roles, reporting structure, and shared vs. dedicated roles.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(3)">
-      Next Visual #03 ➔
-    </span>
   </div>
 </div>
 
 
+<p><strong style="color:var(--ink)">How this structure work</strong></p>
 <ul class="list-clean"><li>what roles a dealership need</li><li>Reporting structure of each role</li><li>shared and dedicated roles</li></ul>
+
+<div class="jsw-infographic-frame" id="infographic-2">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="2.2 How It Works" data-speaker-notes="Chapter 2 - chevron sequence: the three building blocks of the reporting structure." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 2 · Dealership Organisation Structure</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#0A0A0A;">How The Structure Works</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Section 2.1 — three decisions decide who does what, before you draw the chart.</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:52px;">
+<div style="display:flex;filter:drop-shadow(0 26px 30px rgba(0,0,0,0.28));">
+<div style="width:360px;height:240px;background:linear-gradient(120deg,#3a3a3a 0%,#0a0a0a 45%,#000000 100%);clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;">
+<div style="position:absolute;top:14px;left:30px;width:120px;height:10px;background:rgba(255,255,255,0.18);border-radius:6px;filter:blur(2px);"></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#FFFFFF;">01</div>
+</div>
+<div style="width:360px;height:240px;background:linear-gradient(120deg,#5c5c5c 0%,#2e2e2e 45%,#141414 100%);clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%);margin-left:-42px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;">
+<div style="position:absolute;top:14px;left:60px;width:120px;height:10px;background:rgba(255,255,255,0.18);border-radius:6px;filter:blur(2px);"></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#FFFFFF;">02</div>
+</div>
+<div style="width:360px;height:240px;background:linear-gradient(120deg,#9a9a9a 0%,#767676 45%,#4a4a4a 100%);clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%);margin-left:-42px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;">
+<div style="position:absolute;top:14px;left:80px;width:120px;height:10px;background:rgba(255,255,255,0.3);border-radius:6px;filter:blur(2px);"></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#FFFFFF;">03</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:48px;width:1180px;">
+<div style="text-align:center;padding-top:20px;border-top:3px solid #0A0A0A;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:23px;color:#0A0A0A;">What roles a dealership needs</div><div style="font-weight:400;font-size:16px;color:#8A8A8A;margin-top:8px;">Sized to the outlet category and volume plan</div></div>
+<div style="text-align:center;padding-top:20px;border-top:3px solid #2e2e2e;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:23px;color:#0A0A0A;">Reporting structure of each role</div><div style="font-weight:400;font-size:16px;color:#8A8A8A;margin-top:8px;">Who each role answers to, functionally and day to day</div></div>
+<div style="text-align:center;padding-top:20px;border-top:3px solid #767676;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:23px;color:#0A0A0A;">Shared and dedicated roles</div><div style="font-weight:400;font-size:16px;color:#8A8A8A;margin-top:8px;">Which functions can be pooled across smaller outlets</div></div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 2 — Dealership Organisation Structure · Sec. 2.1</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">02 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <h3 class="sub-title subhead" id="ch2-1">Factors governing the structure:</h3>
 <div class="zigzag"><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">01</span>Dealership’s Business Plan – enquiry flow and retail targets</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">02</span>Business volume across new car, used car, corporate deals &amp; add-ons</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">03</span>City in which the dealership is located – Tier 1, 2, 3</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">04</span>Productivity norms</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">05</span>2S or 3S outlet</div></div></div>
 <div class="pull">Carefully review the volume norms shared by JSW Motors and plan your manpower accordingly.</div>
 
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 3 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-3">
-  <span id="info-2-3" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">03 / 15 · Chapter 2 · Sec. 2.0</span>
+<div class="jsw-infographic-frame" id="infographic-3">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="2.3 Five Factors" data-speaker-notes="Chapter 2 - pyramid diagram: five factors that shape the org chart, apex to base." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 2 · Dealership Organisation Structure</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#0A0A0A;">5 Factors That Shape Your Org Chart</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Chart 2.1 — review the volume norms shared by JSW Motors before you finalise headcount.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;gap:70px;">
+<div style="width:440px;flex-shrink:0;display:flex;flex-direction:column;filter:drop-shadow(0 30px 34px rgba(0,0,0,0.3));">
+<div style="width:440px;height:82px;background:linear-gradient(120deg,#454545 0%,#0a0a0a 45%,#000000 100%);clip-path:polygon(50% 0%,50% 0%,60% 100%,40% 100%);"></div>
+<div style="width:440px;height:82px;background:linear-gradient(120deg,#6a6a6a 0%,#2e2e2e 45%,#131313 100%);clip-path:polygon(40% 0%,60% 0%,70% 100%,30% 100%);"></div>
+<div style="width:440px;height:82px;background:linear-gradient(120deg,#8f8f8f 0%,#525252 45%,#2b2b2b 100%);clip-path:polygon(30% 0%,70% 0%,80% 100%,20% 100%);"></div>
+<div style="width:440px;height:82px;background:linear-gradient(120deg,#b4b4b4 0%,#787878 45%,#4a4a4a 100%);clip-path:polygon(20% 0%,80% 0%,90% 100%,10% 100%);"></div>
+<div style="width:440px;height:82px;background:linear-gradient(120deg,#d8d8d8 0%,#9e9e9e 45%,#767676 100%);clip-path:polygon(10% 0%,90% 0%,100% 100%,0% 100%);"></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:19px;">
+<div style="display:flex;align-items:center;gap:22px;padding:14px 20px;border-radius:10px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 10px 20px -8px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="width:22px;height:22px;background:linear-gradient(145deg,#454545,#000);border-radius:5px;flex-shrink:0;box-shadow:0 3px 6px rgba(0,0,0,0.3);"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:23px;color:#0A0A0A;">01 — Business Plan</div><div style="font-weight:400;font-size:16px;color:#8A8A8A;">Enquiry flow and retail targets</div></div></div>
+<div style="display:flex;align-items:center;gap:22px;padding:14px 20px;border-radius:10px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 10px 20px -8px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="width:22px;height:22px;background:linear-gradient(145deg,#6a6a6a,#2e2e2e);border-radius:5px;flex-shrink:0;box-shadow:0 3px 6px rgba(0,0,0,0.3);"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:23px;color:#0A0A0A;">02 — Business Volume</div><div style="font-weight:400;font-size:16px;color:#8A8A8A;">New, used, corporate deals &amp; add-ons</div></div></div>
+<div style="display:flex;align-items:center;gap:22px;padding:14px 20px;border-radius:10px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 10px 20px -8px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="width:22px;height:22px;background:linear-gradient(145deg,#8f8f8f,#525252);border-radius:5px;flex-shrink:0;box-shadow:0 3px 6px rgba(0,0,0,0.3);"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:23px;color:#0A0A0A;">03 — City Tier</div><div style="font-weight:400;font-size:16px;color:#8A8A8A;">Where the dealership is located — Tier 1, 2, 3</div></div></div>
+<div style="display:flex;align-items:center;gap:22px;padding:14px 20px;border-radius:10px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 10px 20px -8px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="width:22px;height:22px;background:linear-gradient(145deg,#b4b4b4,#787878);border-radius:5px;flex-shrink:0;box-shadow:0 3px 6px rgba(0,0,0,0.3);"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:23px;color:#0A0A0A;">04 — Productivity Norms</div><div style="font-weight:400;font-size:16px;color:#8A8A8A;">Set against JSW Motors volume benchmarks</div></div></div>
+<div style="display:flex;align-items:center;gap:22px;padding:14px 20px;border-radius:10px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 10px 20px -8px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="width:22px;height:22px;background:linear-gradient(145deg,#d8d8d8,#9e9e9e);border-radius:5px;flex-shrink:0;box-shadow:0 3px 6px rgba(0,0,0,0.3);"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:23px;color:#0A0A0A;">05 — Outlet Type</div><div style="font-weight:400;font-size:16px;color:#8A8A8A;">2S or 3S format</div></div></div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 2 — Dealership Organisation Structure · Sec. 2.0</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">03 / 15</div>
+</div>
+</section>
     </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(3)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_3.png" download="JSW_HR_Infographic_03.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(3)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_3.webp" type="image/webp">
-      <img src="infographics/dark_slide_3.png" alt="5 Factors That Shape Your Org Chart" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>5 Factors That Shape Your Org Chart</strong> — Business plan, volume, city tier, productivity norms, and outlet type (2S / 3S).
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(4)">
-      Next Visual #04 ➔
-    </span>
   </div>
 </div>
 
@@ -4261,52 +3824,6 @@ body.view-intro-active .chapter-nav {
 <h3 class="sub-title subhead">Principles</h3>
 <ul class="list-clean"><li>Hire on knowledge, skill and attitude (refer <em>3A. Candidate Evaluation Sheet</em>).</li><li>No discrimination or hiring below the age of 18 years.</li><li>Promote internal mobility before external hiring.</li><li>Anti-poaching - consult JSW area office before contacting any fellow JSW dealership partner employee.</li></ul>
 <h3 class="sub-title subhead" id="ch3-1">3.1 Recruitment and Selection Process</h3>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 4 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-4">
-  <span id="info-3-1" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">04 / 15 · Chapter 3 · Sec. 3.1</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(4)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_4.png" download="JSW_HR_Infographic_04.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(4)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_4.webp" type="image/webp">
-      <img src="infographics/dark_slide_4.png" alt="Internal Movement First" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>Internal Movement First</strong> — Policy mandate: internal movement before external hiring; fast, fair, transparent pipeline.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(5)">
-      Next Visual #05 ➔
-    </span>
-  </div>
-</div>
-
-
 <div class="rf-flow"><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 01–04</span>Phase 1: Requisition &amp; Approvals</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">01</span><span class="rf-step-role">Reporting Manager</span></div><div class="rf-step-text">Identify the recruitment need</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">02</span><span class="rf-step-role">Reporting Manager</span></div><div class="rf-step-text">Use 3B. Manpower Requisition Form to get DP’s approval</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">03</span><span class="rf-step-role">Dealer Principal</span></div><div class="rf-step-text">Approve the requisition form &amp; share with HR</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">04</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Notify the position internally</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 05–08</span>Phase 2: Sourcing &amp; Pre-Screening</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">05</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Begin external sourcing if position not closed internally</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">06</span><span class="rf-step-role">AI + HR Manager</span></div><div class="rf-step-text">Screen applications against the job description</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">07</span><span class="rf-step-role">Shortlisted Candidate</span></div><div class="rf-step-text">Candidate portal login; upload CV, DL &amp; Photo</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">08</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidate’s entry in recruitment portal</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 09–12</span>Phase 3: Assessment &amp; Interviews</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">09</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidates with &gt;=60% in psychometric &amp; AI video interaction</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">10</span><span class="rf-step-role">HR Manager + SM/GM</span></div><div class="rf-step-text">Conduct interview round 1 and enter scores online</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">11</span><span class="rf-step-role">HR Manager + ASM/RM</span></div><div class="rf-step-text">Conduct interview round 2</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">12</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Complete reference check and background verification</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 13–15</span>Phase 4: Decision &amp; Onboarding Offer</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">13</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Take hiring decision based on the comprehensive report generated</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">14</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Get offer letter approval from reporting manager and DP</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">15</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Release offer letter via official email and obtain signed candidate acceptance</div></div></div></div></div>
 <div style="display:none"><div class="table-wrap">
   <table>
@@ -4349,6 +3866,58 @@ Reporting manager</th><th></th><th></th><th></th><th></th></tr></thead>
     </tbody>
   </table>
 </div>
+
+<div class="jsw-infographic-frame" id="infographic-4">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="3.1 Internal Move" data-speaker-notes="Chapter 3 - hub and spoke diagram: four guarantees around a confirmed internal move." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 3 · Recruitment and Selection</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#0A0A0A;">Internal Move: What's Guaranteed</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Governed by 3D. Internal Job Posting Application Form.</div>
+</div>
+<div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; width: 1013px; height: 740px">
+<svg sc-camel-view-box="0 0 1000 700" style="position: absolute; width: 900px; height: 630px; left: 58px; top: 47px">
+<defs><lineargradient id="ln2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#b8b8b8"></stop><stop offset="100%" stop-color="#8a8a8a"></stop></lineargradient></defs>
+<line stroke="url(#ln2)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="500" y1="350" y2="150"></line>
+<line stroke="url(#ln2)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="760" y1="350" y2="350"></line>
+<line stroke="url(#ln2)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="500" y1="350" y2="550"></line>
+<line stroke="url(#ln2)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="240" y1="350" y2="350"></line>
+</svg>
+<div style="position:absolute;left:400px;top:250px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#3a3a3a 0%,#0a0a0a 55%,#000000 100%);box-shadow:0 30px 50px -14px rgba(0,0,0,0.5),inset 0 3px 8px rgba(255,255,255,0.15),inset 0 -8px 18px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;text-align:center;">
+<div style="position:absolute;left:22px;top:18px;width:70px;height:44px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.5),transparent 70%);"></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:#FFFFFF;line-height:1.25;position:relative;">Internal<br/>Move</div>
+</div>
+<div style="position:absolute;left:350px;top:50px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">01</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Releasing manager cannot block the move</div>
+</div>
+<div style="position:absolute;left:610px;top:265px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">02</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Handover period of up to 30 days may be agreed</div>
+</div>
+<div style="position:absolute;left:350px;top:480px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">03</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Probation served in the new role</div>
+</div>
+<div style="position:absolute;left:90px;top:265px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">04</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Perks and benefits continue without a break</div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 3 — Recruitment and Selection · Sec. 3.2</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">04 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <ul class="list-clean"><li>The releasing manager cannot block a confirmed internal move.</li><li>A handover period of up to 30 days may be agreed.</li><li>An employee who moves internally serves probation period in the new role.</li><li>Perks and benefits continue without a break.</li></ul>
 <p><em>Chapter 6 sets out more details on internal career progression paths.</em></p>
 <h4 class="item-title">External sourcing starts only after the position has been notified internally. You can use 3E. Recruitment ad template to advertise the open positions.</h4>
@@ -4369,56 +3938,51 @@ Reporting manager</th><th></th><th></th><th></th><th></th></tr></thead>
 </div>
 <p><em>Cost effectiveness, speed and quality are indicative.</em></p>
 <h4 class="item-title">Employee referral programme</h4>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 5 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-5">
-  <span id="info-3-2" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">05 / 15 · Chapter 3 · Sec. 3.2</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(5)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_5.png" download="JSW_HR_Infographic_05.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(5)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_5.webp" type="image/webp">
-      <img src="infographics/dark_slide_5.png" alt="Referring A Family Member: The Guardrails" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>Referring A Family Member: The Guardrails</strong> — Mandatory relationship disclosure, selection on merit, company salary norms, separate teams.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(6)">
-      Next Visual #06 ➔
-    </span>
-  </div>
-</div>
-
-
 <p><strong style="color:var(--ink)">Who may refer</strong></p>
 <ul class="list-clean"><li>All confirmed employees may refer candidates for any open position.</li><li>Employees on probation may refer. The payout is released after their own confirmation.</li><li>The HR Manager, the HR Executive and anybody on the interview panel for that position may not claim a bonus for it. They may still refer; the referral simply carries no payment.</li><li>The Dealer Principal and the Business Head may not claim referral bonuses.</li></ul>
 <p>Referring a family member is permitted but is governed by the following guardrails:</p>
 <ul class="list-clean"><li>Mandatory relationship disclosure</li><li>Selection will be on merit as per assessment criteria</li><li>Salary and compensation has to be as per company norms</li><li>Relatives should not be in the same team</li></ul>
+
+<div class="jsw-infographic-frame" id="infographic-5">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="3.2 Referral Guardrails" data-speaker-notes="Chapter 3 - four hexagon guardrails for referring a family member." style="background-image:radial-gradient(circle at 85% 100%,#1c1c1c 0%,#0a0a0a 55%,#000000 100%),radial-gradient(rgba(255,255,255,0.045) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#9A9A9A;text-transform:uppercase;">Chapter 3 · Recruitment and Selection</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#FFFFFF,#8a8a8a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#FFFFFF;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#7A7A7A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#FFFFFF;">Referring A Family Member: The Guardrails</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#9A9A9A;font-style:italic;line-height:1.5;border-right:2px solid #FFFFFF;padding-right:16px;">Reference: 3F. Employee Referral Form, submitted with the CV to HR.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:24px;filter:drop-shadow(0 30px 36px rgba(0,0,0,0.55));">
+<div style="width:300px;height:340px;background:linear-gradient(150deg,#ffffff 0%,#e0e0e0 55%,#b8b8b8 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;box-sizing:border-box;text-align:center;position:relative;">
+<div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(145deg,#f5f5f5,#c9c9c9);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.25);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#0A0A0A;">01</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Mandatory relationship disclosure</div>
+</div>
+<div style="width:300px;height:340px;background:linear-gradient(150deg,#e8e8e8 0%,#c8c8c8 55%,#9c9c9c 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;box-sizing:border-box;text-align:center;position:relative;">
+<div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(145deg,#d8d8d8,#a5a5a5);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.25);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#0A0A0A;">02</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Selection on merit, per assessment criteria</div>
+</div>
+<div style="width:300px;height:340px;background:linear-gradient(150deg,#b0b0b0 0%,#909090 55%,#616161 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;box-sizing:border-box;text-align:center;position:relative;">
+<div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(145deg,#9a9a9a,#6b6b6b);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.25);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#FFFFFF;">03</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Salary &amp; comp as per company norms</div>
+</div>
+<div style="width:300px;height:340px;background:linear-gradient(150deg,#5c5c5c 0%,#3a3a3a 55%,#161616 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;box-sizing:border-box;text-align:center;position:relative;">
+<div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(145deg,#4a4a4a,#181818);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.35);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#FFFFFF;">04</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#FFFFFF;line-height:1.3;">Relatives should not be in the same team</div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #333333;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#7A7A7A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 3 — Recruitment and Selection · Sec. 3.2</div>
+<div style="font-weight:700;font-size:15px;color:#FFFFFF;">05 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <p><strong style="color:var(--ink)">How it works</strong></p>
 <ul class="list-clean"><li>The referring employee submits the <em>3F. Employee referral form</em> with the CV to HR.</li><li>The referrer cannot be a part of the selection process.</li><li>Both the referrer and the person referred must be in service on the date of payout.</li><li>Payment is made through payroll and is subject to tax deduction.</li></ul>
 <p><strong style="color:var(--ink)">Recommended payout</strong></p>
@@ -4710,56 +4274,47 @@ The level decides the cycle time target, the interview panel and the sourcing ro
 <h4 class="item-title">Principles</h4>
 <ul class="list-clean"><li>No manpower without induction training is on the floor</li><li>No less than level 1 certified people interact with the customers</li><li>No deviation of competency pathway in increments or promotions</li><li>If KPIs are not met, then retraining is necessary</li><li>Failure to attend training impacts employee’s appraisal</li></ul>
 <h3 class="sub-title subhead" id="ch4-1">4.1 Joining and Induction Training</h3>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 6 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-6">
-  <span id="info-4-1" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">06 / 15 · Chapter 4 · Sec. 4.0</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(6)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_6.png" download="JSW_HR_Infographic_06.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(6)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_6.webp" type="image/webp">
-      <img src="infographics/dark_slide_6.png" alt="What JSW Motors Provides" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>What JSW Motors Provides</strong> — JSW Motors Academy: standardized modules, digital learning content, role curriculum, certification.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(7)">
-      Next Visual #07 ➔
-    </span>
-  </div>
-</div>
-
-
 <p>Induction is the first training a new joiner receives. It is completed within 1 week of joining and is run by the IDT with the HR Manager.</p>
 <h4 class="item-title">How induction is run</h4>
 <p>In the first week:</p>
 <ul class="list-clean"><li>Day 1 - The IDT enrols the new joiner on the LMS and confirms the induction courses list.</li><li>Day 1 - A buddy is assigned by the HR Manager who the new joiner can interact with.</li><li>For the first two weeks the new joiner shadows the buddy through complete customer interactions.</li><li>Day 2 - The reporting manager discusses the roles &amp; responsibilities and the KPIs.</li><li>Day 3 and 4 – Observe buddy handling the customers and do the assigned induction training.</li><li>Day 5 - Performance management goals are set with the reporting manager.</li><li>Day 6 - HR records induction completion in the training record.</li></ul>
+
+<div class="jsw-infographic-frame" id="infographic-6">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="4.1 What JSW Provides" data-speaker-notes="Chapter 4 - funnel diagram of what JSW Motors provides centrally." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 4 · Learning and Development</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#0A0A0A;">What JSW Motors Provides</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">The dealership's part: preparing people for assessments and holding the standard on the floor.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;gap:70px;">
+<div style="width:460px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 30px 34px rgba(0,0,0,0.28));">
+<div style="width:460px;height:112px;background:linear-gradient(120deg,#454545 0%,#0a0a0a 45%,#000000 100%);clip-path:polygon(0% 0%,100% 0%,87.5% 100%,12.5% 100%);display:flex;align-items:center;justify-content:center;position:relative;"><div style="position:absolute;top:12px;left:20px;width:150px;height:8px;background:rgba(255,255,255,0.2);border-radius:4px;"></div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:24px;color:#FFFFFF;">01</div></div>
+<div style="width:460px;height:112px;background:linear-gradient(120deg,#6a6a6a 0%,#3a3a3a 45%,#1c1c1c 100%);clip-path:polygon(12.5% 0%,87.5% 0%,75% 100%,25% 100%);display:flex;align-items:center;justify-content:center;position:relative;"><div style="position:absolute;top:12px;left:60px;width:130px;height:8px;background:rgba(255,255,255,0.2);border-radius:4px;"></div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:24px;color:#FFFFFF;">02</div></div>
+<div style="width:460px;height:112px;background:linear-gradient(120deg,#949494 0%,#6e6e6e 45%,#454545 100%);clip-path:polygon(25% 0%,75% 0%,62.5% 100%,37.5% 100%);display:flex;align-items:center;justify-content:center;position:relative;"><div style="position:absolute;top:12px;left:120px;width:110px;height:8px;background:rgba(255,255,255,0.25);border-radius:4px;"></div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:24px;color:#FFFFFF;">03</div></div>
+<div style="width:460px;height:112px;background:linear-gradient(120deg,#c3c3c3 0%,#a3a3a3 45%,#787878 100%);clip-path:polygon(37.5% 0%,62.5% 0%,50% 100%,50% 100%);display:flex;align-items:flex-start;justify-content:center;padding-top:8px;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:#FFFFFF;">04</div></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:22px;">
+<div style="display:flex;align-items:center;gap:20px;padding:22px 26px;border-radius:12px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 14px 26px -10px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;color:#0A0A0A;">01</div><div style="width:2px;height:40px;background:#D9D9D9;"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:25px;color:#0A0A0A;">The Learning Management System (LMS)</div></div></div>
+<div style="display:flex;align-items:center;gap:20px;padding:22px 26px;border-radius:12px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 14px 26px -10px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;color:#0A0A0A;">02</div><div style="width:2px;height:40px;background:#D9D9D9;"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:25px;color:#0A0A0A;">A curriculum mapped to each role, with the competency framework</div></div></div>
+<div style="display:flex;align-items:center;gap:20px;padding:22px 26px;border-radius:12px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 14px 26px -10px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;color:#0A0A0A;">03</div><div style="width:2px;height:40px;background:#D9D9D9;"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:25px;color:#0A0A0A;">The learner journey and its levels</div></div></div>
+<div style="display:flex;align-items:center;gap:20px;padding:22px 26px;border-radius:12px;background:linear-gradient(145deg,#2c2c2c,#050505);box-shadow:0 14px 26px -10px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08);"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;color:#FFFFFF;">04</div><div style="width:2px;height:40px;background:#4A4A4A;"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:25px;color:#FFFFFF;">Certification assessments and outcomes</div></div></div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 4 — Learning and Development · Sec. 4.0</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">06 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <h4 class="item-title">What induction covers</h4>
 <div class="table-wrap">
   <table>
@@ -4775,52 +4330,6 @@ The level decides the cycle time target, the interview panel and the sourcing ro
   </table>
 </div>
 <h3 class="sub-title subhead" id="ch4-2">4.2 Learner’s Journey</h3>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 7 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-7">
-  <span id="info-4-2" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">07 / 15 · Chapter 4 · Sec. 4.2</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(7)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_7.png" download="JSW_HR_Infographic_07.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(7)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_7.webp" type="image/webp">
-      <img src="infographics/dark_slide_7.png" alt="What Dealership HR Reports" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>What Dealership HR Reports</strong> — Tracking mandatory training hours, post-training assessment scores, and certifying job readiness.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(8)">
-      Next Visual #08 ➔
-    </span>
-  </div>
-</div>
-
-
 <p>JSW Motors runs a structured learner journey for dealership staff. The journey a person follows depends on their role.</p>
 <figure class="img-card"><div class="lj-track-container"><div class="lj-card"><div class="lj-header"><h4 class="lj-title">Customer-facing roles</h4><p class="lj-subtitle">Sales Consultant | Sales Team Leader | Customer Relationship Executive</p></div><div class="lj-steps-wrap"><div class="lj-step"><div class="lj-step-badge">Induction</div><div class="lj-step-body">Within 1 week of joining</div></div><div class="lj-connector"><div class="lj-connector-line"></div><div class="lj-connector-arrow"></div><div class="lj-assessment-chip">Level 1 Certification Assessment</div></div><div class="lj-step"><div class="lj-step-badge">Level 1</div><div class="lj-step-body">Anyone with upto 5 yrs of relevant work experience: only after 30 days of joining. Over 5 yrs experience: Only after 15 days of joining</div></div><div class="lj-connector"><div class="lj-connector-line"></div><div class="lj-connector-arrow"></div><div class="lj-assessment-chip">Level 2 Certification Assessment</div></div><div class="lj-step"><div class="lj-step-badge">Level 2</div><div class="lj-step-body">Anyone with upto 5 yrs of relevant work experience: only after 6 months of joining. Over 5 yrs experience: Only after 3 months of joining</div></div><div class="lj-connector"><div class="lj-connector-line"></div><div class="lj-connector-arrow"></div><div class="lj-assessment-chip">Level 3 Certification Assessment</div></div><div class="lj-step"><div class="lj-step-badge">Level 3</div><div class="lj-step-body">Only after 12 months of joining. Same for all experience levels</div></div></div><div class="lj-footer-note">Certification is awarded on passing the assessment at the end of each level and does not ever expire for these roles.</div></div><div class="lj-card"><div class="lj-header"><h4 class="lj-title">Managerial roles</h4><p class="lj-subtitle">Sales Manager | Customer Relationship Manager</p></div><div class="lj-steps-wrap"><div class="lj-step"><div class="lj-step-badge">Induction</div><div class="lj-step-body">Within 1 week of joining</div></div><div class="lj-connector"><div class="lj-connector-line"></div><div class="lj-connector-arrow"></div></div><div class="lj-step"><div class="lj-step-badge">JSW Manager Onboarding Training</div><div class="lj-step-body">Only after 30 days of joining</div></div><div class="lj-connector"><div class="lj-connector-line"></div><div class="lj-connector-arrow"></div><div class="lj-assessment-chip">JSW Certified Manager Assessment</div></div><div class="lj-step"><div class="lj-step-badge">Level 1</div><div class="lj-step-body">Only after 1 year of joining</div></div><div class="lj-connector"><div class="lj-connector-line"></div><div class="lj-connector-arrow"></div><div class="lj-assessment-chip">JSW Leadership Programme Assessment</div></div><div class="lj-step"><div class="lj-step-badge">Level 2</div><div class="lj-step-body">Only after 2 years of joining</div></div></div><div class="lj-footer-note">Manager certification is valid for two years and is renewed on reassessment.</div></div><div class="lj-card"><div class="lj-header"><h4 class="lj-title">All other roles</h4><p class="lj-subtitle">Every other role in the dealership</p></div><div class="lj-steps-wrap"><div class="lj-step"><div class="lj-step-badge">Induction</div><div class="lj-step-body">Within 1 week of joining</div></div><div class="lj-connector"><div class="lj-connector-line"></div><div class="lj-connector-arrow"></div><div class="lj-assessment-chip">Role-specific Training Assessment</div></div><div class="lj-step"><div class="lj-step-badge">Role-specific training</div><div class="lj-step-body">Only after 30 days of joining</div></div><div class="lj-connector"><div class="lj-connector-line"></div><div class="lj-connector-arrow"></div></div><div class="lj-step"><div class="lj-step-badge">Refresher Trainings</div><div class="lj-step-body">Run through the year as per the training calendar</div></div></div></div></div><figcaption class="img-caption">Chart 4.1 Learner's Journey Across Dealership Roles</figcaption></figure>
 <h4 class="item-title">Competency Pathway</h4>
@@ -4899,6 +4408,41 @@ The level decides the cycle time target, the interview panel and the sourcing ro
 <ul class="list-clean"><li>Post-training assessment scores</li><li>On-the-job application and behaviour change feedback from the reporting manager</li></ul>
 <p><strong style="color:var(--ink)">iii. Compliance</strong></p>
 <ul class="list-clean"><li>JSW mandatory training completion rate</li></ul>
+
+<div class="jsw-infographic-frame" id="infographic-7">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="4.2 What HR Reports" data-speaker-notes="Chapter 4 - segmented ring chart of the three reporting categories." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 4 · Learning and Development</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#0A0A0A;">What HR Reports</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Owner: HR Manager · reviewed monthly with leadership, Sec. 4.4.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;gap:100px;">
+<div style="width:380px;height:380px;border-radius:50%;background:conic-gradient(from -90deg,#0A0A0A 0deg 120deg,#6E6E6E 120deg 240deg,#D0D0D0 240deg 360deg);flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 30px 46px -16px rgba(0,0,0,0.32),inset 0 4px 10px rgba(255,255,255,0.25),inset 0 -6px 14px rgba(0,0,0,0.25);">
+<div style="width:230px;height:230px;border-radius:50%;background:linear-gradient(145deg,#ffffff,#eeeeee);box-shadow:inset 0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;text-align:center;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:24px;color:#0A0A0A;line-height:1.3;">3 Report<br/>Categories</div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;">
+<div style="display:flex;align-items:flex-start;gap:20px;padding:18px 22px;border-radius:12px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 12px 22px -10px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);flex-shrink:0;margin-top:4px;box-shadow:0 4px 8px rgba(0,0,0,0.3);"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#0A0A0A;text-transform:uppercase;letter-spacing:1px;">i. Training Delivery</div><div style="font-weight:500;font-size:20px;color:#5C5C5C;margin-top:6px;">Man-hours delivered against plan · Employees certified</div></div></div>
+<div style="display:flex;align-items:flex-start;gap:20px;padding:18px 22px;border-radius:12px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 12px 22px -10px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(145deg,#8f8f8f,#525252);flex-shrink:0;margin-top:4px;box-shadow:0 4px 8px rgba(0,0,0,0.3);"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#0A0A0A;text-transform:uppercase;letter-spacing:1px;">ii. Effectiveness</div><div style="font-weight:500;font-size:20px;color:#5C5C5C;margin-top:6px;">Post-training assessment scores · On-the-job feedback</div></div></div>
+<div style="display:flex;align-items:flex-start;gap:20px;padding:18px 22px;border-radius:12px;background:linear-gradient(145deg,#fdfdfd,#f0f0f0);box-shadow:0 12px 22px -10px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.06);"><div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(145deg,#e4e4e4,#c2c2c2);flex-shrink:0;margin-top:4px;box-shadow:0 4px 8px rgba(0,0,0,0.15);"></div><div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:22px;color:#0A0A0A;text-transform:uppercase;letter-spacing:1px;">iii. Compliance</div><div style="font-weight:500;font-size:20px;color:#5C5C5C;margin-top:6px;">JSW mandatory training completion rate</div></div></div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 4 — Learning and Development · Sec. 4.4</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">07 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <h3 class="sub-title subhead" id="ch4-5">4.5 Best Practices</h3>
 <ul class="list-clean bp"><li>Use real situations from your own floor during training.</li><li>Make people practise in front of each other.</li><li>Keep sessions short.</li><li>Watch people with actual customers before certifying them.</li><li>Release your people for training as per calendar.</li><li>Coach on the floor, every day.</li><li>IDT must prepare a monthly skill contest and the HR must run it via the LMS.</li><li>IDT must publish a monthly learning leaderboard on the notice board with scores on courses completed, assessment results and certifications earned.</li><li>Announce certifications the same way as sales achievements during morning meetings.</li></ul>
 <p><strong style="color:var(--ink)">ANNEXURE</strong></p>
@@ -4987,57 +4531,67 @@ Reporting manager</th></tr></thead>
 </div></div>
 <p><em>Chart 5.2 Performance management process</em></p>
 <h3 class="sub-title subhead" id="ch5-3">5.3 Setting goals</h3>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 8 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-8">
-  <span id="info-5-1" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">08 / 15 · Chapter 5 · Sec. 5.1</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(8)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_8.png" download="JSW_HR_Infographic_08.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(8)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_8.webp" type="image/webp">
-      <img src="infographics/dark_slide_8.png" alt="Setting SMART Goals" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>Setting SMART Goals</strong> — Specific, Measurable, Achievable, Relevant, and Time-bound performance contracts.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(9)">
-      Next Visual #09 ➔
-    </span>
-  </div>
-</div>
-
-
 <p>Step 01 – Annual target planning by the top management</p>
 <p>Step 02 – Reporting manager to define the KPIs target with for each individual using <em>5A. KPIs Laundry List</em></p>
 <p>Step 03 – Discuss the KPIs with employees and set the expectations</p>
 <p>Step 04 – Formal documentation of KPIs and submission to the HR</p>
 <p>Step 05 – Write the goals for the particular appraisal cycle using <em>5B. Goal Setting and KPI Sheet</em> and define each goal’s weightage.</p>
+
+<div class="jsw-infographic-frame" id="infographic-8">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="5.1 SMART Goals" data-speaker-notes="Chapter 5 - radial pentagon diagram of the SMART framework." style="background-image:radial-gradient(circle at 85% 100%,#1c1c1c 0%,#0a0a0a 55%,#000000 100%),radial-gradient(rgba(255,255,255,0.045) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:64px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#9A9A9A;text-transform:uppercase;">Chapter 5 · Performance Management</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#FFFFFF,#8a8a8a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#FFFFFF;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#7A7A7A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:16px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:50px;line-height:1.08;color:#FFFFFF;">The SMART Goal Framework</div>
+<div style="max-width:400px;text-align:right;font-weight:500;font-size:15px;color:#9A9A9A;font-style:italic;line-height:1.5;border-right:2px solid #FFFFFF;padding-right:16px;">Documented in 5B. Goal Setting and KPI Sheet, Sec. 5.3.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;">
+<svg sc-camel-view-box="0 0 1000 760" style="position: absolute; width: 800px; height: 608px; left: 108px; top: 63px">
+<defs><lineargradient id="ln3" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#6a6a6a"></stop><stop offset="100%" stop-color="#2a2a2a"></stop></lineargradient></defs>
+<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="500" y1="380" y2="150"></line>
+<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="766" y1="380" y2="344"></line>
+<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="665" y1="380" y2="607"></line>
+<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="335" y1="380" y2="607"></line>
+<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="234" y1="380" y2="344"></line>
+</svg>
+<div style="position: absolute; left: 403px; top: 271px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle at 32% 28%,#4a4a4a 0%,#ffffff 3%,#e8e8e8 55%,#c0c0c0 100%); box-shadow: 0 30px 50px -14px rgba(0,0,0,0.6),inset 0 3px 8px rgba(255,255,255,0.6),inset 0 -8px 18px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:24px;color:#0A0A0A;">SMART</div>
+</div>
+<div style="position: absolute; left: 362px; top: 36px; width: 270px; height: 155px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 10px; box-sizing: border-box">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">S</div>
+<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Specific — exactly what to accomplish</div>
+</div>
+<div style="position: absolute; left: 655px; top: 256px; width: 270px; height: 155px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 10px; box-sizing: border-box">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">M</div>
+<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Measurable — how success is measured</div>
+</div>
+<div style="position:absolute;left:530px;top:527px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:10px;box-sizing:border-box;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">A</div>
+<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Achievable — realistic with resources</div>
+</div>
+<div style="position:absolute;left:200px;top:527px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:10px;box-sizing:border-box;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">R</div>
+<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Relevant — aligns with objectives</div>
+</div>
+<div style="position: absolute; left: 86px; top: 256px; width: 270px; height: 155px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 10px; box-sizing: border-box">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">T</div>
+<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Time-bound — a clear deadline</div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #333333;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#7A7A7A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 5 — Performance Management · Sec. 5.3</div>
+<div style="font-weight:700;font-size:15px;color:#FFFFFF;">08 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <p>The goals and weightage must be written in <em>5C. Performance Review Form (Quarterly, Mid-year and Annual).</em> See example below:</p>
 <div class="table-wrap">
   <table>
@@ -5063,53 +4617,44 @@ Reporting manager</th></tr></thead>
   </table>
 </div>
 <h3 class="sub-title subhead" id="ch5-4">5.4 Quarterly and mid-year review</h3>
+<ul class="list-clean"><li>HR should notify the reporting managers about the Mid-Year Review meeting.</li><li>Reporting manager schedules a one on one mid year review meeting.</li><li>Review performance expectations against the set goals.</li><li>Where each goal stands, in numbers.</li><li>What is going well, said plainly and specifically.</li><li>What has to change in the next six months, and what support the person needs to do it.</li><li>Whether any goal needs revising because the ground shifted.</li><li>Reporting manager shares <em>5C. Performance Review Form (Quarterly, Mid-year and Annual)</em> with the employees with the HR Manager in cc.</li><li>Document what was agreed on an email with the HR Manager in cc summarize meeting conclusions about:</li><li>Progress</li><li>Favourable Results</li><li>Performance Issues/Problems Solutions</li><li>Agreements and Commitments</li></ul>
 
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 9 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-9">
-  <span id="info-5-2" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">09 / 15 · Chapter 5 · Sec. 5.2</span>
+<div class="jsw-infographic-frame" id="infographic-9">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="5.2 Review: Working" data-speaker-notes="Chapter 5 - progress-ring medallions for what the mid-year review documents when on track." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 5 · Performance Management</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#0A0A0A;">Mid-Year Review: What's Working</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Recorded in 5C. Performance Review Form, with the HR Manager in cc.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:140px;">
+<div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
+<div style="width:290px;height:290px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#f8f8f8,#e0e0e0 60%,#c4c4c4 100%);box-shadow:0 30px 50px -16px rgba(0,0,0,0.28),inset 0 4px 10px rgba(255,255,255,0.7),inset 0 -8px 16px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
+<div style="width:210px;height:210px;border-radius:50%;background:linear-gradient(145deg,#ffffff,#f0f0f0);box-shadow:inset 0 2px 6px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#0A0A0A;">01</div></div>
+</div>
+<div style="text-align:center;max-width:320px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:32px;color:#0A0A0A;">Progress</div><div style="font-weight:400;font-size:19px;color:#5C5C5C;margin-top:10px;">Where each goal stands, in numbers.</div></div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
+<div style="width:290px;height:290px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#f8f8f8,#e0e0e0 60%,#c4c4c4 100%);box-shadow:0 30px 50px -16px rgba(0,0,0,0.28),inset 0 4px 10px rgba(255,255,255,0.7),inset 0 -8px 16px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
+<div style="width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#0a0a0a 60%,#000000 100%);box-shadow:inset 0 3px 8px rgba(255,255,255,0.12),0 4px 10px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#FFFFFF;">02</div></div>
+</div>
+<div style="text-align:center;max-width:320px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:32px;color:#0A0A0A;">Favourable Results</div><div style="font-weight:400;font-size:19px;color:#5C5C5C;margin-top:10px;">What is going well, plainly and specifically.</div></div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 5 — Performance Management · Sec. 5.4</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">09 / 15</div>
+</div>
+</section>
     </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(9)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_9.png" download="JSW_HR_Infographic_09.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(9)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_9.webp" type="image/webp">
-      <img src="infographics/dark_slide_9.png" alt="The Performance Review: What Is Working" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>The Performance Review: What Is Working</strong> — Quarterly and mid-year reviews: celebrating high performers, recognizing initiative and key milestones.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(10)">
-      Next Visual #10 ➔
-    </span>
   </div>
 </div>
 
 
-<ul class="list-clean"><li>HR should notify the reporting managers about the Mid-Year Review meeting.</li><li>Reporting manager schedules a one on one mid year review meeting.</li><li>Review performance expectations against the set goals.</li><li>Where each goal stands, in numbers.</li><li>What is going well, said plainly and specifically.</li><li>What has to change in the next six months, and what support the person needs to do it.</li><li>Whether any goal needs revising because the ground shifted.</li><li>Reporting manager shares <em>5C. Performance Review Form (Quarterly, Mid-year and Annual)</em> with the employees with the HR Manager in cc.</li><li>Document what was agreed on an email with the HR Manager in cc summarize meeting conclusions about:</li><li>Progress</li><li>Favourable Results</li><li>Performance Issues/Problems Solutions</li><li>Agreements and Commitments</li></ul>
 <h3 class="sub-title subhead" id="ch5-5">5.5 The annual appraisal and ratings</h3>
 <div class="table-wrap">
   <table>
@@ -5125,52 +4670,6 @@ Reporting manager</th></tr></thead>
 </div>
 <ul class="list-clean"><li>Steps for Annual Appraisal will be same as the Mid Year Review process.</li><li>The manager rates, the Business Head reviews, the Dealer Principal approves while the HR runs the process and keeps it fair.</li><li>A minimum rating of 3 is required for promotion, and no rating below 3 in the past two years.</li><li>A rating of 2 or below means a written improvement plan and no increment that year.</li><li>A rating of 1 goes to the process in 5.6.</li><li>Nobody can be rated 4 or 5 if they have an open disciplinary matter or an integrity concern.</li></ul>
 <h3 class="sub-title subhead" id="ch5-6">5.6 Handling underperformance</h3>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 10 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-10">
-  <span id="info-5-3" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">10 / 15 · Chapter 5 · Sec. 5.2</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(10)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_10.png" download="JSW_HR_Infographic_10.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(10)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_10.webp" type="image/webp">
-      <img src="infographics/dark_slide_10.png" alt="The Performance Review: What Needs Attention" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>The Performance Review: What Needs Attention</strong> — Timely gap identification, root cause coaching, and structured 30/60/90-day PIP before year-end.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(11)">
-      Next Visual #11 ➔
-    </span>
-  </div>
-</div>
-
-
 <div class="table-wrap">
   <table>
     <thead><tr><th>Step</th><th>What happens</th><th>Timing</th><th>Who</th><th>Additional Actions</th></tr></thead>
@@ -5182,6 +4681,43 @@ Reporting manager</th></tr></thead>
     </tbody>
   </table>
 </div>
+
+<div class="jsw-infographic-frame" id="infographic-10">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="5.3 Review: Attention" data-speaker-notes="Chapter 5 - progress-ring medallions, dark variant, for issues needing attention." style="background-image:radial-gradient(circle at 85% 100%,#1c1c1c 0%,#0a0a0a 55%,#000000 100%),radial-gradient(rgba(255,255,255,0.045) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#9A9A9A;text-transform:uppercase;">Chapter 5 · Performance Management</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#FFFFFF,#8a8a8a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#FFFFFF;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#7A7A7A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#FFFFFF;">Mid-Year Review: What Needs Attention</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#9A9A9A;font-style:italic;line-height:1.5;border-right:2px solid #FFFFFF;padding-right:16px;">Agreed conclusions go on email, HR Manager in cc.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:140px;">
+<div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
+<div style="width:290px;height:290px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#141414 60%,#000000 100%);box-shadow:0 30px 50px -16px rgba(0,0,0,0.7),inset 0 4px 10px rgba(255,255,255,0.15),inset 0 -8px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
+<div style="width:210px;height:210px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#050505);box-shadow:inset 0 2px 6px rgba(255,255,255,0.08),0 4px 10px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#FFFFFF;">03</div></div>
+</div>
+<div style="text-align:center;max-width:340px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:32px;color:#FFFFFF;">Performance Issues &amp; Solutions</div><div style="font-weight:400;font-size:19px;color:#A0A0A0;margin-top:10px;">What has to change, and what support is needed.</div></div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
+<div style="width:290px;height:290px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#141414 60%,#000000 100%);box-shadow:0 30px 50px -16px rgba(0,0,0,0.7),inset 0 4px 10px rgba(255,255,255,0.15),inset 0 -8px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
+<div style="width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#ffffff,#e4e4e4 60%,#c0c0c0 100%);box-shadow:inset 0 2px 6px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#0A0A0A;">04</div></div>
+</div>
+<div style="text-align:center;max-width:340px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:32px;color:#FFFFFF;">Agreements &amp; Commitments</div><div style="font-weight:400;font-size:19px;color:#A0A0A0;margin-top:10px;">Whether any goal needs revising.</div></div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #333333;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#7A7A7A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 5 — Performance Management · Sec. 5.4</div>
+<div style="font-weight:700;font-size:15px;color:#FFFFFF;">10 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <h3 class="sub-title subhead" id="ch5-7">5.7 Best practices</h3>
 <ul class="list-clean bp"><li>Manager must link individual goals to dealership priorities by explaining how each goal contributes to dealership performance.</li><li>Ratings and feedback should be supported by KPI results, customer feedback, quality checks, attendance records, and work completed.</li><li>Quarterly, Mid-year and Annual reviews must be concluded with clear development actions such as coaching, product &amp; process training, exposure to additional responsibilities. </li><li>Every appraisal form is signed (or email acknowledged) by the employee, and the manager.</li><li>HR Manager reports the rating spread by department to the Dealer Principal each year.</li><li>Someone who changes role mid-cycle gets new goals for the new role.</li><li>Someone with less than three months in the role at the end of appraisal cycle is not rated. Their manager records a short note instead in performance review form.</li></ul>
 <p><strong style="color:var(--ink)">ANNEXURE</strong></p>
@@ -5266,54 +4802,44 @@ Note: This is the table for the same work area movement. Lateral movement is als
   </table>
 </div>
 <h4 class="item-title">Qualities We Look for in Future People Leaders</h4>
+<p>Competencies alone may not be sufficient for a good people leader. Following are some of the personality traits that are important to note while promoting someone to people leader position.</p>
+<ul class="list-clean"><li>Kind and helpful</li><li>Integrity and empathy</li><li>Accountability and fairness</li><li>Coaching mindset</li><li>Humility and approachability</li><li>Clear and effective communication skills</li><li>Earns the respect of the team through their actions, behaviour, and leadership</li></ul>
 
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 11 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-11">
-  <span id="info-6-1" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">11 / 15 · Chapter 6 · Sec. 6.2</span>
+<div class="jsw-infographic-frame" id="infographic-11">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="6.1 Leader Qualities" data-speaker-notes="Chapter 6 - hexagon honeycomb of the seven leader traits." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:64px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 6 · Career Progression</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:20px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:50px;line-height:1.08;color:#0A0A0A;">Qualities Of Future People Leaders</div>
+<div style="max-width:400px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Competencies alone are not sufficient for a good people leader, Sec. 6.2.</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+<div style="display:flex;gap:14px;filter:drop-shadow(0 22px 26px rgba(0,0,0,0.22));">
+<div style="width:230px;height:260px;background:linear-gradient(150deg,#454545 0%,#0a0a0a 55%,#000000 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;text-align:center;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#FFFFFF;line-height:1.3;">Kind and helpful</div></div>
+<div style="width:230px;height:260px;background:linear-gradient(150deg,#5c5c5c 0%,#2e2e2e 55%,#131313 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;text-align:center;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#FFFFFF;line-height:1.3;">Integrity and empathy</div></div>
+<div style="width:230px;height:260px;background:linear-gradient(150deg,#7a7a7a 0%,#525252 55%,#2e2e2e 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;text-align:center;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#FFFFFF;line-height:1.3;">Accountability and fairness</div></div>
+<div style="width:230px;height:260px;background:linear-gradient(150deg,#a0a0a0 0%,#787878 55%,#4a4a4a 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;text-align:center;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#FFFFFF;line-height:1.3;">Coaching mindset</div></div>
+</div>
+<div style="display:flex;gap:14px;margin-top:-70px;margin-left:122px;filter:drop-shadow(0 22px 26px rgba(0,0,0,0.22));">
+<div style="width:230px;height:260px;background:linear-gradient(150deg,#c8c8c8 0%,#9e9e9e 55%,#767676 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;text-align:center;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Humility and approachability</div></div>
+<div style="width:230px;height:260px;background:linear-gradient(150deg,#e8e8e8 0%,#c2c2c2 55%,#9c9c9c 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;text-align:center;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Clear, effective communication</div></div>
+<div style="width:230px;height:260px;background:linear-gradient(150deg,#454545 0%,#0a0a0a 55%,#000000 100%);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;text-align:center;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#FFFFFF;line-height:1.3;">Earns the team's respect through action</div></div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 6 — Career Progression · Sec. 6.2</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">11 / 15</div>
+</div>
+</section>
     </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(11)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_11.png" download="JSW_HR_Infographic_11.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(11)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_11.webp" type="image/webp">
-      <img src="infographics/dark_slide_11.png" alt="Qualities We Look For In Future Leaders" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>Qualities We Look For In Future Leaders</strong> — Customer obsession, talent development, operational rigour, ownership mindset, and ethical leadership.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(12)">
-      Next Visual #12 ➔
-    </span>
   </div>
 </div>
 
 
-<p>Competencies alone may not be sufficient for a good people leader. Following are some of the personality traits that are important to note while promoting someone to people leader position.</p>
-<ul class="list-clean"><li>Kind and helpful</li><li>Integrity and empathy</li><li>Accountability and fairness</li><li>Coaching mindset</li><li>Humility and approachability</li><li>Clear and effective communication skills</li><li>Earns the respect of the team through their actions, behaviour, and leadership</li></ul>
 <p>If someone does not demonstrate most of these qualities, they may still perform very well in their current role. In such cases, consider providing opportunities for growth through a larger area of responsibility, a specialist career path, or enhanced rewards and recognition.</p>
 <h3 class="sub-title subhead" id="ch6-3">6.3 Promotion process</h3>
 <p>Promotions are decided at the annual review, alongside increments, unless a vacancy comes up mid-year.</p>
@@ -5508,54 +5034,59 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
   </table>
 </div>
 <h4 class="item-title">Salary advance</h4>
+<h4 class="item-title">In case of a genuine request by any employee, salary advance can be given, within the following guidelines -</h4>
+<ul class="list-clean"><li>Up to one month’s net salary, for a genuine need.</li><li>Applicable for confirmed employees only.</li><li>Recovered from salary in three to six instalments, agreed in writing.</li><li>Must be approved by the Dealer Principal.</li></ul>
 
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 12 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-12">
-  <span id="info-7-1" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">12 / 15 · Chapter 7 · Sec. 7.3</span>
+<div class="jsw-infographic-frame" id="infographic-12">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="7.1 Salary Advance" data-speaker-notes="Chapter 7 - circular four-step process for a salary advance." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 7 · Compensation, Benefits and Incentive Policy</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:54px;line-height:1.08;color:#0A0A0A;">Salary Advance: The Rules</div>
+<div style="max-width:420px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Reference: Advance Salary Request Form, Sec. 7.3.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;">
+<svg sc-camel-view-box="0 0 1000 700" style="position: absolute; width: 464px; height: 502px; left: 265px; top: 89px">
+<defs><marker id="arrow1" orient="auto" sc-camel-marker-height="10" sc-camel-marker-width="10" sc-camel-ref-x="5" sc-camel-ref-y="5"><path d="M0,0 L10,5 L0,10 Z" fill="#8a8a8a"></path></marker></defs>
+<path d="M 500 150 A 260 260 0 0 1 760 350" fill="none" marker-end="url(#arrow1)" stroke="#b0b0b0" stroke-width="4"></path>
+<path d="M 760 350 A 260 260 0 0 1 500 610" fill="none" marker-end="url(#arrow1)" stroke="#b0b0b0" stroke-width="4"></path>
+<path d="M 500 610 A 260 260 0 0 1 240 350" fill="none" marker-end="url(#arrow1)" stroke="#b0b0b0" stroke-width="4"></path>
+<path d="M 240 350 A 260 260 0 0 1 500 150" fill="none" marker-end="url(#arrow1)" stroke="#b0b0b0" stroke-width="4"></path>
+</svg>
+<div style="position:absolute;left:410px;top:260px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fdfdfd,#e8e8e8 60%,#c8c8c8 100%);box-shadow:0 24px 40px -14px rgba(0,0,0,0.3),inset 0 3px 8px rgba(255,255,255,0.8),inset 0 -6px 14px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;text-align:center;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:19px;color:#0A0A0A;line-height:1.3;">4-Step<br/>Process</div>
+</div>
+<div style="position:absolute;left:350px;top:50px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">01</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Up to one month's net salary, for a genuine need</div>
+</div>
+<div style="position:absolute;left:610px;top:265px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">02</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Applicable for confirmed employees only</div>
+</div>
+<div style="position:absolute;left:350px;top:480px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">03</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Recovered in three to six instalments, in writing</div>
+</div>
+<div style="position:absolute;left:90px;top:265px;width:300px;height:160px;background:linear-gradient(145deg,#2c2c2c,#050505);box-shadow:0 26px 44px -16px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#fdfdfd,#c8c8c8);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#0A0A0A;">04</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Must be approved by the Dealer Principal</div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 7 — Compensation, Benefits and Incentive Policy · Sec. 7.3</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">12 / 15</div>
+</div>
+</section>
     </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(12)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_12.png" download="JSW_HR_Infographic_12.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(12)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_12.webp" type="image/webp">
-      <img src="infographics/dark_slide_12.png" alt="Salary Advance: The Rules" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>Salary Advance: The Rules</strong> — Up to 1 month net salary, confirmed employees only, 3-6 monthly recovery installments, DP sign-off.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(13)">
-      Next Visual #13 ➔
-    </span>
   </div>
 </div>
 
 
-<h4 class="item-title">In case of a genuine request by any employee, salary advance can be given, within the following guidelines -</h4>
-<ul class="list-clean"><li>Up to one month’s net salary, for a genuine need.</li><li>Applicable for confirmed employees only.</li><li>Recovered from salary in three to six instalments, agreed in writing.</li><li>Must be approved by the Dealer Principal.</li></ul>
 <p><em>*Please refer to Advance Salary Request Form</em></p>
 <h3 class="sub-title subhead" id="ch7-4">7.4 Changes in salary</h3>
 <div class="table-wrap">
@@ -5692,52 +5223,6 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <p>Following <strong style="color:var(--ink)">principles</strong> to be followed while designing the Rewards and Recognition Programs :</p>
 <ul class="list-clean"><ul class="list-clean"><ul class="list-clean"><li>Recognize actions reflecting JSW values</li></ul></ul><li>Reward behaviours that delight customers. </li><li>Celebrate individual and team achievements. </li><li>Encourage learning, growth, and improvement. </li><li>Link rewards to measurable business outcomes. </li><li>Promote transparency, inclusion, and respect.</li><li>R&amp;R Programs are open to all</li></ul>
 <h3 class="sub-title subhead" id="ch8-1">8.1 Suggested Engagements Calendar (apart from Awards)</h3>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 13 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-13">
-  <span id="info-8-1" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">13 / 15 · Chapter 8 · Sec. 8.1</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(13)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_13.png" download="JSW_HR_Infographic_13.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(13)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_13.webp" type="image/webp">
-      <img src="infographics/dark_slide_13.png" alt="The Year At A Glance: Engagement Calendar" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>The Year At A Glance: Engagement Calendar</strong> — Systematic 12-month calendar of cultural celebrations, wellness, family events and team sports.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(14)">
-      Next Visual #14 ➔
-    </span>
-  </div>
-</div>
-
-
 <div class="table-wrap">
   <table>
     <thead><tr><th>How often</th><th>What to do</th><th>Purpose</th><th>Suggested Date</th><th>Addressed By</th><th>Attended By</th></tr></thead>
@@ -5755,6 +5240,43 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
     </tbody>
   </table>
 </div>
+
+<div class="jsw-infographic-frame" id="infographic-13">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="8.1 Engagement Calendar" data-speaker-notes="Chapter 8 - chevron timeline of building the engagement calendar." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 8 · Employee Engagement, Rewards and Recognition</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#0A0A0A;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#9A9A9A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:24px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:50px;line-height:1.08;color:#0A0A0A;">Building The Engagement Calendar</div>
+<div style="max-width:400px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Sec. 8.1 — the HR Manager drives all four, in order.</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:46px;">
+<div style="display:flex;filter:drop-shadow(0 26px 30px rgba(0,0,0,0.26));">
+<div style="width:290px;height:210px;background:linear-gradient(120deg,#454545 0%,#0a0a0a 45%,#000000 100%);clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%);display:flex;align-items:center;justify-content:center;position:relative;"><div style="position:absolute;top:14px;left:30px;width:110px;height:8px;background:rgba(255,255,255,0.2);border-radius:4px;"></div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;color:#FFFFFF;">01</div></div>
+<div style="width:290px;height:210px;background:linear-gradient(120deg,#6a6a6a 0%,#3a3a3a 45%,#1c1c1c 100%);clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%);margin-left:-35px;display:flex;align-items:center;justify-content:center;position:relative;"><div style="position:absolute;top:14px;left:60px;width:110px;height:8px;background:rgba(255,255,255,0.2);border-radius:4px;"></div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;color:#FFFFFF;">02</div></div>
+<div style="width:290px;height:210px;background:linear-gradient(120deg,#949494 0%,#6e6e6e 45%,#454545 100%);clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%);margin-left:-35px;display:flex;align-items:center;justify-content:center;position:relative;"><div style="position:absolute;top:14px;left:80px;width:110px;height:8px;background:rgba(255,255,255,0.25);border-radius:4px;"></div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;color:#FFFFFF;">03</div></div>
+<div style="width:290px;height:210px;background:linear-gradient(120deg,#c3c3c3 0%,#a3a3a3 45%,#787878 100%);clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%);margin-left:-35px;display:flex;align-items:center;justify-content:center;position:relative;"><div style="position:absolute;top:14px;left:100px;width:110px;height:8px;background:rgba(255,255,255,0.3);border-radius:4px;"></div><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;color:#FFFFFF;">04</div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:26px;width:1280px;text-align:center;">
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Release the calendar at year end</div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Plan with help from the whole team</div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Gather a yearly satisfaction score</div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;color:#0A0A0A;line-height:1.3;">Promote welfare &amp; Customer First culture</div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 8 — Employee Engagement, Rewards and Recognition · Sec. 8.1</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">13 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <h4 class="item-title">Other probable monthly themes for engagement drives</h4>
 <p>There are suggestions for monthly themes celebrating the four foundation pillars of JSW Motors</p>
 <div class="calendar-hub" id="calendarHub">
@@ -6034,52 +5556,6 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
   </table>
 </div>
 <h3 class="sub-title subhead" id="ch8-3">8.3 Spot recognition</h3>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 14 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-14">
-  <span id="info-8-2" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">14 / 15 · Chapter 8 · Sec. 8.3</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(14)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_14.png" download="JSW_HR_Infographic_14.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(14)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_14.webp" type="image/webp">
-      <img src="infographics/dark_slide_14.png" alt="Spot Recognition: What To Celebrate" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>Spot Recognition: What To Celebrate</strong> — Immediate, public appreciation for outstanding customer delight, peer support and integrity.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(15)">
-      Next Visual #15 ➔
-    </span>
-  </div>
-</div>
-
-
 <p>During day to day operations, many team members do exceptional work and are applauded by customers and colleagues. These team members deserve to be recognised and awarded through immediate spot recognition. This is entirely reserved by the leadership team and managers should provide immediate nomination for:</p>
 <p>Exceptional customer handling</p>
 <p>Difficult deal closures</p>
@@ -6088,6 +5564,61 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <p>Recovery of dissatisfied customers</p>
 <p>This recognition can be done via:</p>
 <ul class="list-clean"><li>Manager discusses with leadership and takes approval for Spot Recognition.</li><li>Announcement and name on the morning meeting board during daily standup meetings.</li><li>Appreciation in the presence of JSW personnel visits.</li></ul>
+
+<div class="jsw-infographic-frame" id="infographic-14">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="8.2 Spot Recognition" data-speaker-notes="Chapter 8 - radial star diagram of what qualifies for spot recognition." style="background-image:radial-gradient(circle at 85% 100%,#1c1c1c 0%,#0a0a0a 55%,#000000 100%),radial-gradient(rgba(255,255,255,0.045) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:64px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#9A9A9A;text-transform:uppercase;">Chapter 8 · Employee Engagement, Rewards and Recognition</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#FFFFFF,#8a8a8a);margin-top:14px;border-radius:2px;"></div></div>
+<div style="text-align:right;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;color:#FFFFFF;">JSW MOTORS</div><div style="font-weight:500;font-size:14px;color:#7A7A7A;margin-top:2px;">HR Operating Standards</div></div>
+</div>
+<div style="margin-top:16px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:50px;line-height:1.08;color:#FFFFFF;">Spot Recognition: What Qualifies</div>
+<div style="max-width:400px;text-align:right;font-weight:500;font-size:15px;color:#9A9A9A;font-style:italic;line-height:1.5;border-right:2px solid #FFFFFF;padding-right:16px;">Reserved for leadership — managers give immediate nomination, Sec. 8.3.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;">
+<svg sc-camel-view-box="0 0 1000 760" style="position: absolute; width: 800px; height: 608px; left: 102px; top: 75px">
+<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="500" y1="380" y2="150"></line>
+<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="766" y1="380" y2="344"></line>
+<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="665" y1="380" y2="607"></line>
+<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="335" y1="380" y2="607"></line>
+<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="234" y1="380" y2="344"></line>
+</svg>
+<div style="position:absolute;left:400px;top:280px;width:200px;height:200px;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);background:radial-gradient(circle at 35% 30%,#ffffff,#e6e6e6 55%,#bdbdbd 100%);box-shadow:0 10px 24px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:17px;color:#0A0A0A;">SPOT</div>
+</div>
+<div style="position:absolute;left:365px;top:70px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">01</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Exceptional customer handling</div>
+</div>
+<div style="position:absolute;left:631px;top:214px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">02</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Difficult deal closures</div>
+</div>
+<div style="position:absolute;left:530px;top:527px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">03</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Large fleet sales</div>
+</div>
+<div style="position:absolute;left:200px;top:527px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">04</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">High-value referrals</div>
+</div>
+<div style="position:absolute;left:99px;top:214px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">05</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Recovery of dissatisfied customers</div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #333333;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#7A7A7A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 8 — Employee Engagement, Rewards and Recognition · Sec. 8.3</div>
+<div style="font-weight:700;font-size:15px;color:#FFFFFF;">14 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <h3 class="sub-title subhead" id="ch8-4">8.4 Best Practices</h3>
 <p>&quot;At JSW Motors, we recognize and celebrate individuals and teams who consistently deliver results, uphold our values, serve customers exceptionally, drive innovation, and contribute to our shared future.&quot;</p>
 <p>Some of the best practices:</p>
@@ -6686,52 +6217,6 @@ The following code of Conduct applies to all the retail partner and its employee
 <h4 class="item-title">Roster</h4>
 <ul class="list-clean"><li>The manager makes the roster for the whole month and shares it via email before the month starts.</li><li>The manger also takes into account the shifts required to run the dealership operations.</li><li>Week offs rotate. The same person should not always get Monday while somebody else always gets a good day.</li><li>Showroom coverage comes first. The roster must always leave enough people on the floor on Saturday and Sunday.</li><li>If the weekly off is changed at short notice, the person is told the reason and given another day off that week.</li><li>During a festival period or a big campaign, week offs may be adjusted. Tell people in advance, not on the day.</li></ul>
 <h4 class="item-title">Women working at night</h4>
-
-<!-- ==================== EXECUTIVE 3D INFOGRAPHIC 15 ==================== -->
-<div class="jsw-infographic-card" id="info-slide-15">
-  <span id="info-11-1" style="position:absolute; top:-80px;"></span>
-  <div class="jsw-info-header">
-    <div class="jsw-info-tag">
-      <span class="jsw-info-pill">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Executive 3D Visual
-      </span>
-      <span class="jsw-info-sub">15 / 15 · Chapter 11 · Sec. 11.1</span>
-    </div>
-    <div class="jsw-info-actions">
-      <button class="jsw-btn-fullscreen" onclick="openInfographicModal(15)" title="Expand Fullscreen 3D View">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        Fullscreen
-      </button>
-      <a href="infographics/dark_slide_15.png" download="JSW_HR_Infographic_15.png" class="jsw-btn-dl" title="Download High-Res PNG">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        PNG
-      </a>
-    </div>
-  </div>
-  <div class="jsw-info-media-wrapper" onclick="openInfographicModal(15)" title="Click to view in interactive 3D lightbox">
-    <picture>
-      <source srcset="infographics/dark_slide_15.webp" type="image/webp">
-      <img src="infographics/dark_slide_15.png" alt="Women Working After Dark: Safety Checklist" loading="lazy" class="jsw-info-img">
-    </picture>
-    <div class="jsw-info-hover-hint">
-      <span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Click to view full-resolution 3D visual
-      </span>
-    </div>
-  </div>
-  <div class="jsw-info-caption">
-    <p class="jsw-info-caption-text">
-      <strong>Women Working After Dark: Safety Checklist</strong> — Safe doorstep transport, verified drivers, adequate premise lighting, security guards, never working alone.
-    </p>
-    <span class="jsw-info-quick-link" onclick="openInfographicModal(1)">
-      Next Visual #01 ➔
-    </span>
-  </div>
-</div>
-
-
 <p>Women may work after dark, but only if they agree to it and only if the dealership makes proper arrangements:</p>
 <ul class="list-clean"><li>safe transport from the dealership to home</li><li>adequate lighting</li><li>security on the premises</li><li>never a woman working alone</li></ul>
 <p>This is now also a legal requirement in many states.</p>
@@ -6840,6 +6325,46 @@ The following code of Conduct applies to all the retail partner and its employee
 <ul class="list-clean"><li>Travel by the cheapest sensible option.</li><li>Two people travelling to the same place should travel together and share a room where it is appropriate.</li><li>Claim only what was actually spent. A false claim is major misconduct under <em>Chapter 10</em>, however small the amount.</li><li>Personal travel added to a business trip is at the employee’s own cost.</li><li>Anybody driving on dealership work must hold a valid licence. Traffic fines from careless driving are the employee’s own liability.</li><li>Settle claims quickly.</li></ul>
 <h3 class="sub-title subhead" id="ch11-6">11.6 Best Practices</h3>
 <ul class="list-clean bp"><li>Working hours, week off and the holiday list are displayed at every outlet.</li><li>The roster for the month is published before the month begins.</li><li>Everybody marks their own attendance. Marking for somebody else is a disciplinary matter.</li><li>Leave is applied for in the system and approved in writing. Verbal permission is not leave.</li><li>A leave application is answered within two working days.</li><li>Working on a week off earns a compensatory off within 30 days, or overtime pay as per law.</li><li>Women working after dark do so only with consent and with safe transport arranged, and they should not be working alone.</li><li>Travel claims are submitted within 7 days and settled with the next salary.</li><li>Where the law in the state gives more than this chapter, the law applies.</li></ul>
+
+<div class="jsw-infographic-frame" id="infographic-15">
+  <div class="jsw-infographic-scaler">
+    <div class="jsw-infographic-canvas">
+<section data-label="11.1 Night Safety" data-speaker-notes="Chapter 11 - shield badges: the four requirements for women working after dark." style="background-image:radial-gradient(circle at 12% 0%,#ffffff 0%,#f5f5f5 55%,#ebebeb 100%),radial-gradient(rgba(0,0,0,0.035) 1px,transparent 1px);background-size:cover,26px 26px;width:1920px;height:1080px;padding:74px 120px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div><div style="font-weight:600;font-size:20px;letter-spacing:3px;color:#6B6B6B;text-transform:uppercase;">Chapter 11 · Organisation Policies</div><div style="width:64px;height:4px;background:linear-gradient(90deg,#0A0A0A,#4a4a4a);margin-top:14px;border-radius:2px;"></div></div>
+</div>
+<div style="margin-top:24px;display:flex;justify-content:space-between;align-items:flex-end;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:50px;line-height:1.08;color:#0A0A0A;">Women Working After Dark: Safety Checklist</div>
+<div style="max-width:400px;text-align:right;font-weight:500;font-size:16px;color:#7A7A7A;font-style:italic;line-height:1.5;border-right:2px solid #0A0A0A;padding-right:16px;">Now also a legal requirement in many states, Sec. 11.1.</div>
+</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:26px;filter:drop-shadow(0 28px 34px rgba(0,0,0,0.25));">
+<div style="width:280px;height:340px;background:linear-gradient(150deg,#454545 0%,#0a0a0a 55%,#000000 100%);clip-path:polygon(50% 0%,100% 15%,100% 62%,50% 100%,0% 62%,0% 15%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;box-sizing:border-box;text-align:center;position:relative;">
+<div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#3a3a3a,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(0,0,0,0.4);"><div style="font-size:30px;color:#FFFFFF;">✓</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:20px;color:#FFFFFF;line-height:1.3;">Safe transport from the dealership to home</div>
+</div>
+<div style="width:280px;height:340px;background:linear-gradient(150deg,#6a6a6a 0%,#3a3a3a 55%,#181818 100%);clip-path:polygon(50% 0%,100% 15%,100% 62%,50% 100%,0% 62%,0% 15%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;box-sizing:border-box;text-align:center;position:relative;">
+<div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#5c5c5c,#1c1c1c);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(0,0,0,0.4);"><div style="font-size:30px;color:#FFFFFF;">✓</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:20px;color:#FFFFFF;line-height:1.3;">Adequate lighting</div>
+</div>
+<div style="width:280px;height:340px;background:linear-gradient(150deg,#949494 0%,#6e6e6e 55%,#454545 100%);clip-path:polygon(50% 0%,100% 15%,100% 62%,50% 100%,0% 62%,0% 15%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;box-sizing:border-box;text-align:center;position:relative;">
+<div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#8a8a8a,#4a4a4a);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(0,0,0,0.3);"><div style="font-size:30px;color:#FFFFFF;">✓</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:20px;color:#FFFFFF;line-height:1.3;">Security on the premises</div>
+</div>
+<div style="width:280px;height:340px;background:linear-gradient(150deg,#c3c3c3 0%,#a3a3a3 55%,#787878 100%);clip-path:polygon(50% 0%,100% 15%,100% 62%,50% 100%,0% 62%,0% 15%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;box-sizing:border-box;text-align:center;position:relative;">
+<div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#b8b8b8,#7a7a7a);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(0,0,0,0.25);"><div style="font-size:30px;color:#FFFFFF;">✓</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:20px;color:#FFFFFF;line-height:1.3;">Never a woman working alone</div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E0E0E0;padding-top:16px;">
+<div style="font-weight:500;font-size:15px;color:#9A9A9A;text-transform:uppercase;letter-spacing:1.5px;">Chapter 11 — Organisation Policies · Sec. 11.1</div>
+<div style="font-weight:700;font-size:15px;color:#0A0A0A;">15 / 15</div>
+</div>
+</section>
+    </div>
+  </div>
+</div>
+
+
 <p><strong style="color:var(--ink)">ANNEXURE</strong></p>
 <a class="annex-file-item" href="#annexure" title="Download 11A. Leave application form" onclick="handleAnnexDownload(event, '11A. Leave application form')">
   <div class="annex-file-left">
@@ -8182,128 +7707,41 @@ setTimeout(observeScrollReveal, 300);
 </script>
 
 
-<!-- ==================== FULLSCREEN 3D INFOGRAPHIC LIGHTBOX DECK ==================== -->
-<div id="jswInfoModal" role="dialog" aria-modal="true" aria-label="3D Infographic Viewer">
-  <div class="modal-top-bar">
-    <div class="modal-brand">
-      <span class="modal-brand-tag">JSW 3D SUITE</span>
-      <div class="modal-title-wrap">
-        <div class="modal-title-main" id="modalSlideTitle">Why This Structure Is Required</div>
-        <div class="modal-title-sub" id="modalSlideSub">Chapter 2 · Dealership Organisation Structure</div>
-      </div>
-    </div>
-    <div class="modal-controls">
-      <div class="modal-counter" id="modalSlideCounter">01 / 15</div>
-      <a href="./JSW_HR_Manual_Infographics_3D_Dark.pptx" download="JSW_HR_Manual_Infographics_3D_Dark.pptx" class="modal-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        Download PPTX Deck
-      </a>
-      <a href="#" id="modalDownloadBtn" download class="modal-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        Download Slide PNG
-      </a>
-      <button class="modal-btn modal-btn-close" onclick="closeInfographicModal()" title="Close (Esc)">
-        ✕ Close
-      </button>
-    </div>
-  </div>
-
-  <div class="modal-stage">
-    <div class="modal-nav-arrow prev" onclick="prevInfographicSlide()" title="Previous (Left Arrow)">❮</div>
-    <div class="modal-slide-container">
-      <img src="" alt="" id="modalMainImg" class="modal-slide-img">
-    </div>
-    <div class="modal-nav-arrow next" onclick="nextInfographicSlide()" title="Next (Right Arrow)">❯</div>
-  </div>
-
-  <div class="modal-bottom-strip" id="modalThumbStrip">
-    <!-- Thumb pills generated by JS -->
-  </div>
-</div>
-
 <script>
-(function(){
-  const SLIDES_DATA = [{"id": 1, "num": "01", "chap": "Chapter 2", "chap_num": "2", "item_num": "1", "chap_name": "Dealership Organisation Structure", "sec": "Sec. 2.0", "title": "Why This Structure Is Required", "subtitle": "Clear reporting structure right-sized for the outlet category so accountability is unambiguous.", "img": "dark_slide_1", "anchor": "Why this structure is required</strong></p>"}, {"id": 2, "num": "02", "chap": "Chapter 2", "chap_num": "2", "item_num": "2", "chap_name": "Dealership Organisation Structure", "sec": "Sec. 2.1", "title": "How The Structure Works", "subtitle": "Three foundational decisions: required roles, reporting structure, and shared vs. dedicated roles.", "img": "dark_slide_2", "anchor": "How this structure work</strong></p>"}, {"id": 3, "num": "03", "chap": "Chapter 2", "chap_num": "2", "item_num": "3", "chap_name": "Dealership Organisation Structure", "sec": "Sec. 2.0", "title": "5 Factors That Shape Your Org Chart", "subtitle": "Business plan, volume, city tier, productivity norms, and outlet type (2S / 3S).", "img": "dark_slide_3", "anchor": "<div class=\"pull\">Carefully review the volume norms shared by JSW Motors and plan your manpower accordingly.</div>"}, {"id": 4, "num": "04", "chap": "Chapter 3", "chap_num": "3", "item_num": "1", "chap_name": "Recruitment and Selection", "sec": "Sec. 3.1", "title": "Internal Movement First", "subtitle": "Policy mandate: internal movement before external hiring; fast, fair, transparent pipeline.", "img": "dark_slide_4", "anchor": "3.1 Recruitment and Selection Process</h3>"}, {"id": 5, "num": "05", "chap": "Chapter 3", "chap_num": "3", "item_num": "2", "chap_name": "Recruitment and Selection", "sec": "Sec. 3.2", "title": "Referring A Family Member: The Guardrails", "subtitle": "Mandatory relationship disclosure, selection on merit, company salary norms, separate teams.", "img": "dark_slide_5", "anchor": "Employee referral programme</h4>"}, {"id": 6, "num": "06", "chap": "Chapter 4", "chap_num": "4", "item_num": "1", "chap_name": "Learning and Development", "sec": "Sec. 4.0", "title": "What JSW Motors Provides", "subtitle": "JSW Motors Academy: standardized modules, digital learning content, role curriculum, certification.", "img": "dark_slide_6", "anchor": "4.1 Joining and Induction Training</h3>"}, {"id": 7, "num": "07", "chap": "Chapter 4", "chap_num": "4", "item_num": "2", "chap_name": "Learning and Development", "sec": "Sec. 4.2", "title": "What Dealership HR Reports", "subtitle": "Tracking mandatory training hours, post-training assessment scores, and certifying job readiness.", "img": "dark_slide_7", "anchor": "4.2 Learner\u2019s Journey</h3>"}, {"id": 8, "num": "08", "chap": "Chapter 5", "chap_num": "5", "item_num": "1", "chap_name": "Performance Management", "sec": "Sec. 5.1", "title": "Setting SMART Goals", "subtitle": "Specific, Measurable, Achievable, Relevant, and Time-bound performance contracts.", "img": "dark_slide_8", "anchor": "5.3 Setting goals</h3>"}, {"id": 9, "num": "09", "chap": "Chapter 5", "chap_num": "5", "item_num": "2", "chap_name": "Performance Management", "sec": "Sec. 5.2", "title": "The Performance Review: What Is Working", "subtitle": "Quarterly and mid-year reviews: celebrating high performers, recognizing initiative and key milestones.", "img": "dark_slide_9", "anchor": "5.4 Quarterly and mid-year review</h3>"}, {"id": 10, "num": "10", "chap": "Chapter 5", "chap_num": "5", "item_num": "3", "chap_name": "Performance Management", "sec": "Sec. 5.2", "title": "The Performance Review: What Needs Attention", "subtitle": "Timely gap identification, root cause coaching, and structured 30/60/90-day PIP before year-end.", "img": "dark_slide_10", "anchor": "5.6 Handling underperformance</h3>"}, {"id": 11, "num": "11", "chap": "Chapter 6", "chap_num": "6", "item_num": "1", "chap_name": "Career Progression", "sec": "Sec. 6.2", "title": "Qualities We Look For In Future Leaders", "subtitle": "Customer obsession, talent development, operational rigour, ownership mindset, and ethical leadership.", "img": "dark_slide_11", "anchor": "<h4 class=\"item-title\">Qualities We Look for in Future People Leaders</h4>"}, {"id": 12, "num": "12", "chap": "Chapter 7", "chap_num": "7", "item_num": "1", "chap_name": "Compensation & Benefits", "sec": "Sec. 7.3", "title": "Salary Advance: The Rules", "subtitle": "Up to 1 month net salary, confirmed employees only, 3-6 monthly recovery installments, DP sign-off.", "img": "dark_slide_12", "anchor": "<h4 class=\"item-title\">Salary advance</h4>"}, {"id": 13, "num": "13", "chap": "Chapter 8", "chap_num": "8", "item_num": "1", "chap_name": "Engagement, Rewards & Recognition", "sec": "Sec. 8.1", "title": "The Year At A Glance: Engagement Calendar", "subtitle": "Systematic 12-month calendar of cultural celebrations, wellness, family events and team sports.", "img": "dark_slide_13", "anchor": "8.1 Suggested Engagements Calendar (apart from Awards)</h3>"}, {"id": 14, "num": "14", "chap": "Chapter 8", "chap_num": "8", "item_num": "2", "chap_name": "Engagement, Rewards & Recognition", "sec": "Sec. 8.3", "title": "Spot Recognition: What To Celebrate", "subtitle": "Immediate, public appreciation for outstanding customer delight, peer support and integrity.", "img": "dark_slide_14", "anchor": "8.3 Spot recognition</h3>"}, {"id": 15, "num": "15", "chap": "Chapter 11", "chap_num": "11", "item_num": "1", "chap_name": "Organisation Policies", "sec": "Sec. 11.1", "title": "Women Working After Dark: Safety Checklist", "subtitle": "Safe doorstep transport, verified drivers, adequate premise lighting, security guards, never working alone.", "img": "dark_slide_15", "anchor": "Women working at night</h4>"}];
-  let currentSlideIdx = 0;
-  const modal = document.getElementById('jswInfoModal');
-  const mainImg = document.getElementById('modalMainImg');
-  const titleEl = document.getElementById('modalSlideTitle');
-  const subEl = document.getElementById('modalSlideSub');
-  const counterEl = document.getElementById('modalSlideCounter');
-  const dlBtn = document.getElementById('modalDownloadBtn');
-  const thumbStrip = document.getElementById('modalThumbStrip');
+(function() {
+  function scaleAllInfographics() {
+    var scalers = document.querySelectorAll('.jsw-infographic-scaler');
+    for (var i = 0; i < scalers.length; i++) {
+      var s = scalers[i];
+      var w = s.clientWidth;
+      if (w > 0) {
+        var scale = w / 1920;
+        s.style.height = (1080 * scale) + 'px';
+        var canvas = s.querySelector('.jsw-infographic-canvas');
+        if (canvas) {
+          canvas.style.transform = 'scale(' + scale + ')';
+        }
+      }
+    }
+  }
 
-  if (thumbStrip) {
-    thumbStrip.innerHTML = '';
-    SLIDES_DATA.forEach((s, idx) => {
-      const dot = document.createElement('div');
-      dot.className = 'modal-thumb-dot' + (idx === 0 ? ' active' : '');
-      dot.textContent = s.num;
-      dot.title = s.title;
-      dot.onclick = function() { showSlide(idx); };
-      thumbStrip.appendChild(dot);
+  window.addEventListener('resize', scaleAllInfographics);
+  window.addEventListener('DOMContentLoaded', scaleAllInfographics);
+  window.addEventListener('load', scaleAllInfographics);
+
+  if (typeof ResizeObserver !== 'undefined') {
+    var ro = new ResizeObserver(function() {
+      scaleAllInfographics();
     });
-  }
-
-  function showSlide(idx) {
-    if (idx < 0) idx = SLIDES_DATA.length - 1;
-    if (idx >= SLIDES_DATA.length) idx = 0;
-    currentSlideIdx = idx;
-    const s = SLIDES_DATA[idx];
-    if (mainImg) {
-      mainImg.src = 'infographics/' + s.img + '.png';
-      mainImg.alt = s.title;
-    }
-    if (titleEl) titleEl.textContent = s.title;
-    if (subEl) subEl.textContent = s.chap + ' · ' + s.chap_name + ' (' + s.sec + ')';
-    if (counterEl) counterEl.textContent = s.num + ' / 15';
-    if (dlBtn) {
-      dlBtn.href = 'infographics/' + s.img + '.png';
-      dlBtn.download = 'JSW_HR_Infographic_' + s.num + '.png';
-    }
-    if (thumbStrip) {
-      const dots = thumbStrip.querySelectorAll('.modal-thumb-dot');
-      dots.forEach((d, i) => {
-        d.classList.toggle('active', i === idx);
-      });
+    var scalers = document.querySelectorAll('.jsw-infographic-scaler');
+    for (var j = 0; j < scalers.length; j++) {
+      ro.observe(scalers[j]);
     }
   }
 
-  window.openInfographicModal = function(slideNum) {
-    const idx = (slideNum || 1) - 1;
-    showSlide(idx);
-    if (modal) {
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-  };
-
-  window.closeInfographicModal = function() {
-    if (modal) {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  };
-
-  window.nextInfographicSlide = function() {
-    showSlide(currentSlideIdx + 1);
-  };
-
-  window.prevInfographicSlide = function() {
-    showSlide(currentSlideIdx - 1);
-  };
-
-  window.addEventListener('keydown', function(e) {
-    if (!modal || !modal.classList.contains('active')) return;
-    if (e.key === 'Escape') {
-      closeInfographicModal();
-    } else if (e.key === 'ArrowRight' || e.key === ' ') {
-      e.preventDefault();
-      nextInfographicSlide();
-    } else if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      prevInfographicSlide();
-    }
-  });
+  setTimeout(scaleAllInfographics, 50);
+  setTimeout(scaleAllInfographics, 250);
+  setTimeout(scaleAllInfographics, 800);
 })();
 </script>
+
