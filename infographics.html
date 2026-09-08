@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSW Motors · HR Operations Manual — Executive 3D Infographics Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #06090e;
+      color: #f1f5f9;
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      height: 60px;
+      background: #0a0f18;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 100;
+    }
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-pill {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .logo-text {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+    }
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn {
+      background: rgba(30, 41, 59, 0.85);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .main-stage {
+      flex: 1;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 320px;
+      background: #090e17;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .sidebar.collapsed {
+      transform: translateX(-320px);
+      position: absolute;
+      height: 100%;
+      z-index: 50;
+    }
+    .sidebar-header {
+      padding: 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .slide-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .slide-item {
+      padding: 10px 12px;
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .slide-item:hover {
+      border-color: #38bdf8;
+      background: #1e293b;
+    }
+    .slide-item.active {
+      border-color: #38bdf8;
+      background: linear-gradient(135deg, #0f233f, #1e293b);
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.3);
+    }
+    .slide-item-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .slide-item-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 2px;
+    }
+    .slide-item-chap {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+    .viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+    .slide-display-card {
+      max-width: 100%;
+      max-height: 84vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .slide-display-img {
+      max-width: 100%;
+      max-height: 84vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 25px 65px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #ffffff;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s ease;
+    }
+    .nav-arrow:hover {
+      background: #0284c7;
+      border-color: #38bdf8;
+      transform: translateY(-50%) scale(1.1);
+    }
+    .nav-arrow.prev { left: 32px; }
+    .nav-arrow.next { right: 32px; }
+    footer {
+      height: 50px;
+      background: #0a0f18;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .footer-center {
+      font-weight: 700;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-block">
+      <span class="logo-pill">3D INFOGRAPHICS</span>
+      <span class="logo-text">JSW MOTORS · Executive Infographics Suite</span>
+    </div>
+    <div class="top-actions">
+      <a href="./index.html" class="btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to HR Manual
+      </a>
+      <a href="./JSW_HR_Manual_Infographics_3D_Dark.pptx" download="JSW_HR_Manual_Infographics_3D_Dark.pptx" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Download PPTX Deck
+      </a>
+    </div>
+  </header>
+
+  <div class="main-stage">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">15 Chapter Visuals</div>
+      <div class="slide-list" id="slideList"></div>
+    </div>
+
+    <div class="viewport">
+      <div class="nav-arrow prev" onclick="prevSlide()">❮</div>
+      <div class="slide-display-card">
+        <img src="infographics/dark_slide_1.png" alt="" id="stageImg" class="slide-display-img">
+      </div>
+      <div class="nav-arrow next" onclick="nextSlide()">❯</div>
+    </div>
+  </div>
+
+  <footer>
+    <div>Keyboard: <strong>←</strong> Prev · <strong>→</strong> Next · <strong>Space</strong> Forward</div>
+    <div class="footer-center" id="slideFooterCounter">Slide 01 of 15</div>
+    <div>1080p High-Resolution Dark 3D Graphics</div>
+  </footer>
+
+  <script>
+    const SLIDES = [
+      { id: 1, num: "01", chap: "Chapter 2", title: "Why This Structure Is Required", img: "dark_slide_1" },
+      { id: 2, num: "02", chap: "Chapter 2", title: "How The Structure Works", img: "dark_slide_2" },
+      { id: 3, num: "03", chap: "Chapter 2", title: "5 Factors That Shape Your Org Chart", img: "dark_slide_3" },
+      { id: 4, num: "04", chap: "Chapter 3", title: "Internal Movement First", img: "dark_slide_4" },
+      { id: 5, num: "05", chap: "Chapter 3", title: "Referring A Family Member: Guardrails", img: "dark_slide_5" },
+      { id: 6, num: "06", chap: "Chapter 4", title: "What JSW Motors Provides", img: "dark_slide_6" },
+      { id: 7, num: "07", chap: "Chapter 4", title: "What Dealership HR Reports", img: "dark_slide_7" },
+      { id: 8, num: "08", chap: "Chapter 5", title: "Setting SMART Goals", img: "dark_slide_8" },
+      { id: 9, num: "09", chap: "Chapter 5", title: "Performance Review: What Is Working", img: "dark_slide_9" },
+      { id: 10, num: "10", chap: "Chapter 5", title: "Performance Review: Needs Attention", img: "dark_slide_10" },
+      { id: 11, num: "11", chap: "Chapter 6", title: "Qualities in Future People Leaders", img: "dark_slide_11" },
+      { id: 12, num: "12", chap: "Chapter 7", title: "Salary Advance: The Rules", img: "dark_slide_12" },
+      { id: 13, num: "13", chap: "Chapter 8", title: "The Year At A Glance: Calendar", img: "dark_slide_13" },
+      { id: 14, num: "14", chap: "Chapter 8", title: "Spot Recognition: What To Celebrate", img: "dark_slide_14" },
+      { id: 15, num: "15", chap: "Chapter 11", title: "Women Working After Dark: Checklist", img: "dark_slide_15" }
+    ];
+
+    let current = 0;
+    const listEl = document.getElementById('slideList');
+    const stageImg = document.getElementById('stageImg');
+    const counterEl = document.getElementById('slideFooterCounter');
+
+    SLIDES.forEach((s, idx) => {
+      const item = document.createElement('div');
+      item.className = 'slide-item' + (idx === 0 ? ' active' : '');
+      item.innerHTML = `<div class="slide-item-num">Slide ${s.num} · ${s.chap}</div><div class="slide-item-title">${s.title}</div>`;
+      item.onclick = () => setSlide(idx);
+      listEl.appendChild(item);
+    });
+
+    function setSlide(idx) {
+      if (idx < 0) idx = SLIDES.length - 1;
+      if (idx >= SLIDES.length) idx = 0;
+      current = idx;
+      const s = SLIDES[idx];
+      stageImg.src = 'infographics/' + s.img + '.png';
+      stageImg.alt = s.title;
+      counterEl.textContent = `Slide ${s.num} of 15 — ${s.title}`;
+      const items = listEl.querySelectorAll('.slide-item');
+      items.forEach((it, i) => it.classList.toggle('active', i === idx));
+      items[idx].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    function nextSlide() { setSlide(current + 1); }
+    function prevSlide() { setSlide(current - 1); }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>
