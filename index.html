@@ -6,14 +6,52 @@
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@500;600;700;800&display=swap');
 
-/* ============ RESPONSIVE PURE DIAGRAM EMBED ============ */
-.jsw-diagram-wrap {
-  width: 100%;
-  margin: 36px 0 44px 0;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
+/* ============ INTERACTIVE INFOGRAPHIC CARDS ============ */
+.jsw-interactive-card {
+  background: #FFFFFF;
+  border: 1px solid var(--line-200, #D3D2CF);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  margin: 32px 0 40px 0;
+  padding: 30px 36px 36px 36px;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.jsw-interactive-card:hover {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  border-color: #BDBDBD;
+}
+.jsw-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding-bottom: 14px;
+}
+.jsw-card-title {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  color: #0A0A0A;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+.jsw-hint-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #767676;
+  background: #F4F4F3;
+  padding: 5px 12px;
+  border-radius: 20px;
+  user-select: none;
+  flex-shrink: 0;
 }
 .jsw-diagram-scaler {
   width: 100%;
@@ -29,6 +67,128 @@
 }
 .jsw-diagram-canvas * {
   box-sizing: border-box;
+}
+
+/* --- Interactive Hover & Click Styles across diagram elements --- */
+
+/* Floating cards (Sec 1, 4, 8, 12, 14) */
+.jsw-diagram-canvas [style*="position:absolute"][style*="background:linear-gradient"],
+.jsw-diagram-canvas [style*="position: absolute"][style*="background:linear-gradient"],
+.jsw-diagram-canvas [style*="border-radius:12px"] {
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
+  cursor: pointer;
+}
+.jsw-diagram-canvas [style*="position:absolute"][style*="background:linear-gradient"]:hover,
+.jsw-diagram-canvas [style*="position: absolute"][style*="background:linear-gradient"]:hover,
+.jsw-diagram-canvas [style*="border-radius:12px"]:hover {
+  transform: translateY(-8px) scale(1.03) !important;
+  box-shadow: 0 28px 44px -10px rgba(0,0,0,0.32), 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+.jsw-diagram-canvas .is-active[style*="background:linear-gradient"],
+.jsw-diagram-canvas .is-active[style*="border-radius:12px"] {
+  outline: 3px solid #0A0A0A !important;
+  outline-offset: 2px;
+  transform: translateY(-4px) scale(1.02) !important;
+}
+
+/* Center spheres (Sec 1, 4, 8, 12) */
+.jsw-diagram-canvas [style*="border-radius:50%"][style*="background:radial-gradient"] {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+  animation: jswSphereBreath 4s ease-in-out infinite alternate;
+}
+.jsw-diagram-canvas [style*="border-radius:50%"][style*="background:radial-gradient"]:hover {
+  transform: scale(1.08) !important;
+  filter: brightness(1.15);
+}
+@keyframes jswSphereBreath {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.025); }
+}
+
+/* Chevrons (Sec 2 & Sec 13) */
+.jsw-diagram-canvas [style*="clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%)"],
+.jsw-diagram-canvas [style*="clip-path:polygon(0% 0%,82% 0%,100% 50%,82% 100%,0% 100%,14% 50%)"] {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+}
+.jsw-diagram-canvas [style*="clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%)"]:hover,
+.jsw-diagram-canvas [style*="clip-path:polygon(0% 0%,82% 0%,100% 50%,82% 100%,0% 100%,14% 50%)"]:hover {
+  transform: translateX(10px) translateY(-4px) scale(1.03) !important;
+  filter: brightness(1.2) drop-shadow(0 20px 25px rgba(0,0,0,0.35));
+}
+.jsw-diagram-canvas .is-active[style*="clip-path:polygon(0% 0%,75% 0%,100% 50%,75% 100%,0% 100%,18% 50%)"],
+.jsw-diagram-canvas .is-active[style*="clip-path:polygon(0% 0%,82% 0%,100% 50%,82% 100%,0% 100%,14% 50%)"] {
+  filter: brightness(1.3) drop-shadow(0 0 15px rgba(0,0,0,0.5));
+  transform: translateX(12px) translateY(-6px) scale(1.04) !important;
+}
+
+/* Hexagons (Sec 5 & Sec 11) */
+.jsw-diagram-canvas [style*="clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)"] {
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.35s ease;
+}
+.jsw-diagram-canvas [style*="clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)"]:hover {
+  transform: translateY(-12px) scale(1.05) !important;
+  filter: drop-shadow(0 32px 40px rgba(0,0,0,0.45)) brightness(1.1);
+}
+.jsw-diagram-canvas .is-active[style*="clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)"] {
+  transform: translateY(-8px) scale(1.03) !important;
+  filter: drop-shadow(0 0 18px rgba(10,10,10,0.6)) brightness(1.15);
+}
+
+/* Shields (Sec 15) */
+.jsw-diagram-canvas [style*="clip-path:polygon(50% 0%,100% 15%,100% 62%,50% 100%,0% 62%,0% 15%)"] {
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.35s ease;
+}
+.jsw-diagram-canvas [style*="clip-path:polygon(50% 0%,100% 15%,100% 62%,50% 100%,0% 62%,0% 15%)"]:hover {
+  transform: translateY(-12px) scale(1.05) !important;
+  filter: drop-shadow(0 34px 44px rgba(0,0,0,0.4)) brightness(1.12);
+}
+.jsw-diagram-canvas .is-active[style*="clip-path:polygon(50% 0%,100% 15%,100% 62%,50% 100%,0% 62%,0% 15%)"] {
+  transform: translateY(-8px) scale(1.03) !important;
+  filter: drop-shadow(0 0 20px rgba(16,185,129,0.5)) brightness(1.2);
+}
+
+/* Pyramid Tiers (Sec 3) */
+.jsw-diagram-canvas [style*="clip-path:polygon(50% 0%"],
+.jsw-diagram-canvas [style*="clip-path:polygon(40% 0%"],
+.jsw-diagram-canvas [style*="clip-path:polygon(30% 0%"],
+.jsw-diagram-canvas [style*="clip-path:polygon(20% 0%"],
+.jsw-diagram-canvas [style*="clip-path:polygon(10% 0%"] {
+  cursor: pointer;
+  transition: transform 0.28s ease, filter 0.28s ease;
+}
+.jsw-diagram-canvas [style*="clip-path:polygon(50% 0%"]:hover,
+.jsw-diagram-canvas [style*="clip-path:polygon(40% 0%"]:hover,
+.jsw-diagram-canvas [style*="clip-path:polygon(30% 0%"]:hover,
+.jsw-diagram-canvas [style*="clip-path:polygon(20% 0%"]:hover,
+.jsw-diagram-canvas [style*="clip-path:polygon(10% 0%"]:hover {
+  transform: translateX(12px) scale(1.02);
+  filter: brightness(1.25) drop-shadow(0 10px 16px rgba(0,0,0,0.3));
+}
+
+/* Medallions (Sec 9 & 10) */
+.jsw-diagram-canvas [style*="box-shadow:0 30px 50px -16px rgba(0,0,0,0.28)"],
+.jsw-diagram-canvas [style*="box-shadow:0 30px 50px -16px rgba(0,0,0,0.55)"] {
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+}
+.jsw-diagram-canvas [style*="box-shadow:0 30px 50px -16px rgba(0,0,0,0.28)"]:hover,
+.jsw-diagram-canvas [style*="box-shadow:0 30px 50px -16px rgba(0,0,0,0.55)"]:hover {
+  transform: scale(1.08) translateY(-8px);
+  box-shadow: 0 40px 60px -12px rgba(0,0,0,0.4) !important;
+}
+
+/* Star (Sec 14) */
+.jsw-diagram-canvas [style*="clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)"] {
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
+}
+.jsw-diagram-canvas [style*="clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)"]:hover {
+  transform: scale(1.1) rotate(15deg);
+  filter: brightness(1.2) drop-shadow(0 0 20px rgba(255,255,255,0.4));
 }
 
 
@@ -3496,7 +3656,14 @@ body.view-intro-active .chapter-nav {
 <p><strong style="color:var(--ink)">Why this structure is required</strong></p>
 <div class="zigzag"><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">01</span>every customer touchpoint has an owner and a manager behind it</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">02</span>escalations go to the right person</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">03</span>new hires learn their role and reporting line quickly</div></div></div>
 
-<div class="jsw-diagram-wrap" id="diagram-1">
+<div class="jsw-interactive-card" id="card-visual-1">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Why This Structure Is Required</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1000px;">
     <div class="jsw-diagram-canvas" style="width: 1000px; height: 660px; margin-left: -500px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
@@ -3527,7 +3694,14 @@ body.view-intro-active .chapter-nav {
 <p><strong style="color:var(--ink)">How this structure work</strong></p>
 <ul class="list-clean"><li>what roles a dealership need</li><li>Reporting structure of each role</li><li>shared and dedicated roles</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-2">
+<div class="jsw-interactive-card" id="card-visual-2">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">How The Structure Works</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1180px;">
     <div class="jsw-diagram-canvas" style="width: 1180px; height: 460px; margin-left: -590px;">
 <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:52px;">
@@ -3560,7 +3734,14 @@ body.view-intro-active .chapter-nav {
 <div class="zigzag"><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">01</span>Dealership’s Business Plan – enquiry flow and retail targets</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">02</span>Business volume across new car, used car, corporate deals &amp; add-ons</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">03</span>City in which the dealership is located – Tier 1, 2, 3</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">04</span>Productivity norms</div></div><div class="zigzag-item"><div class="zigzag-pill"><span class="zz-num">05</span>2S or 3S outlet</div></div></div>
 <div class="pull">Carefully review the volume norms shared by JSW Motors and plan your manpower accordingly.</div>
 
-<div class="jsw-diagram-wrap" id="diagram-3">
+<div class="jsw-interactive-card" id="card-visual-3">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">5 Factors That Shape Your Org Chart</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1220px;">
     <div class="jsw-diagram-canvas" style="width: 1220px; height: 520px; margin-left: -610px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;gap:70px;">
@@ -3820,7 +4001,14 @@ Reporting manager</th><th></th><th></th><th></th><th></th></tr></thead>
   </table>
 </div>
 
-<div class="jsw-diagram-wrap" id="diagram-4">
+<div class="jsw-interactive-card" id="card-visual-4">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Internal Move: What's Guaranteed</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1000px;">
     <div class="jsw-diagram-canvas" style="width: 1000px; height: 680px; margin-left: -500px;">
 <div style="width:100%;height:100%; display: flex; align-items: center; justify-content: center; position: relative; width: 1013px; height: 740px">
@@ -3882,7 +4070,14 @@ Reporting manager</th><th></th><th></th><th></th><th></th></tr></thead>
 <p>Referring a family member is permitted but is governed by the following guardrails:</p>
 <ul class="list-clean"><li>Mandatory relationship disclosure</li><li>Selection will be on merit as per assessment criteria</li><li>Salary and compensation has to be as per company norms</li><li>Relatives should not be in the same team</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-5">
+<div class="jsw-interactive-card" id="card-visual-5">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Referring A Family Member: The Guardrails</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1280px;">
     <div class="jsw-diagram-canvas" style="width: 1280px; height: 410px; margin-left: -640px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:24px;filter:drop-shadow(0 30px 36px rgba(0,0,0,0.55));">
@@ -4204,7 +4399,14 @@ The level decides the cycle time target, the interview panel and the sourcing ro
 <p>In the first week:</p>
 <ul class="list-clean"><li>Day 1 - The IDT enrols the new joiner on the LMS and confirms the induction courses list.</li><li>Day 1 - A buddy is assigned by the HR Manager who the new joiner can interact with.</li><li>For the first two weeks the new joiner shadows the buddy through complete customer interactions.</li><li>Day 2 - The reporting manager discusses the roles &amp; responsibilities and the KPIs.</li><li>Day 3 and 4 – Observe buddy handling the customers and do the assigned induction training.</li><li>Day 5 - Performance management goals are set with the reporting manager.</li><li>Day 6 - HR records induction completion in the training record.</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-6">
+<div class="jsw-interactive-card" id="card-visual-6">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">What JSW Motors Provides</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1250px;">
     <div class="jsw-diagram-canvas" style="width: 1250px; height: 530px; margin-left: -625px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;gap:70px;">
@@ -4320,7 +4522,14 @@ The level decides the cycle time target, the interview panel and the sourcing ro
 <p><strong style="color:var(--ink)">iii. Compliance</strong></p>
 <ul class="list-clean"><li>JSW mandatory training completion rate</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-7">
+<div class="jsw-interactive-card" id="card-visual-7">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">What HR Reports</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1200px;">
     <div class="jsw-diagram-canvas" style="width: 1200px; height: 450px; margin-left: -600px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;gap:100px;">
@@ -4434,7 +4643,14 @@ Reporting manager</th></tr></thead>
 <p>Step 04 – Formal documentation of KPIs and submission to the HR</p>
 <p>Step 05 – Write the goals for the particular appraisal cycle using <em>5B. Goal Setting and KPI Sheet</em> and define each goal’s weightage.</p>
 
-<div class="jsw-diagram-wrap" id="diagram-8">
+<div class="jsw-interactive-card" id="card-visual-8">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">The SMART Goal Framework</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1000px;">
     <div class="jsw-diagram-canvas" style="width: 1000px; height: 690px; margin-left: -500px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
@@ -4502,7 +4718,14 @@ Reporting manager</th></tr></thead>
 <h3 class="sub-title subhead" id="ch5-4">5.4 Quarterly and mid-year review</h3>
 <ul class="list-clean"><li>HR should notify the reporting managers about the Mid-Year Review meeting.</li><li>Reporting manager schedules a one on one mid year review meeting.</li><li>Review performance expectations against the set goals.</li><li>Where each goal stands, in numbers.</li><li>What is going well, said plainly and specifically.</li><li>What has to change in the next six months, and what support the person needs to do it.</li><li>Whether any goal needs revising because the ground shifted.</li><li>Reporting manager shares <em>5C. Performance Review Form (Quarterly, Mid-year and Annual)</em> with the employees with the HR Manager in cc.</li><li>Document what was agreed on an email with the HR Manager in cc summarize meeting conclusions about:</li><li>Progress</li><li>Favourable Results</li><li>Performance Issues/Problems Solutions</li><li>Agreements and Commitments</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-9">
+<div class="jsw-interactive-card" id="card-visual-9">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Mid-Year Review: What's Working</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 800px;">
     <div class="jsw-diagram-canvas" style="width: 800px; height: 420px; margin-left: -400px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:140px;">
@@ -4551,7 +4774,14 @@ Reporting manager</th></tr></thead>
   </table>
 </div>
 
-<div class="jsw-diagram-wrap" id="diagram-10">
+<div class="jsw-interactive-card" id="card-visual-10">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Mid-Year Review: What Needs Attention</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 800px;">
     <div class="jsw-diagram-canvas" style="width: 800px; height: 420px; margin-left: -400px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:140px;">
@@ -4660,7 +4890,14 @@ Note: This is the table for the same work area movement. Lateral movement is als
 <p>Competencies alone may not be sufficient for a good people leader. Following are some of the personality traits that are important to note while promoting someone to people leader position.</p>
 <ul class="list-clean"><li>Kind and helpful</li><li>Integrity and empathy</li><li>Accountability and fairness</li><li>Coaching mindset</li><li>Humility and approachability</li><li>Clear and effective communication skills</li><li>Earns the respect of the team through their actions, behaviour, and leadership</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-11">
+<div class="jsw-interactive-card" id="card-visual-11">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Qualities Of Future People Leaders</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1000px;">
     <div class="jsw-diagram-canvas" style="width: 1000px; height: 460px; margin-left: -500px;">
 <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
@@ -4878,7 +5115,14 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <h4 class="item-title">In case of a genuine request by any employee, salary advance can be given, within the following guidelines -</h4>
 <ul class="list-clean"><li>Up to one month’s net salary, for a genuine need.</li><li>Applicable for confirmed employees only.</li><li>Recovered from salary in three to six instalments, agreed in writing.</li><li>Must be approved by the Dealer Principal.</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-12">
+<div class="jsw-interactive-card" id="card-visual-12">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Salary Advance: The Rules</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1000px;">
     <div class="jsw-diagram-canvas" style="width: 1000px; height: 650px; margin-left: -500px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
@@ -5068,7 +5312,14 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
   </table>
 </div>
 
-<div class="jsw-diagram-wrap" id="diagram-13">
+<div class="jsw-interactive-card" id="card-visual-13">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Building The Engagement Calendar</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1280px;">
     <div class="jsw-diagram-canvas" style="width: 1280px; height: 450px; margin-left: -640px;">
 <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:46px;">
@@ -5378,7 +5629,14 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <p>This recognition can be done via:</p>
 <ul class="list-clean"><li>Manager discusses with leadership and takes approval for Spot Recognition.</li><li>Announcement and name on the morning meeting board during daily standup meetings.</li><li>Appreciation in the presence of JSW personnel visits.</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-14">
+<div class="jsw-interactive-card" id="card-visual-14">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Spot Recognition: What Qualifies</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1000px;">
     <div class="jsw-diagram-canvas" style="width: 1000px; height: 690px; margin-left: -500px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
@@ -6125,7 +6383,14 @@ The following code of Conduct applies to all the retail partner and its employee
 <h3 class="sub-title subhead" id="ch11-6">11.6 Best Practices</h3>
 <ul class="list-clean bp"><li>Working hours, week off and the holiday list are displayed at every outlet.</li><li>The roster for the month is published before the month begins.</li><li>Everybody marks their own attendance. Marking for somebody else is a disciplinary matter.</li><li>Leave is applied for in the system and approved in writing. Verbal permission is not leave.</li><li>A leave application is answered within two working days.</li><li>Working on a week off earns a compensatory off within 30 days, or overtime pay as per law.</li><li>Women working after dark do so only with consent and with safe transport arranged, and they should not be working alone.</li><li>Travel claims are submitted within 7 days and settled with the next salary.</li><li>Where the law in the state gives more than this chapter, the law applies.</li></ul>
 
-<div class="jsw-diagram-wrap" id="diagram-15">
+<div class="jsw-interactive-card" id="card-visual-15">
+  <div class="jsw-card-header">
+    <div class="jsw-card-title">Women Working After Dark: Safety Checklist</div>
+    <span class="jsw-hint-badge">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Interactive Visual · Hover or Click
+    </span>
+  </div>
   <div class="jsw-diagram-scaler" style="max-width: 1220px;">
     <div class="jsw-diagram-canvas" style="width: 1220px; height: 410px; margin-left: -610px;">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:26px;filter:drop-shadow(0 28px 34px rgba(0,0,0,0.25));">
@@ -7495,12 +7760,28 @@ setTimeout(observeScrollReveal, 300);
 
 <script>
 (function() {
+  function initInteractiveDiagrams() {
+    var interactiveElements = document.querySelectorAll(
+      '.jsw-diagram-canvas [style*="position:absolute"][style*="background:linear-gradient"],' +
+      '.jsw-diagram-canvas [style*="position: absolute"][style*="background:linear-gradient"],' +
+      '.jsw-diagram-canvas [style*="border-radius:12px"],' +
+      '.jsw-diagram-canvas [style*="clip-path"],' +
+      '.jsw-diagram-canvas [style*="border-radius:50%"]'
+    );
+
+    interactiveElements.forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        this.classList.toggle('is-active');
+      });
+    });
+  }
+
   function scaleAllDiagrams() {
-    var wraps = document.querySelectorAll('.jsw-diagram-wrap');
-    for (var i = 0; i < wraps.length; i++) {
-      var wrap = wraps[i];
-      var scaler = wrap.querySelector('.jsw-diagram-scaler');
-      var canvas = wrap.querySelector('.jsw-diagram-canvas');
+    var cards = document.querySelectorAll('.jsw-interactive-card');
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var scaler = card.querySelector('.jsw-diagram-scaler');
+      var canvas = card.querySelector('.jsw-diagram-canvas');
       if (!scaler || !canvas) continue;
       var cw = scaler.clientWidth;
       if (cw <= 0) continue;
@@ -7513,8 +7794,14 @@ setTimeout(observeScrollReveal, 300);
   }
 
   window.addEventListener('resize', scaleAllDiagrams);
-  window.addEventListener('DOMContentLoaded', scaleAllDiagrams);
-  window.addEventListener('load', scaleAllDiagrams);
+  window.addEventListener('DOMContentLoaded', function() {
+    scaleAllDiagrams();
+    initInteractiveDiagrams();
+  });
+  window.addEventListener('load', function() {
+    scaleAllDiagrams();
+    initInteractiveDiagrams();
+  });
 
   if (typeof ResizeObserver !== 'undefined') {
     var ro = new ResizeObserver(function() {
