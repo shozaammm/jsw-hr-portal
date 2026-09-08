@@ -3096,15 +3096,32 @@ button:active {
 }
 @media print{ .cover-ambient{ display:none !important; } }
 
-/* ============ ARCHITECTURAL AMBIENT LAYER (DE-AI TOY PARTICLES BANNED) ============ */
+/* ============ LIVING VOLUMETRIC CIRCLE CANVAS ============ */
 #introParticlesCanvas {
-  display: none !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0.45s;
 }
 
 body.view-intro-active,
 body.view-home-active,
 body.view-ambient-active {
-  background: var(--paper) !important;
+  background: #ECEAE4 !important;
+}
+
+body.view-intro-active #introParticlesCanvas,
+body.view-home-active #introParticlesCanvas,
+body.view-ambient-active #introParticlesCanvas {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }
 
 body.view-intro-active .main,
