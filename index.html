@@ -2719,30 +2719,240 @@ section.chap,
   background: linear-gradient(0deg, rgba(22,21,19,0.32) 0%, rgba(22,21,19,0) 62%);
 }
 
-/* chapter-head thumbnail */
-.ch-thumb {
-  display: block; position: relative;
-  width: 100%; max-width: 340px; aspect-ratio: 16 / 10;
-  margin: 16px 0 4px;
+/* Executive Wide Chapter Header Banner with Horizontal Gradient Mask */
+section.chap > .chap-head {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 38px 36px 34px 36px;
+  margin-bottom: 34px;
   border: 1px solid var(--line-200);
-  background: var(--ch-img, none) center / cover no-repeat;
-  filter: grayscale(1) contrast(1.05) brightness(0.84);
+  background: #191816;
+  box-shadow: 0 14px 34px -12px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 190px;
+  box-sizing: border-box;
 }
+
+section.chap > .chap-head > *:not(.ch-thumb) {
+  position: relative;
+  z-index: 2;
+  max-width: 58%;
+}
+
+section.chap > .chap-head .meta-row {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  gap: 16px;
+  align-items: center;
+}
+
+section.chap > .chap-head .meta-row .kicker {
+  color: var(--gold-lite, #D4AF37);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+section.chap > .chap-head .meta-row .meta-rule {
+  background: rgba(255, 255, 255, 0.22);
+  height: 1px;
+  flex: 1;
+  max-width: 60px;
+}
+
+section.chap > .chap-head .sec-title {
+  color: #FFFFFF;
+  margin: 10px 0 0 0;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(23px, 3.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.2px;
+}
+
+section.chap > .chap-head .rule {
+  margin: 14px 0 0 0;
+  background: var(--gold, #C5A059);
+  height: 2px;
+  width: 50px;
+}
+
+/* Wide right-aligned chapter photo with silky horizontal gradient mask */
+.ch-thumb {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 66%;
+  max-width: 720px;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: var(--ch-img, none) center right / cover no-repeat;
+  filter: grayscale(1) contrast(1.18) brightness(0.68);
+  pointer-events: none;
+  z-index: 1;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.18) 18%, rgba(0,0,0,0.85) 55%, black 100%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.18) 18%, rgba(0,0,0,0.85) 55%, black 100%);
+}
+
 .ch-thumb::before {
-  content: ''; position: absolute; left: -1px; top: -1px;
-  width: 16px; height: 16px;
-  border-top: 2px solid var(--gold); border-left: 2px solid var(--gold);
+  display: none;
 }
-@media (min-width: 1000px) {
-  section.chap > .chap-head { position: relative; min-height: 176px; padding-right: 312px; }
-  section.chap > .chap-head > .ch-thumb {
-    position: absolute; top: 4px; right: 0;
-    width: 268px; height: 158px; max-width: none; aspect-ratio: auto; margin: 0;
+
+@media (max-width: 900px) {
+  section.chap > .chap-head {
+    padding: 30px 24px;
+    min-height: 160px;
+  }
+  section.chap > .chap-head > *:not(.ch-thumb) {
+    max-width: 100%;
+  }
+  .ch-thumb {
+    width: 100%;
+    opacity: 0.22;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 40%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 40%, black 100%);
+  }
+}
+
+@media print {
+  .cover-photo, .cover::after, .hi-strip, .ch-thumb { display: none !important; }
+  section.chap > .chap-head { padding: 18px 0 !important; min-height: 0 !important; background: none !important; border: none !important; box-shadow: none !important; }
+  section.chap > .chap-head > *:not(.ch-thumb) { max-width: 100% !important; }
+  section.chap > .chap-head .sec-title { color: #000 !important; }
+}
+
+/* Progressive Scroll-Triggered Reveal Animations */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 @media print {
-  .cover-photo, .cover::after, .hi-strip, .ch-thumb { display: none !important; }
-  section.chap > .chap-head { padding-right: 0 !important; min-height: 0 !important; }
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Jitter-inspired Floating Glass Capsule Dock */
+.jitter-dock-wrap {
+  position: fixed;
+  left: 0; right: 0; bottom: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 990;
+  pointer-events: none;
+  animation: jswFadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
+.jitter-dock {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: rgba(18, 17, 15, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 40px;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.22);
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease;
+}
+.jitter-dock:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px -10px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+.jitter-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 4px;
+}
+.jitter-logo {
+  height: 17px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.jitter-pill-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.14);
+}
+.jitter-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.jitter-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.06);
+}
+.jitter-current {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.jitter-current:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+.jitter-ch-num {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--gold, #C5A059);
+  text-transform: uppercase;
+}
+.jitter-ch-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 680px) {
+  .jitter-ch-title { display: none; }
+  .jitter-dock-wrap { bottom: 16px; }
+}
+@media print {
+  .jitter-dock-wrap { display: none !important; }
 }
 
 
@@ -4635,36 +4845,46 @@ Reporting manager</th></tr></thead>
   <div class="jsw-diagram-scaler" style="max-width: 940px; height: 649px;">
     <div class="jsw-diagram-canvas" style="width: 1000px; height: 690px; margin-left: -500px; transform: scale(0.9400);">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
-<svg sc-camel-view-box="0 0 1000 760" style="position: absolute; width: 800px; height: 608px; left: 108px; top: 63px">
-<defs><lineargradient id="ln3" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#6a6a6a"></stop><stop offset="100%" stop-color="#2a2a2a"></stop></lineargradient></defs>
-<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="500" y1="380" y2="150"></line>
-<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="766" y1="380" y2="344"></line>
-<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="665" y1="380" y2="607"></line>
-<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="335" y1="380" y2="607"></line>
-<line stroke="url(#ln3)" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="234" y1="380" y2="344"></line>
+<svg viewBox="0 0 1000 690" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;">
+<defs>
+  <linearGradient id="smartGrad" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#8a8a8a"></stop>
+    <stop offset="100%" stop-color="#4a4a4a"></stop>
+  </linearGradient>
+</defs>
+<line stroke="url(#smartGrad)" stroke-dasharray="3 5" stroke-width="2.5" x1="500" y1="245" x2="500" y2="175"></line>
+<line stroke="url(#smartGrad)" stroke-dasharray="3 5" stroke-width="2.5" x1="585" y1="295" x2="660" y2="262"></line>
+<line stroke="url(#smartGrad)" stroke-dasharray="3 5" stroke-width="2.5" x1="565" y1="415" x2="650" y2="510"></line>
+<line stroke="url(#smartGrad)" stroke-dasharray="3 5" stroke-width="2.5" x1="435" y1="415" x2="350" y2="510"></line>
+<line stroke="url(#smartGrad)" stroke-dasharray="3 5" stroke-width="2.5" x1="415" y1="295" x2="340" y2="262"></line>
+<circle cx="500" cy="175" r="4" fill="#a0a0a0"></circle>
+<circle cx="660" cy="262" r="4" fill="#a0a0a0"></circle>
+<circle cx="650" cy="510" r="4" fill="#a0a0a0"></circle>
+<circle cx="350" cy="510" r="4" fill="#a0a0a0"></circle>
+<circle cx="340" cy="262" r="4" fill="#a0a0a0"></circle>
 </svg>
-<div style="position: absolute; left: 403px; top: 271px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle at 32% 28%,#4a4a4a 0%,#ffffff 3%,#e8e8e8 55%,#c0c0c0 100%); box-shadow: 0 30px 50px -14px rgba(0,0,0,0.6),inset 0 3px 8px rgba(255,255,255,0.6),inset 0 -8px 18px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:24px;color:#0A0A0A;">SMART</div>
+<div style="position: absolute; left: 400px; top: 245px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle at 32% 28%,#4a4a4a 0%,#ffffff 3%,#e8e8e8 55%,#c0c0c0 100%); box-shadow: 0 30px 50px -14px rgba(0,0,0,0.6),inset 0 3px 8px rgba(255,255,255,0.6),inset 0 -8px 18px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:24px;color:#0A0A0A;letter-spacing:1px;">SMART</div>
 </div>
-<div style="position: absolute; left: 362px; top: 36px; width: 270px; height: 155px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 10px; box-sizing: border-box">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">S</div>
-<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Specific — exactly what to accomplish</div>
+<div style="position: absolute; left: 365px; top: 30px; width: 270px; height: 145px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 12px; box-sizing: border-box">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:42px;color:#FFFFFF;line-height:1;">S</div>
+<div style="font-weight:500;font-size:14px;color:#A0A0A0;line-height:1.35;">Specific — exactly what to accomplish</div>
 </div>
-<div style="position: absolute; left: 655px; top: 256px; width: 270px; height: 155px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 10px; box-sizing: border-box">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">M</div>
-<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Measurable — how success is measured</div>
+<div style="position: absolute; left: 660px; top: 190px; width: 270px; height: 145px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 12px; box-sizing: border-box">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:42px;color:#FFFFFF;line-height:1;">M</div>
+<div style="font-weight:500;font-size:14px;color:#A0A0A0;line-height:1.35;">Measurable — how success is measured</div>
 </div>
-<div style="position:absolute;left:530px;top:527px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:10px;box-sizing:border-box;">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">A</div>
-<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Achievable — realistic with resources</div>
+<div style="position:absolute;left:540px;top:510px;width:270px;height:145px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:12px;box-sizing:border-box;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:42px;color:#FFFFFF;line-height:1;">A</div>
+<div style="font-weight:500;font-size:14px;color:#A0A0A0;line-height:1.35;">Achievable — realistic with resources</div>
 </div>
-<div style="position:absolute;left:200px;top:527px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:10px;box-sizing:border-box;">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">R</div>
-<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Relevant — aligns with objectives</div>
+<div style="position:absolute;left:190px;top:510px;width:270px;height:145px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:12px;box-sizing:border-box;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:42px;color:#FFFFFF;line-height:1;">R</div>
+<div style="font-weight:500;font-size:14px;color:#A0A0A0;line-height:1.35;">Relevant — aligns with objectives</div>
 </div>
-<div style="position: absolute; left: 86px; top: 256px; width: 270px; height: 155px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 10px; box-sizing: border-box">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:46px;color:#FFFFFF;">T</div>
-<div style="font-weight:500;font-size:15px;color:#A0A0A0;line-height:1.3;">Time-bound — a clear deadline</div>
+<div style="position: absolute; left: 70px; top: 190px; width: 270px; height: 145px; border-radius: 12px; background: linear-gradient(145deg,#242424,#050505); box-shadow: 0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 12px; box-sizing: border-box">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:42px;color:#FFFFFF;line-height:1;">T</div>
+<div style="font-weight:500;font-size:14px;color:#A0A0A0;line-height:1.35;">Time-bound — a clear deadline</div>
 </div>
 </div>
     </div>
@@ -4703,20 +4923,20 @@ Reporting manager</th></tr></thead>
   <div class="jsw-card-header">
     <div class="jsw-card-title">Mid-Year Review: What's Working</div>
   </div>
-  <div class="jsw-diagram-scaler" style="max-width: 780px; height: 410px;">
-    <div class="jsw-diagram-canvas" style="width: 800px; height: 420px; margin-left: -400px; transform: scale(0.9750);">
-<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:140px;">
-<div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
-<div style="width:290px;height:290px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#f8f8f8,#e0e0e0 60%,#c4c4c4 100%);box-shadow:0 30px 50px -16px rgba(0,0,0,0.28),inset 0 4px 10px rgba(255,255,255,0.7),inset 0 -8px 16px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
-<div style="width:210px;height:210px;border-radius:50%;background:linear-gradient(145deg,#ffffff,#f0f0f0);box-shadow:inset 0 2px 6px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#0A0A0A;">01</div></div>
+  <div class="jsw-diagram-scaler" style="max-width: 840px; height: 480px;">
+    <div class="jsw-diagram-canvas" style="width: 840px; height: 480px; margin-left: -420px; transform: scale(1);">
+<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:120px;">
+<div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
+<div style="width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#f8f8f8,#e0e0e0 60%,#c4c4c4 100%);box-shadow:0 24px 44px -14px rgba(0,0,0,0.28),inset 0 4px 10px rgba(255,255,255,0.7),inset 0 -8px 16px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
+<div style="width:170px;height:170px;border-radius:50%;background:linear-gradient(145deg,#ffffff,#f0f0f0);box-shadow:inset 0 2px 6px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#0A0A0A;">01</div></div>
 </div>
-<div style="text-align:center;max-width:320px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:32px;color:#0A0A0A;">Progress</div><div style="font-weight:400;font-size:19px;color:#5C5C5C;margin-top:10px;">Where each goal stands, in numbers.</div></div>
+<div style="text-align:center;max-width:320px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:#0A0A0A;line-height:1.25;">Progress</div><div style="font-weight:400;font-size:15px;color:#5C5C5C;margin-top:8px;line-height:1.4;">Where each goal stands, in numbers.</div></div>
 </div>
-<div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
-<div style="width:290px;height:290px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#f8f8f8,#e0e0e0 60%,#c4c4c4 100%);box-shadow:0 30px 50px -16px rgba(0,0,0,0.28),inset 0 4px 10px rgba(255,255,255,0.7),inset 0 -8px 16px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
-<div style="width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#0a0a0a 60%,#000000 100%);box-shadow:inset 0 3px 8px rgba(255,255,255,0.12),0 4px 10px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#FFFFFF;">02</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
+<div style="width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#f8f8f8,#e0e0e0 60%,#c4c4c4 100%);box-shadow:0 24px 44px -14px rgba(0,0,0,0.28),inset 0 4px 10px rgba(255,255,255,0.7),inset 0 -8px 16px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
+<div style="width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#0a0a0a 60%,#000000 100%);box-shadow:inset 0 3px 8px rgba(255,255,255,0.12),0 4px 10px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#FFFFFF;">02</div></div>
 </div>
-<div style="text-align:center;max-width:320px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:32px;color:#0A0A0A;">Favourable Results</div><div style="font-weight:400;font-size:19px;color:#5C5C5C;margin-top:10px;">What is going well, plainly and specifically.</div></div>
+<div style="text-align:center;max-width:320px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:#0A0A0A;line-height:1.25;">Favourable Results</div><div style="font-weight:400;font-size:15px;color:#5C5C5C;margin-top:8px;line-height:1.4;">What is going well, plainly and specifically.</div></div>
 </div>
 </div>
     </div>
@@ -4755,20 +4975,20 @@ Reporting manager</th></tr></thead>
   <div class="jsw-card-header">
     <div class="jsw-card-title">Mid-Year Review: What Needs Attention</div>
   </div>
-  <div class="jsw-diagram-scaler" style="max-width: 780px; height: 410px;">
-    <div class="jsw-diagram-canvas" style="width: 800px; height: 420px; margin-left: -400px; transform: scale(0.9750);">
-<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:140px;">
-<div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
-<div style="width:290px;height:290px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#141414 60%,#000000 100%);box-shadow:0 30px 50px -16px rgba(0,0,0,0.7),inset 0 4px 10px rgba(255,255,255,0.15),inset 0 -8px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
-<div style="width:210px;height:210px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#050505);box-shadow:inset 0 2px 6px rgba(255,255,255,0.08),0 4px 10px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#FFFFFF;">03</div></div>
+  <div class="jsw-diagram-scaler" style="max-width: 840px; height: 480px;">
+    <div class="jsw-diagram-canvas" style="width: 840px; height: 480px; margin-left: -420px; transform: scale(1);">
+<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:120px;">
+<div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
+<div style="width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#141414 60%,#000000 100%);box-shadow:0 24px 44px -14px rgba(0,0,0,0.7),inset 0 4px 10px rgba(255,255,255,0.15),inset 0 -8px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
+<div style="width:170px;height:170px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#050505);box-shadow:inset 0 2px 6px rgba(255,255,255,0.08),0 4px 10px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#FFFFFF;">03</div></div>
 </div>
-<div style="text-align:center;max-width:340px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:32px;color:#FFFFFF;">Performance Issues &amp; Solutions</div><div style="font-weight:400;font-size:19px;color:#A0A0A0;margin-top:10px;">What has to change, and what support is needed.</div></div>
+<div style="text-align:center;max-width:340px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:#FFFFFF;line-height:1.25;">Performance Issues &amp; Solutions</div><div style="font-weight:400;font-size:15px;color:#A0A0A0;margin-top:8px;line-height:1.4;">What has to change, and what support is needed.</div></div>
 </div>
-<div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
-<div style="width:290px;height:290px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#141414 60%,#000000 100%);box-shadow:0 30px 50px -16px rgba(0,0,0,0.7),inset 0 4px 10px rgba(255,255,255,0.15),inset 0 -8px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
-<div style="width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#ffffff,#e4e4e4 60%,#c0c0c0 100%);box-shadow:inset 0 2px 6px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;color:#0A0A0A;">04</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
+<div style="width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#141414 60%,#000000 100%);box-shadow:0 24px 44px -14px rgba(0,0,0,0.7),inset 0 4px 10px rgba(255,255,255,0.15),inset 0 -8px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
+<div style="width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#ffffff,#e4e4e4 60%,#c0c0c0 100%);box-shadow:inset 0 2px 6px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#0A0A0A;">04</div></div>
 </div>
-<div style="text-align:center;max-width:340px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:32px;color:#FFFFFF;">Agreements &amp; Commitments</div><div style="font-weight:400;font-size:19px;color:#A0A0A0;margin-top:10px;">Whether any goal needs revising.</div></div>
+<div style="text-align:center;max-width:340px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:#FFFFFF;line-height:1.25;">Agreements &amp; Commitments</div><div style="font-weight:400;font-size:15px;color:#A0A0A0;margin-top:8px;line-height:1.4;">Whether any goal needs revising.</div></div>
 </div>
 </div>
     </div>
@@ -5091,31 +5311,45 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
   <div class="jsw-diagram-scaler" style="max-width: 940px; height: 611px;">
     <div class="jsw-diagram-canvas" style="width: 1000px; height: 650px; margin-left: -500px; transform: scale(0.9400);">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
-<svg sc-camel-view-box="0 0 1000 700" style="position: absolute; width: 464px; height: 502px; left: 265px; top: 89px">
-<defs><marker id="arrow1" orient="auto" sc-camel-marker-height="10" sc-camel-marker-width="10" sc-camel-ref-x="5" sc-camel-ref-y="5"><path d="M0,0 L10,5 L0,10 Z" fill="#8a8a8a"></path></marker></defs>
-<path d="M 500 150 A 260 260 0 0 1 760 350" fill="none" marker-end="url(#arrow1)" stroke="#b0b0b0" stroke-width="4"></path>
-<path d="M 760 350 A 260 260 0 0 1 500 610" fill="none" marker-end="url(#arrow1)" stroke="#b0b0b0" stroke-width="4"></path>
-<path d="M 500 610 A 260 260 0 0 1 240 350" fill="none" marker-end="url(#arrow1)" stroke="#b0b0b0" stroke-width="4"></path>
-<path d="M 240 350 A 260 260 0 0 1 500 150" fill="none" marker-end="url(#arrow1)" stroke="#b0b0b0" stroke-width="4"></path>
+<svg viewBox="0 0 1000 650" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; pointer-events: none;">
+<defs>
+  <marker id="advanceArrow" orient="auto" markerWidth="8" markerHeight="8" refX="5" refY="3">
+    <path d="M0,0 L6,3 L0,6 Z" fill="#8a8a8a"></path>
+  </marker>
+</defs>
+<!-- Cyclic flow arrows linking steps 01 -> 02 -> 03 -> 04 -> 01 -->
+<path d="M 650 105 C 750 105, 800 170, 800 255" fill="none" marker-end="url(#advanceArrow)" stroke="#8a8a8a" stroke-width="2.5" stroke-dasharray="5 5"></path>
+<path d="M 800 395 C 800 480, 750 545, 650 545" fill="none" marker-end="url(#advanceArrow)" stroke="#8a8a8a" stroke-width="2.5" stroke-dasharray="5 5"></path>
+<path d="M 350 545 C 250 545, 200 480, 200 395" fill="none" marker-end="url(#advanceArrow)" stroke="#8a8a8a" stroke-width="2.5" stroke-dasharray="5 5"></path>
+<path d="M 200 255 C 200 170, 250 105, 350 105" fill="none" marker-end="url(#advanceArrow)" stroke="#8a8a8a" stroke-width="2.5" stroke-dasharray="5 5"></path>
+<!-- Direct connectors from center to each step -->
+<line x1="500" y1="235" x2="500" y2="175" stroke="#777777" stroke-width="2" stroke-dasharray="3 4"></line>
+<line x1="590" y1="325" x2="650" y2="325" stroke="#777777" stroke-width="2" stroke-dasharray="3 4"></line>
+<line x1="500" y1="415" x2="500" y2="475" stroke="#777777" stroke-width="2" stroke-dasharray="3 4"></line>
+<line x1="410" y1="325" x2="350" y2="325" stroke="#777777" stroke-width="2" stroke-dasharray="3 4"></line>
+<circle cx="500" cy="175" r="4" fill="#a0a0a0"></circle>
+<circle cx="650" cy="325" r="4" fill="#a0a0a0"></circle>
+<circle cx="500" cy="475" r="4" fill="#a0a0a0"></circle>
+<circle cx="350" cy="325" r="4" fill="#a0a0a0"></circle>
 </svg>
-<div style="position:absolute;left:410px;top:260px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fdfdfd,#e8e8e8 60%,#c8c8c8 100%);box-shadow:0 24px 40px -14px rgba(0,0,0,0.3),inset 0 3px 8px rgba(255,255,255,0.8),inset 0 -6px 14px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;text-align:center;">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:19px;color:#0A0A0A;line-height:1.3;">4-Step<br/>Process</div>
+<div style="position:absolute;left:410px;top:235px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fdfdfd,#e8e8e8 60%,#c8c8c8 100%);box-shadow:0 24px 40px -14px rgba(0,0,0,0.3),inset 0 3px 8px rgba(255,255,255,0.8),inset 0 -6px 14px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;text-align:center;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:#0A0A0A;line-height:1.3;">4-Step<br/>Process</div>
 </div>
-<div style="position:absolute;left:350px;top:50px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box;text-align:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">01</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Up to one month's net salary, for a genuine need</div>
+<div style="position:absolute;left:350px;top:35px;width:300px;height:140px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:15px;color:#FFFFFF;">01</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#0A0A0A;line-height:1.3;">Up to one month's net salary, for a genuine need</div>
 </div>
-<div style="position:absolute;left:610px;top:265px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box;text-align:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">02</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Applicable for confirmed employees only</div>
+<div style="position:absolute;left:650px;top:255px;width:300px;height:140px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:15px;color:#FFFFFF;">02</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#0A0A0A;line-height:1.3;">Applicable for confirmed employees only</div>
 </div>
-<div style="position:absolute;left:350px;top:480px;width:300px;height:160px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box;text-align:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#FFFFFF;">03</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#0A0A0A;line-height:1.3;">Recovered in three to six instalments, in writing</div>
+<div style="position:absolute;left:350px;top:475px;width:300px;height:140px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:15px;color:#FFFFFF;">03</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#0A0A0A;line-height:1.3;">Recovered in three to six instalments, in writing</div>
 </div>
-<div style="position:absolute;left:90px;top:265px;width:300px;height:160px;background:linear-gradient(145deg,#2c2c2c,#050505);box-shadow:0 26px 44px -16px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;box-sizing:border-box;text-align:center;">
-<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#fdfdfd,#c8c8c8);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#0A0A0A;">04</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Must be approved by the Dealer Principal</div>
+<div style="position:absolute;left:50px;top:255px;width:300px;height:140px;background:linear-gradient(145deg,#2c2c2c,#050505);box-shadow:0 26px 44px -16px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#fdfdfd,#c8c8c8);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:15px;color:#0A0A0A;">04</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#FFFFFF;line-height:1.3;">Must be approved by the Dealer Principal</div>
 </div>
 </div>
     </div>
@@ -5594,38 +5828,43 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
   <div class="jsw-card-header">
     <div class="jsw-card-title">Spot Recognition: What Qualifies</div>
   </div>
-  <div class="jsw-diagram-scaler" style="max-width: 940px; height: 649px;">
-    <div class="jsw-diagram-canvas" style="width: 1000px; height: 690px; margin-left: -500px; transform: scale(0.9400);">
+  <div class="jsw-diagram-scaler" style="max-width: 940px; height: 639px;">
+    <div class="jsw-diagram-canvas" style="width: 1000px; height: 680px; margin-left: -500px; transform: scale(0.9400);">
 <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
-<svg sc-camel-view-box="0 0 1000 760" style="position: absolute; width: 800px; height: 608px; left: 102px; top: 75px">
-<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="500" y1="380" y2="150"></line>
-<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="766" y1="380" y2="344"></line>
-<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="665" y1="380" y2="607"></line>
-<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="335" y1="380" y2="607"></line>
-<line stroke="#3A3A3A" stroke-dasharray="2 6" stroke-width="4" x1="500" x2="234" y1="380" y2="344"></line>
+<svg viewBox="0 0 1000 680" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; pointer-events: none;">
+<line stroke="#7a7a7a" stroke-dasharray="3 5" stroke-width="2.5" x1="500" y1="250" x2="500" y2="160"></line>
+<line stroke="#7a7a7a" stroke-dasharray="3 5" stroke-width="2.5" x1="586" y1="313" x2="670" y2="245"></line>
+<line stroke="#7a7a7a" stroke-dasharray="3 5" stroke-width="2.5" x1="552" y1="414" x2="640" y2="480"></line>
+<line stroke="#7a7a7a" stroke-dasharray="3 5" stroke-width="2.5" x1="448" y1="414" x2="360" y2="480"></line>
+<line stroke="#7a7a7a" stroke-dasharray="3 5" stroke-width="2.5" x1="414" y1="313" x2="330" y2="245"></line>
+<circle cx="500" cy="160" r="4" fill="#a0a0a0"></circle>
+<circle cx="670" cy="245" r="4" fill="#a0a0a0"></circle>
+<circle cx="640" cy="480" r="4" fill="#a0a0a0"></circle>
+<circle cx="360" cy="480" r="4" fill="#a0a0a0"></circle>
+<circle cx="330" cy="245" r="4" fill="#a0a0a0"></circle>
 </svg>
-<div style="position:absolute;left:400px;top:280px;width:200px;height:200px;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);background:radial-gradient(circle at 35% 30%,#ffffff,#e6e6e6 55%,#bdbdbd 100%);box-shadow:0 10px 24px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:17px;color:#0A0A0A;">SPOT</div>
+<div style="position:absolute;left:410px;top:250px;width:180px;height:180px;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);background:radial-gradient(circle at 35% 30%,#ffffff,#e6e6e6 55%,#bdbdbd 100%);box-shadow:0 10px 24px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;letter-spacing:1px;">SPOT</div>
 </div>
-<div style="position:absolute;left:365px;top:70px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
-<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">01</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Exceptional customer handling</div>
+<div style="position:absolute;left:360px;top:30px;width:280px;height:130px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#0A0A0A;">01</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#FFFFFF;line-height:1.3;">Exceptional customer handling</div>
 </div>
-<div style="position:absolute;left:631px;top:214px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
-<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">02</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Difficult deal closures</div>
+<div style="position:absolute;left:670px;top:180px;width:280px;height:130px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#0A0A0A;">02</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#FFFFFF;line-height:1.3;">Difficult deal closures</div>
 </div>
-<div style="position:absolute;left:530px;top:527px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
-<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">03</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Large fleet sales</div>
+<div style="position:absolute;left:550px;top:480px;width:280px;height:130px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#0A0A0A;">03</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#FFFFFF;line-height:1.3;">Large fleet sales</div>
 </div>
-<div style="position:absolute;left:200px;top:527px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
-<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">04</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">High-value referrals</div>
+<div style="position:absolute;left:170px;top:480px;width:280px;height:130px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#0A0A0A;">04</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#FFFFFF;line-height:1.3;">High-value referrals</div>
 </div>
-<div style="position:absolute;left:99px;top:214px;width:270px;height:155px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
-<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;color:#0A0A0A;">05</div></div>
-<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;line-height:1.3;">Recovery of dissatisfied customers</div>
+<div style="position:absolute;left:50px;top:180px;width:280px;height:130px;border-radius:12px;background:linear-gradient(145deg,#242424,#050505);box-shadow:0 20px 32px -12px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;box-sizing:border-box;text-align:center;">
+<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#f0f0f0,#c0c0c0);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:16px;color:#0A0A0A;">05</div></div>
+<div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#FFFFFF;line-height:1.3;">Recovery of dissatisfied customers</div>
 </div>
 </div>
     </div>
@@ -6931,6 +7170,34 @@ function handleLiveSearch(query) {
 }
 </script>
 
+<!-- Jitter-inspired Floating Glass Capsule Dock -->
+<div class="jitter-dock-wrap" id="jitterDock">
+  <div class="jitter-dock">
+    <div class="jitter-brand" onclick="window.goToView ? window.goToView(-1) : window.scrollTo({top:0,behavior:'smooth'})" style="cursor:pointer;" title="Home / Table of Contents">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAALcCAYAAAD3x0nUAAAiIElEQVR42u3d65LbtpqGUdGV+79l7h+2t2VZRwoAX+Bbq2oqzkwmh24IBB6D6G3f9wsAAAAApPrhSwAAAABAMgELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGj/+RIAAABAnP3mzzdfEipzAgsAAACy7G/+76AMAQsAAACAaAIWAAAA5HDSCu4QsAAAAACI5hJ3AAAAGM9JK/iAE1gAAAAwlngFH3ICCwAAAPppFas2X0oqcwILAAAA+nDSChoRsAAAAKAPp6ag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AAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKL9D+hny2G9zSV1AAAAAElFTkSuQmCC" alt="JSW" class="jitter-logo" />
+      <span class="jitter-pill-divider"></span>
+    </div>
+    <button class="jitter-btn jitter-prev" id="jitterPrev" title="Previous Chapter" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="jitter-current" id="jitterCurrent" title="Click to view all chapters / search">
+      <span class="jitter-ch-num" id="jitterChNum">MANUAL</span>
+      <span class="jitter-ch-title" id="jitterChTitle">Table of Contents</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <button class="jitter-btn jitter-next" id="jitterNext" title="Next Chapter" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+    <span class="jitter-pill-divider"></span>
+    <button class="jitter-btn" id="jitterSearchBtn" title="Search topics & chapters" type="button" onclick="toggleSearchModal(true)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    </button>
+    <button class="jitter-btn jitter-top" title="Top of page" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+  </div>
+</div>
+
 <button id="backToTop" type="button" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
 <script>
 /* ============ CHAPTER PAGER & NAVIGATION SYSTEM ============ */
@@ -7132,6 +7399,33 @@ function handleLiveSearch(query) {
       }
     });
 
+    // Synchronize Jitter Dock capsule display
+    var jitterChNum = document.getElementById('jitterChNum');
+    var jitterChTitle = document.getElementById('jitterChTitle');
+    var jitterPrev = document.getElementById('jitterPrev');
+    var jitterNext = document.getElementById('jitterNext');
+    if (jitterChNum && jitterChTitle) {
+      if (i === -1) {
+        jitterChNum.textContent = 'PORTAL';
+        jitterChTitle.textContent = 'Table of Contents';
+      } else if (i >= 0 && i < views.length) {
+        jitterChNum.textContent = 'CH ' + String(i + 1).padStart(2, '0');
+        jitterChTitle.textContent = views[i].name;
+      }
+    }
+    if (jitterPrev) {
+      var prevDisabled = (i <= -1);
+      jitterPrev.disabled = prevDisabled;
+      jitterPrev.style.opacity = prevDisabled ? '0.35' : '1';
+      jitterPrev.style.pointerEvents = prevDisabled ? 'none' : 'auto';
+    }
+    if (jitterNext) {
+      var nextDisabled = (i >= views.length - 1);
+      jitterNext.disabled = nextDisabled;
+      jitterNext.style.opacity = nextDisabled ? '0.35' : '1';
+      jitterNext.style.pointerEvents = nextDisabled ? 'none' : 'auto';
+    }
+
     if (typeof observeScrollReveal === 'function') {
       setTimeout(observeScrollReveal, 60);
     }
@@ -7234,6 +7528,38 @@ function handleLiveSearch(query) {
     else if(e.key === 'ArrowLeft'){ if(activeIdx === 0) goHome(); else goToView(activeIdx - 1); }
   });
 
+  // Wire Jitter Dock capsule interactive controls
+  var jitterPrevBtn = document.getElementById('jitterPrev');
+  if (jitterPrevBtn) {
+    jitterPrevBtn.addEventListener('click', function(){
+      if (activeIdx > 0) {
+        goToView(activeIdx - 1);
+      } else if (activeIdx === 0) {
+        goHome();
+      }
+    });
+  }
+  var jitterNextBtn = document.getElementById('jitterNext');
+  if (jitterNextBtn) {
+    jitterNextBtn.addEventListener('click', function(){
+      if (activeIdx === HOME) {
+        goToView(0);
+      } else if (activeIdx < views.length - 1) {
+        goToView(activeIdx + 1);
+      }
+    });
+  }
+  var jitterCurrBtn = document.getElementById('jitterCurrent');
+  if (jitterCurrBtn) {
+    jitterCurrBtn.addEventListener('click', function(){
+      if (typeof toggleMenu === 'function') {
+        toggleMenu();
+      } else {
+        goHome();
+      }
+    });
+  }
+
   function checkInitialHash(){
     if(location.hash){
       var hashId = location.hash.substring(1);
@@ -7292,26 +7618,53 @@ window.addEventListener('scroll', function(){
   if(prog) prog.style.width = Math.min(100, Math.max(0, scrolled)) + '%';
 }, { passive: true });
 
-// ─── SCROLL REVEAL OBSERVER (.sr) ────────────────────────────
-var srObserver;
+// ─── PROGRESSIVE SCROLL REVEAL OBSERVER ────────────────────────────
+var scrollRevealObserver;
 try {
-  srObserver = new IntersectionObserver(function(entries){
+  scrollRevealObserver = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-        srObserver.unobserve(entry.target);
+        entry.target.classList.add('revealed');
+        scrollRevealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
 } catch(e){}
 
 window.observeScrollReveal = function(){
-  if(!srObserver) return;
-  var targets = document.querySelectorAll('.section-banner, .chap-head, .meta-row, .rf-flow, .lj-card, .tna-dashboard, .inc-policy-portal, .vgrid, .annex-file-list, .pipe-chips, .table-wrap, .img-card');
+  if(!scrollRevealObserver) return;
+  var selectors = [
+    'section.chap:not(.cv-off) > p',
+    'section.chap:not(.cv-off) > .table-wrap',
+    'section.chap:not(.cv-off) > .subhead',
+    'section.chap:not(.cv-off) > .list-clean',
+    'section.chap:not(.cv-off) .jsw-interactive-card',
+    'section.chap:not(.cv-off) .pipe-chips',
+    'section.chap:not(.cv-off) .annex-file-item',
+    'section.chap:not(.cv-off) .inc-policy-portal',
+    'section.chap:not(.cv-off) .section-banner',
+    'section.chap:not(.cv-off) .lj-card',
+    'section.chap:not(.cv-off) .rf-flow',
+    'section.chap:not(.cv-off) .tna-dashboard',
+    'section.chap:not(.cv-off) .img-card',
+    'section.chap:not(.cv-off) .vgrid',
+    '.hi-card',
+    '.hi-intro-card',
+    '.cover-stat'
+  ];
+  
+  var targets = document.querySelectorAll(selectors.join(', '));
+  var vh = window.innerHeight || document.documentElement.clientHeight;
+
   targets.forEach(function(el){
-    if(!el.classList.contains('visible')){
-      el.classList.add('sr');
-      srObserver.observe(el);
+    if(!el.classList.contains('revealed')){
+      el.classList.add('scroll-reveal');
+      var rect = el.getBoundingClientRect();
+      if(rect.height > 0 && rect.top < vh * 0.92 && rect.bottom > 0){
+        el.classList.add('revealed');
+      } else {
+        scrollRevealObserver.observe(el);
+      }
     }
   });
 };
@@ -7319,7 +7672,8 @@ window.observeScrollReveal = function(){
 document.addEventListener('DOMContentLoaded', function(){
   observeScrollReveal();
 });
-setTimeout(observeScrollReveal, 300);
+setTimeout(observeScrollReveal, 150);
+setTimeout(observeScrollReveal, 500);
 
 // ─── SUBTLE PHOTO PARALLAX (banners + contents strip) ─────────
 (function(){
