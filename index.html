@@ -554,7 +554,12 @@ section.chap.alt{background:var(--white)}
 /* Best-practices lists keep the original em-dash marker */
 .list-clean.bp li{padding-left:20px}
 .list-clean.bp li::before{content:'—';font-size:inherit;line-height:inherit;top:0;color:var(--grey-500)}
-.signoff{margin-top:24px;font-size:14px;color:var(--grey-500);line-height:1.8}
+.signoff{margin-top:28px;line-height:1.6}
+.sig-line { width: 44px; height: 1.5px; background: var(--gold, #C5A059); margin-bottom: 14px; }
+.sig-name { font-family: var(--font-display, 'Manrope', sans-serif); font-weight: 700; font-size: 16px; color: var(--ink, #161513); }
+.sig-role { font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif); font-size: 14px; color: var(--grey-500, #5A5751); margin-top: 2px; }
+.sig-org { font-family: var(--font-display, 'Manrope', sans-serif); font-weight: 700; font-size: 13px; color: var(--ink, #161513); letter-spacing: 0.04em; margin-top: 3px; }
+
 
 /* 2-COLUMN UNIFIED EDITORIAL GRID */
 .split-grid {
@@ -3344,7 +3349,8 @@ body.view-intro-active .chapter-nav {
 <div class="signoff">
 <div class="sig-line"></div>
 <div class="sig-name">[Name]</div>
-<div class="sig-role">[Designation], JSW Motors</div>
+<div class="sig-role">[Designation]</div>
+<div class="sig-org">JSW Motors</div>
 </div>
 </div>
 <div class="col-media">
