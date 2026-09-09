@@ -131,6 +131,87 @@
   box-sizing: border-box;
 }
 
+/* --- Mid-Year Review Column Cards (Matching Portal Architecture) --- */
+.jsw-review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+.jsw-review-col {
+  background: #FFFFFF;
+  border: 1px solid rgba(22, 21, 19, 0.09);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(22, 21, 19, 0.04);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.jsw-review-col:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(22, 21, 19, 0.09);
+  border-color: rgba(197, 160, 89, 0.45);
+}
+.jsw-review-head {
+  background: linear-gradient(180deg, #1C1B18 0%, #121110 100%);
+  padding: 14px 18px;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+}
+.jsw-review-badge {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #DFBE7A;
+  background: rgba(197, 160, 89, 0.12);
+  border: 1px solid rgba(197, 160, 89, 0.25);
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+.jsw-review-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.jsw-review-content {
+  padding: 20px 20px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+.jsw-review-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  color: #111113;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+.jsw-review-desc {
+  font-size: 13.5px;
+  color: #5C5952;
+  line-height: 1.55;
+  margin: 0;
+}
+@media (max-width: 700px) {
+  .jsw-review-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* --- Interactive Hover & Click Styles across diagram elements --- */
 
 /* Floating cards (Sec 1, 4, 8, 12, 14) */
@@ -5136,22 +5217,35 @@ Reporting manager</th></tr></thead>
   <div class="jsw-card-header">
     <div class="jsw-card-title">Mid-Year Review: What's Working</div>
   </div>
-  <div class="jsw-diagram-scaler" style="max-width: 840px; height: 480px;">
-    <div class="jsw-diagram-canvas" style="width: 840px; height: 480px; margin-left: -420px; transform: scale(1);">
-<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:120px;">
-<div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
-<div style="width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#f8f8f8,#e0e0e0 60%,#c4c4c4 100%);box-shadow:0 24px 44px -14px rgba(0,0,0,0.28),inset 0 4px 10px rgba(255,255,255,0.7),inset 0 -8px 16px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
-<div style="width:170px;height:170px;border-radius:50%;background:linear-gradient(145deg,#ffffff,#f0f0f0);box-shadow:inset 0 2px 6px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#0A0A0A;">01</div></div>
-</div>
-<div style="text-align:center;max-width:320px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:#0A0A0A;line-height:1.25;">Progress</div><div style="font-weight:400;font-size:15px;color:#5C5C5C;margin-top:8px;line-height:1.4;">Where each goal stands, in numbers.</div></div>
-</div>
-<div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
-<div style="width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#f8f8f8,#e0e0e0 60%,#c4c4c4 100%);box-shadow:0 24px 44px -14px rgba(0,0,0,0.28),inset 0 4px 10px rgba(255,255,255,0.7),inset 0 -8px 16px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;">
-<div style="width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#0a0a0a 60%,#000000 100%);box-shadow:inset 0 3px 8px rgba(255,255,255,0.12),0 4px 10px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#FFFFFF;">02</div></div>
-</div>
-<div style="text-align:center;max-width:320px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:#0A0A0A;line-height:1.25;">Favourable Results</div><div style="font-weight:400;font-size:15px;color:#5C5C5C;margin-top:8px;line-height:1.4;">What is going well, plainly and specifically.</div></div>
-</div>
-</div>
+  <div class="jsw-card-body">
+    <div class="jsw-review-grid">
+      <!-- 01 Progress -->
+      <div class="jsw-review-col">
+        <div class="jsw-review-head">
+          <span class="jsw-review-badge">01 · PROGRESS</span>
+          <div class="jsw-review-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line><line x1="2" y1="20" x2="22" y2="20"></line></svg>
+          </div>
+        </div>
+        <div class="jsw-review-content">
+          <div class="jsw-review-name">Progress</div>
+          <p class="jsw-review-desc">Where each goal stands, in numbers.</p>
+        </div>
+      </div>
+
+      <!-- 02 Favourable Results -->
+      <div class="jsw-review-col">
+        <div class="jsw-review-head">
+          <span class="jsw-review-badge">02 · FAVOURABLE RESULTS</span>
+          <div class="jsw-review-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+        </div>
+        <div class="jsw-review-content">
+          <div class="jsw-review-name">Favourable Results</div>
+          <p class="jsw-review-desc">What is going well, said plainly and specifically.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -5188,22 +5282,35 @@ Reporting manager</th></tr></thead>
   <div class="jsw-card-header">
     <div class="jsw-card-title">Mid-Year Review: What Needs Attention</div>
   </div>
-  <div class="jsw-diagram-scaler" style="max-width: 840px; height: 480px;">
-    <div class="jsw-diagram-canvas" style="width: 840px; height: 480px; margin-left: -420px; transform: scale(1);">
-<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:120px;">
-<div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
-<div style="width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#141414 60%,#000000 100%);box-shadow:0 24px 44px -14px rgba(0,0,0,0.7),inset 0 4px 10px rgba(255,255,255,0.15),inset 0 -8px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
-<div style="width:170px;height:170px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#050505);box-shadow:inset 0 2px 6px rgba(255,255,255,0.08),0 4px 10px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#FFFFFF;">03</div></div>
-</div>
-<div style="text-align:center;max-width:340px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:#0A0A0A;line-height:1.25;">Performance Issues &amp; Solutions</div><div style="font-weight:400;font-size:15px;color:#5C5C5C;margin-top:8px;line-height:1.4;">What has to change, and what support is needed.</div></div>
-</div>
-<div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
-<div style="width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#3a3a3a,#141414 60%,#000000 100%);box-shadow:0 24px 44px -14px rgba(0,0,0,0.7),inset 0 4px 10px rgba(255,255,255,0.15),inset 0 -8px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;">
-<div style="width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#ffffff,#e4e4e4 60%,#c0c0c0 100%);box-shadow:inset 0 2px 6px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#0A0A0A;">04</div></div>
-</div>
-<div style="text-align:center;max-width:340px;"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;color:#0A0A0A;line-height:1.25;">Agreements &amp; Commitments</div><div style="font-weight:400;font-size:15px;color:#5C5C5C;margin-top:8px;line-height:1.4;">Whether any goal needs revising.</div></div>
-</div>
-</div>
+  <div class="jsw-card-body">
+    <div class="jsw-review-grid">
+      <!-- 03 Performance Issues & Solutions -->
+      <div class="jsw-review-col">
+        <div class="jsw-review-head">
+          <span class="jsw-review-badge">03 · ISSUES &amp; SOLUTIONS</span>
+          <div class="jsw-review-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+        </div>
+        <div class="jsw-review-content">
+          <div class="jsw-review-name">Performance Issues &amp; Solutions</div>
+          <p class="jsw-review-desc">What has to change in the next six months, and what support the person needs to do it.</p>
+        </div>
+      </div>
+
+      <!-- 04 Agreements & Commitments -->
+      <div class="jsw-review-col">
+        <div class="jsw-review-head">
+          <span class="jsw-review-badge">04 · COMMITMENTS</span>
+          <div class="jsw-review-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+        </div>
+        <div class="jsw-review-content">
+          <div class="jsw-review-name">Agreements &amp; Commitments</div>
+          <p class="jsw-review-desc">Whether any goal needs revising because the ground shifted.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
