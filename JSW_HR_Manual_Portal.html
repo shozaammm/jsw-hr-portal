@@ -112,6 +112,9 @@
   box-shadow: 0 20px 40px -12px rgba(22, 21, 19, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
   animation: none !important;
 }
+.jsw-diagram-canvas [style*="border-radius:50%"][style*="background:radial-gradient"] * {
+  color: #FFFFFF !important;
+}
 .jsw-diagram-canvas .is-active[style*="background:linear-gradient"],
 .jsw-diagram-canvas .is-active[style*="border-radius:12px"] {
   outline: 2px solid var(--gold, #C5A059) !important;
@@ -5542,8 +5545,8 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <circle cx="500" cy="475" r="4" fill="#a0a0a0"></circle>
 <circle cx="350" cy="325" r="4" fill="#a0a0a0"></circle>
 </svg>
-<div style="position:absolute;left:410px;top:235px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fdfdfd,#e8e8e8 60%,#c8c8c8 100%);box-shadow:0 24px 40px -14px rgba(0,0,0,0.3),inset 0 3px 8px rgba(255,255,255,0.8),inset 0 -6px 14px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;text-align:center;">
-<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:#0A0A0A;line-height:1.3;">4-Step<br/>Process</div>
+<div style="position:absolute;left:410px;top:235px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#2E2D2A 0%,#161513 65%,#0A0A09 100%);border:1px solid rgba(255,255,255,0.18);box-shadow:0 20px 40px -12px rgba(22,21,19,0.45),inset 0 1px 1px rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;text-align:center;">
+<div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:#FFFFFF;line-height:1.3;">4-Step<br/>Process</div>
 </div>
 <div style="position:absolute;left:350px;top:35px;width:300px;height:140px;background:linear-gradient(145deg,#fdfdfd 0%,#ececec 100%);box-shadow:0 26px 44px -16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.9);border:1px solid rgba(10,10,10,0.08);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;box-sizing:border-box;text-align:center;">
 <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#2c2c2c,#000);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 12px rgba(0,0,0,0.3);flex-shrink:0;"><div style="font-family:'Manrope',sans-serif;font-weight:800;font-size:15px;color:#FFFFFF;">01</div></div>
@@ -7770,7 +7773,9 @@ function handleLiveSearch(query) {
       lastTop = top;
       tries++;
       if(stableFrames >= 2 || tries >= 40){ // ~2 stable frames, or bail after ~40 frames
-        var y = top + window.pageYOffset - 130;
+        // 186 clears the topbar + section strip + the pinned chapter bar;
+        // at 130 a sub-section landed behind the pinned bar.
+        var y = top + window.pageYOffset - 186;
         if(y > 4) window.scrollTo({ top:y, behavior:behavior });
         return;
       }
@@ -8588,23 +8593,29 @@ section.chap > .chap-head { contain: layout paint style; }
    for every card, at full size. These sit directly over the animated canvas,
    so they carry a tint instead. The topbar keeps its blur — it is one layer
    over static content. */
+   These are opaque, not merely tinted. A translucent card without the blur
+   lets the spheres behind it read as hard-edged pale discs — the blur was
+   what turned them into soft shadows — so partial alpha here looks like
+   dirt on the card. Opaque is both cleaner and cheaper to composite; the
+   spheres still read in the gutters around the cards, which is where the
+   effect was doing its work anyway. */
 body.view-home-active .hx-group,
 body.view-ambient-active .hx-group {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  background: rgba(252, 251, 249, 0.92);
+  background: #FBFAF8;
 }
 body.view-intro-active section.chap#fm-i .img-card,
 body.view-intro-active section.chap#fm-ii .img-card,
 body.view-intro-active section.chap#fm-iii .img-card {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  background: rgba(255, 255, 255, 0.94);
+  background: #FBFAF9;
 }
 body.view-intro-active section.chap#fm-ii .col-text {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  background: rgba(238, 236, 230, 0.94);
+  background: #EDEBE5;
 }
 body.view-intro-active #fm-iii .table-wrap table {
   backdrop-filter: none;
@@ -8659,8 +8670,8 @@ html.jsw-boot .home-index .hx-group:nth-child(n+5) { animation-delay: 1.10s; }
   @media (prefers-reduced-motion: no-preference) {
 
     @keyframes jswThumbTravel {
-      from { transform: translate3d(0, -2.6%, 0) scale(1.17); }
-      to   { transform: translate3d(0,  2.6%, 0) scale(1.03); }
+      from { transform: translate3d(0, -7%, 0) scale(1.30); }
+      to   { transform: translate3d(0,  7%, 0) scale(1.00); }
     }
 
     /* The timeline is NAMED and declared on the header, not on the photo.
@@ -8675,12 +8686,18 @@ html.jsw-boot .home-index .hx-group:nth-child(n+5) { animation-delay: 1.10s; }
       view-timeline-axis: block;
     }
 
+    /* The range is remapped, not the default `cover 0% 100%`. A chapter always
+       opens at its own scroll top with the header already sitting ~66% through
+       its cover range, so a full-range animation spends two thirds of itself
+       before the reader can see any of it — which is why the earlier version
+       only ever moved 1.076 -> 1.03 and read as static. Starting at cover 62%
+       maps the entire travel onto the window actually scrolled through. */
     .ch-thumb,
     .section-banner .banner-photo {
       transition: none;
       animation: jswThumbTravel linear both;
       animation-timeline: --jswBannerView;
-      animation-range: cover 0% cover 100%;
+      animation-range: cover 62% cover 100%;
     }
     /* The one-shot in-view rules must not fight the scroll timeline. */
     section.chap.in-view .ch-thumb,
@@ -8739,6 +8756,98 @@ html.jsw-boot .home-index .hx-group:nth-child(n+5) { animation-delay: 1.10s; }
       animation-timeline: --jswFigureView;
       animation-range: entry 6% entry 74%;
     }
+
+    /* ── Substantial blocks arrive as you reach them ─────────────────────
+       Scroll-linked, so the block tracks the wheel rather than firing a
+       fixed-length reveal — the difference between Apple's pages and a
+       generic fade-in library. Deliberately scoped to the blocks that carry
+       weight (tables, sub-headings, diagrams); body paragraphs keep the
+       chapter-entrance cascade, because revealing every paragraph on scroll
+       is what makes a document feel like a slideshow.
+
+       Transform only. An earlier rule pins `.table-wrap` and `.subhead` to
+       `opacity: 1 !important`, and relying on opacity here would also risk
+       leaving text invisible if anything went wrong. Nothing below can hide
+       content: at rest every block is untransformed and fully opaque. */
+    @keyframes jswBlockArrive {
+      from { transform: translate3d(0, 38px, 0) scale(0.988); }
+      to   { transform: none; }
+    }
+    section.chap .table-wrap,
+    section.chap .subhead,
+    section.chap .jsw-interactive-card {
+      view-timeline-name: --jswBlockView;
+      view-timeline-axis: block;
+      animation: jswBlockArrive linear both;
+      animation-timeline: --jswBlockView;
+      animation-range: entry 4% entry 68%;
+    }
+  }
+}
+
+/* ── 3c. The pinned chapter banner ────────────────────────────────────────
+   This is the Apple mechanism, and the reason the earlier scroll work read as
+   nothing: the banner is a ~190px block at the very top of a chapter, so any
+   effect on it is finished within 360px and gone. Apple's pages hold the media
+   in place and move the page past it.
+
+   Here the banner sticks beneath the topbar + section strip and compresses
+   into a chapter bar that stays with the reader for the whole chapter, with
+   the body scrolling behind it. `--pin` (0 → 1) is set by the script below;
+   `top` and `--pin-shift` are measured per chapter, since header heights and
+   banner heights differ by breakpoint.
+
+   At --pin: 0 every value below is the identity, so the resting banner is
+   pixel-identical to before. */
+@media (prefers-reduced-motion: no-preference) {
+  section.chap > .chap-head.jsw-pinnable {
+    position: sticky;
+    /* below .hero-strip-wrapper (250) and .topbar (300) */
+    z-index: 5;
+    will-change: auto;
+  }
+
+  /* The title rides down into the compressed bar as the banner pins, so the
+     bar shows the chapter name rather than a cropped slice of it. Scaled from
+     the left so the left margin stays put. */
+  section.chap > .chap-head.jsw-pinnable > .sec-title {
+    transform-origin: left center;
+    transform:
+      translate3d(0, calc(var(--pin, 0) * var(--pin-shift, 0px)), 0)
+      scale(calc(1 - var(--pin, 0) * 0.30));
+  }
+  /* Eyebrow and rule retire into the bar. */
+  section.chap > .chap-head.jsw-pinnable > .chap-num {
+    opacity: calc(1 - var(--pin, 0));
+    transform: translate3d(0, calc(var(--pin, 0) * -14px), 0);
+  }
+  section.chap > .chap-head.jsw-pinnable > .rule {
+    opacity: calc(1 - var(--pin, 0));
+  }
+  /* The photograph keeps travelling through the pin, driven by the same
+     progress, so the compression and the image move as one gesture. */
+  section.chap > .chap-head.jsw-pinnable .ch-thumb {
+    transition: none;
+    animation: none;
+    transform:
+      translate3d(0, calc(var(--pin, 0) * 6%), 0)
+      scale(calc(1.16 - var(--pin, 0) * 0.16));
+  }
+
+  /* These carry `animation: jswTextFadeSlide ... both` from the chapter
+     entrance, and a filled animation holds `transform: none` forever, which
+     would silently beat the pin transforms above. The banner's arrival is
+     carried by the head's own fade-up, the rule draw and the photograph. */
+  .view-anim-enter section.chap > .chap-head.jsw-pinnable > .sec-title,
+  .view-anim-enter section.chap > .chap-head.jsw-pinnable > .chap-num {
+    animation: none;
+  }
+
+  /* Anchor targets must clear the pinned bar, not hide behind it. */
+  section.chap.has-pinned-head .sub-title,
+  section.chap.has-pinned-head .item-title,
+  section.chap.has-pinned-head [id] {
+    scroll-margin-top: 186px;
   }
 }
 
@@ -8820,6 +8929,86 @@ html.jsw-boot .home-index .hx-group:nth-child(n+5) { animation-delay: 1.10s; }
       }, 140);
     }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }catch(e){}
+
+  /* ── Pinned chapter banner ──────────────────────────────────────────────
+     Publishes a 0 → 1 progress on the active chapter header while it pins.
+     One rAF-throttled listener reading one rect; the header stack and banner
+     height are measured only on view change and resize, never per frame. */
+  if(!REDUCED){
+    var STRIP = 66;            // height of the compressed chapter bar
+    var head = null, stack = 0, span = 1;
+
+    function measurePin(){
+      if(head){
+        head.classList.remove('jsw-pinnable');
+        head.style.removeProperty('top');
+        head.style.removeProperty('--pin');
+        head.style.removeProperty('--pin-shift');
+        var oldSec = head.closest('section.chap');
+        if(oldSec) oldSec.classList.remove('has-pinned-head');
+      }
+      head = document.querySelector('section.chap:not(.cv-off) > .chap-head');
+      if(!head) return;
+
+      var tb = document.querySelector('.topbar');
+      var hs = document.getElementById('heroStripWrapper');
+      stack = tb ? tb.getBoundingClientRect().height : 0;
+      if(hs){
+        var hr = hs.getBoundingClientRect();
+        if(hr.height && getComputedStyle(hs).position === 'sticky') stack += hr.height;
+      }
+
+      var h = head.offsetHeight;
+      // Too short to be worth compressing; leave it alone entirely.
+      if(h < STRIP + 40){ head = null; return; }
+
+      span = h - STRIP;
+      head.style.top = (stack - span) + 'px';
+      head.style.setProperty('--pin-shift', (span / 2) + 'px');
+      head.classList.add('jsw-pinnable');
+      var sec = head.closest('section.chap');
+      if(sec) sec.classList.add('has-pinned-head');
+    }
+
+    var pinTicking = false, lastPin = -1;
+    function pinFrame(){
+      pinTicking = false;
+      if(!head) return;
+      var p = (stack - head.getBoundingClientRect().top) / span;
+      p = p < 0 ? 0 : (p > 1 ? 1 : p);
+      if(Math.abs(p - lastPin) < 0.001) return;
+      lastPin = p;
+      head.style.setProperty('--pin', p.toFixed(4));
+    }
+    function onPinScroll(){
+      if(!pinTicking){ pinTicking = true; requestAnimationFrame(pinFrame); }
+    }
+
+    window.addEventListener('scroll', onPinScroll, { passive: true });
+    window.addEventListener('resize', function(){
+      measurePin(); lastPin = -1; pinFrame();
+    }, { passive: true });
+
+    // The router swaps views by toggling .cv-off, so re-measure when it does.
+    var pinReTimer = null;
+    function schedulePinMeasure(){
+      clearTimeout(pinReTimer);
+      pinReTimer = setTimeout(function(){
+        measurePin(); lastPin = -1; pinFrame();
+      }, 90);
+    }
+    try{
+      var mainEl = document.querySelector('.main');
+      if(mainEl){
+        new MutationObserver(schedulePinMeasure)
+          .observe(mainEl, { attributes: true, attributeFilter: ['class'], subtree: true });
+      }
+    }catch(e){}
+    window.addEventListener('hashchange', schedulePinMeasure);
+
+    schedulePinMeasure();
+    window.jswRemeasurePin = function(){ measurePin(); lastPin = -1; pinFrame(); };
+  }
 })();
 </script>
 
