@@ -131,83 +131,118 @@
   box-sizing: border-box;
 }
 
-/* --- Mid-Year Review Column Cards (Matching Portal Architecture) --- */
-.jsw-review-grid {
+/* --- Mid-Year Review Architectural Infographic Cards (High-Agency Double-Bezel Design) --- */
+.jsw-infographic-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 18px;
   width: 100%;
 }
-.jsw-review-col {
+.jsw-pillar-card {
   background: #FFFFFF;
-  border: 1px solid rgba(22, 21, 19, 0.09);
-  border-radius: 14px;
+  border: 1px solid rgba(22, 21, 19, 0.1);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(22, 21, 19, 0.04);
+  box-shadow: 0 4px 20px rgba(22, 21, 19, 0.05);
   display: flex;
   flex-direction: column;
   height: 100%;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
 }
-.jsw-review-col:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px -6px rgba(22, 21, 19, 0.09);
-  border-color: rgba(197, 160, 89, 0.45);
+.jsw-pillar-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px -8px rgba(22, 21, 19, 0.12);
+  border-color: rgba(197, 160, 89, 0.5);
 }
-.jsw-review-head {
-  background: linear-gradient(180deg, #1C1B18 0%, #121110 100%);
-  padding: 14px 18px;
+.jsw-pillar-head {
+  background: linear-gradient(180deg, #1C1B18 0%, #11100F 100%);
+  padding: 18px 20px 18px 20px;
   color: #FFFFFF;
+  position: relative;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.22);
+  min-height: 114px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.jsw-pillar-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(197, 160, 89, 0.2);
 }
-.jsw-review-badge {
-  font-family: 'Manrope', sans-serif;
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: 0.07em;
+.jsw-pillar-step {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #DFBE7A;
   background: rgba(197, 160, 89, 0.12);
-  border: 1px solid rgba(197, 160, 89, 0.25);
-  padding: 3px 9px;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  padding: 4px 10px;
   border-radius: 6px;
 }
-.jsw-review-icon-wrap {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.jsw-pillar-orb {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #2A2825 0%, #161513 100%);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.jsw-review-content {
+.jsw-pillar-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 19px;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-top: 10px;
+}
+.jsw-pillar-body {
   padding: 20px 20px 22px 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: space-between;
   flex-grow: 1;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF9F6 100%);
+  gap: 16px;
 }
-.jsw-review-name {
-  font-family: var(--font-display);
+.jsw-pillar-quote-wrap {
+  border-left: 2px solid var(--gold, #C5A059);
+  padding-left: 14px;
+}
+.jsw-pillar-eyebrow {
+  font-size: 10px;
   font-weight: 700;
-  font-size: 17px;
-  color: #111113;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8C887E;
+  margin-bottom: 6px;
 }
-.jsw-review-desc {
-  font-size: 13.5px;
-  color: #5C5952;
+.jsw-pillar-text {
+  font-size: 14.5px;
+  color: #24221F;
   line-height: 1.55;
   margin: 0;
+  font-weight: 500;
 }
-@media (max-width: 700px) {
-  .jsw-review-grid {
+.jsw-pillar-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(22, 21, 19, 0.06);
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B6862;
+}
+@media (max-width: 720px) {
+  .jsw-infographic-grid {
     grid-template-columns: 1fr !important;
   }
 }
@@ -5216,34 +5251,53 @@ Reporting manager</th></tr></thead>
 <div class="jsw-interactive-card" id="card-visual-9">
   <div class="jsw-card-header">
     <div class="jsw-card-title">Mid-Year Review: What's Working</div>
+    <span class="jsw-card-badge">SECTION 5.4 · MEETING CONCLUSIONS</span>
   </div>
   <div class="jsw-card-body">
-    <div class="jsw-review-grid">
+    <div class="jsw-infographic-grid">
       <!-- 01 Progress -->
-      <div class="jsw-review-col">
-        <div class="jsw-review-head">
-          <span class="jsw-review-badge">01 · PROGRESS</span>
-          <div class="jsw-review-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line><line x1="2" y1="20" x2="22" y2="20"></line></svg>
+      <div class="jsw-pillar-card">
+        <div class="jsw-pillar-head">
+          <div class="jsw-pillar-top-row">
+            <span class="jsw-pillar-step">01 · PROGRESS</span>
+            <div class="jsw-pillar-orb">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#DFBE7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line><line x1="2" y1="20" x2="22" y2="20"></line></svg>
+            </div>
           </div>
+          <div class="jsw-pillar-title">Progress</div>
         </div>
-        <div class="jsw-review-content">
-          <div class="jsw-review-name">Progress</div>
-          <p class="jsw-review-desc">Where each goal stands, in numbers.</p>
+        <div class="jsw-pillar-body">
+          <div class="jsw-pillar-quote-wrap">
+            <div class="jsw-pillar-eyebrow">CORE REVIEW DELIVERABLE</div>
+            <p class="jsw-pillar-text">Where each goal stands, in numbers.</p>
+          </div>
+          <div class="jsw-pillar-footer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Quantified KPI tracking against agreed targets</span>
+          </div>
         </div>
       </div>
 
       <!-- 02 Favourable Results -->
-      <div class="jsw-review-col">
-        <div class="jsw-review-head">
-          <span class="jsw-review-badge">02 · FAVOURABLE RESULTS</span>
-          <div class="jsw-review-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      <div class="jsw-pillar-card">
+        <div class="jsw-pillar-head">
+          <div class="jsw-pillar-top-row">
+            <span class="jsw-pillar-step">02 · RESULTS</span>
+            <div class="jsw-pillar-orb">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#DFBE7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
           </div>
+          <div class="jsw-pillar-title">Favourable Results</div>
         </div>
-        <div class="jsw-review-content">
-          <div class="jsw-review-name">Favourable Results</div>
-          <p class="jsw-review-desc">What is going well, said plainly and specifically.</p>
+        <div class="jsw-pillar-body">
+          <div class="jsw-pillar-quote-wrap">
+            <div class="jsw-pillar-eyebrow">CORE REVIEW DELIVERABLE</div>
+            <p class="jsw-pillar-text">What is going well, said plainly and specifically.</p>
+          </div>
+          <div class="jsw-pillar-footer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Specific recognition of strengths &amp; high performance</span>
+          </div>
         </div>
       </div>
     </div>
@@ -5281,34 +5335,53 @@ Reporting manager</th></tr></thead>
 <div class="jsw-interactive-card" id="card-visual-10">
   <div class="jsw-card-header">
     <div class="jsw-card-title">Mid-Year Review: What Needs Attention</div>
+    <span class="jsw-card-badge">SECTION 5.4 · ACTION &amp; REALIGNMENT</span>
   </div>
   <div class="jsw-card-body">
-    <div class="jsw-review-grid">
-      <!-- 03 Performance Issues & Solutions -->
-      <div class="jsw-review-col">
-        <div class="jsw-review-head">
-          <span class="jsw-review-badge">03 · ISSUES &amp; SOLUTIONS</span>
-          <div class="jsw-review-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    <div class="jsw-infographic-grid">
+      <!-- 03 Performance Issues/Problems Solutions -->
+      <div class="jsw-pillar-card">
+        <div class="jsw-pillar-head">
+          <div class="jsw-pillar-top-row">
+            <span class="jsw-pillar-step">03 · INTERVENTION</span>
+            <div class="jsw-pillar-orb">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#DFBE7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </div>
           </div>
+          <div class="jsw-pillar-title">Performance Issues/Problems Solutions</div>
         </div>
-        <div class="jsw-review-content">
-          <div class="jsw-review-name">Performance Issues &amp; Solutions</div>
-          <p class="jsw-review-desc">What has to change in the next six months, and what support the person needs to do it.</p>
+        <div class="jsw-pillar-body">
+          <div class="jsw-pillar-quote-wrap">
+            <div class="jsw-pillar-eyebrow">CORE REVIEW DELIVERABLE</div>
+            <p class="jsw-pillar-text">What has to change in the next six months, and what support the person needs to do it.</p>
+          </div>
+          <div class="jsw-pillar-footer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            <span>Targeted 6-month corrective support &amp; coaching</span>
+          </div>
         </div>
       </div>
 
-      <!-- 04 Agreements & Commitments -->
-      <div class="jsw-review-col">
-        <div class="jsw-review-head">
-          <span class="jsw-review-badge">04 · COMMITMENTS</span>
-          <div class="jsw-review-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+      <!-- 04 Agreements and Commitments -->
+      <div class="jsw-pillar-card">
+        <div class="jsw-pillar-head">
+          <div class="jsw-pillar-top-row">
+            <span class="jsw-pillar-step">04 · REALIGNMENT</span>
+            <div class="jsw-pillar-orb">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#DFBE7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
           </div>
+          <div class="jsw-pillar-title">Agreements and Commitments</div>
         </div>
-        <div class="jsw-review-content">
-          <div class="jsw-review-name">Agreements &amp; Commitments</div>
-          <p class="jsw-review-desc">Whether any goal needs revising because the ground shifted.</p>
+        <div class="jsw-pillar-body">
+          <div class="jsw-pillar-quote-wrap">
+            <div class="jsw-pillar-eyebrow">CORE REVIEW DELIVERABLE</div>
+            <p class="jsw-pillar-text">Whether any goal needs revising because the ground shifted.</p>
+          </div>
+          <div class="jsw-pillar-footer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+            <span>Formal email signoff on revised goals with HR in cc</span>
+          </div>
         </div>
       </div>
     </div>
