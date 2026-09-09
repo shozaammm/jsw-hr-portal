@@ -3391,6 +3391,16 @@ body.view-intro-active .chapter-nav {
 }
 </style>
 
+<script>
+/* Set before the cover markup is parsed, so the opening sequence starts from
+   its own first frame instead of flashing the settled state first. */
+try{
+  if(!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)){
+    document.documentElement.classList.add('jsw-boot');
+  }
+}catch(e){}
+</script>
+
 <header class="topbar">
   <div class="topbar-progress" id="topbarProgress"></div>
   <div class="tb-left">
@@ -7890,13 +7900,42 @@ window.handleAnnexDownload = function(e, title){
 };
 
 // ─── TOPBAR READING PROGRESS BAR (TVS NORTON STYLE) ───────────
-window.addEventListener('scroll', function(){
-  var winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-  var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+(function(){
   var prog = document.getElementById('topbarProgress');
-  if(prog) prog.style.width = Math.min(100, Math.max(0, scrolled)) + '%';
-}, { passive: true });
+  if(!prog) return;
+  // scaleX is a compositor-only property, so the bar never forces a reflow.
+  prog.style.width = '100%';
+  prog.style.transformOrigin = '0 50%';
+  prog.style.transform = 'scaleX(0)';
+
+  var track = 0, ticking = false;
+
+  function measure(){
+    track = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  }
+  function paint(){
+    ticking = false;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var p = track > 0 ? y / track : 0;
+    prog.style.transform = 'scaleX(' + Math.min(1, Math.max(0, p)).toFixed(4) + ')';
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(paint); }
+  }
+
+  measure(); paint();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function(){ measure(); onScroll(); }, { passive: true });
+  // Views swap in and out, so the scrollable length changes with them.
+  window.addEventListener('hashchange', function(){ setTimeout(function(){ measure(); onScroll(); }, 120); });
+  if(typeof ResizeObserver !== 'undefined'){
+    try{
+      var docRo = new ResizeObserver(function(){ measure(); onScroll(); });
+      docRo.observe(document.documentElement);
+    }catch(e){}
+  }
+  window.jswRemeasureProgress = function(){ measure(); onScroll(); };
+})();
 
 // ─── PROGRESSIVE SCROLL REVEAL OBSERVER ────────────────────────────
 var scrollRevealObserver;
@@ -7937,7 +7976,9 @@ setTimeout(observeScrollReveal, 500);
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var els = [];
-  function collect(){ els = [].slice.call(document.querySelectorAll('.banner-photo, .hi-strip')); }
+  // .banner-photo is driven by the scroll-linked motion layer at the end of
+  // this file, so it is deliberately not collected here any more.
+  function collect(){ els = [].slice.call(document.querySelectorAll('.hi-strip')); }
   var ticking = false;
   function frame(){
     ticking = false;
@@ -7949,11 +7990,10 @@ setTimeout(observeScrollReveal, 500);
       if (r.bottom < -120 || r.top > vh + 120) continue;
       var off = ((r.top + r.height / 2) - vh / 2) / vh;      // -0.5 .. 0.5
       var shift = Math.max(-16, Math.min(16, -off * 18));
-      if (el.classList.contains('hi-strip')){
-        el.style.setProperty('--par', shift.toFixed(1) + 'px');
-      } else {
-        el.style.transform = 'translate3d(0,' + shift.toFixed(1) + 'px,0) scale(1.06)';
-      }
+      // Write a variable, never `transform` directly: .banner-photo carries a
+      // 1.8s transform transition, and assigning transform per frame restarted
+      // that transition on every scroll frame.
+      el.style.setProperty('--par', shift.toFixed(1) + 'px');
     }
   }
   function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(frame); } }
@@ -8039,13 +8079,130 @@ setTimeout(observeScrollReveal, 500);
   function resize(){
     width = window.innerWidth;
     height = window.innerHeight;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    spriteCache = {};
+    // Resizing the backing store already cleared it; stale rects would be
+    // measured against the old geometry.
+    if(typeof dirty !== 'undefined') dirty.length = 0;
   }
+
+  /* ---- Sprite cache -------------------------------------------------------
+     The spheres never change shape — only position. Baking each radius/type
+     once into an offscreen bitmap turns ~95 createRadialGradient() calls and
+     31 shadowBlur passes per frame into 62 drawImage() blits, which is what
+     keeps the home and introduction views at 60fps while the page scrolls. */
+  var spriteCache = {};
+
+  function newLayer(w, h){
+    var c = document.createElement('canvas');
+    c.width = Math.max(1, Math.ceil(w * dpr));
+    c.height = Math.max(1, Math.ceil(h * dpr));
+    var x = c.getContext('2d');
+    x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { c: c, ctx: x, w: w, h: h };
+  }
+
+  function buildShadowSprite(r, type){
+    var sox = Math.max(1.5, r * 0.20), soy = Math.max(3, r * 0.38);
+    var sbx = r * 1.30 + 3, sby = r * 0.60 + 2.5;
+    var L = newLayer(sbx * 2, sby * 2);
+    var x = L.ctx;
+    x.translate(sbx, sby);
+    x.scale(1, sby / sbx);
+    var g = x.createRadialGradient(0, 0, 0, 0, 0, sbx);
+    if(type === 'gold'){
+      g.addColorStop(0, 'rgba(180, 135, 45, 0.30)');
+      g.addColorStop(0.35, 'rgba(180, 135, 45, 0.14)');
+      g.addColorStop(0.75, 'rgba(180, 135, 45, 0.04)');
+      g.addColorStop(1, 'rgba(180, 135, 45, 0)');
+    } else {
+      g.addColorStop(0, 'rgba(16, 15, 14, 0.20)');
+      g.addColorStop(0.35, 'rgba(16, 15, 14, 0.11)');
+      g.addColorStop(0.70, 'rgba(16, 15, 14, 0.03)');
+      g.addColorStop(1, 'rgba(16, 15, 14, 0)');
+    }
+    x.fillStyle = g;
+    x.beginPath();
+    x.arc(0, 0, sbx, 0, Math.PI * 2);
+    x.fill();
+    // offset of the sprite's top-left corner from the particle centre
+    L.ox = sox - sbx;
+    L.oy = soy - sby;
+    return L;
+  }
+
+  function buildSphereSprite(r, type){
+    var blur = Math.max(3, r * 0.35);
+    var offX = Math.max(1, r * 0.10), offY = Math.max(1.5, r * 0.20);
+    var pad = blur + Math.max(offX, offY) + 2;
+    var size = (r + pad) * 2;
+    var L = newLayer(size, size);
+    var x = L.ctx;
+    var cx = r + pad, cy = r + pad;
+
+    x.save();
+    x.shadowColor = (type === 'gold') ? 'rgba(140, 95, 20, 0.22)' : 'rgba(0, 0, 0, 0.18)';
+    x.shadowBlur = blur;
+    x.shadowOffsetX = offX;
+    x.shadowOffsetY = offY;
+
+    var sg = x.createRadialGradient(cx - r * 0.32, cy - r * 0.32, r * 0.06, cx, cy, r);
+    if(type === 'gold'){
+      sg.addColorStop(0, '#F5DC9C');
+      sg.addColorStop(0.28, '#DEB358');
+      sg.addColorStop(0.72, '#B48328');
+      sg.addColorStop(1, '#785210');
+    } else {
+      sg.addColorStop(0, '#363432');
+      sg.addColorStop(0.26, '#242321');
+      sg.addColorStop(0.70, '#161514');
+      sg.addColorStop(1, '#0C0B0A');
+    }
+    x.fillStyle = sg;
+    x.beginPath();
+    x.arc(cx, cy, r, 0, Math.PI * 2);
+    x.fill();
+    x.restore();
+
+    if(r >= 6){
+      x.beginPath();
+      x.arc(cx, cy, r - 0.35, 0, Math.PI * 2);
+      var rg = x.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
+      if(type === 'gold'){
+        rg.addColorStop(0, 'rgba(255, 245, 220, 0.50)');
+        rg.addColorStop(0.45, 'rgba(255, 245, 220, 0.10)');
+        rg.addColorStop(1, 'rgba(0, 0, 0, 0.20)');
+      } else {
+        rg.addColorStop(0, 'rgba(255, 255, 255, 0.20)');
+        rg.addColorStop(0.40, 'rgba(255, 255, 255, 0.03)');
+        rg.addColorStop(1, 'rgba(0, 0, 0, 0.40)');
+      }
+      x.strokeStyle = rg;
+      x.lineWidth = 0.75;
+      x.stroke();
+    }
+    L.ox = -cx;
+    L.oy = -cy;
+    return L;
+  }
+
+  function sprite(kind, r, type){
+    var key = kind + '|' + r.toFixed(2) + '|' + type;
+    var hit = spriteCache[key];
+    if(!hit){
+      hit = spriteCache[key] = (kind === 's') ? buildShadowSprite(r, type) : buildSphereSprite(r, type);
+    }
+    return hit;
+  }
+
+  /* The ground and its atmosphere moved to a static CSS background on the
+     canvas element (see the motion layer stylesheet), so there is no
+     per-frame background paint here at all. */
 
   // Curated architectural constellation matching master editorial aesthetic
   // [relX, relY, radius, type]
@@ -8114,8 +8271,21 @@ setTimeout(observeScrollReveal, 500);
     });
   }
 
+  // Regions painted last frame, wiped at the start of the next one.
+  var dirty = [];
+  // The harmonic drift runs at ~0.0003 rad/ms — a few pixels per second. Above
+  // 30fps the extra frames are visually indistinguishable and cost a third of
+  // the loop's budget, which is budget the scroll compositor wants.
+  var FRAME_MS = 1000 / 30;
+  var lastDraw = -1e9;
+
   function render(time){
     if(!isRunning) return;
+    if(!REDUCED && (time - lastDraw) < FRAME_MS){
+      rafId = requestAnimationFrame(render);
+      return;
+    }
+    lastDraw = time;
     if(!lastTime) lastTime = time;
     lastTime = time;
 
@@ -8127,18 +8297,15 @@ setTimeout(observeScrollReveal, 500);
     var normMx = (smoothMx - width / 2) / (width / 2);
     var normMy = (smoothMy - height / 2) / (height / 2);
 
-    ctx.clearRect(0, 0, width, height);
-
-    // Warm stone background canvas base
-    ctx.fillStyle = '#ECEAE4';
-    ctx.fillRect(0, 0, width, height);
-
-    // Architectural ambient atmosphere
-    var bgGrad = ctx.createRadialGradient(width * 0.78, height * 0.58, 40, width * 0.5, height * 0.5, Math.max(width, height) * 0.85);
-    bgGrad.addColorStop(0, 'rgba(236, 234, 228, 0)');
-    bgGrad.addColorStop(1, 'rgba(222, 218, 209, 0.42)');
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(0, 0, width, height);
+    // The stone ground and its atmosphere are now a static CSS background on
+    // the canvas element itself, so this loop no longer repaints the whole
+    // viewport every frame. Only the pixels the spheres actually occupied last
+    // frame, or occupy this one, are cleared.
+    for(var c = 0; c < dirty.length; c++){
+      var d = dirty[c];
+      ctx.clearRect(d[0], d[1], d[2], d[3]);
+    }
+    dirty.length = 0;
 
     var isMobile = width < 768;
     var rScale = isMobile ? 0.52 : (width < 1024 ? 0.80 : 1.0);
@@ -8193,104 +8360,37 @@ setTimeout(observeScrollReveal, 500);
       });
     }
 
+    // Clear where this frame is about to draw, then record both regions so the
+    // next frame can wipe them. PAD absorbs sub-pixel bleed.
+    var PAD = 2;
+    for(var q = 0; q < currentPositions.length; q++){
+      var cp = currentPositions[q];
+      var sS = sprite('s', cp.r, cp.type), sB = sprite('b', cp.r, cp.type);
+      var rs = [cp.x + sS.ox - PAD, cp.y + sS.oy - PAD, sS.w + PAD * 2, sS.h + PAD * 2];
+      var rb = [cp.x + sB.ox - PAD, cp.y + sB.oy - PAD, sB.w + PAD * 2, sB.h + PAD * 2];
+      ctx.clearRect(rs[0], rs[1], rs[2], rs[3]);
+      ctx.clearRect(rb[0], rb[1], rb[2], rb[3]);
+      dirty.push(rs, rb);
+    }
+
     // PASS 1: Ground-plane contact & diffusion shadows for realistic elevation
     for(var j = 0; j < currentPositions.length; j++){
       var pos = currentPositions[j];
-      var r = pos.r;
-      var shadowOffsetY = Math.max(3, r * 0.38);
-      var shadowOffsetX = Math.max(1.5, r * 0.20);
-      var shadowBlurX = r * 1.30 + 3;
-      var shadowBlurY = r * 0.60 + 2.5;
-
-      ctx.save();
-      ctx.translate(pos.x + shadowOffsetX, pos.y + shadowOffsetY);
-      ctx.scale(1, shadowBlurY / shadowBlurX);
-
-      var sGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, shadowBlurX);
-      if(pos.type === 'gold'){
-        sGrad.addColorStop(0, 'rgba(180, 135, 45, 0.30)');
-        sGrad.addColorStop(0.35, 'rgba(180, 135, 45, 0.14)');
-        sGrad.addColorStop(0.75, 'rgba(180, 135, 45, 0.04)');
-        sGrad.addColorStop(1, 'rgba(180, 135, 45, 0)');
-      } else {
-        sGrad.addColorStop(0, 'rgba(16, 15, 14, 0.20)');
-        sGrad.addColorStop(0.35, 'rgba(16, 15, 14, 0.11)');
-        sGrad.addColorStop(0.70, 'rgba(16, 15, 14, 0.03)');
-        sGrad.addColorStop(1, 'rgba(16, 15, 14, 0)');
-      }
-      ctx.fillStyle = sGrad;
-      ctx.beginPath();
-      ctx.arc(0, 0, shadowBlurX, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
+      var sh = sprite('s', pos.r, pos.type);
+      ctx.drawImage(sh.c, pos.x + sh.ox, pos.y + sh.oy, sh.w, sh.h);
     }
 
-    // PASS 2: Volumetric Spheres with key lighting & tactile micro-rim
+    // PASS 2: Volumetric spheres with key lighting & tactile micro-rim
     for(var k = 0; k < currentPositions.length; k++){
       var item = currentPositions[k];
-      var cx = item.x;
-      var cy = item.y;
-      var rad = item.r;
-
-      ctx.save();
-
-      // Direct ambient contact drop shadow
-      if(item.type === 'gold'){
-        ctx.shadowColor = 'rgba(140, 95, 20, 0.22)';
-      } else {
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.18)';
-      }
-      ctx.shadowBlur = Math.max(3, rad * 0.35);
-      ctx.shadowOffsetX = Math.max(1, rad * 0.10);
-      ctx.shadowOffsetY = Math.max(1.5, rad * 0.20);
-
-      // Volumetric sphere gradient with soft upper-left key light
-      var lightX = cx - rad * 0.32;
-      var lightY = cy - rad * 0.32;
-      var sphereGrad = ctx.createRadialGradient(lightX, lightY, rad * 0.06, cx, cy, rad);
-
-      if(item.type === 'gold'){
-        sphereGrad.addColorStop(0, '#F5DC9C');
-        sphereGrad.addColorStop(0.28, '#DEB358');
-        sphereGrad.addColorStop(0.72, '#B48328');
-        sphereGrad.addColorStop(1, '#785210');
-      } else {
-        sphereGrad.addColorStop(0, '#363432');
-        sphereGrad.addColorStop(0.26, '#242321');
-        sphereGrad.addColorStop(0.70, '#161514');
-        sphereGrad.addColorStop(1, '#0C0B0A');
-      }
-
-      ctx.fillStyle = sphereGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, rad, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-
-      // Ultra-fine tactile micro-rim highlight for pristine physical edge definition
-      if(rad >= 6){
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(cx, cy, rad - 0.35, 0, Math.PI * 2);
-        var rimGrad = ctx.createLinearGradient(cx - rad, cy - rad, cx + rad, cy + rad);
-        if(item.type === 'gold'){
-          rimGrad.addColorStop(0, 'rgba(255, 245, 220, 0.50)');
-          rimGrad.addColorStop(0.45, 'rgba(255, 245, 220, 0.10)');
-          rimGrad.addColorStop(1, 'rgba(0, 0, 0, 0.20)');
-        } else {
-          rimGrad.addColorStop(0, 'rgba(255, 255, 255, 0.20)');
-          rimGrad.addColorStop(0.40, 'rgba(255, 255, 255, 0.03)');
-          rimGrad.addColorStop(1, 'rgba(0, 0, 0, 0.40)');
-        }
-        ctx.strokeStyle = rimGrad;
-        ctx.lineWidth = 0.75;
-        ctx.stroke();
-        ctx.restore();
-      }
+      var sp = sprite('b', item.r, item.type);
+      ctx.drawImage(sp.c, item.x + sp.ox, item.y + sp.oy, sp.w, sp.h);
     }
 
-    rafId = requestAnimationFrame(render);
+    if(!REDUCED) rafId = requestAnimationFrame(render);
   }
+
+  var REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   function start(){
     if(isRunning) return;
@@ -8298,8 +8398,20 @@ setTimeout(observeScrollReveal, 500);
     resize();
     buildParticles();
     lastTime = 0;
+    // Reduced motion: compose a single still frame and hold it.
+    if(REDUCED){ render(0); return; }
     rafId = requestAnimationFrame(render);
   }
+
+  // A background tab should never hold a render loop open.
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){
+      if(isRunning && rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    } else if(isRunning && !rafId && !REDUCED){
+      lastTime = 0;
+      rafId = requestAnimationFrame(render);
+    }
+  });
 
   function stop(){
     if(!isRunning) return;
@@ -8310,11 +8422,16 @@ setTimeout(observeScrollReveal, 500);
     }
   }
 
+  var resizeRaf = null;
   window.addEventListener('resize', function(){
-    if(isRunning){
+    if(!isRunning) return;
+    if(resizeRaf) cancelAnimationFrame(resizeRaf);
+    resizeRaf = requestAnimationFrame(function(){
+      resizeRaf = null;
       resize();
-    }
-  });
+      if(REDUCED) render(0);
+    });
+  }, { passive: true });
 
   window.toggleIntroParticles = function(active){
     if(active){
@@ -8344,14 +8461,23 @@ setTimeout(observeScrollReveal, 500);
     );
 
     interactiveElements.forEach(function(el) {
+      // This initialiser runs on IIFE, DOMContentLoaded and load. Without the
+      // guard each element ended up with three click handlers and toggled
+      // three times per click.
+      if (el.dataset.jswDiagBound === '1') return;
+      el.dataset.jswDiagBound = '1';
       el.addEventListener('click', function(e) {
         this.classList.toggle('is-active');
       });
     });
   }
 
+  var scaleQueued = false;
   function scaleAllDiagrams() {
+    scaleQueued = false;
     var cards = document.querySelectorAll('.jsw-interactive-card');
+    // Batch every read before any write so the loop cannot thrash layout.
+    var work = [];
     for (var i = 0; i < cards.length; i++) {
       var card = cards[i];
       var scaler = card.querySelector('.jsw-diagram-scaler');
@@ -8361,39 +8487,339 @@ setTimeout(observeScrollReveal, 500);
       if (cw <= 0) continue;
       var dw = parseFloat(canvas.style.width) || 1000;
       var dh = parseFloat(canvas.style.height) || 500;
-      var scale = cw / dw;
-      scaler.style.height = (dh * scale) + 'px';
-      canvas.style.transform = 'scale(' + scale + ')';
+      work.push({ scaler: scaler, canvas: canvas, scale: cw / dw, h: dh * (cw / dw) });
     }
+    for (var w = 0; w < work.length; w++) {
+      var it = work[w];
+      var h = it.h.toFixed(2) + 'px';
+      if (it.scaler.style.height !== h) it.scaler.style.height = h;
+      it.canvas.style.transform = 'scale(' + it.scale + ')';
+    }
+  }
+  function queueScale() {
+    if (scaleQueued) return;
+    scaleQueued = true;
+    requestAnimationFrame(scaleAllDiagrams);
   }
 
   window.scaleAllDiagrams = scaleAllDiagrams;
   scaleAllDiagrams();
   initInteractiveDiagrams();
 
-  window.addEventListener('resize', scaleAllDiagrams);
+  window.addEventListener('resize', queueScale, { passive: true });
   window.addEventListener('DOMContentLoaded', function() {
-    scaleAllDiagrams();
+    queueScale();
     initInteractiveDiagrams();
   });
   window.addEventListener('load', function() {
-    scaleAllDiagrams();
+    queueScale();
     initInteractiveDiagrams();
   });
 
   if (typeof ResizeObserver !== 'undefined') {
-    var ro = new ResizeObserver(function() {
-      scaleAllDiagrams();
-    });
-    var scalers = document.querySelectorAll('.jsw-diagram-scaler');
-    for (var j = 0; j < scalers.length; j++) {
-      ro.observe(scalers[j]);
+    // Observe the card, not the scaler: scaleAllDiagrams writes the scaler's
+    // height, so observing the scaler made every write re-fire the observer.
+    var ro = new ResizeObserver(queueScale);
+    var cardsRo = document.querySelectorAll('.jsw-interactive-card');
+    for (var j = 0; j < cardsRo.length; j++) {
+      ro.observe(cardsRo[j]);
     }
   }
 
   setTimeout(scaleAllDiagrams, 50);
   setTimeout(scaleAllDiagrams, 200);
   setTimeout(scaleAllDiagrams, 600);
+})();
+</script>
+
+<!-- ==========================================================================
+     MOTION LAYER
+     Appended last so it wins on source order; no content, markup or copy is
+     touched by anything below.
+
+     Thesis
+       Focal moment  The manual opens. One sequence on first paint and on every
+                     return to Contents: the wordmark settles, the two title
+                     lines wipe up from their own baseline the way type is
+                     pulled off a press, the standfirst and the five section
+                     cells follow, then the Contents groups. It plays once,
+                     inside 1.6s, and is never repeated per section.
+       Scroll        The chapter photograph is linked to scroll position, not
+                     triggered by it: it travels and settles across the whole
+                     time the header is on screen, so the banner reads as a
+                     window with depth rather than a static plate. The gold
+                     chapter rule draws on the same timeline.
+       Budget        Everything below is transform / opacity / clip-path only,
+                     and the scroll work runs on `animation-timeline: view()`,
+                     which the compositor drives off the main thread. Browsers
+                     without it keep the existing in-view transition.
+     ========================================================================== -->
+<style id="jsw-motion-layer">
+
+/* ── 1. Runtime cost removed ─────────────────────────────────────────────
+   Blanket `will-change` on 24 chapter photos plus the cover pinned a
+   composited layer for each one for the lifetime of the page. The elements
+   below are either inert or driven by a scroll animation, which promotes
+   them only while they are actually animating. */
+.ch-thumb,
+.section-banner .banner-photo,
+.cover-photo,
+.scroll-reveal { will-change: auto; }
+
+/* The chapter header already clips its own overflow and holds no fixed-position
+   descendants, so paint containment here is free and keeps the photograph's
+   repaints out of the rest of the page. */
+section.chap > .chap-head { contain: layout paint style; }
+
+/* The warm stone ground the particle canvas used to repaint on every frame.
+   As a CSS background it is painted once and cached by the compositor; the
+   canvas now clears and redraws only the sphere regions above it. */
+#introParticlesCanvas {
+  background-color: #ECEAE4;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(236, 234, 228, 0) 0%,
+    rgba(222, 218, 209, 0.42) 100%
+  );
+}
+
+/* Blur over a surface that repaints every frame is the expensive case: the
+   backdrop is dirtied continuously, so the blur is recomputed continuously,
+   for every card, at full size. These sit directly over the animated canvas,
+   so they carry a tint instead. The topbar keeps its blur — it is one layer
+   over static content. */
+body.view-home-active .hx-group,
+body.view-ambient-active .hx-group {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(252, 251, 249, 0.92);
+}
+body.view-intro-active section.chap#fm-i .img-card,
+body.view-intro-active section.chap#fm-ii .img-card,
+body.view-intro-active section.chap#fm-iii .img-card {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.94);
+}
+body.view-intro-active section.chap#fm-ii .col-text {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(238, 236, 230, 0.94);
+}
+body.view-intro-active #fm-iii .table-wrap table {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ── 2. The opening sequence ─────────────────────────────────────────────── */
+@keyframes jswTypeWipe {
+  from { clip-path: inset(0 0 108% 0); transform: translate3d(0, 0.16em, 0); }
+  to   { clip-path: inset(0 0 -14% 0); transform: none; }
+}
+@keyframes jswBootRise {
+  from { opacity: 0; transform: translate3d(0, 15px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes jswBootFade {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+html.jsw-boot .cover .hero-brand-logo   { animation: jswBootFade .58s cubic-bezier(0.16,1,0.3,1) .04s both; }
+html.jsw-boot .cover .eyebrow           { animation: jswBootFade .58s cubic-bezier(0.16,1,0.3,1) .16s both; }
+
+html.jsw-boot .hero-title .ht-line      { animation: jswTypeWipe .82s cubic-bezier(0.16,1,0.3,1) both; }
+html.jsw-boot .hero-title .ht-line:nth-child(1) { animation-delay: .26s; }
+html.jsw-boot .hero-title .ht-line:nth-child(2) { animation-delay: .37s; }
+
+html.jsw-boot .cover p.hero-desc        { animation: jswBootRise .66s cubic-bezier(0.16,1,0.3,1) .56s both; }
+html.jsw-boot .cover .cover-grid        { animation: jswBootFade .9s ease .1s both; }
+
+/* The five section cells arrive as the list they are — capped stagger. */
+html.jsw-boot .hero-strip .hero-cell    { animation: jswBootRise .6s cubic-bezier(0.16,1,0.3,1) both; }
+html.jsw-boot .hero-strip .hero-cell:nth-child(1) { animation-delay: .62s; }
+html.jsw-boot .hero-strip .hero-cell:nth-child(2) { animation-delay: .67s; }
+html.jsw-boot .hero-strip .hero-cell:nth-child(3) { animation-delay: .72s; }
+html.jsw-boot .hero-strip .hero-cell:nth-child(4) { animation-delay: .77s; }
+html.jsw-boot .hero-strip .hero-cell:nth-child(5) { animation-delay: .82s; }
+
+html.jsw-boot .home-index .hx-head      { animation: jswBootFade .6s cubic-bezier(0.16,1,0.3,1) .74s both; }
+html.jsw-boot .home-index .hx-group     { animation: jswBootRise .58s cubic-bezier(0.16,1,0.3,1) both; }
+html.jsw-boot .home-index .hx-group:nth-child(1) { animation-delay: .86s; }
+html.jsw-boot .home-index .hx-group:nth-child(2) { animation-delay: .92s; }
+html.jsw-boot .home-index .hx-group:nth-child(3) { animation-delay: .98s; }
+html.jsw-boot .home-index .hx-group:nth-child(4) { animation-delay: 1.04s; }
+html.jsw-boot .home-index .hx-group:nth-child(n+5) { animation-delay: 1.10s; }
+
+/* ── 3. Scroll-linked banner motion ──────────────────────────────────────
+   Progressive enhancement. Where `animation-timeline` is unsupported the
+   existing `.in-view` scale transition still runs, so the banner is never
+   left static and never left hidden. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    @keyframes jswThumbTravel {
+      from { transform: translate3d(0, -2.6%, 0) scale(1.17); }
+      to   { transform: translate3d(0,  2.6%, 0) scale(1.03); }
+    }
+
+    /* The timeline is NAMED and declared on the header, not on the photo.
+       Both the header and the part banner set `overflow:hidden`, which makes
+       them their own nearest scrollport — an anonymous `view()` on the photo
+       inside would resolve against that non-scrolling box and sit frozen at
+       50%. Declaring it on the header measures it against the document, and
+       descendants inherit the name by lookup. */
+    section.chap > .chap-head,
+    .section-banner {
+      view-timeline-name: --jswBannerView;
+      view-timeline-axis: block;
+    }
+
+    .ch-thumb,
+    .section-banner .banner-photo {
+      transition: none;
+      animation: jswThumbTravel linear both;
+      animation-timeline: --jswBannerView;
+      animation-range: cover 0% cover 100%;
+    }
+    /* The one-shot in-view rules must not fight the scroll timeline. */
+    section.chap.in-view .ch-thumb,
+    .chap-head.in-view .ch-thumb,
+    .ch-thumb.in-view,
+    .section-banner.in-view .banner-photo,
+    .section-banner.revealed .banner-photo { transform: none; }
+
+    /* ── The cover recedes as you leave it ───────────────────────────────
+       Ported from aircenter's landingIntroMove / landingIntroFade: the
+       opening block does not simply scroll away, it withdraws — the wordmark
+       and standfirst lift and shrink slightly while the drawn grid behind
+       them drifts the other way, which reads as depth rather than as a
+       parallax gimmick. Transform only: `.cover-inner` carries `.reveal`,
+       whose `opacity: 1 !important` would beat any opacity animation. */
+    .cover { view-timeline-name: --jswCoverView; view-timeline-axis: block; }
+
+    @keyframes jswCoverRecede {
+      from { transform: none; }
+      to   { transform: translate3d(0, -13%, 0) scale(0.955); }
+    }
+    /* Transform only: an earlier rule pins .cover-grid to `opacity: .26
+       !important`, which outranks any animated opacity. */
+    @keyframes jswCoverGridDrift {
+      from { transform: none; }
+      to   { transform: translate3d(0, 8%, 0) scale(1.04); }
+    }
+    .cover .cover-inner {
+      animation: jswCoverRecede linear both;
+      animation-timeline: --jswCoverView;
+      animation-range: exit 0% exit 100%;
+    }
+    .cover .cover-grid {
+      animation: jswCoverGridDrift linear both;
+      animation-timeline: --jswCoverView;
+      animation-range: exit 0% exit 100%;
+    }
+
+    /* ── Figures arrive under their own crop ─────────────────────────────
+       Ported from aircenter's landingFormatImageScale + landingImpulseImageClip:
+       the plate is already at rest scale while its crop opens, so the figure
+       resolves rather than slides in. Bound to the figures only — the reading
+       column keeps its own rhythm and is never re-revealed per block. */
+    @keyframes jswFigureReveal {
+      from { transform: scale(1.035) translate3d(0, 20px, 0); clip-path: inset(0 0 12% 0); }
+      to   { transform: none;                                  clip-path: inset(0 0 0 0); }
+    }
+    /* Specificity has to clear `.view-anim-enter .prose > *` (0,2,0), which
+       otherwise claims figures for the chapter-entrance slide — and fires it
+       on entry even for figures far below the fold, so they finish before
+       anyone sees them. Scroll linkage is the correct owner here. */
+    section.chap figure.img-card {
+      view-timeline-name: --jswFigureView;
+      view-timeline-axis: block;
+      animation: jswFigureReveal linear both;
+      animation-timeline: --jswFigureView;
+      animation-range: entry 6% entry 74%;
+    }
+  }
+}
+
+/* ── 3b. The gold chapter rule draws as the chapter opens ─────────────────
+   Deliberately not scroll-linked: a chapter is always entered at its own
+   scroll top, so any scroll range for this rule is already complete before
+   the reader sees it. The chapter entrance is the moment it is visible. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes jswRuleDraw {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+  .view-anim-enter .chap-head .rule {
+    transform-origin: 0 50%;
+    animation: jswRuleDraw .68s cubic-bezier(0.16, 1, 0.3, 1) .2s both;
+  }
+}
+
+/* ── 4. Nothing above survives a reduced-motion preference ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html.jsw-boot .cover .hero-brand-logo,
+  html.jsw-boot .cover .eyebrow,
+  html.jsw-boot .hero-title .ht-line,
+  html.jsw-boot .cover p.hero-desc,
+  html.jsw-boot .cover .cover-grid,
+  html.jsw-boot .hero-strip .hero-cell,
+  html.jsw-boot .home-index .hx-head,
+  html.jsw-boot .home-index .hx-group {
+    animation: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+</style>
+
+<script id="jsw-motion-layer-js">
+(function(){
+  var root = document.documentElement;
+  var REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var BOOT_MS = 1800;
+  var bootTimer = null;
+
+  function endBoot(){ root.classList.remove('jsw-boot'); }
+
+  function playBoot(){
+    if(REDUCED) return;
+    root.classList.remove('jsw-boot');
+    void root.offsetWidth;          // restart the sequence cleanly
+    root.classList.add('jsw-boot');
+    clearTimeout(bootTimer);
+    bootTimer = setTimeout(endBoot, BOOT_MS);
+  }
+
+  // The inline bootstrap already applied the class for the first paint; this
+  // only schedules its removal so it can be replayed later.
+  if(root.classList.contains('jsw-boot')){
+    clearTimeout(bootTimer);
+    bootTimer = setTimeout(endBoot, BOOT_MS);
+  }
+
+  /* Replay on every return to Contents. Watching the body class covers every
+     path into it — the brand mark, the "Back to Contents" pager button, the
+     Home keyboard shortcut and a bare hash — without wrapping the router. */
+  var wasHome = document.body.classList.contains('view-home-active');
+  var remeasureTimer = null;
+
+  try{
+    new MutationObserver(function(){
+      var isHome = document.body.classList.contains('view-home-active');
+      if(isHome && !wasHome) playBoot();
+      wasHome = isHome;
+
+      // A view swap changes the document height, so the reading bar needs a
+      // fresh track length once the new view has laid out.
+      clearTimeout(remeasureTimer);
+      remeasureTimer = setTimeout(function(){
+        if(typeof window.jswRemeasureProgress === 'function') window.jswRemeasureProgress();
+      }, 140);
+    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }catch(e){}
 })();
 </script>
 
