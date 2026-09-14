@@ -539,15 +539,47 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
 .cover-inner{position:relative;z-index:1;max-width:900px}
 .cover .eyebrow{color:#B9B6AE}
 .hero-title{
-  margin-top:18px;line-height:.88;position:relative;
+  margin-top:18px;line-height:.92;position:relative;
 }
 .ht-line{
-  display:block;font-size:clamp(48px,8vw,108px);font-weight:700;letter-spacing:-2px;text-wrap:balance;
+  display:block;font-weight:700;text-wrap:balance;
 }
-.ht-line.solid{color:var(--white)}
-.ht-line.outline{color:#C9B892}
+.ht-line.solid{
+  color:var(--white);font-size:clamp(30px,4.4vw,58px);letter-spacing:-1.4px;
+}
+.ht-line.outline{
+  color:#C9B892;font-size:clamp(56px,10vw,124px);letter-spacing:.02em;
+  line-height:.9;margin-top:6px;
+}
 .hero-ghost{display:none}
-.cover p.hero-desc{color:#C9C6BD;margin-top:24px;font-size:16.5px;line-height:1.68;max-width:680px;position:relative;z-index:1;font-family:var(--font-body);letter-spacing:-0.01em}
+
+/* ---- TRUST pillars ---- */
+.trust-list{
+  list-style:none;margin:30px 0 0;padding:0;position:relative;z-index:1;
+  border-left:1px solid rgba(201,184,146,0.30);
+  width:fit-content;min-width:min(320px,100%);
+}
+.trust-list li{
+  padding:9px 64px 9px 20px;
+}
+.trust-list li + li{border-top:1px solid rgba(255,255,255,0.07)}
+.tr-i{
+  color:#C9B892;font-weight:700;
+}
+.tr-w{
+  font-family:var(--font-body);color:#EDEBE6;display:inline-block;
+  font-size:clamp(15px,1.5vw,18px);font-weight:500;letter-spacing:.005em;line-height:1.35;
+}
+.hero-quote{
+  position:relative;z-index:1;margin:30px 0 0;max-width:640px;
+  font-family:var(--font-body);font-style:italic;font-weight:400;
+  font-size:clamp(15.5px,1.7vw,19px);line-height:1.55;
+  color:#C9C6BD;letter-spacing:-0.01em;
+}
+@media (max-width:640px){
+  .trust-list li{padding:8px 12px 8px 14px}
+  .hero-quote{margin-top:24px}
+}
 
 /* ============ STICKY 5-SECTION HEADER BAR ============ */
 .hero-strip-wrapper {
@@ -3575,12 +3607,17 @@ try{
         </div>
         <div class="eyebrow">JSW Motors · Dealer Partner Network · Operating Standards</div>
         <h1 class="hero-title">
-          <span class="ht-line solid">HR Operations</span>
-          <span class="ht-line outline">Manual</span>
+          <span class="ht-line solid">JSW HR Operations Manual:</span>
+          <span class="ht-line outline">TRUST</span>
         </h1>
-        <p class="hero-desc">
-          A single, consistent standard for how people are recruited, developed, paid, recognised and governed across every JSW Motors dealership — from the day a vacancy is raised to the day an employee is relieved.
-        </p>
+        <ul class="trust-list">
+          <li><span class="tr-w"><span class="tr-i">T</span>alent Development</span></li>
+          <li><span class="tr-w"><span class="tr-i">R</span>eliability</span></li>
+          <li><span class="tr-w"><span class="tr-i">U</span>nified Standards</span></li>
+          <li><span class="tr-w"><span class="tr-i">S</span>hared Growth</span></li>
+          <li><span class="tr-w"><span class="tr-i">T</span>eamwork for Customers</span></li>
+        </ul>
+        <p class="hero-quote">“Building a dealership network our customers can trust.”</p>
       </div>
       <span class="hero-ghost">STANDARDS</span>
     </header>
