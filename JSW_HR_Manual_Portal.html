@@ -7262,24 +7262,15 @@ The following code of Conduct applies to all the retail partner and its employee
 const TOC = [
   {group:'Introduction', items:[
     {id:'fm-i', num:'i', label:'Foreword', live:true},
-    {id:'fm-ii', num:'ii', label:'JSW Brand Vision and Foundation', live:true, subs:[
-      {id:'sec-fm-ii-vision', num:'ii.1', label:'Our Vision'},
-      {id:'sec-fm-ii-foundation', num:'ii.2', label:'Our Foundation'}
-    ]},
-    {id:'fm-iii', num:'iii', label:'Role and Importance of Human Resources', live:true, subs:[
-      {id:'sec-fm-iii-ecosystem', num:'iii.1', label:'Why HR Matters in Ecosystem'},
-      {id:'sec-fm-iii-culture', num:'iii.2', label:'Culture Driven Operations'}
-    ]},
+    {id:'fm-ii', num:'ii', label:'JSW Brand Vision and Foundation', live:true},
+    {id:'fm-iii', num:'iii', label:'Role and Importance of Human Resources', live:true},
   ]},
   {group:'Part 01 · Workforce Planning and Selection', items:[
     {id:'ch2', num:'1', label:'Dealership Organization Structure', live:true, subs:[
       {id:'ch2-1', num:'1.1', label:'Recommended Organisation Chart'},
       {id:'ch2-2', num:'1.2', label:'Workforce Attrition'}
     ]},
-    {id:'ch1', num:'2', label:'Role Architecture', live:true, subs:[
-      {id:'ch1-roles', num:'2.1', label:'Dealership Role Directory (34 Roles)'},
-      {id:'ch1-annex', num:'2.2', label:'Role Architecture Annexures (2A–2D)'}
-    ]},
+    {id:'ch1', num:'2', label:'Role Architecture', live:true},
     {id:'ch3', num:'3', label:'Recruitment & Selection', live:true, subs:[
       {id:'ch3-1', num:'3.1', label:'Recruitment and Selection Process'},
       {id:'ch3-2', num:'3.2', label:'Recruitment Need and Sourcing'},
@@ -7353,19 +7344,8 @@ const TOC = [
       {id:'ch11-6', num:'11.6', label:'Best Practice'}
     ]},
   ]},
-  {group:'Annexure', items:[
-    {id:'annexure', num:'12', label:'Annexure', live:true, subs:[
-      {id:'annex-1', num:'2A–2D', label:'Role Architecture Forms'},
-      {id:'annex-3', num:'3A–3M', label:'Recruitment & Compensation Templates'},
-      {id:'annex-4', num:'4A–4C', label:'Joining & Confirmation Forms'},
-      {id:'annex-5', num:'5A–5B', label:'Learning & Development Templates'},
-      {id:'annex-6', num:'6A–6E', label:'Performance Review Forms'},
-      {id:'annex-7', num:'7A–7B', label:'Career Progression Letters'},
-      {id:'annex-8', num:'8A–8B', label:'Engagement & Award Forms'},
-      {id:'annex-9', num:'9A–9F', label:'Employee Exit Formats'},
-      {id:'annex-10', num:'10A–10F', label:'Discipline & Grievance Forms'},
-      {id:'annex-11', num:'11A–11F', label:'Organisation Policy Forms'}
-    ]},
+  {group:'Part 05 · Annexure & Reference Documents', items:[
+    {id:'annexure', num:'12', label:'Annexure', live:true}
   ]},
 ];
 
@@ -7477,7 +7457,10 @@ document.addEventListener('keydown', (e) => {
 });
 
 function scrollToSection(id, event){
-  if(event) event.preventDefault();
+  if(event && event.preventDefault) event.preventDefault();
+  if(typeof window.scrollToSection === 'function' && window.scrollToSection !== scrollToSection){
+    return window.scrollToSection(id, event);
+  }
   let el = document.getElementById(id);
   if(!el) return;
   const prev = el.previousElementSibling;
@@ -7898,8 +7881,11 @@ function handleLiveSearch(query) {
       if (i === -1) {
         jitterChNum.textContent = 'PORTAL';
         jitterChTitle.textContent = 'Table of Contents';
-      } else if (i >= 0 && i < views.length) {
-        jitterChNum.textContent = 'CH ' + String(i + 1).padStart(2, '0');
+      } else if (i === 0) {
+        jitterChNum.textContent = 'INTRO';
+        jitterChTitle.textContent = views[0].name;
+      } else if (i >= 1 && i < views.length) {
+        jitterChNum.textContent = 'CH ' + String(i).padStart(2, '0');
         jitterChTitle.textContent = views[i].name;
       }
     }
@@ -8025,6 +8011,7 @@ function handleLiveSearch(query) {
 
   window.scrollToSection = function(id, event){
     if(event && event.preventDefault) event.preventDefault();
+    if(typeof toggleMenu === 'function') toggleMenu(false);
     var i = viewIndexForId(id);
     if(i === -1) return;
     goToView(i);
