@@ -549,6 +549,184 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
 .hero-ghost{display:none}
 .cover p.hero-desc{color:#C9C6BD;margin-top:20px;font-size:16px;max-width:640px;position:relative;z-index:1}
 
+/* ============ DEALERSHIP OPERATING MANDATE CARD ============ */
+.hero-mandate-card {
+  margin-top: 24px;
+  max-width: 800px;
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 4px;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.hero-mandate-inner {
+  background: linear-gradient(155deg, rgba(20, 25, 36, 0.9) 0%, rgba(11, 15, 22, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 22px 26px 20px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.hero-mandate-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.mandate-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold, #C9B892);
+  box-shadow: 0 0 8px var(--gold, #C9B892);
+  animation: pulseMandateDot 2.4s ease-in-out infinite;
+}
+@keyframes pulseMandateDot {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.mandate-tag {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold, #C9B892);
+}
+.mandate-divider {
+  width: 1px;
+  height: 11px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.mandate-sub {
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.hero-mandate-text {
+  font-size: 15.5px;
+  line-height: 1.62;
+  color: #EDEAE4;
+  margin: 0 0 16px 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.hero-mandate-pipeline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  padding: 9px 14px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+.pipeline-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+.pipe-num {
+  font-size: 10px;
+  font-family: var(--mono, monospace);
+  color: var(--gold, #C9B892);
+  opacity: 0.9;
+}
+.pipe-label {
+  color: #DDD9CF;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.pipe-arrow {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 11px;
+  user-select: none;
+}
+.hero-mandate-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.hero-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 6px 5px 18px;
+  border-radius: 9999px;
+  background: #C9B892;
+  color: #0E121A !important;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.hero-cta-btn:hover {
+  background: #D8C8A5;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.32);
+}
+.hero-cta-btn:active {
+  transform: translateY(0);
+}
+.hero-cta-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(14, 18, 26, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-cta-btn:hover .hero-cta-icon {
+  transform: translateY(2px);
+}
+.hero-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #C9C6BD;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFF;
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+.hero-secondary-btn:active {
+  transform: translateY(0);
+}
+@media (max-width: 640px) {
+  .hero-mandate-inner { padding: 18px 18px 16px; }
+  .hero-mandate-text { font-size: 14.5px; line-height: 1.55; }
+  .hero-mandate-pipeline { gap: 4px 6px; padding: 8px 10px; }
+  .pipe-label { font-size: 11px; }
+  .pipe-arrow { font-size: 9px; }
+  .hero-cta-btn { font-size: 12.5px; }
+}
+
 /* ============ STICKY 5-SECTION HEADER BAR ============ */
 .hero-strip-wrapper {
   position: sticky;
@@ -3578,13 +3756,47 @@ try{
           <span class="ht-line solid">HR Operations</span>
           <span class="ht-line outline">Manual</span>
         </h1>
-        <div class="hero-trust-badge" style="display:inline-flex;align-items:center;flex-wrap:wrap;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:100px;padding:6px 18px;margin:12px 0 10px;backdrop-filter:blur(8px);">
-          <span style="font-family:'Cinzel',serif;font-weight:700;font-size:15px;letter-spacing:0.2em;color:var(--gold)">TRUST</span>
-          <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.3)"></span>
-          <span style="font-size:12.5px;color:rgba(255,255,255,0.85);letter-spacing:0.04em">Talent Development · Reliability · Unified Standards · Shared Growth · Teamwork for Customers</span>
+        <!-- Dealership Operating Mandate (Executive Double-Bezel Card) -->
+        <div class="hero-mandate-card">
+          <div class="hero-mandate-inner">
+            <div class="hero-mandate-kicker">
+              <span class="mandate-dot"></span>
+              <span class="mandate-tag">Operating Mandate</span>
+              <span class="mandate-divider"></span>
+              <span class="mandate-sub">Dealer Network Standard</span>
+            </div>
+            <p class="hero-mandate-text">
+              A single, consistent standard for how people are recruited, developed, paid, recognised and governed across every JSW Motors dealership — from the day a vacancy is raised to the day an employee is relieved.
+            </p>
+            <div class="hero-mandate-pipeline" aria-label="Operating Lifecycle Scope">
+              <div class="pipeline-item"><span class="pipe-num">01</span><span class="pipe-label">Recruit</span></div>
+              <span class="pipe-arrow">→</span>
+              <div class="pipeline-item"><span class="pipe-num">02</span><span class="pipe-label">Develop</span></div>
+              <span class="pipe-arrow">→</span>
+              <div class="pipeline-item"><span class="pipe-num">03</span><span class="pipe-label">Compensate</span></div>
+              <span class="pipe-arrow">→</span>
+              <div class="pipeline-item"><span class="pipe-num">04</span><span class="pipe-label">Recognise</span></div>
+              <span class="pipe-arrow">→</span>
+              <div class="pipeline-item"><span class="pipe-num">05</span><span class="pipe-label">Govern</span></div>
+            </div>
+            <div class="hero-mandate-actions">
+              <a href="#fm-i" class="hero-cta-btn" onclick="scrollToSection('fm-i', event)">
+                <span>Explore Manual</span>
+                <span class="hero-cta-icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 3v10M3.5 8.5L8 13l4.5-4.5"/>
+                  </svg>
+                </span>
+              </a>
+              <button type="button" class="hero-secondary-btn" onclick="toggleMenu(true)">
+                <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2.5 4h11M2.5 8h11M2.5 12h11"/>
+                </svg>
+                <span>Directory Index</span>
+              </button>
+            </div>
+          </div>
         </div>
-        <p class="hero-desc" style="font-style:italic;color:rgba(255,255,255,0.92);margin-bottom:12px;font-size:15px">“Building a dealership network our customers can trust.”</p>
-        <p class="hero-desc">A single, consistent standard for how people are recruited, developed, paid, recognised and governed across every JSW Motors dealership — from the day a vacancy is raised to the day an employee is relieved.</p>
       </div>
       <span class="hero-ghost">STANDARDS</span>
     </header>
@@ -8869,7 +9081,8 @@ html.jsw-boot .hero-title .ht-line      { animation: jswTypeWipe .82s cubic-bezi
 html.jsw-boot .hero-title .ht-line:nth-child(1) { animation-delay: .26s; }
 html.jsw-boot .hero-title .ht-line:nth-child(2) { animation-delay: .37s; }
 
-html.jsw-boot .cover p.hero-desc        { animation: jswBootRise .66s cubic-bezier(0.16,1,0.3,1) .56s both; }
+html.jsw-boot .cover p.hero-desc,
+html.jsw-boot .cover .hero-mandate-card { animation: jswBootRise .66s cubic-bezier(0.16,1,0.3,1) .56s both; }
 html.jsw-boot .cover .cover-grid        { animation: jswBootFade .9s ease .1s both; }
 
 /* The five section cells arrive as the list they are — capped stagger. */
@@ -9032,6 +9245,7 @@ html.jsw-boot .home-index .hx-group:nth-child(n+5) { animation-delay: 1.10s; }
   html.jsw-boot .cover .eyebrow,
   html.jsw-boot .hero-title .ht-line,
   html.jsw-boot .cover p.hero-desc,
+  html.jsw-boot .cover .hero-mandate-card,
   html.jsw-boot .cover .cover-grid,
   html.jsw-boot .hero-strip .hero-cell,
   html.jsw-boot .home-index .hx-head,
