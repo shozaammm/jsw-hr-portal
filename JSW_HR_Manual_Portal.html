@@ -9325,7 +9325,7 @@ section.chap > .chap-head { contain: layout paint style; }
    backdrop is dirtied continuously, so the blur is recomputed continuously,
    for every card, at full size. These sit directly over the animated canvas,
    so they carry a tint instead. The topbar keeps its blur — it is one layer
-   over static content. */
+   over static content.
    These are opaque, not merely tinted. A translucent card without the blur
    lets the spheres behind it read as hard-edged pale discs — the blur was
    what turned them into soft shadows — so partial alpha here looks like
@@ -9547,6 +9547,454 @@ html.jsw-boot .home-index .hx-group:nth-child(n+5) { animation-delay: 1.10s; }
     clip-path: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   DEFINITIVE MOBILE RESPONSIVE ENGINE (MAX-WIDTH: 768px)
+   Placed at the absolute end of the document styles for undisputed priority
+   ========================================================================== */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  -webkit-overflow-scrolling: touch;
+}
+.main {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  padding-bottom: calc(90px + env(safe-area-inset-bottom, 24px)) !important;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --edge: 16px !important;
+    --topbar-h: 50px !important;
+  }
+
+  /* 1. Header & Topbar Navigation */
+  .topbar {
+    padding: 0 12px 0 14px !important;
+    height: var(--topbar-h) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .tb-logo-img {
+    height: 22px !important;
+    max-width: 120px !important;
+  }
+  .tb-center {
+    display: none !important;
+  }
+  .tb-right {
+    gap: 6px !important;
+  }
+  .tb-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  .tb-action-btn {
+    padding: 5px 9px !important;
+    font-size: 11px !important;
+  }
+  .tb-action-btn kbd {
+    display: none !important;
+  }
+  .tb-menu {
+    padding: 5px 10px !important;
+    font-size: 11px !important;
+    gap: 5px !important;
+  }
+
+  /* 2. Hero & Cover Section */
+  .cover {
+    padding: 36px var(--edge) 28px !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+  .cover-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .hero-logo-img {
+    height: 34px !important;
+  }
+  .cover .eyebrow {
+    font-size: 10px !important;
+    letter-spacing: 1.2px !important;
+    line-height: 1.4 !important;
+  }
+  .hero-title {
+    margin-top: 10px !important;
+  }
+  .hero-title .ht-line.solid {
+    font-size: clamp(20px, 6vw, 30px) !important;
+    letter-spacing: -0.4px !important;
+    line-height: 1.18 !important;
+    word-break: break-word !important;
+    text-wrap: normal !important;
+  }
+  .hero-title .ht-line.outline {
+    font-size: clamp(40px, 13vw, 68px) !important;
+    line-height: 0.95 !important;
+    margin-top: 4px !important;
+  }
+  .trust-list {
+    margin: 18px 0 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+  }
+  .trust-list li {
+    padding: 7px 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: baseline !important;
+    gap: 8px !important;
+  }
+  .tr-i {
+    font-size: 15px !important;
+  }
+  .tr-w {
+    font-size: 13.5px !important;
+    line-height: 1.35 !important;
+  }
+  .hero-quote {
+    font-size: 13.5px !important;
+    margin-top: 16px !important;
+    line-height: 1.5 !important;
+  }
+  .hero-ghost {
+    display: none !important;
+  }
+
+  /* 3. 5-Section Header Bar (Forced unpinned, horizontal swipeable strip) */
+  .hero-strip-wrapper {
+    position: relative !important;
+    top: auto !important;
+    z-index: 20 !important;
+    background: var(--sidebar) !important;
+    border-top: 1px solid var(--sidebar-line) !important;
+    border-bottom: 1px solid var(--sidebar-line) !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+  .hero-strip {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 8px !important;
+    padding: 10px 14px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .hero-strip::-webkit-scrollbar {
+    display: none !important;
+  }
+  .hero-cell {
+    flex: 0 0 auto !important;
+    border-right: none !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    min-width: 140px !important;
+    box-sizing: border-box !important;
+  }
+  .hero-cell h4 {
+    font-size: 11px !important;
+    white-space: nowrap !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+  }
+  .hero-cell p {
+    font-size: 9.5px !important;
+    color: var(--sidebar-text) !important;
+    white-space: nowrap !important;
+    margin: 3px 0 0 !important;
+  }
+
+  /* 4. Dropdown Menu (Full mobile viewport overlay) */
+  .menu-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 1040 !important;
+    background: rgba(15, 14, 13, 0.72) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+  .menu-dropdown {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    top: calc(var(--topbar-h) + 8px) !important;
+    width: auto !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - var(--topbar-h) - 30px) !important;
+    border-radius: 12px !important;
+    z-index: 1050 !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75) !important;
+    padding: 14px 12px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
+  }
+  .menu-dropdown-header {
+    padding: 4px 6px 12px !important;
+    margin-bottom: 12px !important;
+  }
+  #menuGrid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* 5. Search Modal & Input Field */
+  .modal-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 1060 !important;
+    display: none !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: calc(var(--topbar-h) + 12px) 12px 24px !important;
+    box-sizing: border-box !important;
+    background: rgba(15, 14, 13, 0.76) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+  .modal-backdrop.show {
+    display: flex !important;
+  }
+  .modal-box {
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8) !important;
+    background: #191816 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+  .search-input-wrap {
+    padding: 12px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+  .search-input-wrap input {
+    font-size: 14px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    background: transparent !important;
+    color: #fff !important;
+    outline: none !important;
+    border: none !important;
+  }
+  .search-input-wrap input::placeholder {
+    font-size: 13px !important;
+    color: var(--grey-500) !important;
+  }
+  .modal-close {
+    width: 32px !important;
+    height: 32px !important;
+    flex: 0 0 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 50% !important;
+    color: #fff !important;
+    border: none !important;
+    font-size: 14px !important;
+  }
+  .search-results {
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* 6. Section Banners & Part Dividers */
+  .section-banner {
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+  .banner-inner {
+    padding: 30px var(--edge) 24px !important;
+  }
+  .banner-kicker {
+    margin-bottom: 8px !important;
+    font-size: 10px !important;
+    letter-spacing: 1.8px !important;
+  }
+  .banner-title {
+    font-size: clamp(22px, 5.8vw, 30px) !important;
+    line-height: 1.18 !important;
+  }
+  .banner-contents {
+    margin-top: 10px !important;
+    font-size: 11.5px !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  .banner-contents span {
+    padding: 3px 8px !important;
+    font-size: 10.5px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 4px !important;
+  }
+
+  /* 7. Chapter Content & Grid System */
+  section.chap {
+    padding: 32px var(--edge) calc(85px + env(safe-area-inset-bottom, 24px)) !important;
+    scroll-margin-top: calc(var(--topbar-h) + 15px) !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+  section.chap > .chap-head {
+    padding: 20px 14px 16px !important;
+    margin-bottom: 18px !important;
+    border-radius: 10px !important;
+  }
+  .chap-head h2.sec-title, h1.disp {
+    font-size: clamp(19px, 5.2vw, 24px) !important;
+    line-height: 1.2 !important;
+  }
+  .chap-lede {
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+  }
+  h2.sec-title {
+    font-size: clamp(17px, 4.8vw, 22px) !important;
+  }
+  h3.sub-title {
+    font-size: 15.5px !important;
+  }
+  h4.item-title {
+    font-size: 13.5px !important;
+  }
+  p, li {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    word-break: break-word !important;
+  }
+  .split-grid, .two-col {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .meta-row {
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+  }
+  .meta-item {
+    min-width: 100% !important;
+  }
+
+  /* 8. Table Styling & Horizontal Touch Scrolling */
+  .table-wrap {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 8px !important;
+    margin: 14px 0 !important;
+    border: 1px solid var(--line-200) !important;
+    box-sizing: border-box !important;
+    contain: paint !important;
+  }
+  table {
+    min-width: 100% !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+  thead th {
+    padding: 9px 10px !important;
+    font-size: 10.5px !important;
+    letter-spacing: 0.7px !important;
+    white-space: normal !important;
+    word-break: normal !important;
+  }
+  tbody td {
+    padding: 9px 10px !important;
+    font-size: 12.5px !important;
+    line-height: 1.45 !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* 9. Floating Glass Capsule Dock */
+  .jitter-dock-wrap {
+    bottom: calc(12px + env(safe-area-inset-bottom, 12px)) !important;
+    z-index: 990 !important;
+    display: flex !important;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  body.modal-open .jitter-dock-wrap,
+  body.menu-open .jitter-dock-wrap {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  .jitter-dock {
+    padding: 5px 8px !important;
+    gap: 5px !important;
+    max-width: calc(100vw - 20px) !important;
+    border-radius: 30px !important;
+  }
+  .jitter-btn {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  .jitter-brand {
+    padding-right: 2px !important;
+    gap: 4px !important;
+  }
+  .jitter-logo {
+    height: 14px !important;
+  }
+  .jitter-current {
+    padding: 4px 8px !important;
+    gap: 4px !important;
+  }
+  .jitter-ch-num {
+    font-size: 10px !important;
+    letter-spacing: 0.5px !important;
+  }
+  .jitter-ch-title {
+    display: none !important;
+  }
+  #backToTop {
+    display: none !important;
+  }
+
+  /* 10. Home Contents Grid */
+  .home-index {
+    padding: 28px var(--edge) calc(85px + env(safe-area-inset-bottom, 24px)) !important;
+  }
+  .hx-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
   }
 }
 </style>
