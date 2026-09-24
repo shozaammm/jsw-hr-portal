@@ -2158,181 +2158,342 @@ kbd{
 
 <style id="jx-v3-monochrome-overrides">
 /* ==========================================================================
-   JSW HR Portal v3 — Premium Light Aesthetic & Black/Grey Monochrome Palette
-   Palette mapping based on user reference:
-     Canvas Ground: #EAE9E5 (clean architectural soft grey)
-     Sheet & Card Surfaces: #FFFFFF / #FAFAF9
-     Deep Black Accent: #111113 (replaces all gold: TRUST letters, key badges, primary pills)
-     Dark Charcoal: #2A2A2A / #3B3E48 (replaces gold accents, borders, and sub-headers)
-     Mid Slate Grey: #585858 / #6B6862 (eyebrow kickers, tags, secondary badges)
-     Hairline Borders: #D6D4CE / #DAD8D3
-     Body Ink: #111113 / #3B3936
+   JSW HR Portal v3 — Calibrated Architectural Grayscale Palette System
+   Exact Swatch Mapping from Reference (Row 1-4 Samples):
+     Row 1 (Deep to Light):
+       #1D1D1B (Deep Carbon) | #343432 (Charcoal) | #484848 (Slate) | #5E5E5E (Graphite)
+       #737373 (Mid Grey)    | #A0A0A0 (Cool Grey)| #B5B5B5 (Pewter)| #CBCBCB (Silver)
+       #E0E0E0 (Light Grey)  | #F6F6F6 (Alabaster Off-White)
+     Row 2 (Sub-darks):
+       #585858 | #515151 | #4B4B4B | #464644 | #393937 | #292929 | #2E2E2E | #292927 | #232321 | #1D1D1B
+     Row 3 (Silvers & Paper tones):
+       #9D9D9D | #A6A6A6 | #AFAFAF | #B8B8B8 | #C1C1C1 | #D2D2D2 | #DBDBDB | #E4E4E4 | #EDEDED | #F6F6F6
+     Row 4 (Graphite ramp):
+       #C6C6C6 | #B8B8B8 | #AAAAAA | #9D9D9D | #8B8B8B | #717171 | #656565 | #585858 | #4A4A4A | #3D3D3D
    ========================================================================== */
 
-/* 1. Global Ground & Base Canvas */
+:root {
+  --pal-carbon: #1D1D1B;
+  --pal-charcoal: #343432;
+  --pal-slate: #484848;
+  --pal-graphite: #5E5E5E;
+  --pal-mid-grey: #737373;
+  --pal-cool-grey: #8B8B8B;
+  --pal-pewter: #AFAFAF;
+  --pal-silver-border: #C6C6C6;
+  --pal-silver-card: #D2D2D2;
+  --pal-stone: #DBDBDB;
+  --pal-ground: #E6E4DE;
+  --pal-paper: #EDEDED;
+  --pal-pure-paper: #F6F6F6;
+  --pal-white: #FFFFFF;
+}
+
+/* 1. Global Ground & Base Canvas — Tactile Technical Architectural Drafting Texture */
 html, body {
-  background-color: #EAE9E5 !important;
-  color: #111113 !important;
+  background-color: #E6E4DE !important;
+  background-image: 
+    radial-gradient(#B8B8B8 1.15px, transparent 1.15px),
+    linear-gradient(180deg, #EBE8E1 0%, #DFDCD4 50%, #D5D1C7 100%) !important;
+  background-size: 26px 26px, 100% 100% !important;
+  background-attachment: fixed !important;
+  color: #1D1D1B !important;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-body {
-  background-image: none !important;
-}
 ::selection {
-  background: #111113 !important;
+  background: #23252A !important;
   color: #FFFFFF !important;
 }
 
 /* 2. Top Bar & Navigation Chrome */
 .jx-top {
-  background: rgba(246, 245, 242, 0.94) !important;
-  border-bottom: 1px solid #D6D4CE !important;
+  background: rgba(235, 233, 227, 0.94) !important;
+  border-bottom: 1px solid #C6C6C6 !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03) !important;
 }
-.jx-top-brand img, .jx-nav-brand img {
-  filter: none !important;
-}
-.jx-crumb { color: #6B6862 !important; }
-.jx-crumb .jx-crumb-now { color: #111113 !important; font-weight: 700 !important; }
-.jx-crumb button:hover { background: #E2E0DB !important; color: #111113 !important; }
-.jx-icon-btn, .jx-text-btn { color: #3B3936 !important; }
-.jx-icon-btn:hover, .jx-text-btn:hover { background: #E2E0DB !important; color: #111113 !important; }
+.jx-top-brand img, .jx-nav-brand img { filter: none !important; }
+.jx-crumb { color: #585858 !important; }
+.jx-crumb .jx-crumb-now { color: #1D1D1B !important; font-weight: 700 !important; }
+.jx-crumb button:hover { background: #D2D2D2 !important; color: #1D1D1B !important; }
+.jx-icon-btn, .jx-text-btn { color: #343432 !important; }
+.jx-icon-btn:hover, .jx-text-btn:hover { background: #D2D2D2 !important; color: #1D1D1B !important; }
 
-/* 3. Navigation Drawer (Sidebar) */
+/* 3. Navigation Drawer (Sidebar) — Contrast Mid-light Stone Panel */
 .jx-nav {
-  background: #F4F3F0 !important;
-  border-right: 1px solid #D6D4CE !important;
+  background: #E0DDD6 !important;
+  border-right: 1px solid #C6C6C6 !important;
 }
-.jx-nav-head, .jx-nav-foot { border-color: #D6D4CE !important; }
-.jx-nav-brand { color: #111113 !important; }
-.jx-nav-group-title { color: #585858 !important; }
-.jx-nav-group-label b { color: #111113 !important; }
-.jx-nav-item { color: #3B3936 !important; }
-.jx-nav-item:hover { background: #EAE9E5 !important; color: #111113 !important; }
+.jx-nav-head, .jx-nav-foot {
+  border-color: #C6C6C6 !important;
+  background: #D8D4CC !important;
+}
+.jx-nav-brand { color: #1D1D1B !important; }
+.jx-nav-group-title {
+  color: #515151 !important;
+  font-weight: 800 !important;
+  letter-spacing: .12em !important;
+}
+.jx-nav-group-label b { color: #1D1D1B !important; }
+.jx-nav-item { color: #343432 !important; }
+.jx-nav-item:hover { background: #D2CEC5 !important; color: #1D1D1B !important; }
 .jx-nav-item.is-active {
   background: #FFFFFF !important;
-  color: #111113 !important;
+  color: #1D1D1B !important;
   font-weight: 700 !important;
-  box-shadow: 0 1px 3px rgba(20,19,18,0.08) !important;
+  border: 1px solid #C6C6C6 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important;
 }
-.jx-nav-item.is-active .jx-nav-num { color: #111113 !important; }
-.jx-nav-sub { color: #5E5B55 !important; }
-.jx-nav-sub:hover { color: #111113 !important; background: #EAE9E5 !important; }
-.jx-nav-sub b { color: #111113 !important; }
+.jx-nav-item.is-active .jx-nav-num {
+  background: #1D1D1B !important;
+  color: #FFFFFF !important;
+  border-radius: 4px !important;
+  padding: 1px 6px !important;
+}
+.jx-nav-num {
+  color: #585858 !important;
+  font-weight: 700 !important;
+}
+.jx-nav-sub { color: #515151 !important; }
+.jx-nav-sub:hover { color: #1D1D1B !important; background: #D5D1C8 !important; }
+.jx-nav-sub b { color: #1D1D1B !important; }
 .jx-nav-sub.is-page {
-  color: #111113 !important;
-  font-weight: 600 !important;
+  color: #1D1D1B !important;
+  font-weight: 700 !important;
   background: #FFFFFF !important;
-  box-shadow: 0 1px 3px rgba(20,19,18,0.08) !important;
+  border: 1px solid #C6C6C6 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
 }
-.jx-nav-sub::before { background: #111113 !important; }
-.jx-nav-item::after, .jx-nav-sub::after { background: #111113 !important; }
+.jx-nav-sub::before { background: #484848 !important; }
+.jx-nav-item::after, .jx-nav-sub::after { background: #1D1D1B !important; }
 
 /* 4. Search Field & Command Palette */
 .jx-search-field {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #5E5B55 !important;
+  background: #F6F6F6 !important;
+  border: 1px solid #C6C6C6 !important;
+  color: #515151 !important;
+  border-radius: 12px !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.2s ease !important;
 }
 .jx-search-field:hover {
-  border-color: #111113 !important;
+  border-color: #484848 !important;
   background: #FFFFFF !important;
-  color: #111113 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+  color: #1D1D1B !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important;
+}
+.jx-search-field svg {
+  color: #484848 !important;
 }
 .jx-search-field kbd {
-  background: #EAE9E5 !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
+  background: #343432 !important;
+  border: 1px solid #484848 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
 }
 .jx-palette {
-  background: rgba(17,17,19,0.48) !important;
+  background: rgba(29, 29, 27, 0.55) !important;
 }
 .jx-palette-box {
   background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
+  border: 1px solid #C6C6C6 !important;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22) !important;
 }
-.jx-palette-head { border-bottom: 1px solid #EAE9E5 !important; }
-.jx-palette-input { color: #111113 !important; }
-.jx-palette-input::placeholder { color: #8E929E !important; }
-.jx-result-title { color: #111113 !important; }
-.jx-result-meta { color: #6B6862 !important; }
+.jx-palette-head { border-bottom: 1px solid #E0E0E0 !important; }
+.jx-palette-input { color: #1D1D1B !important; }
+.jx-palette-input::placeholder { color: #8B8B8B !important; }
+.jx-result-title { color: #1D1D1B !important; }
+.jx-result-meta { color: #585858 !important; }
 .jx-result.is-active, .jx-result:hover {
-  background: #F4F3F0 !important;
+  background: #EAE7E1 !important;
 }
-.jx-result mark { background: #E2E0DB !important; color: #111113 !important; font-weight: 700 !important; }
+.jx-result mark { background: #D2D2D2 !important; color: #1D1D1B !important; font-weight: 700 !important; }
 
-/* 5. Home Hero & Integrated Header (No floating dark card) */
+/* 5. Home Hero Section Container with Architectural Backdrop */
 .jx-hero {
-  background: transparent !important;
-  color: #111113 !important;
-  box-shadow: none !important;
-  border-bottom: 1px solid #D6D4CE !important;
-  padding: clamp(24px, 4vw, 48px) 0 clamp(20px, 3vw, 36px) !important;
+  background: linear-gradient(180deg, #F3F1EC 0%, #E8E5DE 100%) !important;
+  border: 1px solid #C6C2B8 !important;
+  border-radius: 20px !important;
+  padding: clamp(28px, 4.5vw, 52px) clamp(22px, 3.5vw, 44px) !important;
   margin-bottom: 24px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 30px -8px rgba(29, 29, 27, 0.07), 0 1px 3px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
 }
 .jx-hero-glow { display: none !important; }
-.jx-hero-logo { filter: none !important; }
+.jx-hero-logo {
+  filter: none !important;
+  margin-bottom: clamp(20px, 3.5vw, 40px) !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Palette Accent Bar at top edge of Hero */
+.jx-hero-palette-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1D1D1B 0%, #343432 15%, #484848 30%, #5E5E5E 45%, #737373 60%, #A0A0A0 75%, #CBCBCB 90%, #F6F6F6 100%) !important;
+  z-index: 2;
+}
+
+/* Large Technical Watermark in Hero Background */
+.jx-hero-watermark {
+  position: absolute;
+  right: 15px;
+  top: 40px;
+  font-size: clamp(90px, 18vw, 190px);
+  font-weight: 900;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(45, 45, 45, 0.06);
+  letter-spacing: -0.05em;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  font-family: var(--font-display);
+}
+
 .jx-hero-eyebrow {
   color: #585858 !important;
   font-weight: 700 !important;
   letter-spacing: .16em !important;
+  position: relative;
+  z-index: 1;
+}
+.jx-hero-title {
+  position: relative;
+  z-index: 1;
 }
 .jx-hero-line {
-  color: #111113 !important;
+  color: #1D1D1B !important;
   font-weight: 800 !important;
 }
 .jx-hero-word {
-  color: #111113 !important;
+  color: #1D1D1B !important;
   text-shadow: none !important;
 }
 .jx-hero-word > span {
-  color: #111113 !important;
+  color: #1D1D1B !important;
   filter: none !important;
   opacity: 1 !important;
 }
+
+/* Quote in Hero */
 .jx-hero-quote {
-  color: #585858 !important;
-  border-left: 3px solid #111113 !important;
+  background: linear-gradient(135deg, #E0DCD4 0%, #D4CFBF 100%) !important;
+  border-left: 4px solid #343432 !important;
+  border-radius: 0 8px 8px 0 !important;
+  padding: 12px 18px !important;
+  color: #292927 !important;
   font-style: italic !important;
+  font-weight: 500 !important;
+  margin-top: 22px !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04) !important;
+  position: relative;
+  z-index: 1;
 }
 
-/* TRUST Pillars: Clean Light Cards with Crisp Black & Grey Accents */
+/* 6. TRUST Pillars: Calibrated Grayscale Ramp */
 .jx-pillars {
-  border-top: 1px solid #D6D4CE !important;
+  border-top: 1px solid #CCC8BF !important;
+  margin-top: 24px !important;
+  padding-top: 20px !important;
+  position: relative;
+  z-index: 1;
 }
 .jx-pillars li {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #3B3936 !important;
-  box-shadow: 0 1px 3px rgba(20,19,18,0.06) !important;
-  border-radius: 10px !important;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F4F3EF 100%) !important;
+  border: 1px solid #CCC8BF !important;
+  color: #292927 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  border-radius: 12px !important;
+  padding: 14px 16px !important;
+  transition: all 0.22s cubic-bezier(.16,1,.3,1) !important;
 }
 .jx-pillars li:hover {
-  background: #F9F9F8 !important;
-  border-color: #111113 !important;
-  color: #111113 !important;
+  background: linear-gradient(180deg, #F8F7F4 0%, #ECE9E2 100%) !important;
+  border-color: #717171 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(20,19,18,0.1) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
 }
+
+/* Sophisticated Gray Gradation across T-R-U-S-T badges */
+.jx-pillars li {
+  animation: none !important;
+  opacity: 1 !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F4F0 100%) !important;
+  border: 1px solid #CCC8BF !important;
+  border-radius: 12px !important;
+  padding: 18px 14px 14px !important;
+}
+.jx-pillars li::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 4px !important;
+}
+.jx-pillars li:nth-child(1)::before { background: #1D1D1B !important; }
+.jx-pillars li:nth-child(2)::before { background: #343432 !important; }
+.jx-pillars li:nth-child(3)::before { background: #484848 !important; }
+.jx-pillars li:nth-child(4)::before { background: #5E5E5E !important; }
+.jx-pillars li:nth-child(5)::before { background: #737373 !important; }
+
 .jx-pillars li b {
-  color: #111113 !important;
-  font-weight: 850 !important;
   font-size: 18px !important;
+  font-weight: 850 !important;
+  display: inline !important;
+  margin-right: 0 !important;
 }
+.jx-pillars li:nth-child(1) b { color: #1D1D1B !important; background: transparent !important; }
+.jx-pillars li:nth-child(2) b { color: #343432 !important; background: transparent !important; }
+.jx-pillars li:nth-child(3) b { color: #484848 !important; background: transparent !important; }
+.jx-pillars li:nth-child(4) b { color: #5E5E5E !important; background: transparent !important; }
+.jx-pillars li:nth-child(5) b { color: #737373 !important; background: transparent !important; }
 .jx-pillar-tag {
   color: #585858 !important;
   font-weight: 600 !important;
 }
 .jx-pillars li:hover .jx-pillar-tag {
-  color: #111113 !important;
+  color: #1D1D1B !important;
 }
 
-/* Quick Action Pills on Home Page */
+/* 7. Continue Reading Card with Dual-Tone Architectural Surface */
+.jx-resume {
+  background: linear-gradient(135deg, #EBE8E1 0%, #DFDCD4 100%) !important;
+  border: 1px solid #C4C0B6 !important;
+  color: #1D1D1B !important;
+  border-radius: 14px !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.04) !important;
+  margin: 20px 0 !important;
+}
+.jx-resume:hover {
+  background: linear-gradient(135deg, #E5E2DA 0%, #D8D4CB 100%) !important;
+  border-color: #717171 !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+  transform: translateY(-2px) !important;
+}
+.jx-resume-icon {
+  background: #292929 !important;
+  color: #FFFFFF !important;
+  border-radius: 10px !important;
+}
+.jx-resume-k { color: #585858 !important; font-weight: 700 !important; }
+.jx-resume-t { color: #1D1D1B !important; }
+.jx-resume-t b { color: #1D1D1B !important; }
+.jx-resume-c { color: #656565 !important; }
+.jx-resume > svg { color: #484848 !important; }
+.jx-resume:hover > svg { color: #1D1D1B !important; }
+
+/* 8. Quick Action Navigation Pills (Multi-tone Grayscale Palette instead of binary black/white) */
 .jx-home-actions {
   display: flex !important;
   flex-wrap: wrap !important;
@@ -2340,10 +2501,6 @@ body {
   margin-top: 20px !important;
 }
 .jx-action-pill {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-  box-shadow: 0 1px 3px rgba(20,19,18,0.06) !important;
   border-radius: 999px !important;
   padding: 10px 18px !important;
   font-weight: 600 !important;
@@ -2352,57 +2509,156 @@ body {
   align-items: center !important;
   gap: 8px !important;
   cursor: pointer !important;
-  transition: all 0.2s cubic-bezier(.22,1,.36,1) !important;
+  transition: all 0.2s cubic-bezier(.16,1,.3,1) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
 }
-.jx-action-pill:hover {
-  background: #F4F3F0 !important;
-  border-color: #111113 !important;
-  color: #111113 !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(20,19,18,0.09) !important;
+.jx-action-pill svg {
+  width: 16px !important;
+  height: 16px !important;
 }
-.jx-action-pill--primary {
-  background: #111113 !important;
+
+/* Pill 1: All 12 Chapters — Deep Charcoal Graphite */
+.jx-action-pill--chapters, .jx-action-pill--primary {
+  background: #23252A !important;
+  border: 1px solid #363942 !important;
   color: #FFFFFF !important;
-  border-color: #111113 !important;
 }
-.jx-action-pill--primary:hover {
-  background: #2A2A2A !important;
+.jx-action-pill--chapters:hover, .jx-action-pill--primary:hover {
+  background: #16171A !important;
+  border-color: #4A4D59 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.14) !important;
+}
+.jx-action-pill--chapters svg, .jx-action-pill--primary svg { stroke: #FFFFFF !important; }
+.jx-action-pill--chapters .jx-badge, .jx-action-pill--primary .jx-badge {
+  background: #3B3E48 !important;
   color: #FFFFFF !important;
-  border-color: #2A2A2A !important;
-}
-.jx-action-pill--primary svg {
-  stroke: #FFFFFF !important;
-}
-.jx-action-pill .jx-badge {
-  background: #EAE9E5 !important;
-  color: #111113 !important;
   font-size: 11px !important;
   font-weight: 700 !important;
   padding: 3px 8px !important;
   border-radius: 999px !important;
 }
-.jx-action-pill--primary .jx-badge {
-  background: rgba(255,255,255,0.2) !important;
+
+/* Pill 2: Foreword — Slate Pewter Grey */
+.jx-action-pill--foreword {
+  background: #4A4D56 !important;
+  border: 1px solid #5C606C !important;
   color: #FFFFFF !important;
 }
-.jx-action-pill .jx-badge-arrow {
-  color: #585858 !important;
-  font-weight: 700 !important;
+.jx-action-pill--foreword:hover {
+  background: #393B43 !important;
+  border-color: #727786 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
 }
-.jx-action-pill:hover .jx-badge-arrow {
-  color: #111113 !important;
+.jx-action-pill--foreword svg { stroke: #FFFFFF !important; }
+.jx-action-pill--foreword .jx-badge-arrow {
+  background: #606471 !important;
+  color: #FFFFFF !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
 }
 
-/* Direct Chapter Access Menu */
+/* Pill 3: POSH Policy — Balanced Mid Charcoal */
+.jx-action-pill--posh {
+  background: #656975 !important;
+  border: 1px solid #7B808E !important;
+  color: #FFFFFF !important;
+}
+.jx-action-pill--posh:hover {
+  background: #525660 !important;
+  border-color: #9297A6 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
+}
+.jx-action-pill--posh svg { stroke: #FFFFFF !important; }
+.jx-action-pill--posh .jx-badge-arrow {
+  background: #7E8392 !important;
+  color: #FFFFFF !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+/* Pill 4: Leave & Attendance — Warm Silver Stone Grey */
+.jx-action-pill--leave {
+  background: #DDD9D2 !important;
+  border: 1px solid #C4C0B6 !important;
+  color: #1D1D1B !important;
+}
+.jx-action-pill--leave:hover {
+  background: #CECAC1 !important;
+  border-color: #8B8B8B !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1) !important;
+}
+.jx-action-pill--leave svg { stroke: #1D1D1B !important; }
+.jx-action-pill--leave .jx-badge-arrow {
+  background: #C4C0B6 !important;
+  color: #1D1D1B !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+/* Pill 5: Annexure — Light Pewter Grey */
+.jx-action-pill--annexure {
+  background: #E8E5DE !important;
+  border: 1px solid #CCC8BF !important;
+  color: #1D1D1B !important;
+}
+.jx-action-pill--annexure:hover {
+  background: #D8D5CD !important;
+  border-color: #8B8B8B !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1) !important;
+}
+.jx-action-pill--annexure svg { stroke: #1D1D1B !important; }
+.jx-action-pill--annexure .jx-badge-arrow {
+  background: #CCC8BF !important;
+  color: #1D1D1B !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+/* 9. Direct Chapter Access Menu & Grid */
 .jx-quick-menu {
+  background: rgba(246, 244, 239, 0.75) !important;
+  border: 1px solid #CCC8BF !important;
+  border-radius: 18px !important;
+  padding: 22px 20px 24px !important;
   margin: 28px 0 24px !important;
+  box-shadow: 0 4px 16px -4px rgba(29, 29, 27, 0.04) !important;
 }
 .jx-quick-menu-header {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  margin-bottom: 12px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid #C6C2B8 !important;
+  margin-bottom: 16px !important;
 }
 .jx-qm-label {
   display: inline-flex !important;
@@ -2411,13 +2667,13 @@ body {
   font-size: 11.5px !important;
   font-weight: 800 !important;
   letter-spacing: .14em !important;
-  color: #111113 !important;
+  color: #1D1D1B !important;
 }
 .jx-qm-dot {
   width: 7px !important;
   height: 7px !important;
   border-radius: 50% !important;
-  background: #111113 !important;
+  background: #484848 !important;
 }
 .jx-qm-hint {
   font-size: 12px !important;
@@ -2427,12 +2683,12 @@ body {
 .jx-quick-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
-  gap: 10px !important;
+  gap: 12px !important;
 }
 .jx-quick-tile {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F4F0 100%) !important;
+  border: 1px solid #CCC8BF !important;
+  color: #1D1D1B !important;
   border-radius: 12px !important;
   padding: 12px 14px !important;
   display: flex !important;
@@ -2440,27 +2696,46 @@ body {
   gap: 12px !important;
   text-align: left !important;
   cursor: pointer !important;
-  box-shadow: 0 1px 3px rgba(20,19,18,0.05) !important;
-  transition: all 0.2s cubic-bezier(.22,1,.36,1) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03) !important;
+  transition: all 0.2s cubic-bezier(.16,1,.3,1) !important;
 }
 .jx-quick-tile:hover {
-  background: #F9F9F8 !important;
-  border-color: #111113 !important;
+  background: linear-gradient(180deg, #F8F7F4 0%, #E8E5DF 100%) !important;
+  border-color: #585858 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 4px 14px rgba(20,19,18,0.1) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
 }
 .jx-qt-badge {
-  background: #EAE9E5 !important;
-  color: #111113 !important;
   font-size: 12px !important;
   font-weight: 800 !important;
   border-radius: 8px !important;
-  padding: 6px 9px !important;
+  padding: 6px 10px !important;
   font-variant-numeric: tabular-nums !important;
-}
-.jx-quick-tile:hover .jx-qt-badge {
-  background: #111113 !important;
   color: #FFFFFF !important;
+}
+/* Part 1 (Ch 1-4): Deep Carbon */
+.jx-quick-tile:nth-child(1) .jx-qt-badge,
+.jx-quick-tile:nth-child(2) .jx-qt-badge,
+.jx-quick-tile:nth-child(3) .jx-qt-badge,
+.jx-quick-tile:nth-child(4) .jx-qt-badge {
+  background: #23252A !important;
+}
+/* Part 2 (Ch 5-7): Slate Charcoal */
+.jx-quick-tile:nth-child(5) .jx-qt-badge,
+.jx-quick-tile:nth-child(6) .jx-qt-badge,
+.jx-quick-tile:nth-child(7) .jx-qt-badge {
+  background: #484848 !important;
+}
+/* Part 3 (Ch 8): Graphite */
+.jx-quick-tile:nth-child(8) .jx-qt-badge {
+  background: #5E5E5E !important;
+}
+/* Part 4 (Ch 9-12): Pewter Basalt */
+.jx-quick-tile:nth-child(9) .jx-qt-badge,
+.jx-quick-tile:nth-child(10) .jx-qt-badge,
+.jx-quick-tile:nth-child(11) .jx-qt-badge,
+.jx-quick-tile:nth-child(12) .jx-qt-badge {
+  background: #393937 !important;
 }
 .jx-qt-body {
   flex: 1 !important;
@@ -2472,7 +2747,7 @@ body {
 .jx-qt-title {
   font-size: 14px !important;
   font-weight: 700 !important;
-  color: #111113 !important;
+  color: #1D1D1B !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
@@ -2486,506 +2761,112 @@ body {
   white-space: nowrap !important;
 }
 .jx-qt-arrow {
-  color: #6B6862 !important;
+  color: #737373 !important;
   font-weight: 700 !important;
   transition: transform 0.2s ease, color 0.2s ease !important;
 }
 .jx-quick-tile:hover .jx-qt-arrow {
-  color: #111113 !important;
+  color: #1D1D1B !important;
   transform: translateX(3px) !important;
 }
 
-/* 6. Chapter Cards & Segments */
-.jx-seg {
-  background: #E2E0DB !important;
-  border: 1px solid #D6D4CE !important;
-}
-.jx-seg-ind { background: #111113 !important; }
-.jx-seg button { color: #3B3936 !important; font-weight: 600 !important; }
-.jx-seg button:not([aria-selected="true"]):hover {
-  color: #111113 !important;
-  background: rgba(255, 255, 255, 0.6) !important;
-}
-.jx-seg button[aria-selected="true"] {
-  color: #FFFFFF !important;
-  font-weight: 700 !important;
-}
-
-.jx-card {
+/* 10. Inner Chapter Reading Sheets */
+.jx-chapter {
   background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-  box-shadow: 0 1px 3px rgba(20,19,18,0.06) !important;
+  border: 1px solid #CCC8BF !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  margin-bottom: 40px !important;
 }
-.jx-card:hover {
-  border-color: #111113 !important;
-  background: #FFFFFF !important;
-  box-shadow: 0 8px 24px rgba(20,19,18,0.12) !important;
-  transform: translateY(-3px) !important;
+.jx-chapter-lead {
+  border-bottom: 1px solid #E0E0E0 !important;
 }
-.jx-card-num { color: #111113 !important; font-weight: 800 !important; }
-.jx-card-title { color: #111113 !important; font-weight: 700 !important; }
-.jx-card-meta { color: #585858 !important; }
-.jx-card-meta b { color: #111113 !important; }
-.jx-card-go {
-  border-color: #D6D4CE !important;
-  color: #111113 !important;
-}
-.jx-card:hover .jx-card-go {
-  background: #111113 !important;
-  border-color: #111113 !important;
-  color: #FFFFFF !important;
-}
-.jx-card-bar i {
-  background: linear-gradient(90deg, #111113, #585858) !important;
-}
-
-.jx-resume {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-}
-.jx-resume:hover {
-  border-color: #111113 !important;
-  box-shadow: 0 6px 18px rgba(20,19,18,0.1) !important;
-}
-.jx-resume-icon {
-  background: #111113 !important;
-  color: #FFFFFF !important;
-}
-.jx-resume-k { color: #585858 !important; }
-.jx-resume-t { color: #111113 !important; }
-.jx-resume-t b { color: #111113 !important; }
-.jx-resume-c { color: #585858 !important; }
-
-/* 7. Chapter Reading Sheet & Typography */
-.jx-chapter section.chap {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  box-shadow: 0 4px 20px rgba(20,19,18,0.06) !important;
-  color: #111113 !important;
-}
-.jx-kicker { color: #111113 !important; font-weight: 800 !important; }
-.jx-h1 { color: #111113 !important; }
-.jx-lead { color: #3B3936 !important; }
-.jx-chip {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #3B3936 !important;
-}
-.jx-chip b { color: #111113 !important; }
-.jx-chip:hover { border-color: #111113 !important; color: #111113 !important; }
-.jx-chip.is-page {
-  background: #111113 !important;
-  border-color: #111113 !important;
-  color: #FFFFFF !important;
-}
-.jx-chip.is-page b { color: #FFFFFF !important; }
-.jx-pager-btn {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-}
-.jx-pager-btn:hover { border-color: #111113 !important; background: #F4F3F0 !important; color: #111113 !important; }
-.jx-pager-k { color: #585858 !important; }
-.jx-pager-t { color: #111113 !important; }
-.jx-pager-t b { color: #111113 !important; }
-.jx-pager-next { background: #FFFFFF !important; border-color: #D6D4CE !important; }
-.jx-pager-next:hover { border-color: #111113 !important; background: #F4F3F0 !important; }
-.jx-pager-next .jx-pager-k { color: #585858 !important; }
-.jx-pager-next .jx-pager-t { color: #111113 !important; }
-.jx-pager-next .jx-pager-t b { color: #111113 !important; }
-.jx-pager-next svg, .jx-pager-prev svg { color: #111113 !important; }
-.jx-progress i {
-  background: linear-gradient(90deg, #111113, #585858, #8E929E) !important;
-}
-.jx-tabbar {
-  background: rgba(246, 245, 242, 0.94) !important;
-  border-top: 1px solid #D6D4CE !important;
-}
-.jx-tabbar button { color: #585858 !important; }
-.jx-tabbar button:hover, .jx-tabbar button.is-active { color: #111113 !important; }
-
-/* 8. In-Content Prose & Elements */
-.prose p, .col-text p, .chap p { color: #3B3936 !important; }
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5,
-.col-text h1, .col-text h2, .col-text h3, .col-text h4, .col-text h5,
-.sub-title, h1, h2, h3, h4, h5 { color: #111113 !important; }
-.list-clean li { color: #3B3936 !important; }
-.list-clean li::before { color: #111113 !important; }
-.sig-line { background: #111113 !important; }
-.sig-name, .sig-role, .sig-org { color: #111113 !important; }
-.pull {
-  background: #F4F3F0 !important;
-  border-left: 3px solid #111113 !important;
-  color: #111113 !important;
-}
-.callout {
-  background: #F4F3F0 !important;
-  border: 1px solid #D6D4CE !important;
-  border-left: 4px solid #111113 !important;
-  color: #111113 !important;
-}
-.callout h4 { color: #111113 !important; }
-.meta-row { border-color: #D6D4CE !important; }
-.meta-item span.eyebrow { color: #585858 !important; font-weight: 700 !important; }
-.meta-item p { color: #3B3936 !important; }
-
-/* 9. ROLE DIRECTORY (Chapter 2) — Clean Light Theme */
-.role-directory {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06) !important;
-}
-.rd-list {
-  background: #F6F6F5 !important;
-  border-right: 1px solid #D6D4CE !important;
-}
-.rd-cat-label {
-  color: #585858 !important;
-  font-weight: 700 !important;
-}
-.rd-role-btn {
-  background: #FFFFFF !important;
-  border: 1px solid #E2E0DB !important;
-  color: #111113 !important;
-}
-.rd-role-btn:hover {
-  background: #EAE9E5 !important;
-  border-color: #111113 !important;
-  color: #111113 !important;
-}
-.rd-role-btn.active {
-  background: #111113 !important;
-  border-color: #111113 !important;
-  color: #FFFFFF !important;
-}
-.rd-role-name { color: #111113 !important; font-weight: 700 !important; }
-.rd-role-dept { color: #585858 !important; }
-.rd-role-btn.active .rd-role-name { color: #FFFFFF !important; }
-.rd-role-btn.active .rd-role-dept { color: #D8DCE4 !important; }
-.rd-detail {
-  background: #FFFFFF !important;
-  color: #3B3936 !important;
-}
-.rd-avatar-lg {
-  border-color: #D6D4CE !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
-}
-.rd-detail-badge {
-  background: #111113 !important;
-  border: 1px solid #111113 !important;
-  color: #FFFFFF !important;
-  font-weight: 700 !important;
-}
-.rd-detail-title {
-  color: #111113 !important;
+.jx-chapter-title {
+  color: #1D1D1B !important;
   font-weight: 800 !important;
 }
-.rd-meta-row {
-  border-color: #D6D4CE !important;
-}
-.rd-meta-item span {
+.jx-chapter-num {
   color: #585858 !important;
-}
-.rd-meta-item b {
-  color: #111113 !important;
-}
-.rd-overview {
-  color: #3B3936 !important;
-}
-.rd-sub {
-  color: #111113 !important;
-}
-.chip {
-  background: #F4F3F0 !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-}
-.rd-kpi-title {
-  color: #111113 !important;
-}
-
-/* 10. Org Structure & Tree (Chapter 1) */
-.orgchart-card, .orgchart-stage {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-}
-.orgchart-stage.is-fullscreen {
-  background: #FAFAF9 !important;
-}
-.orgchart-tab {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #3B3936 !important;
-}
-.orgchart-tab:hover {
-  border-color: #111113 !important;
-  color: #111113 !important;
-}
-.orgchart-tab.active {
-  background: #111113 !important;
-  color: #FFFFFF !important;
-  border-color: #111113 !important;
-}
-.orgchart-fs-btn {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-}
-.orgchart-fs-btn:hover {
-  border-color: #111113 !important;
-}
-.tree .node {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-}
-.tree .node.norm-volume {
-  border-left: 3px solid #111113 !important;
-}
-.tree .node.norm-shared {
-  border-left: 3px solid #585858 !important;
-}
-.tree .node-desc {
-  color: #585858 !important;
-}
-.legend-swatch.norm-volume {
-  background: #111113 !important;
-}
-.legend-line.dashed {
-  border-top-color: #585858 !important;
-}
-
-/* 11. Recruitment & Evaluations (Chapter 3) */
-.zigzag::before { background: #D6D4CE !important; }
-.zigzag-pill {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
-}
-.zigzag-item:nth-child(odd) .zigzag-pill::after,
-.zigzag-item:nth-child(even) .zigzag-pill::after {
-  background: #D6D4CE !important;
-}
-.zz-num {
-  background: #111113 !important;
-  color: #FFFFFF !important;
-}
-.eval-card {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #3B3936 !important;
-}
-.eval-title { color: #111113 !important; }
-.eval-card li { color: #3B3936 !important; }
-.eval-card.good { border-top: 3px solid #111113 !important; }
-.eval-card.good li::before { color: #111113 !important; }
-.rf-phase {
-  background: #FAFAF9 !important;
-  border: 1px solid #D6D4CE !important;
-}
-.rf-step-card {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #3B3936 !important;
-}
-.rf-step-card:hover {
-  background: #F4F3F0 !important;
-  border-color: #111113 !important;
-}
-.rf-step-num {
-  background: #EAE9E5 !important;
-  color: #111113 !important;
-  border: 1px solid #D6D4CE !important;
-}
-.rf-step-card:hover .rf-step-num {
-  background: #111113 !important;
-  color: #FFFFFF !important;
-}
-.rf-phase-badge {
-  background: #111113 !important;
-  color: #FFFFFF !important;
-  border: 1px solid #111113 !important;
-}
-
-/* 12. Learning Journeys, Mod Cards, Performance & Schemes */
-.flow-col, .lj-card, .lj-step, .tna-mod-card, .tna-phase-section, .inc-role-card, .inc-scheme-box {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #3B3936 !important;
-}
-.flow-col:hover, .lj-step:hover, .tna-mod-card:hover, .inc-role-card:hover {
-  background: #F9F9F8 !important;
-  border-color: #111113 !important;
-}
-.inc-scheme-bullets li { color: #3B3936 !important; }
-.inc-scheme-bullets li::before { color: #111113 !important; }
-
-/* 13. Tables & Progression Matrix */
-table, .inc-matrix {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #3B3936 !important;
-}
-thead th, table th, .inc-matrix th {
-  background: #F4F3F0 !important;
-  color: #111113 !important;
-  border-bottom: 2px solid #111113 !important;
-}
-tbody td, table td, .inc-matrix td {
-  color: #3B3936 !important;
-  border-bottom: 1px solid #EAE9E5 !important;
-}
-tbody tr:nth-child(even) td, .inc-matrix tbody tr:nth-child(even) td {
-  background: #FAFAF9 !important;
-}
-tbody tr:hover td, .inc-matrix tbody tr:hover td {
-  background-color: #F0EFEA !important;
-  box-shadow: inset 3px 0 0 #111113 !important;
-  color: #111113 !important;
-}
-
-/* 14. Calendar & Timeline (Chapter 8) */
-.calendar-hub {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-}
-.ch-month-card {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-}
-.ch-month-card:hover {
-  background: #F9F9F8 !important;
-  border-color: #111113 !important;
-}
-.ch-month-card h5 {
-  color: #111113 !important;
-  border-bottom: 2px solid #D6D4CE !important;
-}
-.ch-month-card .ch-mc-theme {
-  color: #585858 !important;
-}
-.ch-month-card.is-current-month {
-  box-shadow: inset 0 0 0 2px #111113 !important;
-  border-color: #111113 !important;
-}
-.ch-day-cell {
-  background: #FFFFFF !important;
-  border: 1px solid #EAE9E5 !important;
-  color: #3B3936 !important;
-}
-.ch-day-cell:hover {
-  background: #F4F3F0 !important;
-  border-color: #111113 !important;
-}
-.ch-day-cell.is-today .ch-day-num {
-  border-color: #111113 !important;
-  color: #111113 !important;
   font-weight: 800 !important;
 }
-.ch-pill {
-  background: #F4F3F0 !important;
-  color: #111113 !important;
-  border: 1px solid #D6D4CE !important;
+
+/* Callout and Quote Boxes in Chapters */
+.callout, .info-box, .tip-box, .warning-box {
+  background: #F4F2ED !important;
+  border: 1px solid #CCC8BF !important;
+  border-left: 4px solid #343432 !important;
+  color: #1D1D1B !important;
+  border-radius: 0 10px 10px 0 !important;
 }
-.ch-pill:hover {
-  box-shadow: inset 0 0 0 1px #111113 !important;
-  color: #111113 !important;
-}
-.ch-pill.cat-incentive, .ch-pill.cat-recruitment {
-  background: #EAE9E5 !important;
-  border-left: 3px solid #111113 !important;
-  color: #111113 !important;
-}
-.ch-view-toggle, .ch-nav-btn {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-}
-.ch-month-picker {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12) !important;
-}
-.ch-month-picker-btn {
-  color: #111113 !important;
-}
-.ch-month-picker-btn:hover {
-  background: #111113 !important;
-  color: #FFFFFF !important;
-}
-.ch-tl-seg.active .ch-tl-bar, .ch-tl-seg:hover .ch-tl-bar {
-  border-color: #111113 !important;
-}
-.ch-tl-fill, .ch-tl-seg.active .ch-tl-fill {
-  background: #111113 !important;
+.callout b, .info-box b, .tip-box b, .warning-box b {
+  color: #1D1D1B !important;
 }
 
-/* 15. Interactive Diagrams, Cards & Figures */
-.jsw-interactive-card {
+/* Data Tables inside Chapters */
+table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 1px solid #CCC8BF !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
   background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
 }
-.jsw-card-header {
-  border-bottom: 1px solid #D6D4CE !important;
+th {
+  background: #EBE8E1 !important;
+  color: #1D1D1B !important;
+  font-weight: 700 !important;
+  border-bottom: 1px solid #CCC8BF !important;
 }
-.jsw-card-title {
-  color: #111113 !important;
+td {
+  border-bottom: 1px solid #EAE7E1 !important;
+  color: #292927 !important;
 }
-.jsw-diagram-scaler {
-  background: #F9F9F8 !important;
-  border: 1px solid #EAE9E5 !important;
+tr:nth-child(even) td {
+  background: #F8F7F4 !important;
 }
-.jsw-myr-item {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
+tr:hover td {
+  background: #EFECE6 !important;
 }
-.jsw-myr-item::before {
-  background: linear-gradient(90deg, #111113, #585858) !important;
-}
-.jsw-myr-badge {
-  background: #111113 !important;
-  color: #FFFFFF !important;
-}
-.jsw-myr-role { color: #111113 !important; }
-.jsw-myr-desc { color: #3B3936 !important; }
-.img-card, .figure-frame {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-}
-.img-caption { color: #585858 !important; }
-.email-template-card {
-  background: #F4F3F0 !important;
-  border: 1px solid #D6D4CE !important;
-  border-left: 4px solid #111113 !important;
-  color: #111113 !important;
-}
-.email-template-card * {
-  color: #111113 !important;
-}
-.email-template-card h4, .email-template-card b, .email-template-card strong {
-  color: #111113 !important;
-}
-.modal-box {
-  background: #FFFFFF !important;
-  border: 1px solid #D6D4CE !important;
-  color: #111113 !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2) !important;
-}
-.modal-head {
-  border-bottom: 1px solid #EAE9E5 !important;
-}
-.modal-title { color: #111113 !important; }
-.modal-close { color: #585858 !important; }
-.modal-close:hover { color: #111113 !important; }
 
-/* 16. Search Hit Animation */
+/* Interactive Cards, JD Cards, Flowcharts */
+.jsw-interactive-card, .jd-card, .policy-card, .sla-card {
+  background: #FFFFFF !important;
+  border: 1px solid #CCC8BF !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+  border-radius: 12px !important;
+}
+.jsw-interactive-card:hover, .jd-card:hover, .policy-card:hover {
+  border-color: #585858 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+}
+.jsw-badge, .badge, .pill, .tag {
+  background: #EAE7E1 !important;
+  color: #1D1D1B !important;
+  border: 1px solid #CCC8BF !important;
+}
+.badge-primary, .badge-active, .is-active > .badge {
+  background: #23252A !important;
+  color: #FFFFFF !important;
+  border-color: #23252A !important;
+}
+
+/* Copy Link & Action Buttons */
+.jx-copy-link, .copy-btn, .print-btn {
+  background: #F4F2ED !important;
+  border: 1px solid #CCC8BF !important;
+  color: #343432 !important;
+  border-radius: 999px !important;
+}
+.jx-copy-link:hover, .copy-btn:hover, .print-btn:hover {
+  background: #E4E1D8 !important;
+  border-color: #585858 !important;
+  color: #1D1D1B !important;
+}
+
+/* Search Hit Animation */
 @keyframes jxHit {
-  0%, 40% { box-shadow: 0 0 0 4px rgba(17,17,19,0.3); background-color: rgba(17,17,19,0.08); }
-  100% { box-shadow: 0 0 0 4px rgba(17,17,19,0); background-color: transparent; }
+  0%, 40% { box-shadow: 0 0 0 4px rgba(35,37,42,0.3); background-color: rgba(35,37,42,0.08); }
+  100% { box-shadow: 0 0 0 4px rgba(35,37,42,0); background-color: transparent; }
 }
 </style>
 
@@ -3046,6 +2927,8 @@ tbody tr:hover td, .inc-matrix tbody tr:hover td {
         <!-- HOME -->
     <section class="jx-home" id="jxHome" aria-label="Home">
       <div class="jx-hero">
+        <div class="jx-hero-palette-bar" aria-hidden="true"></div>
+        <div class="jx-hero-watermark" aria-hidden="true">TRUST</div>
         <div class="jx-hero-glow" aria-hidden="true"></div>
         <img class="jx-hero-logo" src="data:image/png;base64,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" alt="JSW Motors">
         <p class="jx-hero-eyebrow">JSW Motors · Dealer Partner Network · Operating Standards</p>
@@ -3080,27 +2963,27 @@ tbody tr:hover td, .inc-matrix tbody tr:hover td {
 
       <!-- Quick Action Navigation Bar on First Page -->
       <div class="jx-home-actions" aria-label="Manual Quick Actions">
-        <button class="jx-action-pill jx-action-pill--primary" type="button" data-action="open-nav">
+        <button class="jx-action-pill jx-action-pill--chapters" type="button" data-action="open-nav">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           <span>All 12 Chapters</span>
           <span class="jx-badge">Menu ☰</span>
         </button>
-        <button class="jx-action-pill" type="button" data-go="fm-i">
+        <button class="jx-action-pill jx-action-pill--foreword" type="button" data-go="fm-i">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           <span>Foreword</span>
           <span class="jx-badge-arrow">→</span>
         </button>
-        <button class="jx-action-pill" type="button" data-go="ch10-3">
+        <button class="jx-action-pill jx-action-pill--posh" type="button" data-go="ch10-3">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <span>POSH Policy</span>
           <span class="jx-badge-arrow">→</span>
         </button>
-        <button class="jx-action-pill" type="button" data-go="ch11-3">
+        <button class="jx-action-pill jx-action-pill--leave" type="button" data-go="ch11-3">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           <span>Leave &amp; Attendance</span>
           <span class="jx-badge-arrow">→</span>
         </button>
-        <button class="jx-action-pill" type="button" data-go="annexure">
+        <button class="jx-action-pill jx-action-pill--annexure" type="button" data-go="annexure">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           <span>Annexure</span>
           <span class="jx-badge-arrow">→</span>
