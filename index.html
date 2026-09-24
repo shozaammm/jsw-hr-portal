@@ -1997,9 +1997,10 @@ kbd{
 /* 11 Motion ---------------------------------------------------------------------------------- */
 @keyframes jxRise{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:none}}
 @keyframes jxLetter{from{opacity:0;transform:translate3d(0,.35em,0) rotate(4deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
-@keyframes jxEnter{from{opacity:0;transform:translate3d(0,14px,0);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+/* page entrance: starts partly visible so a page change never flashes empty;
+   opacity + transform only (no blur — costly on tall pages on phones) */
+@keyframes jxEnter{from{opacity:.4;transform:translate3d(0,10px,0)}to{opacity:1;transform:none}}
 @keyframes jxGlow{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-6%,4%,0) scale(1.12)}}
-@keyframes jxOut{to{opacity:0;transform:translate3d(0,-8px,0)}}
 @keyframes jxPop{from{opacity:0;transform:translate3d(0,-8px,0) scale(.98)}to{opacity:1;transform:none}}
 
 @media (prefers-reduced-motion:no-preference){
@@ -2010,15 +2011,9 @@ kbd{
   .jx-play .jx-pillars li{animation:jxRise .8s var(--jx-ease) backwards;animation-delay:calc(.42s + var(--i, 0) * .05s)}
   .jx-play .jx-hero-quote{animation:jxRise .8s var(--jx-ease) .68s backwards}
   .jx-play .jx-card{animation:jxRise .6s var(--jx-ease) backwards;animation-delay:calc(var(--i, 0) * .035s)}
-  .jx-enter{animation:jxEnter .5s var(--jx-ease) backwards}
+  .jx-enter{animation:jxEnter .28s cubic-bezier(.2,.7,.2,1) backwards}
   .jx-palette:not([hidden]) .jx-palette-box{animation:jxPop .32s var(--jx-ease) backwards}
   .jx-result{animation:jxRise .35s var(--jx-ease) backwards;animation-delay:calc(var(--i, 0) * .02s)}
-
-  /* page transitions (View Transitions API where supported) */
-  ::view-transition-old(root),::view-transition-new(root){animation:none}
-  ::view-transition-old(jx-page){animation:jxOut .18s var(--jx-ease) both}
-  ::view-transition-new(jx-page){animation:jxEnter .46s var(--jx-ease) .06s both}
-  .jx-vt .jx-view{view-transition-name:jx-page}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-duration:.01ms !important}
@@ -6170,24 +6165,15 @@ window.JX_TOC = [
     show(loc.page, loc.target, opts);
   }
 
-  // Runs `fn` (the DOM swap) inside a view transition when available, then
-  // `after` once the new state is in the DOM.
+  // Swaps the DOM with `fn`, then plays a light entrance on `animateEl`.
+  // (No View Transitions: they snapshot the whole page, and on iOS Safari a
+  // multi-thousand-pixel snapshot drops frames — blank screens — and morphs
+  // between the old and new page sizes.)
   function transition(fn, animateEl, after, inPlace){
     closeNav();
-    after = after || function(){};
-    if(inPlace){ fn(); after(); return; }
-    if(!REDUCED && doc.startViewTransition){
-      root.classList.add('jx-vt');
-      var t = doc.startViewTransition(fn);
-      var done = function(){ root.classList.remove('jx-vt'); };
-      t.ready.catch(function(){});           // a newer navigation may skip this one
-      t.finished.then(done, done);
-      t.updateCallbackDone.then(after, after);
-    } else {
-      fn();
-      replay(animateEl, 'jx-enter');
-      after();
-    }
+    fn();
+    if(!inPlace) replay(animateEl, 'jx-enter');
+    if(after) after();
   }
 
   function showHome(opts){
@@ -6231,7 +6217,9 @@ window.JX_TOC = [
         jumpY(0);
       }
     };
-    transition(render, ch.article, function(){
+    // Within a chapter only the reading sheet changes, so only it animates;
+    // the header and chips stay put.
+    transition(render, sameChapter ? ch.section : ch.article, function(){
       afterRender();
       if(opts.query) revealQuery(page, opts.query);
     }, opts.inPlace);
@@ -6319,14 +6307,16 @@ window.JX_TOC = [
         ch.chipRefs[id].classList.toggle('is-page', ch.pageable && !ch.full ? id === page.id : false);
       });
       var on = ch.pageable && !ch.full ? ch.chipRefs[page.id] : null;
-      centerChip(ch.chips, on);
+      centerChip(ch.chips, on, true);
     }
   }
 
-  function centerChip(bar, chip){
+  // `instant` on page changes: a smooth slide of the chip row while the new
+  // page is also entering reads as the row lurching.
+  function centerChip(bar, chip, instant){
     if(!bar || !chip) return;
     requestAnimationFrame(function(){
-      bar.scrollTo({ left: Math.max(0, chip.offsetLeft - (bar.clientWidth - chip.offsetWidth) / 2), behavior: REDUCED ? 'auto' : 'smooth' });
+      bar.scrollTo({ left: Math.max(0, chip.offsetLeft - (bar.clientWidth - chip.offsetWidth) / 2), behavior: instant || REDUCED ? 'auto' : 'smooth' });
     });
   }
 

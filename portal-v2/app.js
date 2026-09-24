@@ -347,24 +347,15 @@
     show(loc.page, loc.target, opts);
   }
 
-  // Runs `fn` (the DOM swap) inside a view transition when available, then
-  // `after` once the new state is in the DOM.
+  // Swaps the DOM with `fn`, then plays a light entrance on `animateEl`.
+  // (No View Transitions: they snapshot the whole page, and on iOS Safari a
+  // multi-thousand-pixel snapshot drops frames — blank screens — and morphs
+  // between the old and new page sizes.)
   function transition(fn, animateEl, after, inPlace){
     closeNav();
-    after = after || function(){};
-    if(inPlace){ fn(); after(); return; }
-    if(!REDUCED && doc.startViewTransition){
-      root.classList.add('jx-vt');
-      var t = doc.startViewTransition(fn);
-      var done = function(){ root.classList.remove('jx-vt'); };
-      t.ready.catch(function(){});           // a newer navigation may skip this one
-      t.finished.then(done, done);
-      t.updateCallbackDone.then(after, after);
-    } else {
-      fn();
-      replay(animateEl, 'jx-enter');
-      after();
-    }
+    fn();
+    if(!inPlace) replay(animateEl, 'jx-enter');
+    if(after) after();
   }
 
   function showHome(opts){
@@ -408,7 +399,9 @@
         jumpY(0);
       }
     };
-    transition(render, ch.article, function(){
+    // Within a chapter only the reading sheet changes, so only it animates;
+    // the header and chips stay put.
+    transition(render, sameChapter ? ch.section : ch.article, function(){
       afterRender();
       if(opts.query) revealQuery(page, opts.query);
     }, opts.inPlace);
@@ -496,14 +489,16 @@
         ch.chipRefs[id].classList.toggle('is-page', ch.pageable && !ch.full ? id === page.id : false);
       });
       var on = ch.pageable && !ch.full ? ch.chipRefs[page.id] : null;
-      centerChip(ch.chips, on);
+      centerChip(ch.chips, on, true);
     }
   }
 
-  function centerChip(bar, chip){
+  // `instant` on page changes: a smooth slide of the chip row while the new
+  // page is also entering reads as the row lurching.
+  function centerChip(bar, chip, instant){
     if(!bar || !chip) return;
     requestAnimationFrame(function(){
-      bar.scrollTo({ left: Math.max(0, chip.offsetLeft - (bar.clientWidth - chip.offsetWidth) / 2), behavior: REDUCED ? 'auto' : 'smooth' });
+      bar.scrollTo({ left: Math.max(0, chip.offsetLeft - (bar.clientWidth - chip.offsetWidth) / 2), behavior: instant || REDUCED ? 'auto' : 'smooth' });
     });
   }
 
