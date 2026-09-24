@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAFAF9">
+<title>JSW HR Operations Manual</title>
+{{FAVICON}}
+<style id="jsw-content-css">
+{{CONTENT_CSS}}
+</style>
+<style id="jx-app-css">
+{{APP_CSS}}
+</style>
+</head>
+<body>
+<a class="jx-skip" href="#jxMain">Skip to content</a>
+
+<!-- ============ PROGRESS ============ -->
+<div class="jx-progress" aria-hidden="true"><i id="jxProgress"></i></div>
+
+<!-- ============ TOP BAR (phone) / PAGE BAR (desktop) ============ -->
+<header class="jx-top" id="jxTop">
+  <button class="jx-top-brand" type="button" data-go="home" aria-label="JSW HR Operations Manual — Home">
+    <img src="{{LOGO_DARK}}" alt="JSW">
+  </button>
+  <nav class="jx-crumb" id="jxCrumb" aria-label="Breadcrumb"></nav>
+  <div class="jx-top-actions">
+    <button class="jx-icon-btn" type="button" data-action="search" aria-label="Search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+    </button>
+    <button class="jx-icon-btn jx-only-wide" type="button" data-action="print" aria-label="Export / print">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============ NAVIGATION (sidebar on desktop, sheet on phone) ============ -->
+<div class="jx-scrim" id="jxScrim" aria-hidden="true"></div>
+<aside class="jx-nav" id="jxNav" aria-label="Manual contents">
+  <div class="jx-nav-head">
+    <button class="jx-nav-brand" type="button" data-go="home">
+      <img src="{{LOGO_DARK}}" alt="JSW">
+      <span>HR Operations Manual</span>
+    </button>
+    <button class="jx-icon-btn jx-nav-close" type="button" data-action="close-nav" aria-label="Close contents">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <button class="jx-search-field jx-search-field--nav" type="button" data-action="search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+    <span>Search</span>
+    <kbd>⌘K</kbd>
+  </button>
+  <div class="jx-nav-scroll" id="jxNavList"></div>
+  <div class="jx-nav-foot">
+    <button class="jx-text-btn" type="button" data-action="print">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>
+      Export
+    </button>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main class="jx-main" id="jxMain" tabindex="-1">
+  <div class="jx-view" id="jxView">
+
+    <!-- HOME -->
+    <section class="jx-home" id="jxHome" aria-label="Home">
+      <div class="jx-hero">
+        <div class="jx-hero-glow" aria-hidden="true"></div>
+        <img class="jx-hero-logo" src="{{LOGO_LIGHT}}" alt="JSW Motors">
+        <p class="jx-hero-eyebrow">{{HERO_EYEBROW}}</p>
+        <h1 class="jx-hero-title">
+          <span class="jx-hero-line">{{HERO_LINE}}</span>
+          <span class="jx-hero-word" aria-label="{{HERO_WORD}}">{{HERO_WORD_LETTERS}}</span>
+        </h1>
+        <ul class="jx-pillars">
+{{HERO_PILLARS}}
+        </ul>
+        <p class="jx-hero-quote">{{HERO_QUOTE}}</p>
+      </div>
+
+      <button class="jx-search-field jx-search-field--hero" type="button" data-action="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+        <span>{{SEARCH_PLACEHOLDER}}</span>
+        <kbd>⌘K</kbd>
+      </button>
+
+      <div class="jx-seg" id="jxSeg" role="tablist" aria-label="Filter by part"><i class="jx-seg-ind" aria-hidden="true"></i></div>
+      <div class="jx-cards" id="jxCards"></div>
+
+      <footer class="jx-foot">
+        <img src="{{LOGO_DARK}}" alt="JSW">
+        <p>{{FOOT_TEXT}}</p>
+      </footer>
+    </section>
+
+    <!-- CHAPTERS (manual content, verbatim) -->
+{{CHAPTERS}}
+  </div>
+</main>
+
+<!-- ============ TAB BAR (phone) ============ -->
+<nav class="jx-tabbar" id="jxTabbar" aria-label="Quick navigation">
+  <button type="button" data-go="home" data-tab="home">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></svg>
+    <span>Home</span>
+  </button>
+  <button type="button" data-action="open-nav" data-tab="contents">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+    <span>Contents</span>
+  </button>
+  <button type="button" data-action="search" data-tab="search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+    <span>Search</span>
+  </button>
+</nav>
+
+<!-- ============ SEARCH PALETTE ============ -->
+<div class="jx-palette" id="jxPalette" role="dialog" aria-modal="true" aria-label="Search the manual" hidden>
+  <div class="jx-palette-box">
+    <div class="jx-palette-input">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      <input id="jxSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="{{SEARCH_PLACEHOLDER}}" aria-controls="jxResults">
+      <button class="jx-text-btn" type="button" data-action="close-search">Close</button>
+    </div>
+    <div class="jx-results" id="jxResults" role="listbox" data-hint="{{SEARCH_HINT}}" data-empty="{{SEARCH_EMPTY}}"></div>
+  </div>
+</div>
+
+<div class="jx-toast" id="jxToast" role="status" aria-live="polite"></div>
+
+<!-- ============ COMPONENT SCRIPTS (verbatim from the manual) ============ -->
+{{COMPONENT_SCRIPTS}}
+
+<script id="jx-toc">
+{{TOC}}
+</script>
+<script id="jx-app-js">
+{{APP_JS}}
+</script>
+</body>
+</html>
