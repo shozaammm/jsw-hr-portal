@@ -32,7 +32,7 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 MAIN = HERE.parent / "hr-manual-2.html"
-OUTS = [MAIN, HERE.parent / "index.html"]      # kept byte-identical
+OUTS = [MAIN, HERE.parent / "v2.html"]      # kept byte-identical
 SECTION_RE = re.compile(r'<section class="chap" id="[^"]+">.*?</section>', re.S)
 
 
