@@ -226,28 +226,28 @@
 .jsw-diagram-canvas [style*="clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)"]:hover{transform: scale(1.1) rotate(15deg);
   filter: brightness(1.2) drop-shadow(0 0 20px rgba(255,255,255,0.4));}
 :root{
-  --white:#24262D;
+  --white:#FFFFFF;
   --pure-white:#FFFFFF;
-  --paper:#18191C;
-  --line-100:rgba(255,255,255,0.08);
-  --line-200:rgba(255,255,255,0.14);
-  --grey-300:#8E929E;
-  --grey-400:#A1A5B2;
-  --grey-500:#A1A5B2;
-  --grey-700:#D8DCE4;
-  --ink:#FFFFFF;
-  --navy:#FFFFFF;
-  --sidebar:#151619;
-  --sidebar-line:rgba(255,255,255,0.08);
-  --sidebar-text:#D8DCE4;
-  --sidebar-text-dim:#8E929E;
+  --paper:#FAFAF9;
+  --line-100:#E6E5E3;
+  --line-200:#D3D2CF;
+  --grey-300:#B3B1AC;
+  --grey-400:#6B6862;
+  --grey-500:#6B6862;
+  --grey-700:#454340;
+  --ink:#111113;
+  --navy:#111113;
+  --sidebar:#141312;
+  --sidebar-line:rgba(255,255,255,0.09);
+  --sidebar-text:#9A968E;
+  --sidebar-text-dim:#5C5952;
   --sidebar-active:#FFFFFF;
-  --card:#212228;
-  --shadow:0 4px 24px rgba(0,0,0,0.5);
-  --r:6px;
-  --serif-rule:1px solid rgba(255,255,255,0.12);
-  --gold:#FFFFFF;
-  --gold-lite:#D4D4D8;
+  --card:#FFFFFF;
+  --shadow:0 1px 3px rgba(20,19,18,0.08);
+  --r:3px;
+  --serif-rule:1px solid var(--line-200);
+  --gold:#111113;
+  --gold-lite:#585858;
   --font-body:'Plus Jakarta Sans','Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --font-display:'Plus Jakarta Sans','Manrope',-apple-system,BlinkMacSystemFont,sans-serif;
   --font-mono:'JetBrains Mono','SF Mono',Consolas,monospace;
@@ -1362,24 +1362,24 @@ button:active{transform: scale(0.97);}
 
 /* 0 Tokens ------------------------------------------------------------------ */
 :root{
-  --jx-ink:#FFFFFF;
-  --jx-ink-2:#F4F4F6;
-  --jx-paper:#18191C;
-  --jx-white:#24262D;
-  --jx-bg:#18191C;
-  --jx-panel:#151619;
-  --jx-soft:#212228;
-  --jx-soft-2:#282A31;
-  --jx-line:rgba(255,255,255,0.08);
-  --jx-line-2:rgba(255,255,255,0.16);
-  --jx-muted:#8E929E;
-  --jx-text:#D8DCE4;
-  --jx-gold:#FFFFFF;
-  --jx-gold-2:#E4E4E7;
-  --jx-gold-3:#A1A5B2;
-  --jx-trust:#FFFFFF;
-  --gold:#FFFFFF;
-  --gold-lite:#D4D4D8;
+  --jx-ink:#111113;
+  --jx-ink-2:#1B1A18;
+  --jx-paper:#FAFAF9;
+  --jx-white:#FFFFFF;
+  --jx-bg:#EAE9E5;
+  --jx-panel:#F4F3F0;
+  --jx-soft:#EFEFEA;
+  --jx-soft-2:#E2E0DB;
+  --jx-line:#D6D4CE;
+  --jx-line-2:#C2C0B9;
+  --jx-muted:#5E5B55;
+  --jx-text:#3B3936;
+  --jx-gold:#111113;
+  --jx-gold-2:#3B3E48;
+  --jx-gold-3:#111113;
+  --jx-trust:#111113;
+  --gold:#111113;
+  --gold-lite:#585858;
   --jx-font:var(--font-body, 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
 
   --jx-nav-w:288px;
@@ -1639,67 +1639,61 @@ kbd{
   position:relative;overflow:hidden;isolation:isolate;
   padding:clamp(32px, 5.5vw, 64px) 0 clamp(24px, 4vw, 40px);
   border-radius:0;
-  background:transparent;color:#FFFFFF;
+  background:transparent;color:var(--jx-ink);
   box-shadow:none;
-  border-bottom:1px solid rgba(255,255,255,0.08);
+  border-bottom:1px solid var(--jx-line);
   margin-bottom:28px;
 }
-.jx-hero-glow{
-  position:absolute;z-index:-1;inset:-40%;pointer-events:none;
-  background:
-    radial-gradient(50% 50% at 50% 15%, rgba(255,255,255,0.05), transparent 70%),
-    radial-gradient(35% 40% at 85% 65%, rgba(255,255,255,0.03), transparent 70%),
-    radial-gradient(40% 45% at 15% 90%, rgba(255,255,255,0.02), transparent 70%);
-}
+.jx-hero-glow{display:none}
 .jx-hero-logo{height:38px;width:auto;display:block;margin-bottom:clamp(28px, 5vw, 56px)}
 .jx-hero-eyebrow{
   max-width:none;margin:0;
-  font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.58);
+  font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--jx-muted);
 }
 .jx-hero-title{margin:14px 0 0;line-height:1}
-.jx-hero-line{display:block;font-size:clamp(24px, 3.2vw, 40px);font-weight:700;letter-spacing:-.03em;color:var(--jx-white)}
+.jx-hero-line{display:block;font-size:clamp(24px, 3.2vw, 40px);font-weight:800;letter-spacing:-.03em;color:var(--jx-ink)}
 .jx-hero-word{
   display:flex;margin-top:8px;
-  font-size:clamp(72px, 14vw, 168px);font-weight:850;letter-spacing:-.045em;line-height:.84;color:#FFFFFF;
-  text-shadow:0 4px 32px rgba(255,255,255,0.08);
+  font-size:clamp(72px, 14vw, 168px);font-weight:850;letter-spacing:-.045em;line-height:.84;color:var(--jx-trust);
 }
 .jx-hero-word > span{display:inline-block}
 .jx-pillars{
   list-style:none;margin:clamp(28px, 4vw, 44px) 0 0;padding:20px 0 0;
   display:grid;grid-template-columns:repeat(5, minmax(0,1fr));
-  border-top:1px solid rgba(255,255,255,.12);
+  border-top:1px solid var(--jx-line);
   gap:10px;
 }
 .jx-pillars li{
   padding:14px 14px;
-  font-size:13.5px;font-weight:600;line-height:1.35;color:rgba(255,255,255,.8);
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
+  font-size:13.5px;font-weight:600;line-height:1.35;color:var(--jx-text);
+  background:var(--jx-white);
+  border:1px solid var(--jx-line);
+  border-radius:10px;
+  box-shadow:var(--jx-shadow-sm);
   transition:transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
   cursor:pointer;
   display:flex;flex-direction:column;justify-content:space-between;gap:8px;
 }
 .jx-pillars li:hover{
-  background:rgba(255,255,255,.08);
-  border-color:rgba(255,255,255,.28);
-  color:#FFFFFF;
+  background:#F9F9F8;
+  border-color:var(--jx-ink);
+  color:var(--jx-ink);
   transform:translateY(-2px);
+  box-shadow:0 4px 14px rgba(20,19,18,0.1);
 }
-.jx-pillars li + li{border-left:1px solid rgba(255,255,255,.08)}
-.jx-pillars b{color:#FFFFFF;font-size:18px;font-weight:850;margin-right:2px}
+.jx-pillars b{color:var(--jx-ink);font-size:18px;font-weight:850;margin-right:2px}
 .jx-pillar-text{display:block}
 .jx-pillar-tag{
   display:inline-flex;align-items:center;gap:4px;
-  font-size:10.5px;font-weight:600;color:#A1A1AA;
+  font-size:10.5px;font-weight:600;color:var(--jx-muted);
   letter-spacing:.04em;text-transform:uppercase;
   margin-top:auto;
 }
-.jx-pillars li:hover .jx-pillar-tag{color:#FFFFFF}
+.jx-pillars li:hover .jx-pillar-tag{color:var(--jx-ink)}
 .jx-hero-quote{
   max-width:none;margin:clamp(22px, 3.5vw, 36px) 0 0;
-  font-size:clamp(15px, 1.5vw, 17px);font-style:italic;line-height:1.5;color:#A1A1AA;
-  border-left:2px solid rgba(255,255,255,0.22);
+  font-size:clamp(15px, 1.5vw, 17px);font-style:italic;line-height:1.5;color:var(--jx-muted);
+  border-left:3px solid var(--jx-ink);
   padding-left:14px;
 }
 @media (max-width:760px){
@@ -2137,13 +2131,6 @@ kbd{
 @keyframes jxPop{from{opacity:0;transform:translate3d(0,-8px,0) scale(.98)}to{opacity:1;transform:none}}
 
 @media (prefers-reduced-motion:no-preference){
-  .jx-hero-glow{
-  position:absolute;z-index:-1;inset:-40%;pointer-events:none;
-  background:
-    radial-gradient(50% 50% at 50% 15%, rgba(255,255,255,0.05), transparent 70%),
-    radial-gradient(35% 40% at 85% 65%, rgba(255,255,255,0.03), transparent 70%),
-    radial-gradient(40% 45% at 15% 90%, rgba(255,255,255,0.02), transparent 70%);
-}
   .jx-play .jx-hero-eyebrow,.jx-play .jx-hero-line{animation:jxRise .8s var(--jx-ease) backwards}
   .jx-play .jx-hero-line{animation-delay:.06s}
   .jx-play .jx-hero-word > span{animation:jxLetter .9s var(--jx-ease) backwards;animation-delay:calc(.14s + var(--i, 0) * .06s)}
@@ -2171,685 +2158,834 @@ kbd{
 
 <style id="jx-v3-monochrome-overrides">
 /* ==========================================================================
-   JSW HR Portal v3 — Master Monochrome & Tonal Architecture
-   Derived from calibrated multi-shade grayscale reference:
-     Level 0 (#18191C) : Base app canvas (warm deep graphite, never pitch-black void)
-     Level 1 (#151619) : Chrome, sidebar, topbar
-     Level 2 (#212228) : Chapter reading sheets, primary layout containers
-     Level 3 (#282A31) : Elevated cards, directory panes, modal boxes, hubs
-     Level 4 (#31333C) : Interactive controls, inputs, search fields, active tiles
-     Level 5 (#3B3E48) : Active badges, hover highlights, selected pills
-     Level 6 (#484B56) : Dividers, hairline borders, structural separators
-     Level 7 (#8E929E) : Secondary metadata, eyebrow labels, muted captions
-     Level 8 (#D8DCE4) : Body text, descriptions, table cell data, lists
-     Level 9 (#FFFFFF) : Headings, hero display, key metrics, active pill text
+   JSW HR Portal v3 — Premium Light Aesthetic & Black/Grey Monochrome Palette
+   Palette mapping based on user reference:
+     Canvas Ground: #EAE9E5 (clean architectural soft grey)
+     Sheet & Card Surfaces: #FFFFFF / #FAFAF9
+     Deep Black Accent: #111113 (replaces all gold: TRUST letters, key badges, primary pills)
+     Dark Charcoal: #2A2A2A / #3B3E48 (replaces gold accents, borders, and sub-headers)
+     Mid Slate Grey: #585858 / #6B6862 (eyebrow kickers, tags, secondary badges)
+     Hairline Borders: #D6D4CE / #DAD8D3
+     Body Ink: #111113 / #3B3936
    ========================================================================== */
 
 /* 1. Global Ground & Base Canvas */
 html, body {
-  background-color: #18191C !important;
-  color: #D8DCE4 !important;
+  background-color: #EAE9E5 !important;
+  color: #111113 !important;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 body {
-  background-image: none !important; /* Eliminates harsh starfield white dots */
+  background-image: none !important;
 }
 ::selection {
-  background: #FFFFFF !important;
-  color: #111113 !important;
+  background: #111113 !important;
+  color: #FFFFFF !important;
 }
 
 /* 2. Top Bar & Navigation Chrome */
 .jx-top {
-  background: rgba(21, 22, 25, 0.94) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(246, 245, 242, 0.94) !important;
+  border-bottom: 1px solid #D6D4CE !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
 }
 .jx-top-brand img, .jx-nav-brand img {
-  filter: brightness(12) !important;
+  filter: none !important;
 }
-.jx-crumb { color: #8E929E !important; }
-.jx-crumb .jx-crumb-now { color: #FFFFFF !important; font-weight: 700 !important; }
-.jx-crumb button:hover { background: #282A31 !important; color: #FFFFFF !important; }
-.jx-icon-btn, .jx-text-btn { color: #D8DCE4 !important; }
-.jx-icon-btn:hover, .jx-text-btn:hover { background: #282A31 !important; color: #FFFFFF !important; }
+.jx-crumb { color: #6B6862 !important; }
+.jx-crumb .jx-crumb-now { color: #111113 !important; font-weight: 700 !important; }
+.jx-crumb button:hover { background: #E2E0DB !important; color: #111113 !important; }
+.jx-icon-btn, .jx-text-btn { color: #3B3936 !important; }
+.jx-icon-btn:hover, .jx-text-btn:hover { background: #E2E0DB !important; color: #111113 !important; }
 
-/* 3. Navigation Drawer */
+/* 3. Navigation Drawer (Sidebar) */
 .jx-nav {
-  background: #151619 !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: #F4F3F0 !important;
+  border-right: 1px solid #D6D4CE !important;
 }
-.jx-nav-head, .jx-nav-foot { border-color: rgba(255, 255, 255, 0.08) !important; }
-.jx-nav-brand { color: #FFFFFF !important; }
-.jx-nav-group-title { color: #717582 !important; }
-.jx-nav-item { color: #8E929E !important; }
-.jx-nav-item:hover { background: #23252C !important; color: #FFFFFF !important; }
+.jx-nav-head, .jx-nav-foot { border-color: #D6D4CE !important; }
+.jx-nav-brand { color: #111113 !important; }
+.jx-nav-group-title { color: #585858 !important; }
+.jx-nav-group-label b { color: #111113 !important; }
+.jx-nav-item { color: #3B3936 !important; }
+.jx-nav-item:hover { background: #EAE9E5 !important; color: #111113 !important; }
 .jx-nav-item.is-active {
-  background: #2C2E37 !important;
-  color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: #111113 !important;
   font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(20,19,18,0.08) !important;
 }
-.jx-nav-item.is-active::before { background: #FFFFFF !important; }
+.jx-nav-item.is-active .jx-nav-num { color: #111113 !important; }
+.jx-nav-sub { color: #5E5B55 !important; }
+.jx-nav-sub:hover { color: #111113 !important; background: #EAE9E5 !important; }
+.jx-nav-sub b { color: #111113 !important; }
+.jx-nav-sub.is-page {
+  color: #111113 !important;
+  font-weight: 600 !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 1px 3px rgba(20,19,18,0.08) !important;
+}
+.jx-nav-sub::before { background: #111113 !important; }
+.jx-nav-item::after, .jx-nav-sub::after { background: #111113 !important; }
 
 /* 4. Search Field & Command Palette */
 .jx-search-field {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
-  color: #8E929E !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #5E5B55 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 .jx-search-field:hover {
-  border-color: #FFFFFF !important;
-  background: #282A31 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
-}
-.jx-search-field kbd {
-  background: #2E3039 !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  color: #D8DCE4 !important;
-}
-.jx-palette {
-  background: #1D1E24 !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85) !important;
-}
-.jx-palette-head { border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important; }
-.jx-palette-input { color: #FFFFFF !important; }
-.jx-palette-input::placeholder { color: #717582 !important; }
-.jx-result-title { color: #FFFFFF !important; }
-.jx-result-meta { color: #8E929E !important; }
-.jx-result.is-active {
-  background: #282A31 !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
-}
-.jx-result mark { background: rgba(255, 255, 255, 0.22) !important; color: #FFFFFF !important; }
-
-/* 5. Home Hero, TRUST Pillars & Actions */
-.jx-hero-glow { display: none !important; }
-.jx-hero-line { color: #FFFFFF !important; }
-.jx-hero-title { color: #FFFFFF !important; }
-.jx-hero-word { color: #FFFFFF !important; }
-.jx-hero-word > span { filter: none !important; opacity: 1 !important; }
-.jx-hero-quote {
-  color: #8E929E !important;
-  border-left: 2px solid #484B56 !important;
-}
-.jx-pillars { border-top: 1px solid #34363F !important; }
-.jx-pillars li {
-  background: #23242A !important;
-  border: 1px solid #34363F !important;
-  color: #D8DCE4 !important;
-  opacity: 1 !important;
-}
-.jx-pillars li:hover {
-  background: #2D2F38 !important;
-  border-color: #FFFFFF !important;
-  color: #FFFFFF !important;
-}
-.jx-pillars li b { color: #FFFFFF !important; }
-.jx-pillar-tag { color: #8E929E !important; }
-.jx-pillars li:hover .jx-pillar-tag { color: #FFFFFF !important; }
-
-.jx-home-actions { margin-top: 24px !important; }
-.jx-action-pill {
-  background: #23242A !important;
-  border: 1px solid #34363F !important;
-  color: #D8DCE4 !important;
-}
-.jx-action-pill:hover {
-  background: #2D2F38 !important;
-  border-color: #FFFFFF !important;
-  color: #FFFFFF !important;
-}
-.jx-action-pill--primary {
+  border-color: #111113 !important;
   background: #FFFFFF !important;
   color: #111113 !important;
-  border-color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
 }
-.jx-action-pill--primary:hover {
-  background: #E4E4E7 !important;
+.jx-search-field kbd {
+  background: #EAE9E5 !important;
+  border: 1px solid #D6D4CE !important;
   color: #111113 !important;
 }
+.jx-palette {
+  background: rgba(17,17,19,0.48) !important;
+}
+.jx-palette-box {
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22) !important;
+}
+.jx-palette-head { border-bottom: 1px solid #EAE9E5 !important; }
+.jx-palette-input { color: #111113 !important; }
+.jx-palette-input::placeholder { color: #8E929E !important; }
+.jx-result-title { color: #111113 !important; }
+.jx-result-meta { color: #6B6862 !important; }
+.jx-result.is-active, .jx-result:hover {
+  background: #F4F3F0 !important;
+}
+.jx-result mark { background: #E2E0DB !important; color: #111113 !important; font-weight: 700 !important; }
+
+/* 5. Home Hero & Integrated Header (No floating dark card) */
+.jx-hero {
+  background: transparent !important;
+  color: #111113 !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid #D6D4CE !important;
+  padding: clamp(24px, 4vw, 48px) 0 clamp(20px, 3vw, 36px) !important;
+  margin-bottom: 24px !important;
+}
+.jx-hero-glow { display: none !important; }
+.jx-hero-logo { filter: none !important; }
+.jx-hero-eyebrow {
+  color: #585858 !important;
+  font-weight: 700 !important;
+  letter-spacing: .16em !important;
+}
+.jx-hero-line {
+  color: #111113 !important;
+  font-weight: 800 !important;
+}
+.jx-hero-word {
+  color: #111113 !important;
+  text-shadow: none !important;
+}
+.jx-hero-word > span {
+  color: #111113 !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+.jx-hero-quote {
+  color: #585858 !important;
+  border-left: 3px solid #111113 !important;
+  font-style: italic !important;
+}
+
+/* TRUST Pillars: Clean Light Cards with Crisp Black & Grey Accents */
+.jx-pillars {
+  border-top: 1px solid #D6D4CE !important;
+}
+.jx-pillars li {
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #3B3936 !important;
+  box-shadow: 0 1px 3px rgba(20,19,18,0.06) !important;
+  border-radius: 10px !important;
+}
+.jx-pillars li:hover {
+  background: #F9F9F8 !important;
+  border-color: #111113 !important;
+  color: #111113 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(20,19,18,0.1) !important;
+}
+.jx-pillars li b {
+  color: #111113 !important;
+  font-weight: 850 !important;
+  font-size: 18px !important;
+}
+.jx-pillar-tag {
+  color: #585858 !important;
+  font-weight: 600 !important;
+}
+.jx-pillars li:hover .jx-pillar-tag {
+  color: #111113 !important;
+}
+
+/* Quick Action Pills on Home Page */
+.jx-home-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-top: 20px !important;
+}
+.jx-action-pill {
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
+  box-shadow: 0 1px 3px rgba(20,19,18,0.06) !important;
+  border-radius: 999px !important;
+  padding: 10px 18px !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(.22,1,.36,1) !important;
+}
+.jx-action-pill:hover {
+  background: #F4F3F0 !important;
+  border-color: #111113 !important;
+  color: #111113 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(20,19,18,0.09) !important;
+}
+.jx-action-pill--primary {
+  background: #111113 !important;
+  color: #FFFFFF !important;
+  border-color: #111113 !important;
+}
+.jx-action-pill--primary:hover {
+  background: #2A2A2A !important;
+  color: #FFFFFF !important;
+  border-color: #2A2A2A !important;
+}
+.jx-action-pill--primary svg {
+  stroke: #FFFFFF !important;
+}
 .jx-action-pill .jx-badge {
+  background: #EAE9E5 !important;
+  color: #111113 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 3px 8px !important;
+  border-radius: 999px !important;
+}
+.jx-action-pill--primary .jx-badge {
+  background: rgba(255,255,255,0.2) !important;
+  color: #FFFFFF !important;
+}
+.jx-action-pill .jx-badge-arrow {
+  color: #585858 !important;
+  font-weight: 700 !important;
+}
+.jx-action-pill:hover .jx-badge-arrow {
+  color: #111113 !important;
+}
+
+/* Direct Chapter Access Menu */
+.jx-quick-menu {
+  margin: 28px 0 24px !important;
+}
+.jx-quick-menu-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 12px !important;
+}
+.jx-qm-label {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .14em !important;
+  color: #111113 !important;
+}
+.jx-qm-dot {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: #111113 !important;
+}
+.jx-qm-hint {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #585858 !important;
+}
+.jx-quick-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 10px !important;
+}
+.jx-quick-tile {
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 3px rgba(20,19,18,0.05) !important;
+  transition: all 0.2s cubic-bezier(.22,1,.36,1) !important;
+}
+.jx-quick-tile:hover {
+  background: #F9F9F8 !important;
+  border-color: #111113 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(20,19,18,0.1) !important;
+}
+.jx-qt-badge {
+  background: #EAE9E5 !important;
+  color: #111113 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  border-radius: 8px !important;
+  padding: 6px 9px !important;
+  font-variant-numeric: tabular-nums !important;
+}
+.jx-quick-tile:hover .jx-qt-badge {
   background: #111113 !important;
   color: #FFFFFF !important;
 }
-.jx-action-pill .jx-badge-arrow { color: #8E929E !important; }
-.jx-action-pill:hover .jx-badge-arrow { color: #FFFFFF !important; }
-
-.jx-quick-menu { margin: 28px 0 24px !important; }
-.jx-qm-label { color: #FFFFFF !important; }
-.jx-qm-dot { background: #FFFFFF !important; }
-.jx-qm-hint { color: #8E929E !important; }
-.jx-quick-tile {
-  background: #23242A !important;
-  border: 1px solid #34363F !important;
-  color: #D8DCE4 !important;
+.jx-qt-body {
+  flex: 1 !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
 }
-.jx-quick-tile:hover {
-  background: #2D2F38 !important;
-  border-color: #FFFFFF !important;
-  color: #FFFFFF !important;
-}
-.jx-quick-tile-num {
-  background: #31333C !important;
-  color: #FFFFFF !important;
-}
-.jx-quick-tile:hover .jx-quick-tile-num {
-  background: #FFFFFF !important;
+.jx-qt-title {
+  font-size: 14px !important;
+  font-weight: 700 !important;
   color: #111113 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
-.jx-quick-tile-title { color: #FFFFFF !important; }
-.jx-quick-tile-desc { color: #8E929E !important; }
+.jx-qt-sub {
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  color: #585858 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+.jx-qt-arrow {
+  color: #6B6862 !important;
+  font-weight: 700 !important;
+  transition: transform 0.2s ease, color 0.2s ease !important;
+}
+.jx-quick-tile:hover .jx-qt-arrow {
+  color: #111113 !important;
+  transform: translateX(3px) !important;
+}
 
 /* 6. Chapter Cards & Segments */
 .jx-seg {
-  background: #212228 !important;
-  border: 1px solid #34363F !important;
+  background: #E2E0DB !important;
+  border: 1px solid #D6D4CE !important;
 }
-.jx-seg-ind { background: #FFFFFF !important; }
-.jx-seg button { color: #8E929E !important; }
+.jx-seg-ind { background: #111113 !important; }
+.jx-seg button { color: #3B3936 !important; font-weight: 600 !important; }
 .jx-seg button:not([aria-selected="true"]):hover {
-  color: #FFFFFF !important;
-  background: rgba(255, 255, 255, 0.08) !important;
+  color: #111113 !important;
+  background: rgba(255, 255, 255, 0.6) !important;
 }
 .jx-seg button[aria-selected="true"] {
-  color: #111113 !important;
+  color: #FFFFFF !important;
   font-weight: 700 !important;
 }
 
 .jx-card {
-  background: #23242A !important;
-  border: 1px solid #34363F !important;
-  color: #D8DCE4 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
+  box-shadow: 0 1px 3px rgba(20,19,18,0.06) !important;
 }
 .jx-card:hover {
-  border-color: #FFFFFF !important;
-  background: #2A2C34 !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
+  border-color: #111113 !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 8px 24px rgba(20,19,18,0.12) !important;
   transform: translateY(-3px) !important;
 }
-.jx-card-num { color: #FFFFFF !important; font-weight: 800 !important; }
-.jx-card-title { color: #FFFFFF !important; font-weight: 700 !important; }
-.jx-card-meta { color: #8E929E !important; }
-.jx-card-meta b { color: #FFFFFF !important; }
+.jx-card-num { color: #111113 !important; font-weight: 800 !important; }
+.jx-card-title { color: #111113 !important; font-weight: 700 !important; }
+.jx-card-meta { color: #585858 !important; }
+.jx-card-meta b { color: #111113 !important; }
 .jx-card-go {
-  border-color: #484B56 !important;
-  color: #FFFFFF !important;
-}
-.jx-card:hover .jx-card-go {
-  background: #FFFFFF !important;
-  border-color: #FFFFFF !important;
+  border-color: #D6D4CE !important;
   color: #111113 !important;
 }
+.jx-card:hover .jx-card-go {
+  background: #111113 !important;
+  border-color: #111113 !important;
+  color: #FFFFFF !important;
+}
 .jx-card-bar i {
-  background: linear-gradient(90deg, #717582, #FFFFFF) !important;
+  background: linear-gradient(90deg, #111113, #585858) !important;
 }
 
 .jx-resume {
-  background: #23242A !important;
-  border: 1px solid #34363F !important;
-  color: #D8DCE4 !important;
-}
-.jx-resume:hover {
-  border-color: #FFFFFF !important;
-  background: #2A2C34 !important;
-}
-.jx-resume-icon {
   background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
   color: #111113 !important;
 }
-.jx-resume-k { color: #8E929E !important; }
-.jx-resume-t { color: #FFFFFF !important; }
-.jx-resume-c { color: #8E929E !important; }
+.jx-resume:hover {
+  border-color: #111113 !important;
+  box-shadow: 0 6px 18px rgba(20,19,18,0.1) !important;
+}
+.jx-resume-icon {
+  background: #111113 !important;
+  color: #FFFFFF !important;
+}
+.jx-resume-k { color: #585858 !important; }
+.jx-resume-t { color: #111113 !important; }
+.jx-resume-t b { color: #111113 !important; }
+.jx-resume-c { color: #585858 !important; }
 
 /* 7. Chapter Reading Sheet & Typography */
 .jx-chapter section.chap {
-  background: #212228 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45) !important;
-  color: #D8DCE4 !important;
-}
-.jx-kicker { color: #8E929E !important; }
-.jx-h1, .jx-lead { color: #FFFFFF !important; }
-.jx-chip {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #8E929E !important;
-}
-.jx-chip b { color: #FFFFFF !important; }
-.jx-chip:hover { border-color: #FFFFFF !important; color: #FFFFFF !important; }
-.jx-chip.is-page {
   background: #FFFFFF !important;
-  border-color: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  box-shadow: 0 4px 20px rgba(20,19,18,0.06) !important;
   color: #111113 !important;
 }
-.jx-chip.is-page b { color: #111113 !important; }
-.jx-pager-btn {
-  background: #23242A !important;
-  border: 1px solid #34363F !important;
-  color: #D8DCE4 !important;
+.jx-kicker { color: #111113 !important; font-weight: 800 !important; }
+.jx-h1 { color: #111113 !important; }
+.jx-lead { color: #3B3936 !important; }
+.jx-chip {
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #3B3936 !important;
 }
-.jx-pager-btn:hover { border-color: #FFFFFF !important; background: #2B2D35 !important; color: #FFFFFF !important; }
-.jx-pager-k { color: #8E929E !important; }
-.jx-pager-t { color: #FFFFFF !important; }
-.jx-pager-t b { color: #FFFFFF !important; }
-.jx-pager-next { background: #282A31 !important; border-color: #484B56 !important; }
-.jx-pager-next:hover { border-color: #FFFFFF !important; background: #31333C !important; }
-.jx-pager-next .jx-pager-k { color: #8E929E !important; }
-.jx-pager-next .jx-pager-t { color: #FFFFFF !important; }
-.jx-pager-next .jx-pager-t b { color: #FFFFFF !important; }
-.jx-pager-next svg, .jx-pager-prev svg { color: #FFFFFF !important; }
+.jx-chip b { color: #111113 !important; }
+.jx-chip:hover { border-color: #111113 !important; color: #111113 !important; }
+.jx-chip.is-page {
+  background: #111113 !important;
+  border-color: #111113 !important;
+  color: #FFFFFF !important;
+}
+.jx-chip.is-page b { color: #FFFFFF !important; }
+.jx-pager-btn {
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
+}
+.jx-pager-btn:hover { border-color: #111113 !important; background: #F4F3F0 !important; color: #111113 !important; }
+.jx-pager-k { color: #585858 !important; }
+.jx-pager-t { color: #111113 !important; }
+.jx-pager-t b { color: #111113 !important; }
+.jx-pager-next { background: #FFFFFF !important; border-color: #D6D4CE !important; }
+.jx-pager-next:hover { border-color: #111113 !important; background: #F4F3F0 !important; }
+.jx-pager-next .jx-pager-k { color: #585858 !important; }
+.jx-pager-next .jx-pager-t { color: #111113 !important; }
+.jx-pager-next .jx-pager-t b { color: #111113 !important; }
+.jx-pager-next svg, .jx-pager-prev svg { color: #111113 !important; }
 .jx-progress i {
-  background: linear-gradient(90deg, #717582, #D8DCE4, #FFFFFF) !important;
+  background: linear-gradient(90deg, #111113, #585858, #8E929E) !important;
 }
 .jx-tabbar {
-  background: rgba(21, 22, 25, 0.94) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(246, 245, 242, 0.94) !important;
+  border-top: 1px solid #D6D4CE !important;
 }
-.jx-tabbar button { color: #8E929E !important; }
-.jx-tabbar button:hover, .jx-tabbar button.is-active { color: #FFFFFF !important; }
+.jx-tabbar button { color: #585858 !important; }
+.jx-tabbar button:hover, .jx-tabbar button.is-active { color: #111113 !important; }
 
 /* 8. In-Content Prose & Elements */
-.prose p, .col-text p, .chap p { color: #D8DCE4 !important; }
+.prose p, .col-text p, .chap p { color: #3B3936 !important; }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5,
 .col-text h1, .col-text h2, .col-text h3, .col-text h4, .col-text h5,
-.sub-title, h1, h2, h3, h4, h5 { color: #FFFFFF !important; }
-.list-clean li { color: #D8DCE4 !important; }
-.list-clean li::before { color: #8E929E !important; }
-.sig-line { background: #FFFFFF !important; }
-.sig-name, .sig-role, .sig-org { color: #FFFFFF !important; }
+.sub-title, h1, h2, h3, h4, h5 { color: #111113 !important; }
+.list-clean li { color: #3B3936 !important; }
+.list-clean li::before { color: #111113 !important; }
+.sig-line { background: #111113 !important; }
+.sig-name, .sig-role, .sig-org { color: #111113 !important; }
 .pull {
-  background: #282A31 !important;
-  border-left: 3px solid #FFFFFF !important;
-  color: #E4E4E7 !important;
+  background: #F4F3F0 !important;
+  border-left: 3px solid #111113 !important;
+  color: #111113 !important;
 }
 .callout {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  border-left: 4px solid #FFFFFF !important;
-  color: #E4E4E7 !important;
+  background: #F4F3F0 !important;
+  border: 1px solid #D6D4CE !important;
+  border-left: 4px solid #111113 !important;
+  color: #111113 !important;
 }
-.callout h4 { color: #FFFFFF !important; }
-.meta-row { border-color: #383A44 !important; }
-.meta-item span.eyebrow { color: #8E929E !important; }
-.meta-item p { color: #D8DCE4 !important; }
+.callout h4 { color: #111113 !important; }
+.meta-row { border-color: #D6D4CE !important; }
+.meta-item span.eyebrow { color: #585858 !important; font-weight: 700 !important; }
+.meta-item p { color: #3B3936 !important; }
 
-/* 9. ROLE DIRECTORY (Chapter 2 Fix for Overexposure) */
+/* 9. ROLE DIRECTORY (Chapter 2) — Clean Light Theme */
 .role-directory {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06) !important;
 }
 .rd-list {
-  background: #1B1C21 !important;
-  border-right: 1px solid #34363F !important;
+  background: #F6F6F5 !important;
+  border-right: 1px solid #D6D4CE !important;
 }
 .rd-cat-label {
-  color: #8E929E !important;
+  color: #585858 !important;
+  font-weight: 700 !important;
 }
 .rd-role-btn {
-  background: #23252C !important;
-  border: 1px solid #31333B !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E0DB !important;
+  color: #111113 !important;
 }
 .rd-role-btn:hover {
-  background: #2E3039 !important;
-  border-color: #4D505D !important;
-  color: #FFFFFF !important;
+  background: #EAE9E5 !important;
+  border-color: #111113 !important;
+  color: #111113 !important;
 }
 .rd-role-btn.active {
-  background: #3B3E48 !important;
-  border-color: #FFFFFF !important;
+  background: #111113 !important;
+  border-color: #111113 !important;
   color: #FFFFFF !important;
 }
-.rd-role-name { color: #FFFFFF !important; }
-.rd-role-dept { color: #8E929E !important; }
+.rd-role-name { color: #111113 !important; font-weight: 700 !important; }
+.rd-role-dept { color: #585858 !important; }
 .rd-role-btn.active .rd-role-name { color: #FFFFFF !important; }
-.rd-role-btn.active .rd-role-dept { color: #B5B9C4 !important; }
+.rd-role-btn.active .rd-role-dept { color: #D8DCE4 !important; }
 .rd-detail {
-  background: #212228 !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  color: #3B3936 !important;
 }
 .rd-avatar-lg {
-  border-color: #555864 !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+  border-color: #D6D4CE !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
 }
 .rd-detail-badge {
-  background: #282A32 !important;
-  border: 1px solid #555864 !important;
-  color: #D8DCE4 !important;
+  background: #111113 !important;
+  border: 1px solid #111113 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
 }
 .rd-detail-title {
-  color: #FFFFFF !important;
+  color: #111113 !important;
+  font-weight: 800 !important;
 }
 .rd-meta-row {
-  border-color: #383A44 !important;
+  border-color: #D6D4CE !important;
 }
 .rd-meta-item span {
-  color: #8E929E !important;
+  color: #585858 !important;
 }
 .rd-meta-item b {
-  color: #FFFFFF !important;
+  color: #111113 !important;
 }
 .rd-overview {
-  color: #D8DCE4 !important;
+  color: #3B3936 !important;
 }
 .rd-sub {
-  color: #FFFFFF !important;
+  color: #111113 !important;
 }
 .chip {
-  background: #2A2C34 !important;
-  border: 1px solid #434652 !important;
-  color: #D8DCE4 !important;
+  background: #F4F3F0 !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
 }
 .rd-kpi-title {
-  color: #B5B9C4 !important;
+  color: #111113 !important;
 }
 
 /* 10. Org Structure & Tree (Chapter 1) */
 .orgchart-card, .orgchart-stage {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
 }
 .orgchart-stage.is-fullscreen {
-  background: #191A1E !important;
+  background: #FAFAF9 !important;
 }
 .orgchart-tab {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #3B3936 !important;
 }
 .orgchart-tab:hover {
-  border-color: #FFFFFF !important;
-  color: #FFFFFF !important;
+  border-color: #111113 !important;
+  color: #111113 !important;
 }
 .orgchart-tab.active {
-  background: #FFFFFF !important;
-  color: #111113 !important;
-  border-color: #FFFFFF !important;
+  background: #111113 !important;
+  color: #FFFFFF !important;
+  border-color: #111113 !important;
 }
 .orgchart-fs-btn {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
 }
 .orgchart-fs-btn:hover {
-  border-color: #FFFFFF !important;
-  color: #FFFFFF !important;
+  border-color: #111113 !important;
 }
 .tree .node {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
 }
 .tree .node.norm-volume {
-  border-left: 3px solid #FFFFFF !important;
+  border-left: 3px solid #111113 !important;
 }
 .tree .node.norm-shared {
-  border-left: 3px solid #8E929E !important;
+  border-left: 3px solid #585858 !important;
 }
 .tree .node-desc {
-  color: #8E929E !important;
+  color: #585858 !important;
 }
 .legend-swatch.norm-volume {
-  background: #FFFFFF !important;
+  background: #111113 !important;
 }
 .legend-line.dashed {
-  border-top-color: #8E929E !important;
+  border-top-color: #585858 !important;
 }
 
 /* 11. Recruitment & Evaluations (Chapter 3) */
-.zigzag::before { background: #383A44 !important; }
+.zigzag::before { background: #D6D4CE !important; }
 .zigzag-pill {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.2) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
 }
 .zigzag-item:nth-child(odd) .zigzag-pill::after,
 .zigzag-item:nth-child(even) .zigzag-pill::after {
-  background: #383A44 !important;
+  background: #D6D4CE !important;
 }
 .zz-num {
-  background: #3B3E48 !important;
+  background: #111113 !important;
   color: #FFFFFF !important;
 }
 .eval-card {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #3B3936 !important;
 }
-.eval-title { color: #FFFFFF !important; }
-.eval-card li { color: #D8DCE4 !important; }
-.eval-card.good { border-top: 3px solid #FFFFFF !important; }
-.eval-card.good li::before { color: #FFFFFF !important; }
+.eval-title { color: #111113 !important; }
+.eval-card li { color: #3B3936 !important; }
+.eval-card.good { border-top: 3px solid #111113 !important; }
+.eval-card.good li::before { color: #111113 !important; }
 .rf-phase {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
+  background: #FAFAF9 !important;
+  border: 1px solid #D6D4CE !important;
 }
 .rf-step-card {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #3B3936 !important;
 }
 .rf-step-card:hover {
-  background: #31333C !important;
-  border-color: #FFFFFF !important;
+  background: #F4F3F0 !important;
+  border-color: #111113 !important;
 }
 .rf-step-num {
-  background: #3B3E48 !important;
-  color: #FFFFFF !important;
-  border: 1px solid #484B56 !important;
+  background: #EAE9E5 !important;
+  color: #111113 !important;
+  border: 1px solid #D6D4CE !important;
 }
 .rf-step-card:hover .rf-step-num {
-  background: #FFFFFF !important;
-  color: #111113 !important;
+  background: #111113 !important;
+  color: #FFFFFF !important;
 }
 .rf-phase-badge {
-  background: #31333C !important;
+  background: #111113 !important;
   color: #FFFFFF !important;
-  border: 1px solid #484B56 !important;
+  border: 1px solid #111113 !important;
 }
 
 /* 12. Learning Journeys, Mod Cards, Performance & Schemes */
 .flow-col, .lj-card, .lj-step, .tna-mod-card, .tna-phase-section, .inc-role-card, .inc-scheme-box {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #3B3936 !important;
 }
 .flow-col:hover, .lj-step:hover, .tna-mod-card:hover, .inc-role-card:hover {
-  background: #31333C !important;
-  border-color: #FFFFFF !important;
+  background: #F9F9F8 !important;
+  border-color: #111113 !important;
 }
-.inc-scheme-bullets li { color: #D8DCE4 !important; }
-.inc-scheme-bullets li::before { color: #8E929E !important; }
+.inc-scheme-bullets li { color: #3B3936 !important; }
+.inc-scheme-bullets li::before { color: #111113 !important; }
 
-/* 13. Tables & Career Progression Matrix */
+/* 13. Tables & Progression Matrix */
 table, .inc-matrix {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #3B3936 !important;
 }
 thead th, table th, .inc-matrix th {
-  background: #282A31 !important;
-  color: #FFFFFF !important;
-  border-bottom: 2px solid #484B56 !important;
+  background: #F4F3F0 !important;
+  color: #111113 !important;
+  border-bottom: 2px solid #111113 !important;
 }
 tbody td, table td, .inc-matrix td {
-  color: #D8DCE4 !important;
-  border-bottom: 1px solid #31333B !important;
+  color: #3B3936 !important;
+  border-bottom: 1px solid #EAE9E5 !important;
 }
 tbody tr:nth-child(even) td, .inc-matrix tbody tr:nth-child(even) td {
-  background: #25272E !important;
+  background: #FAFAF9 !important;
 }
 tbody tr:hover td, .inc-matrix tbody tr:hover td {
-  background-color: #31333C !important;
-  box-shadow: inset 3px 0 0 #FFFFFF !important;
-  color: #FFFFFF !important;
+  background-color: #F0EFEA !important;
+  box-shadow: inset 3px 0 0 #111113 !important;
+  color: #111113 !important;
 }
 
 /* 14. Calendar & Timeline (Chapter 8) */
 .calendar-hub {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
 }
 .ch-month-card {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
 }
 .ch-month-card:hover {
-  background: #2E3039 !important;
-  border-color: #4D505D !important;
+  background: #F9F9F8 !important;
+  border-color: #111113 !important;
 }
 .ch-month-card h5 {
-  color: #FFFFFF !important;
-  border-bottom: 2px solid #484B56 !important;
+  color: #111113 !important;
+  border-bottom: 2px solid #D6D4CE !important;
 }
 .ch-month-card .ch-mc-theme {
-  color: #8E929E !important;
+  color: #585858 !important;
 }
 .ch-month-card.is-current-month {
-  box-shadow: inset 0 0 0 2px #FFFFFF !important;
-  border-color: #FFFFFF !important;
+  box-shadow: inset 0 0 0 2px #111113 !important;
+  border-color: #111113 !important;
 }
 .ch-day-cell {
-  background: #212228 !important;
-  border: 1px solid #34363F !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #EAE9E5 !important;
+  color: #3B3936 !important;
 }
 .ch-day-cell:hover {
-  background: #2E3039 !important;
-  border-color: #4D505D !important;
+  background: #F4F3F0 !important;
+  border-color: #111113 !important;
 }
 .ch-day-cell.is-today .ch-day-num {
-  border-color: #FFFFFF !important;
-  color: #FFFFFF !important;
+  border-color: #111113 !important;
+  color: #111113 !important;
+  font-weight: 800 !important;
 }
 .ch-pill {
-  background: #31333C !important;
-  color: #D8DCE4 !important;
-  border: 1px solid #484B56 !important;
+  background: #F4F3F0 !important;
+  color: #111113 !important;
+  border: 1px solid #D6D4CE !important;
 }
 .ch-pill:hover {
-  box-shadow: inset 0 0 0 1px #FFFFFF !important;
-  color: #FFFFFF !important;
+  box-shadow: inset 0 0 0 1px #111113 !important;
+  color: #111113 !important;
 }
 .ch-pill.cat-incentive, .ch-pill.cat-recruitment {
-  background: #31333C !important;
-  border-left: 3px solid #FFFFFF !important;
-  color: #FFFFFF !important;
+  background: #EAE9E5 !important;
+  border-left: 3px solid #111113 !important;
+  color: #111113 !important;
 }
 .ch-view-toggle, .ch-nav-btn {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
 }
 .ch-month-picker {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12) !important;
 }
 .ch-month-picker-btn {
-  color: #D8DCE4 !important;
+  color: #111113 !important;
 }
 .ch-month-picker-btn:hover {
-  background: #3B3E48 !important;
+  background: #111113 !important;
   color: #FFFFFF !important;
 }
 .ch-tl-seg.active .ch-tl-bar, .ch-tl-seg:hover .ch-tl-bar {
-  border-color: #FFFFFF !important;
+  border-color: #111113 !important;
 }
 .ch-tl-fill, .ch-tl-seg.active .ch-tl-fill {
-  background: #FFFFFF !important;
+  background: #111113 !important;
 }
 
 /* 15. Interactive Diagrams, Cards & Figures */
 .jsw-interactive-card {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
 }
 .jsw-card-header {
-  border-bottom: 1px solid #34363F !important;
+  border-bottom: 1px solid #D6D4CE !important;
 }
 .jsw-card-title {
-  color: #FFFFFF !important;
+  color: #111113 !important;
 }
 .jsw-diagram-scaler {
-  background: #1B1C22 !important;
-  border: 1px solid #31333B !important;
-}
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#fdfdfd"],
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg, #fdfdfd"],
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#fdfdfd 0%"],
-.jsw-diagram-canvas [style*="background: linear-gradient(145deg,#fdfdfd"],
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#ffffff"],
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg, #ffffff"] {
-  background: #2A2C34 !important;
-  border: 1px solid #434652 !important;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
-}
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#fdfdfd"]:hover,
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg, #fdfdfd"]:hover {
-  background: #343640 !important;
-  border-color: #555864 !important;
-}
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#fdfdfd"] *,
-.jsw-diagram-canvas [style*="background:linear-gradient(145deg, #fdfdfd"] * {
-  color: #FFFFFF !important;
+  background: #F9F9F8 !important;
+  border: 1px solid #EAE9E5 !important;
 }
 .jsw-myr-item {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
 }
 .jsw-myr-item::before {
-  background: linear-gradient(90deg, #FFFFFF, #8E929E) !important;
+  background: linear-gradient(90deg, #111113, #585858) !important;
 }
 .jsw-myr-badge {
-  background: #3B3E48 !important;
+  background: #111113 !important;
   color: #FFFFFF !important;
 }
-.jsw-myr-role { color: #FFFFFF !important; }
-.jsw-myr-desc { color: #D8DCE4 !important; }
+.jsw-myr-role { color: #111113 !important; }
+.jsw-myr-desc { color: #3B3936 !important; }
 .img-card, .figure-frame {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
 }
-.img-caption { color: #8E929E !important; }
+.img-caption { color: #585858 !important; }
 .email-template-card {
-  background: #282A31 !important;
-  border: 1px solid #383A44 !important;
-  border-left: 4px solid #FFFFFF !important;
-  color: #D8DCE4 !important;
+  background: #F4F3F0 !important;
+  border: 1px solid #D6D4CE !important;
+  border-left: 4px solid #111113 !important;
+  color: #111113 !important;
 }
 .email-template-card * {
-  color: #D8DCE4 !important;
+  color: #111113 !important;
 }
 .email-template-card h4, .email-template-card b, .email-template-card strong {
-  color: #FFFFFF !important;
+  color: #111113 !important;
 }
 .modal-box {
-  background: #212228 !important;
-  border: 1px solid #383A44 !important;
-  color: #D8DCE4 !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6D4CE !important;
+  color: #111113 !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2) !important;
 }
 .modal-head {
-  border-bottom: 1px solid #34363F !important;
+  border-bottom: 1px solid #EAE9E5 !important;
 }
-.modal-title { color: #FFFFFF !important; }
-.modal-close { color: #8E929E !important; }
-.modal-close:hover { color: #FFFFFF !important; }
+.modal-title { color: #111113 !important; }
+.modal-close { color: #585858 !important; }
+.modal-close:hover { color: #111113 !important; }
 
 /* 16. Search Hit Animation */
 @keyframes jxHit {
-  0%, 40% { box-shadow: 0 0 0 4px rgba(255,255,255,0.4); background-color: rgba(255,255,255,0.15); }
-  100% { box-shadow: 0 0 0 4px rgba(255,255,255,0); background-color: transparent; }
+  0%, 40% { box-shadow: 0 0 0 4px rgba(17,17,19,0.3); background-color: rgba(17,17,19,0.08); }
+  100% { box-shadow: 0 0 0 4px rgba(17,17,19,0); background-color: transparent; }
 }
 </style>
 
@@ -2911,7 +3047,7 @@ tbody tr:hover td, .inc-matrix tbody tr:hover td {
     <section class="jx-home" id="jxHome" aria-label="Home">
       <div class="jx-hero">
         <div class="jx-hero-glow" aria-hidden="true"></div>
-        <img class="jx-hero-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAALcCAYAAAD3x0nUAAAiIElEQVR42u3d65LbtpqGUdGV+79l7h+2t2VZRwoAX+Bbq2oqzkwmh24IBB6D6G3f9wsAAAAApPrhSwAAAABAMgELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGj/+RIAAABAnP3mzzdfEipzAgsAAACy7G/+76AMAQsAAACAaAIWAAAA5HDSCu4QsAAAAACI5hJ3AAAAGM9JK/iAE1gAAAAwlngFH3ICCwAAAPppFas2X0oqcwILAAAA+nDSChoRsAAAAKAPp6agEQELAAAA+hOz4AsCFgAAAPSxP/g18CGXuAMAAMBxPcOUU1vwi4AFAAAAx/SKV8IV3BCwAAAA4HMt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" alt="JSW Motors">
+        <img class="jx-hero-logo" src="data:image/png;base64,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" alt="JSW Motors">
         <p class="jx-hero-eyebrow">JSW Motors · Dealer Partner Network · Operating Standards</p>
         <h1 class="jx-hero-title">
           <span class="jx-hero-line">JSW HR Operations Manual:</span>
