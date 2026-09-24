@@ -31,6 +31,32 @@ def git_show(rev, path):
 v3 = git_show(BASE, 'v3.html')
 v2 = git_show('HEAD', 'v2.html')
 
+# ---------------------------------------------------------------- 0 home layout
+# The manual's name lives only in the top strip; the home page opens straight
+# on the chapter cards (no big title hero, no "Direct chapter access" grid).
+TITLE = 'JSW HR Operations Manual: TRUST'
+
+def cut(s, start, end):
+    i = s.index(start); j = s.index(end, i)
+    return s[:i] + s[j:]
+
+def home_layout(s):
+    s = cut(s, '      <div class="jx-hero">', '      <!-- Quick Action Navigation Bar on First Page -->')
+    s = cut(s, '      <!-- Direct Chapter Access Grid -->', '      <div class="jx-seg"')
+    cards = ('      <div class="jx-seg" id="jxSeg" role="tablist" aria-label="Filter by part"><i class="jx-seg-ind" aria-hidden="true"></i></div>\n'
+             '      <div class="jx-cards" id="jxCards"></div>\n')
+    assert s.count(cards) == 1
+    s = s.replace(cards, '')
+    head = '    <section class="jx-home" id="jxHome" aria-label="Home">\n'
+    assert s.count(head) == 1
+    s = s.replace(head, head + f'      <h1 class="jx-sr">{TITLE}</h1>\n' + cards + '\n')
+    # the name in the strip: sidebar head on desktop, top bar on phones
+    s = s.replace('      <span>HR Operations Manual</span>\n', f'      <span>{TITLE}</span>\n', 1)
+    top = re.search(r'(<button class="jx-top-brand"[^>]*>\s*<img [^>]*>)(\s*</button>)', s)
+    s = s[:top.end(1)] + f'<span class="jx-top-title">{TITLE}</span>' + s[top.end(1):]
+    return s
+
+
 # ---------------------------------------------------------------- 1 restore
 def block(s, tag):
     m = re.search(r'(<style id="%s">)(.*?)(</style>)' % tag, s, re.S)
@@ -47,6 +73,7 @@ for a, b in [(4113, 5111), (5492, 6490), (5507, 6505)]:
 v3 = '\n'.join(v3l)
 
 v3 = v3.replace(block(v3, 'jsw-content-css').group(2), block(v2, 'jsw-content-css').group(2), 1)
+v3 = home_layout(v3)
 
 # drop the old override block; the new layer goes in its place
 old = re.search(r'\n<style id="jx-v3-monochrome-overrides">.*?</style>', v3, re.S)
@@ -62,6 +89,14 @@ JS_NEW = ("  route({ inPlace: true });\n"
           "  window.addEventListener('load', function(){\n"
           "    if(pageIndex[decodeURIComponent(location.hash.slice(1))]) route({ inPlace: true });\n"
           "  });\n})();")
+assert v3.count(JS_OLD) == 1
+v3 = v3.replace(JS_OLD, JS_NEW)
+
+# "Continue reading" used to hang off the hero; it now follows the cards
+JS_OLD = ("    var hero = $('.jx-hero', homeEl);\n"
+          "    hero.parentNode.insertBefore(resumeBtn, hero.nextSibling);")
+JS_NEW = ("    var actions = $('.jx-home-actions', homeEl);\n"
+          "    actions.parentNode.insertBefore(resumeBtn, actions);")
 assert v3.count(JS_OLD) == 1
 v3 = v3.replace(JS_OLD, JS_NEW)
 
@@ -161,9 +196,14 @@ def fingerprint(doc):
     attrs = re.findall(r'\s(id|href|data-[\w-]+|aria-label|title|alt)="([^"]*)"', body)
     return text, attrs
 
-base_fp, out_fp = fingerprint(git_show(BASE, 'v3.html')), fingerprint(out)
-if base_fp != out_fp:
+base = git_show(BASE, 'v3.html')
+# 1) everything apart from the intended home-page edits is unchanged
+if fingerprint(home_layout(base)) != fingerprint(out):
     sys.exit('ABORT: visible text / ids / links changed')
+# 2) the manual itself (every chapter) is untouched, independent of step 0
+chap = lambda d: fingerprint('<body>' + d[d.index('<!-- CHAPTERS'):])
+if chap(base) != chap(out):
+    sys.exit('ABORT: chapter content changed')
 toc = lambda d: re.search(r'<script id="jx-toc">(.*?)</script>', d, re.S).group(1)
 if toc(out) != toc(git_show(BASE, 'v3.html')):
     sys.exit('ABORT: TOC changed')
@@ -173,7 +213,7 @@ def chromatic(x):
     return max(v) - min(v) > 2
 left = [m.group(0) for m in HEX.finditer(re.sub(r'data:[^"\')\s]+', '', out)) if chromatic(m.group(1))]
 OUT.write_text(out)
-print('wrote', OUT.name, len(out), 'bytes; text/ids/links/TOC identical to', BASE)
+print('wrote', OUT.name, len(out), 'bytes; chapters, TOC and all non-home text identical to', BASE)
 for k, v in log.items():
     print(f'  {k}: {len(v)} colours greyed')
 print('  chromatic hex left anywhere (incl. selectors/text):', sorted(set(left))[:20])
