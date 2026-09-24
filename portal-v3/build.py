@@ -49,11 +49,9 @@ def home_layout(s):
     s = s.replace(cards, '')
     head = '    <section class="jx-home" id="jxHome" aria-label="Home">\n'
     assert s.count(head) == 1
-    s = s.replace(head, head + f'      <h1 class="jx-sr">{TITLE}</h1>\n' + cards + '\n')
-    # the name in the strip: sidebar head on desktop, top bar on phones
+    s = s.replace(head, head + f'      <h1 class="jx-home-title">{TITLE}</h1>\n' + cards + '\n')
+    # the name in the strip (sidebar head)
     s = s.replace('      <span>HR Operations Manual</span>\n', f'      <span>{TITLE}</span>\n', 1)
-    top = re.search(r'(<button class="jx-top-brand"[^>]*>\s*<img [^>]*>)(\s*</button>)', s)
-    s = s[:top.end(1)] + f'<span class="jx-top-title">{TITLE}</span>' + s[top.end(1):]
     return s
 
 
