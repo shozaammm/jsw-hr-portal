@@ -1,0 +1,283 @@
+/* ==========================================================================
+   JSW HR Operations Manual — v3 greyscale layer
+   Every tone below is sampled from the reference ramp
+   (gray-shades-gradients-set-background): seven bars, white → black.
+     #FEFEFE #EAEAEA #E5E5E5 #C8C8C8 #BABABA #909090 #717171
+     #5B5B5B #505050 #363636 #2B2B2B #1B1B1B #0A0A0A
+   Content sits straight on the ground — no sheets, no floating panels.
+   Only things you can press (buttons, tiles, fields) carry an outline.
+   ========================================================================== */
+:root{
+  --g-0:#FEFEFE; --g-1:#EAEAEA; --g-2:#E5E5E5; --g-3:#C8C8C8; --g-4:#BABABA;
+  --g-5:#909090; --g-6:#717171; --g-7:#5B5B5B; --g-8:#505050; --g-9:#363636;
+  --g-10:#2B2B2B; --g-11:#1B1B1B; --g-12:#0A0A0A;
+
+  /* shell tokens */
+  --jx-ink:var(--g-11); --jx-ink-2:var(--g-10);
+  --jx-paper:var(--g-0); --jx-white:#FFFFFF;
+  --jx-bg:var(--g-1); --jx-panel:var(--g-2);
+  --jx-soft:rgba(27,27,27,.05); --jx-soft-2:rgba(27,27,27,.07);
+  --jx-line:var(--g-3); --jx-line-2:var(--g-4);
+  --jx-muted:var(--g-7); --jx-text:var(--g-9);
+  --jx-gold:var(--g-11); --jx-gold-2:var(--g-4); --jx-gold-3:var(--g-9); --jx-trust:var(--g-11);
+  --jx-shadow-sm:none;
+  --jx-shadow:0 10px 24px -16px rgba(10,10,10,.28);
+  --jx-shadow-lg:0 30px 70px -30px rgba(10,10,10,.45);
+
+  /* manual content tokens */
+  --white:#FFFFFF; --paper:var(--g-1); --card:transparent;
+  --line-100:rgba(27,27,27,.08); --line-200:var(--g-3);
+  --grey-300:var(--g-4); --grey-400:var(--g-6); --grey-500:var(--g-7); --grey-700:var(--g-9);
+  --ink:var(--g-11); --navy:var(--g-11);
+  --gold:var(--g-11); --gold-lite:var(--g-6);
+  --shadow:none;
+}
+
+/* 1 Ground ------------------------------------------------------------------ */
+html{background:var(--g-1)}
+body{
+  color:var(--g-11);
+  background:var(--g-1) linear-gradient(180deg, var(--g-0) 0, var(--g-1) 760px) no-repeat;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+::selection{background:var(--g-11);color:var(--g-0)}
+.jx-chapter img,.jx-chapter svg image{filter:grayscale(1)}
+
+/* 2 Top bar ------------------------------------------------------------------ */
+.jx-top{background:rgba(234,234,234,.86)}
+.jx-scrolled .jx-top{border-bottom-color:var(--g-3)}
+.jx-progress i{background:var(--g-11)}
+kbd{background:transparent;border-color:var(--g-4);color:var(--g-7)}
+
+/* 3 Sidebar — same ground, a hairline apart ---------------------------------- */
+.jx-nav{background:var(--g-1)}
+@media (min-width:1024px){ .jx-nav{border-right:1px solid var(--g-3)} }
+@media (max-width:1023px){ .jx-nav{background:var(--g-0)} }
+.jx-nav-foot{border-top-color:var(--g-3)}
+.jx-nav-group-label{color:var(--g-7)}
+.jx-nav-group-label b{color:var(--g-11)}
+.jx-nav-item{color:var(--g-9)}
+.jx-nav-item.is-page,.jx-nav-sub.is-page{background:rgba(27,27,27,.07);box-shadow:none;color:var(--g-11)}
+.jx-nav-item.is-active .jx-nav-num{color:var(--g-11)}
+.jx-nav-sub{color:var(--g-7)}
+.jx-nav-sub b{color:var(--g-9)}
+.jx-nav-sub::before{background:var(--g-11)}
+.jx-nav-item::after,.jx-nav-sub::after{background:var(--g-7)}
+.jx-scrim{background:rgba(10,10,10,.38)}
+
+/* 4 Search fields ------------------------------------------------------------- */
+.jx-search-field{background:rgba(254,254,254,.6);border-color:var(--g-3);color:var(--g-7);box-shadow:none}
+.jx-search-field:hover{background:var(--g-0);border-color:var(--g-6);box-shadow:none;color:var(--g-9)}
+
+/* 5 Home — hero is type on the ground ------------------------------------------ */
+.jx-hero{
+  background:none;border:0;border-radius:0;box-shadow:none;overflow:visible;
+  padding:clamp(20px, 4vw, 48px) 0 clamp(24px, 4vw, 40px);
+  margin-bottom:8px;border-bottom:1px solid var(--g-3);
+}
+.jx-hero-glow,.jx-hero-palette-bar{display:none}
+.jx-hero-logo{filter:none;position:relative;z-index:1}
+.jx-hero-watermark{
+  position:absolute;right:0;top:clamp(8px, 3vw, 36px);z-index:0;
+  font-family:var(--font-display);font-size:clamp(84px, 17vw, 200px);font-weight:900;
+  line-height:.8;letter-spacing:-.05em;color:transparent;
+  -webkit-text-stroke:1.5px rgba(27,27,27,.07);
+  pointer-events:none;user-select:none;
+}
+.jx-hero-eyebrow{color:var(--g-7);position:relative;z-index:1}
+.jx-hero-title{position:relative;z-index:1}
+.jx-hero-line,.jx-hero-word,.jx-hero-word > span{color:var(--g-11)}
+
+/* TRUST pillars are links, so they keep a quiet outline */
+.jx-pillars{border-top:1px solid var(--g-3);position:relative;z-index:1}
+.jx-pillars li{
+  background:transparent;border:1px solid var(--g-3);border-radius:12px;box-shadow:none;
+  color:var(--g-9);position:relative;overflow:hidden;padding:16px 14px 14px;
+}
+.jx-pillars li::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.jx-pillars li:nth-child(1)::before{background:var(--g-11)}
+.jx-pillars li:nth-child(2)::before{background:var(--g-9)}
+.jx-pillars li:nth-child(3)::before{background:var(--g-8)}
+.jx-pillars li:nth-child(4)::before{background:var(--g-6)}
+.jx-pillars li:nth-child(5)::before{background:var(--g-5)}
+.jx-pillars li:hover{background:rgba(254,254,254,.7);border-color:var(--g-11);box-shadow:none}
+.jx-pillars b{color:var(--g-11);margin-right:0}
+.jx-pillar-tag{color:var(--g-7)}
+.jx-pillars li:hover .jx-pillar-tag{color:var(--g-11)}
+.jx-hero-quote{
+  background:none;box-shadow:none;border-radius:0;
+  border-left:2px solid var(--g-11);padding:2px 0 2px 16px;
+  color:var(--g-8);position:relative;z-index:1;
+}
+
+/* quick actions — a ramp down the reference bars */
+.jx-home-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.jx-action-pill{
+  height:44px;padding:0 16px;border-radius:999px;box-shadow:none;
+  border:1px solid transparent;font-size:13.5px;font-weight:600;
+}
+.jx-action-pill svg{width:16px;height:16px;stroke:currentColor}
+.jx-action-pill:hover{transform:translateY(-1px);box-shadow:var(--jx-shadow)}
+.jx-action-pill--chapters,.jx-action-pill--primary{background:var(--g-11);border-color:var(--g-11);color:var(--g-0)}
+.jx-action-pill--chapters:hover,.jx-action-pill--primary:hover{background:var(--g-12);border-color:var(--g-12);color:var(--g-0)}
+.jx-action-pill--foreword{background:var(--g-9);border-color:var(--g-9);color:var(--g-0)}
+.jx-action-pill--foreword:hover{background:var(--g-10);border-color:var(--g-10);color:var(--g-0)}
+.jx-action-pill--posh{background:var(--g-7);border-color:var(--g-7);color:var(--g-0)}
+.jx-action-pill--posh:hover{background:var(--g-8);border-color:var(--g-8);color:var(--g-0)}
+.jx-action-pill--leave{background:var(--g-0);border-color:var(--g-3);color:var(--g-11)}
+.jx-action-pill--leave:hover{background:var(--g-0);border-color:var(--g-11);color:var(--g-11)}
+.jx-action-pill--annexure{background:transparent;border-color:var(--g-5);color:var(--g-11)}
+.jx-action-pill--annexure:hover{background:rgba(254,254,254,.6);border-color:var(--g-11);color:var(--g-11)}
+.jx-action-pill .jx-badge{background:var(--g-9);color:var(--g-0)}
+.jx-action-pill .jx-badge-arrow{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;font-size:11px;font-weight:800;
+  background:rgba(254,254,254,.18);color:inherit;
+}
+.jx-action-pill--leave .jx-badge-arrow,.jx-action-pill--annexure .jx-badge-arrow{background:rgba(27,27,27,.08)}
+.jx-action-pill:hover .jx-badge-arrow{color:inherit;transform:translateX(2px)}
+
+/* direct chapter access — heading on the ground, tiles are buttons */
+.jx-quick-menu{background:none;border:0;border-radius:0;box-shadow:none;padding:0;margin:36px 0 8px}
+.jx-quick-menu-header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:0 0 10px;margin-bottom:14px;border-bottom:1px solid var(--g-3);
+}
+.jx-qm-label{color:var(--g-11)}
+.jx-qm-dot{background:var(--g-11)}
+.jx-qm-hint{color:var(--g-7)}
+.jx-quick-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(min(100%, 280px), 1fr));gap:10px}
+.jx-quick-tile{
+  background:transparent;border:1px solid var(--g-3);border-radius:12px;box-shadow:none;
+  color:var(--g-11);padding:12px 14px;
+}
+.jx-quick-tile:hover{background:rgba(254,254,254,.7);border-color:var(--g-11);box-shadow:none;color:var(--g-11)}
+.jx-qt-badge{border:0;color:var(--g-0);background:var(--g-11)}
+.jx-quick-tile:nth-child(n+5) .jx-qt-badge{background:var(--g-9)}
+.jx-quick-tile:nth-child(n+8) .jx-qt-badge{background:var(--g-8)}
+.jx-quick-tile:nth-child(n+9) .jx-qt-badge{background:var(--g-7)}
+.jx-quick-tile:nth-child(n+12) .jx-qt-badge{background:var(--g-6)}
+.jx-quick-tile:hover .jx-qt-badge{background:var(--g-11);color:var(--g-0)}
+.jx-qt-title{color:var(--g-11);white-space:normal;overflow:visible;text-overflow:clip;line-height:1.3}
+.jx-qt-sub{color:var(--g-7);white-space:normal;overflow:visible;text-overflow:clip}
+.jx-qt-arrow{color:var(--g-6)}
+.jx-quick-tile:hover .jx-qt-arrow{color:var(--g-11)}
+
+/* continue reading */
+.jx-resume{background:transparent;border:1px solid var(--g-3);box-shadow:none;border-radius:14px;color:var(--g-11)}
+.jx-resume:hover{background:rgba(254,254,254,.7);border-color:var(--g-11);box-shadow:none}
+.jx-resume-icon{background:var(--g-11);color:var(--g-0)}
+.jx-resume-k{color:var(--g-7)}
+.jx-resume-t,.jx-resume-t b{color:var(--g-11)}
+.jx-resume-c{color:var(--g-7)}
+
+/* part filter */
+.jx-seg{background:rgba(27,27,27,.06)}
+.jx-seg-ind{background:var(--g-11)}
+.jx-seg button{color:var(--g-9)}
+.jx-seg button[aria-selected="true"]{color:var(--g-0)}
+.jx-seg button:not([aria-selected="true"]):hover{background:rgba(254,254,254,.7)}
+@media (max-width:760px){
+  .jx-seg{background:transparent}
+  .jx-seg button{background:transparent;box-shadow:inset 0 0 0 1px var(--g-3)}
+  .jx-seg button[aria-selected="true"]{box-shadow:none}
+}
+
+/* chapter cards are buttons: outline, no float */
+.jx-card{background:transparent;border:1px solid var(--g-3);box-shadow:none}
+.jx-card:hover{background:rgba(254,254,254,.7);border-color:var(--g-11);box-shadow:none}
+.jx-card-num,.jx-card-title{color:var(--g-11)}
+.jx-card-meta{color:var(--g-7)}
+.jx-card-meta b{color:var(--g-9)}
+.jx-card-go{border-color:var(--g-3)}
+.jx-card-bar i{background:var(--g-11)}
+.jx-foot{border-top-color:var(--g-3)}
+.jx-foot p{color:var(--g-7)}
+
+/* 6 Chapter — the manual reads straight off the ground ----------------------- */
+.jx-chapter{background:none;border:0;border-radius:0;box-shadow:none;margin:0;padding:0}
+.jx-head{margin-bottom:8px;padding-bottom:22px;border-bottom:1px solid var(--g-3)}
+.jx-head-row{align-items:flex-end;flex-wrap:wrap}
+.jx-kicker{color:var(--g-7)}
+.jx-h1{color:var(--g-11)}
+.jx-head.is-sub .jx-h1{color:var(--g-7)}
+.jx-mode{background:transparent;border-color:var(--g-4);box-shadow:none;color:var(--g-9)}
+.jx-mode:hover{background:rgba(254,254,254,.7);border-color:var(--g-11);color:var(--g-11)}
+.jx-mode[aria-pressed="true"]{background:var(--g-11);border-color:var(--g-11);color:var(--g-0)}
+.jx-mode.is-done{border-color:var(--g-11);color:var(--g-11)}
+.jx-chips{background:rgba(234,234,234,.9);border-bottom-color:var(--g-3)}
+.jx-chip{background:transparent;border-color:var(--g-3);color:var(--g-9)}
+.jx-chip b{color:var(--g-7)}
+.jx-chip.is-page{background:var(--g-11);border-color:var(--g-11);color:var(--g-0)}
+.jx-chip.is-page b{color:var(--g-4)}
+
+.jx-chapter section.chap,
+.jx-chapter section.chap:nth-of-type(n){
+  background:none;border:0;border-radius:0;box-shadow:none;
+  padding:clamp(20px, 3vw, 36px) 0 8px;margin:0;
+}
+@media (max-width:760px){
+  .jx-chapter section.chap{margin:0;padding:18px 0 8px}
+}
+.jx-chapter .jx-lead{color:var(--g-11)}
+/* the manual's own framed blocks lose their lift so nothing floats */
+.jx-chapter section.chap .img-card,
+.jx-chapter section.chap figure{box-shadow:none}
+
+/* Text panels in the manual (step cards, month cards, info boxes, table
+   frames) lose their white fill and lift, so their text sits on the ground.
+   Their outlines stay as hairlines to keep grids readable. Diagram shapes,
+   org-chart nodes, file links and the modal keep their own surfaces. */
+.jx-chapter section.chap :is(
+  .table-wrap, .img-card, .jsw-interactive-card, .jsw-card-body, .jsw-myr-item, .jsw-myr-desc,
+  .rf-step-card, .rf-phase, .rf-steps-grid, .tna-mod-card, .tna-phase-section,
+  .lj-step, .lj-step-body, .lj-card, .lj-assessment-chip, .ch-month-card, .calendar-hub,
+  .enquiry-card, .flow-col, .inc-scheme-box, .inc-role-card, .eval-card, .role-directory,
+  .email-template-card, .orgchart-card, .zigzag-pill, .jsw-diagram-scaler
+){background:transparent !important;box-shadow:none !important}
+.jx-chapter section.chap :is(.rf-step-card, .tna-mod-card, .lj-step, .ch-month-card, .enquiry-card,
+  .flow-col, .inc-scheme-box, .inc-role-card, .eval-card, .email-template-card, .jsw-interactive-card,
+  .zigzag-pill, .lj-card){border-color:var(--g-3) !important}
+.jx-chapter section.chap .ch-month-card.is-current-month{border-color:var(--g-11) !important}
+.jx-chapter section.chap :is(.enquiry-flow, .jsw-card-body) [style*="background:var(--white)"],
+.jx-chapter section.chap .jsw-card-body > [style*="linear-gradient(160deg,#ffffff"]{background:transparent !important;box-shadow:none !important}
+.jx-chapter section.chap :is(.pull, .orgchart-legend, .rd-list, .img-caption, .ch-toolbar){background:transparent !important}
+.jx-chapter section.chap table{background:transparent}
+.jx-chapter section.chap tbody tr:nth-child(even) td{background:rgba(27,27,27,.03)}
+
+/* 7 Pager ----------------------------------------------------------------------- */
+.jx-pager{padding-top:24px;border-top:1px solid var(--g-3);margin-top:32px}
+.jx-pager-btn{background:transparent;border:1px solid var(--g-3);box-shadow:none}
+.jx-pager-btn:hover{background:rgba(254,254,254,.7);border-color:var(--g-11);box-shadow:none}
+.jx-pager-t,.jx-pager-t b{color:var(--g-11)}
+.jx-pager-k{color:var(--g-7)}
+.jx-pager-next{background:var(--g-11);border-color:var(--g-11)}
+.jx-pager-next:hover{background:var(--g-12);border-color:var(--g-12)}
+.jx-pager-next .jx-pager-k,.jx-pager-next .jx-pager-t b{color:var(--g-4)}
+.jx-pager-next .jx-pager-t,.jx-pager-next svg{color:var(--g-0)}
+
+/* 8 Tab bar, palette, toast, back-to-top ------------------------------------------ */
+.jx-tabbar{background:rgba(234,234,234,.94);border-top-color:var(--g-3)}
+.jx-tabbar button.is-on{color:var(--g-11)}
+.jx-tabbar button.is-on svg{stroke:var(--g-11)}
+.jx-palette{background:rgba(10,10,10,.42)}
+.jx-palette-box{background:var(--g-0);border:1px solid var(--g-3)}
+.jx-palette-input{border-bottom-color:var(--g-3)}
+.jx-result.is-on,.jx-result:hover{background:var(--g-1)}
+.jx-result-t,.jx-result-t b{color:var(--g-11)}
+.jx-result mark{background:var(--g-3);color:var(--g-11)}
+@media (max-width:760px){ .jx-palette{background:var(--g-0)} }
+.jx-toast{background:var(--g-11);color:var(--g-0)}
+.jx-totop{background:var(--g-11);color:var(--g-0)}
+.jx-totop:hover{background:var(--g-12);color:var(--g-0)}
+:where(.jx-top,.jx-nav,.jx-home,.jx-head,.jx-chips,.jx-pager,.jx-tabbar,.jx-palette) :is(button,a,input):focus-visible{outline-color:var(--g-11)}
+
+@keyframes jxHit{
+  0%,40%{box-shadow:0 0 0 6px rgba(27,27,27,.14);background-color:rgba(27,27,27,.06)}
+  100%{box-shadow:0 0 0 6px rgba(27,27,27,0);background-color:transparent}
+}
+
+@media print{
+  html,body{background:#FFFFFF !important}
+  .jx-hero-watermark{display:none}
+}
