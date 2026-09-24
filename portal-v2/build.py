@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
-"""Build jsw-hr-portal-v2.html — a new app shell around the manual's content.
+"""Build the HR manual app — hr-manual-2.html (and its twin index.html).
 
-Carried over from jsw-hr-portal.html (read only, never written):
+Two modes:
+
+  python3 portal-v2/build.py
+      Everyday edits. Re-injects portal-v2/app.css and portal-v2/app.js into
+      hr-manual-2.html, then writes hr-manual-2.html and index.html (the
+      GitHub Pages entry) as identical files. Every chapter section is checked
+      to be byte-identical before and after.
+
+  python3 portal-v2/build.py --from <legacy-portal.html>
+      Full rebuild from a legacy single-file portal (the original source was
+      "Sumedha ma'am requirements /jsw-hr-portal.html" on the Desktop).
+
+Full-rebuild mode carries over from the legacy file (read only, never written):
   * every chapter section's content, byte-for-byte (chapter number and
     title move into the new header; decorative header photos are dropped)
   * the component scripts the content needs (org chart, role directory,
@@ -19,8 +31,9 @@ import re
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
-SRC = HERE.parent / "jsw-hr-portal.html"
-OUT = HERE.parent / "jsw-hr-portal-v2.html"
+MAIN = HERE.parent / "hr-manual-2.html"
+OUTS = [MAIN, HERE.parent / "index.html"]      # kept byte-identical
+SECTION_RE = re.compile(r'<section class="chap" id="[^"]+">.*?</section>', re.S)
 
 
 def fail(msg):
@@ -157,9 +170,40 @@ def dynamic_prefixes(scripts):
     return found
 
 
+def write_outputs(body):
+    for out in OUTS:
+        out.write_text(body, encoding="utf-8")
+    return ", ".join(o.name for o in OUTS)
+
+
+def swap_block(html, open_tag, new_inner, label):
+    """Replace the inner text of the single element that opens with open_tag."""
+    if html.count(open_tag) != 1:
+        fail(f"expected exactly 1 {label} block, found {html.count(open_tag)}")
+    start = html.index(open_tag) + len(open_tag)
+    close = "</style>" if open_tag.startswith("<style") else "</script>"
+    end = html.index(close, start)
+    return html[:start] + "\n" + new_inner + html[end:]
+
+
 # --------------------------------------------------------------------------
-def main():
-    src = SRC.read_text(encoding="utf-8")
+def update():
+    html = MAIN.read_text(encoding="utf-8")
+    before = SECTION_RE.findall(html)
+    if len(before) != 15:
+        fail(f"expected 15 chapter sections in {MAIN.name}, found {len(before)}")
+    app_css = (HERE / "app.css").read_text(encoding="utf-8")
+    app_js = (HERE / "app.js").read_text(encoding="utf-8")
+    html = swap_block(html, '<style id="jx-app-css">', app_css, "app css")
+    html = swap_block(html, '<script id="jx-app-js">', app_js, "app js")
+    if SECTION_RE.findall(html) != before:
+        fail("chapter content changed during update")
+    names = write_outputs(html)
+    print(f"build: updated {names} ({len(html):,} bytes); 15 chapters byte-identical")
+
+
+def full_build(src_path):
+    src = pathlib.Path(src_path).read_text(encoding="utf-8")
     shell = (HERE / "shell.html").read_text(encoding="utf-8")
     app_css = (HERE / "app.css").read_text(encoding="utf-8")
     app_js = (HERE / "app.js").read_text(encoding="utf-8")
@@ -266,10 +310,15 @@ def main():
         if block not in body:
             fail("a chapter's content block was altered during assembly")
 
-    OUT.write_text(body, encoding="utf-8")
-    print(f"build: wrote {OUT.name} ({len(body):,} bytes); "
+    names = write_outputs(body)
+    print(f"build: wrote {names} ({len(body):,} bytes); "
           f"content css {len(content_css):,} -> {len(pruned):,} chars; 15 chapters verbatim")
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 3 and sys.argv[1] == "--from":
+        full_build(sys.argv[2])
+    elif len(sys.argv) == 1:
+        update()
+    else:
+        fail("usage: build.py  |  build.py --from <legacy-portal.html>")

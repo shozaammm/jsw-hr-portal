@@ -32,6 +32,12 @@
     try{ if(v === undefined) return localStorage.getItem(MODE_KEY); localStorage.setItem(MODE_KEY, v); }catch(e){}
     return null;
   }
+  // Per-reader memory (this browser only): pages opened + last page read.
+  var READ_KEY = 'jxRead', LAST_KEY = 'jxLast';
+  function load(key, fallback){
+    try{ var v = JSON.parse(localStorage.getItem(key)); return v == null ? fallback : v; }catch(e){ return fallback; }
+  }
+  function save(key, v){ try{ localStorage.setItem(key, JSON.stringify(v)); }catch(e){} }
   function cssPx(name){ var v = parseFloat(getComputedStyle(root).getPropertyValue(name)); return isNaN(v) ? 0 : v; }
   function headOffset(){ return cssPx('--jx-top-h') + (wide.matches ? 0 : ($('.jx-chapter:not([hidden]) .jx-chips') ? 52 : 0)) + 16; }
   function docTop(n){ return n.getBoundingClientRect().top + window.pageYOffset; }
@@ -43,6 +49,10 @@
   var ICON_PREV = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
   var ICON_FULL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
   var ICON_PAGES = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 9h6M9 13h6"/></svg>';
+  var ICON_LINK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>';
+  var ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var ICON_BOOK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>';
+  var ICON_UP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
 
   /* -------------------------------------------------------------- 2 model */
   // One chapter per TOC item; one page per sub-section when the chapter's
@@ -213,6 +223,14 @@
       ch.chips = chips;
       ch.article.classList.add('jx-has-chips');
     }
+    var actions = el('div', 'jx-head-actions');
+    $('.jx-head-row', ch.article).appendChild(actions);
+    // copy a link to exactly this page (handy for sharing a policy)
+    var link = el('button', 'jx-mode jx-link', ICON_LINK + '<span>Copy link</span>');
+    link.type = 'button';
+    link.title = 'Copy link to this page';
+    link.addEventListener('click', function(){ copyLink(link); });
+    actions.appendChild(link);
     // full chapter / by section toggle
     if(ch.pageable){
       var mode = el('button', 'jx-mode');
@@ -223,7 +241,7 @@
         var p = ch.full ? ch.pages[0] : (spyPage(ch) || ch.pages[0]);
         go(p.alias || p.id);
       });
-      $('.jx-head-row', ch.article).appendChild(mode);
+      actions.appendChild(mode);
       ch.modeBtn = mode;
     }
     // pager
@@ -232,6 +250,46 @@
     ch.article.appendChild(pager);
     ch.pager = pager;
   });
+
+  var toast = $('#jxToast'), toastTimer = null;
+  function showToast(html, ms){
+    toast.innerHTML = html;
+    toast.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('is-on'); }, ms || 2200);
+  }
+
+  function copyLink(btn){
+    var url = location.href;
+    var done = function(){
+      btn.classList.add('is-done');
+      btn.innerHTML = ICON_CHECK + '<span>Link copied</span>';
+      showToast('<span>Link copied</span>');
+      setTimeout(function(){ btn.classList.remove('is-done'); btn.innerHTML = ICON_LINK + '<span>Copy link</span>'; }, 1800);
+    };
+    // if the browser blocks the clipboard, show the link ready to copy by hand
+    var fallback = function(){
+      if(legacyCopy(url)){ done(); return; }
+      showToast('<span>Copy this link:</span> <input class="jx-toast-url" readonly value="' + esc(url) + '" aria-label="Page link">', 6000);
+      var f = $('.jx-toast-url', toast);
+      if(f){ f.focus(); f.select(); }
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext){
+      navigator.clipboard.writeText(url).then(done, fallback);
+    } else {
+      fallback();
+    }
+  }
+  function legacyCopy(text){
+    var t = el('textarea');
+    t.value = text; t.setAttribute('readonly', '');
+    t.style.position = 'fixed'; t.style.opacity = '0';
+    doc.body.appendChild(t); t.select();
+    var ok = false;
+    try{ ok = doc.execCommand('copy'); }catch(e){}
+    doc.body.removeChild(t);
+    return ok;
+  }
 
   function spyPage(ch){
     var line = headOffset() + 40, found = null;
@@ -318,6 +376,7 @@
       paintNav(null);
       paintTabs('home');
       doc.title = 'JSW HR Operations Manual';
+      paintResume();
       jumpY(0);
       replay(homeEl, 'jx-play');
     }, homeEl, afterRender, opts && opts.inPlace);
@@ -338,7 +397,8 @@
       paintPager(page);
       paintNav(page, target && target.id);
       paintTabs(null);
-      doc.title = (page.lead ? ch.title : (page.num ? page.num + ' ' : '') + page.label) + ' · JSW HR Operations Manual';
+      markRead(page);          // locate() already resolved any target to its page
+      doc.title =(page.lead ? ch.title : (page.num ? page.num + ' ' : '') + page.label) + ' · JSW HR Operations Manual';
       if(target){
         requestAnimationFrame(function(){ jumpY(docTop(target) - headOffset()); });
       } else if(ch.full && !page.lead){
@@ -352,6 +412,60 @@
       afterRender();
       if(opts.query) revealQuery(page, opts.query);
     }, opts.inPlace);
+  }
+
+  /* reading memory: ticks in the nav, progress on the cards, resume card */
+  var readSet = {};
+  load(READ_KEY, []).forEach(function(id){ if(pageIndex[id]) readSet[id] = 1; });
+
+  function markRead(page){
+    if(!page) return;
+    save(LAST_KEY, page.alias || page.id);
+    if(readSet[page.id]) return;
+    readSet[page.id] = 1;
+    save(READ_KEY, Object.keys(readSet));
+    paintRead();
+  }
+  // Progress counts the chapter's listed sections (its overview page, when it
+  // has one, isn't one of them); a chapter without sections counts as one.
+  function countedPages(ch){
+    var subs = ch.pages.filter(function(p){ return !p.lead; });
+    return subs.length ? subs : ch.pages;
+  }
+
+  function paintRead(){
+    chapters.forEach(function(ch){
+      var list = countedPages(ch), total = list.length;
+      var n = list.filter(function(p){ return readSet[p.id]; }).length;
+      var r = navRefs[ch.id];
+      if(r){
+        r.item.classList.toggle('is-read', n === total);
+        Object.keys(r.subs).forEach(function(id){
+          r.subs[id].classList.toggle('is-read', !!readSet[id] || (!ch.pageable && n === total));
+        });
+      }
+      if(ch.cardBar){
+        ch.cardBar.style.setProperty('--p', (n / total).toFixed(3));
+        var extra = !n ? '' : (total > 1 ? ' · <b>' + n + ' of ' + total + ' read</b>' : ' · <b>Read</b>');
+        ch.cardMeta.innerHTML = ch.cardMetaBase + extra;
+      }
+    });
+  }
+
+  function paintResume(){
+    if(!resumeBtn) return;
+    var p = pageIndex[load(LAST_KEY, '')];
+    resumeBtn.hidden = !p;
+    if(!p) return;
+    var ch = p.ch;
+    var title = p.lead ? ch.title : p.label, num = p.lead ? ch.num : p.num;
+    resumeBtn.dataset.go = p.alias || p.id;
+    resumeBtn.innerHTML =
+      '<span class="jx-resume-icon">' + ICON_BOOK + '</span>' +
+      '<div><span class="jx-resume-k">Continue reading</span>' +
+      '<span class="jx-resume-t">' + (num ? '<b>' + esc(num) + '</b>' : '') + esc(title) + '</span>' +
+      '<span class="jx-resume-c">' + esc(p.lead ? ch.group.full : ch.num + ' · ' + ch.title) + '</span></div>' +
+      ICON_NEXT;
   }
 
   function applyPage(ch, page){
@@ -522,6 +636,7 @@
       var line = headOffset() + 40, cur = null;
       list.forEach(function(id){ var n = doc.getElementById(id); if(n && n.getBoundingClientRect().top <= line) cur = id; });
       paintNav(current.page, cur);
+      if(ch.full && cur && pageIndex[cur]) markRead(pageIndex[cur]);   // reading a full chapter
       if(ch.chipRefs){
         Object.keys(ch.chipRefs).forEach(function(id){ ch.chipRefs[id].classList.toggle('is-page', id === cur); });
       }
@@ -543,7 +658,7 @@
 
   /* ---------------------------------------------------- 5 home (filters + cards) */
   var seg = $('#jxSeg'), segInd = $('.jx-seg-ind', seg), cardsBox = $('#jxCards');
-  var segBtns = [];
+  var segBtns = [], resumeBtn = null;
 
   (function buildHome(){
     var all = el('button', null, 'All');
@@ -574,7 +689,11 @@
       var card = el('button', 'jx-card',
         '<div class="jx-card-top"><span class="jx-card-num">' + esc(ch.num) + '</span><span class="jx-card-go">' + ICON_NEXT + '</span></div>' +
         '<span class="jx-card-title">' + esc(ch.label) + '</span>' +
-        '<span class="jx-card-meta">' + meta + '</span>');
+        '<span class="jx-card-meta">' + meta + '</span>' +
+        '<span class="jx-card-bar" aria-hidden="true"><i></i></span>');
+      ch.cardMetaBase = meta;
+      ch.cardMeta = $('.jx-card-meta', card);
+      ch.cardBar = $('.jx-card-bar i', card);
       card.type = 'button';
       card.dataset.group = String(ch.group.idx);
       card.style.setProperty('--i', i++);
@@ -582,6 +701,15 @@
       cardsBox.appendChild(card);
     });
     filter(-1, true);
+
+    // "Continue reading" sits between the hero and the search field
+    resumeBtn = el('button', 'jx-resume');
+    resumeBtn.type = 'button';
+    resumeBtn.hidden = true;
+    var hero = $('.jx-hero', homeEl);
+    hero.parentNode.insertBefore(resumeBtn, hero.nextSibling);
+    paintRead();
+    paintResume();
   })();
 
   function filter(groupIdx, instant){
@@ -665,42 +793,51 @@
     var raw = input.value.trim(), q = raw.toLowerCase();
     results.innerHTML = '';
     hits = []; sel = 0;
-    if(!q){ results.appendChild(el('div', 'jx-results-hint', esc(HINT))); return; }
     if(!index) buildIndex();
+    if(!q){
+      // empty box: the hint, then every chapter one keystroke away
+      results.appendChild(el('div', 'jx-results-hint', esc(HINT)));
+      addGroup('Chapters', index.filter(function(r){ return r.page === r.page.ch.pages[0]; }).map(function(r){
+        return { r: r, title: r.page.ch.label, num: r.page.ch.num, crumb: r.page.ch.group.full };
+      }), '', false);
+      paintSel();
+      return;
+    }
     var titles = [], texts = [];
     index.forEach(function(r){
-      if(r.key.indexOf(q) !== -1) titles.push(r);
-      else if(r.lower.indexOf(q) !== -1) texts.push(r);
+      if(r.key.indexOf(q) !== -1) titles.push({ r: r });
+      else if(r.lower.indexOf(q) !== -1) texts.push({ r: r });
     });
     if(!titles.length && !texts.length){
       results.appendChild(el('div', 'jx-results-hint', esc(EMPTY.replace('{q}', raw))));
       return;
     }
-    var n = 0;
-    function section(label, list, withSnippet){
-      if(!list.length) return;
-      results.appendChild(el('div', 'jx-results-label', esc(label)));
-      list.slice(0, 30).forEach(function(r){
-        var html = '<span class="jx-result-t">' + (r.num ? '<b>' + esc(r.num) + '</b>' : '') + mark(r.title, q) + '</span>' +
-                   '<span class="jx-result-c">' + esc(r.crumb) + '</span>';
-        if(withSnippet){
-          var i = r.lower.indexOf(q), a = Math.max(0, i - 60), b = Math.min(r.text.length, i + q.length + 90);
-          html += '<span class="jx-result-s">' + (a > 0 ? '…' : '') + mark(r.text.slice(a, b), q) + (b < r.text.length ? '…' : '') + '</span>';
-        }
-        var btn = el('button', 'jx-result', html);
-        btn.type = 'button';
-        btn.setAttribute('role', 'option');
-        btn.style.setProperty('--i', Math.min(n, 12));
-        var at = n++;
-        btn.addEventListener('click', function(){ pick(at); });
-        btn.addEventListener('mousemove', function(){ if(sel !== at){ sel = at; paintSel(); } });
-        results.appendChild(btn);
-        hits.push({ r: r, btn: btn, q: withSnippet ? q : '' });
-      });
-    }
-    section('Chapters & sections', titles, false);
-    section('In the text', texts, true);
+    addGroup('Chapters & sections', titles, q, false);
+    addGroup('In the text', texts, q, true);
     paintSel();
+  }
+
+  function addGroup(label, list, q, withSnippet){
+    if(!list.length) return;
+    results.appendChild(el('div', 'jx-results-label', esc(label)));
+    list.slice(0, 30).forEach(function(item){
+      var r = item.r, title = item.title || r.title, num = item.num != null ? item.num : r.num;
+      var html = '<span class="jx-result-t">' + (num ? '<b>' + esc(num) + '</b>' : '') + (q ? mark(title, q) : esc(title)) + '</span>' +
+                 '<span class="jx-result-c">' + esc(item.crumb || r.crumb) + '</span>';
+      if(withSnippet){
+        var i = r.lower.indexOf(q), a = Math.max(0, i - 60), b = Math.min(r.text.length, i + q.length + 90);
+        html += '<span class="jx-result-s">' + (a > 0 ? '…' : '') + mark(r.text.slice(a, b), q) + (b < r.text.length ? '…' : '') + '</span>';
+      }
+      var btn = el('button', 'jx-result', html);
+      btn.type = 'button';
+      btn.setAttribute('role', 'option');
+      var at = hits.length;
+      btn.style.setProperty('--i', Math.min(at, 12));
+      btn.addEventListener('click', function(){ pick(at); });
+      btn.addEventListener('mousemove', function(){ if(sel !== at){ sel = at; paintSel(); } });
+      results.appendChild(btn);
+      hits.push({ r: r, btn: btn, q: withSnippet ? q : '' });
+    });
   }
   function paintSel(){
     hits.forEach(function(h, i){ h.btn.classList.toggle('is-on', i === sel); h.btn.setAttribute('aria-selected', String(i === sel)); });
@@ -767,6 +904,14 @@
     progBar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
   }
 
+  // Back to top, once a page has been scrolled a fair way.
+  var toTop = el('button', 'jx-totop', ICON_UP);
+  toTop.type = 'button';
+  toTop.setAttribute('aria-label', 'Back to top');
+  toTop.title = 'Back to top';
+  toTop.addEventListener('click', function(){ smoothY(0); });
+  doc.body.appendChild(toTop);
+
   // The tab bar steps aside while reading down and returns on the way up.
   var lastY = window.pageYOffset, tabTick = false;
   window.addEventListener('scroll', function(){
@@ -775,9 +920,12 @@
     requestAnimationFrame(function(){
       tabTick = false;
       var y = window.pageYOffset;
+      toTop.classList.toggle('is-on', y > 700);
       if(Math.abs(y - lastY) < 8) return;
       var nearEnd = y + window.innerHeight >= doc.documentElement.scrollHeight - 80;
-      tabbar.classList.toggle('is-hidden', y > lastY && y > 200 && !nearEnd);
+      var hide = y > lastY && y > 200 && !nearEnd;
+      tabbar.classList.toggle('is-hidden', hide);
+      root.classList.toggle('jx-tabs-hidden', hide && !wide.matches);
       lastY = y;
     });
   }, { passive: true });
@@ -792,13 +940,9 @@
   window.toggleSearchModal = function(force){ var open = force !== undefined ? force : palette.hidden; open ? openSearch() : closeSearch(); };
 
   // Annexure template cards (message text carried over from the manual portal).
-  var toast = $('#jxToast'), toastTimer = null;
   window.handleAnnexDownload = function(e, title){
     if(e && e.preventDefault) e.preventDefault();
-    toast.innerHTML = '<span style="font-size:18px;">📁</span> <span>Template file <strong>' + esc(title) + '</strong> will be downloadable once final document attachments are linked.</span>';
-    toast.classList.add('is-on');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){ toast.classList.remove('is-on'); }, 3800);
+    showToast('<span style="font-size:18px;">📁</span> <span>Template file <strong>' + esc(title) + '</strong> will be downloadable once final document attachments are linked.</span>', 3800);
   };
 
   if('scrollRestoration' in history) history.scrollRestoration = 'manual';
