@@ -131,13 +131,18 @@ V2_CSS = """
 
 @media screen{
 /* Chapter: no white reading sheet — the manual reads straight off the ground.
-   Its own cards, tables and panels keep their surfaces. */
+   Its own cards, tables and panels keep their surfaces.
+   Reset negative mobile margin so text stays aligned with .jx-head and doesn't touch phone edges. */
+.jx-chapter{background:none;border:0;border-radius:0;box-shadow:none;margin:0;padding:0}
 .jx-chapter section.chap,
 .jx-chapter section.chap:nth-of-type(n){background:none !important;border:0 !important;border-radius:0 !important;box-shadow:none !important;
-  padding:clamp(8px, 1.6vw, 20px) 0 8px}
+  margin:0 !important;padding:clamp(20px, 3vw, 36px) 0 8px !important}
 .jx-head{padding-bottom:18px;border-bottom:1px solid rgba(27,27,27,.14)}
 .jx-chapter section.chap .img-card, .jx-chapter section.chap figure{box-shadow:none}
-
+}
+@media (max-width:760px){
+  .jx-chapter section.chap{margin:0 !important;padding:18px 0 8px !important}
+  .jx-chapter [id]{scroll-margin-top:calc(var(--jx-top-h) + var(--jx-chips-h) + 24px) !important}
 }
 """
 
