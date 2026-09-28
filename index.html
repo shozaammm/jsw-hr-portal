@@ -1402,46 +1402,68 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
 .cover-inner{position:relative;z-index:1;max-width:900px}
 .cover .eyebrow{color:#B6B6B6}
 .hero-title{
-  margin-top:18px;line-height:.92;position:relative;
+  margin-top:16px;line-height:.92;position:relative;
 }
 .ht-line{
   display:block;font-weight:700;text-wrap:balance;
 }
-.ht-line.solid{
-  color:var(--white);font-size:clamp(30px,4.4vw,58px);letter-spacing:-1.4px;
-}
 .ht-line.outline{
-  color:#909090;font-size:clamp(56px,10vw,124px);letter-spacing:.02em;
-  line-height:.9;margin-top:6px;
+  color:#FFFFFF;font-size:clamp(56px,10.5vw,128px);font-weight:800;letter-spacing:-.035em;
+  line-height:.86;margin-bottom:12px;
+}
+.ht-line.solid{
+  color:rgba(255,255,255,0.85);font-size:clamp(20px,3vw,38px);letter-spacing:-.02em;font-weight:600;
+  line-height:1.2;
 }
 .hero-ghost{display:none}
 
-/* ---- TRUST pillars ---- */
+/* ---- TRUST pillars (Horizontal Executive Layout) ---- */
 .trust-list{
-  list-style:none;margin:30px 0 0;padding:0;position:relative;z-index:1;
-  border-left:1px solid rgba(144,144,144,0.30);
-  width:fit-content;min-width:min(320px,100%);
+  list-style:none;margin:32px 0 0;padding:0;position:relative;z-index:1;
+  display:grid;grid-template-columns:repeat(5, minmax(0, 1fr));
+  border-top:1px solid rgba(255,255,255,0.12);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.02);
+  border-radius:10px;
+  width:100%;max-width:1080px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
 }
 .trust-list li{
-  padding:9px 64px 9px 20px;
+  padding:14px 14px;
+  display:flex;align-items:center;gap:10px;
+  transition:background .2s ease;
 }
-.trust-list li + li{border-top:1px solid rgba(255,255,255,0.07)}
+.trust-list li + li{
+  border-left:1px solid rgba(255,255,255,0.08);
+}
+.trust-list li:hover{
+  background:rgba(255,255,255,0.04);
+}
 .tr-i{
-  color:#909090;font-weight:700;
+  color:#FFFFFF;font-weight:800;font-size:14px;
+  font-family:var(--font-display);
+  background:rgba(255,255,255,0.10);
+  width:28px;height:28px;border-radius:6px;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex-shrink:0;border:1px solid rgba(255,255,255,0.15);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);
 }
 .tr-w{
-  font-family:var(--font-body);color:#EBEBEB;display:inline-block;
-  font-size:clamp(15px,1.5vw,18px);font-weight:500;letter-spacing:.005em;line-height:1.35;
+  font-family:var(--font-body);color:#ECECEC;display:inline-block;
+  font-size:clamp(12px,1.05vw,14px);font-weight:500;letter-spacing:-0.01em;line-height:1.3;
 }
-.hero-quote{
-  position:relative;z-index:1;margin:30px 0 0;max-width:640px;
-  font-family:var(--font-body);font-style:italic;font-weight:400;
-  font-size:clamp(15.5px,1.7vw,19px);line-height:1.55;
-  color:#C6C6C6;letter-spacing:-0.01em;
+@media (max-width:900px){
+  .trust-list{
+    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  }
+  .trust-list li + li{border-left:none}
+  .trust-list li{border-top:1px solid rgba(255,255,255,0.06)}
 }
-@media (max-width:640px){
-  .trust-list li{padding:8px 12px 8px 14px}
-  .hero-quote{margin-top:24px}
+@media (max-width:560px){
+  .trust-list{
+    grid-template-columns:1fr;
+  }
+  .trust-list li{padding:10px 14px}
 }
 
 /* ============ STICKY 5-SECTION HEADER BAR ============ */
@@ -1816,6 +1838,24 @@ td.dash{color:var(--grey-300);text-align:center}
 }
 .orgchart-stage.is-fullscreen .orgchart-wrap{flex:1 1 auto;min-height:0;overflow:auto}
 body.orgchart-fs-lock{overflow:hidden}
+
+.orgchart-zoom-group{
+  display:inline-flex;align-items:center;background:var(--white);border:1px solid var(--line-200);
+  border-radius:20px;padding:2px 4px;box-shadow:0 1px 3px rgba(0,0,0,0.03);gap:2px;
+}
+.orgchart-zoom-btn{
+  background:transparent;border:none;width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--grey-700);cursor:pointer;
+  transition:all .15s ease;
+}
+.orgchart-zoom-btn:hover{background:var(--grey-100);color:var(--ink)}
+.orgchart-zoom-val{
+  background:transparent;border:none;font-family:var(--font-mono);font-size:11px;font-weight:700;
+  color:var(--grey-700);padding:0 4px;min-width:42px;text-align:center;cursor:pointer;
+  transition:color .15s ease;
+}
+.orgchart-zoom-val:hover{color:var(--ink)}
+
 .orgchart-tab{
   padding:8px 16px;border-radius:20px;border:1px solid var(--line-200);background:var(--white);
   font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--grey-700);transition:all .15s;
@@ -1995,18 +2035,42 @@ body.orgchart-fs-lock{overflow:hidden}
 .cv-off{display:none !important}
 
 .chapter-nav{
-  display:flex;align-items:stretch;justify-content:space-between;gap:20px;
-  padding:36px var(--edge) 44px;
+  display:flex;align-items:stretch;justify-content:space-between;gap:16px;
+  padding:30px var(--edge) 38px;
   background:var(--paper);
   border-top:1px solid var(--line-200);
 }
 .chapter-nav .cn-btn{
   -webkit-appearance:none;appearance:none;
   border:1px solid var(--line-200);background:var(--white);
-  border-radius:10px;padding:16px 20px;min-width:220px;max-width:46%;
+  border-radius:10px;padding:16px 20px;flex:1 1 0;min-width:0;max-width:440px;
   display:flex;flex-direction:column;gap:6px;cursor:pointer;
   font-family:inherit;color:var(--ink);text-align:left;
   transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+@media (max-width:680px){
+  .chapter-nav{
+    padding:16px var(--edge) 22px;
+    gap:10px;
+    justify-content:stretch;
+  }
+  .chapter-nav .cn-btn{
+    flex:1 1 0;
+    min-width:0;
+    max-width:none;
+    padding:12px 14px;
+    border-radius:8px;
+    gap:3px;
+  }
+  .chapter-nav .cn-kicker{
+    font-size:9.5px;
+    letter-spacing:1px;
+    gap:4px;
+  }
+  .chapter-nav .cn-title{
+    font-size:12.5px;
+    line-height:1.25;
+  }
 }
 .chapter-nav .cn-btn:hover{border-color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,0.05)}
 .chapter-nav .cn-prev:hover{transform:translateX(-4px)}
@@ -2284,7 +2348,7 @@ body.orgchart-fs-lock{overflow:hidden}
 .dropdown-item .di-num {
   font-family: var(--font-mono);
   font-size: 10.5px;
-  color: var(--sidebar-text-dim);
+  color: rgba(255, 255, 255, 0.48);
   width: 20px;
   flex-shrink: 0;
   font-weight: 700;
@@ -2348,15 +2412,19 @@ body.orgchart-fs-lock{overflow:hidden}
   background: rgba(255, 255, 255, 0.08);
 }
 .dropdown-subitem.active .ds-num {
-  color: var(--gold);
+  color: #FFFFFF;
 }
 .dropdown-subitem .ds-num {
   font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--gold);
-  font-weight: 700;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.48);
+  font-weight: 600;
   min-width: 24px;
   flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+.dropdown-subitem:hover .ds-num {
+  color: #FFFFFF;
 }
 .dropdown-subitem .ds-label {
   line-height: 1.35;
@@ -4987,17 +5055,16 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
         </div>
         <div class="eyebrow">JSW Motors · Dealer Partner Network · Operating Standards</div>
         <h1 class="hero-title">
-          <span class="ht-line solid">JSW HR Operations Manual:</span>
           <span class="ht-line outline">TRUST</span>
+          <span class="ht-line solid">JSW HR Operations Manual</span>
         </h1>
         <ul class="trust-list">
-          <li><span class="tr-w"><span class="tr-i">T</span>alent Development</span></li>
-          <li><span class="tr-w"><span class="tr-i">R</span>eliability</span></li>
-          <li><span class="tr-w"><span class="tr-i">U</span>nified Standards</span></li>
-          <li><span class="tr-w"><span class="tr-i">S</span>hared Growth</span></li>
-          <li><span class="tr-w"><span class="tr-i">T</span>eamwork for Customers</span></li>
+          <li><span class="tr-i">T</span><span class="tr-w">Talent Development</span></li>
+          <li><span class="tr-i">R</span><span class="tr-w">Reliability</span></li>
+          <li><span class="tr-i">U</span><span class="tr-w">Unified Standards</span></li>
+          <li><span class="tr-i">S</span><span class="tr-w">Shared Growth</span></li>
+          <li><span class="tr-i">T</span><span class="tr-w">Teamwork for Customers</span></li>
         </ul>
-        <p class="hero-quote">“Building a dealership network our customers can trust.”</p>
       </div>
       <span class="hero-ghost">STANDARDS</span>
     </header>
@@ -5159,12 +5226,12 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
   <div class="prose reveal">
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To provide dealer partners with a recommended reporting structure that is right sized for their outlet category, so accountability is clear and workforce is as required.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Provide dealer partners with an industry benchmarked organisation structure that is optimised as per outlet category. Set clear accountability and a formal reporting hierarchy.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>A right-sized, well-structured team means customers are attended to promptly at every touchpoint, without gaps caused by unclear reporting lines or missing roles.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Faster and seamless customer journey, consistent customer experience and transparent communication across all touchpoints.</p>
   </div>
 </div>
 <p style="margin-top:18px">A dealership runs on people. If reporting lines are unclear, jobs get missed, customers wait longer, and no one owns the outcome.</p>
@@ -5262,8 +5329,17 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 <div class="orgchart-stage" id="orgStage">
   <div class="orgchart-toolbar">
     <div class="orgchart-tabs" id="orgTabs"></div>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <span class="orgchart-swipe-hint" style="font-size:11px;color:var(--grey-500);display:none;">↔ Swipe chart</span>
+      <div class="orgchart-zoom-group" role="group" aria-label="Zoom controls">
+        <button type="button" class="orgchart-zoom-btn" id="orgZoomOut" title="Zoom Out" aria-label="Zoom Out">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8"/></svg>
+        </button>
+        <button type="button" class="orgchart-zoom-val" id="orgZoomReset" title="Reset Zoom (100%)" aria-label="Reset Zoom">100%</button>
+        <button type="button" class="orgchart-zoom-btn" id="orgZoomIn" title="Zoom In" aria-label="Zoom In">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+        </button>
+      </div>
       <button type="button" class="orgchart-fs-btn" id="orgFsBtn" aria-pressed="false"></button>
     </div>
   </div>
@@ -5447,6 +5523,44 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 
         var stage = document.getElementById('orgStage');
         var fsBtn = document.getElementById('orgFsBtn');
+        var chartTree = document.getElementById('orgTree');
+        var zoomInBtn = document.getElementById('orgZoomIn');
+        var zoomOutBtn = document.getElementById('orgZoomOut');
+        var zoomResetBtn = document.getElementById('orgZoomReset');
+        var currentOrgZoom = 1.0;
+
+        function setOrgChartZoom(scale){
+          currentOrgZoom = Math.max(0.5, Math.min(2.0, Math.round(scale * 100) / 100));
+          if(chartTree){
+            chartTree.style.zoom = currentOrgZoom;
+            if(!('zoom' in document.documentElement.style)){
+              chartTree.style.transform = 'scale(' + currentOrgZoom + ')';
+              chartTree.style.transformOrigin = 'top left';
+            }
+          }
+          if(zoomResetBtn){
+            zoomResetBtn.textContent = Math.round(currentOrgZoom * 100) + '%';
+          }
+          requestAnimationFrame(function(){
+            var cat = window.ORG_CATEGORIES && window.ORG_CATEGORIES[currentOrgCategory];
+            if(cat && cat.coord) ocDrawCoordLines(cat.coord);
+          });
+        }
+
+        if(zoomInBtn) zoomInBtn.addEventListener('click', function(){ setOrgChartZoom(currentOrgZoom + 0.15); });
+        if(zoomOutBtn) zoomOutBtn.addEventListener('click', function(){ setOrgChartZoom(currentOrgZoom - 0.15); });
+        if(zoomResetBtn) zoomResetBtn.addEventListener('click', function(){ setOrgChartZoom(1.0); });
+
+        var chartWrapEl = document.querySelector('.orgchart-wrap');
+        if(chartWrapEl){
+          chartWrapEl.addEventListener('wheel', function(e){
+            if(e.ctrlKey || e.metaKey){
+              e.preventDefault();
+              var delta = e.deltaY < 0 ? 0.1 : -0.1;
+              setOrgChartZoom(currentOrgZoom + delta);
+            }
+          }, { passive: false });
+        }
         if (stage && fsBtn) {
           var iconExpand = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 1.5H1.5V6M10 1.5h4.5V6M6 14.5H1.5V10M10 14.5h4.5V10"/></svg>';
           var iconCollapse = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 5.5H6V1M14.5 5.5H10V1M1.5 10.5H6V15M14.5 10.5H10V15"/></svg>';
@@ -5493,12 +5607,12 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 <div class="pull">&quot;Great vision without great people is irrelevant.&quot;</div>
 <div class="meta-row reveal" style="margin-top:12px; padding-top:14px;">
   <div class="meta-item">
-    <span class="eyebrow">Objective:</span>
-    <p>To give clarity on different roles in a dealership, their job description, responsibilities, competencies and KPIs.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>To provide role-based clarity and clearly establish responsibilities and KPIs.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">Customer Impact:</span>
-    <p>When every role has clear boundaries and ownership, customers deal with the right person for their need in the first interaction itself.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Consistent support and faster resolution of queries as customers get directed to the right expert.</p>
   </div>
 </div>
 <p>This chapter covers all 34 roles required in the sales function of a JSW Motors dealership, grouped into three categories. Select any role from the list to view its full profile — department, reporting line, education and experience benchmarks, key responsibilities, KPIs and competencies.</p>
@@ -5968,15 +6082,15 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 <div class="ch-thumb" style="--ch-img:var(--tx-c); --ch-pos: center 20%;"></div>
   </div>
   <div class="prose reveal">
-<div class="pull">&quot;Don't hire for only skills, hire for attitude.&quot;</div>
+<div class="pull">&quot;Don't hire just for skills, hire for attitude.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To ensure the dealership has the right people in the right roles through smart recruiting, assessment and onboarding.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Implementation of proven recruitment process across the network so manpower with correct skillset is hired.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Right people in the right role, and in sufficient quantity enhances the Customer Journey by delivering better experience.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Transparent and trustworthy business interaction, ensuring customer trusts the dealership and the brand.</p>
   </div>
 </div>
 
@@ -6510,12 +6624,12 @@ The level decides the cycle time target, the interview panel and the sourcing ro
 <div class="pull">&quot;Belonging is not the same thing as feeling like you fit in. Belonging is when you feel valued for everything that makes you stand out.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To ensure an employee's initial months are handled professionally, so employees have a positive experience, and the dealership stays compliant throughout.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>To give every new hire a structured onboarding at the dealership, set expectations during the probation period and confirm employment based on performance.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>A well-managed joining and confirmation process ensures customers always deal with employees who are properly inducted, informed and prepared.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Prepared employees handle customer interactions with confidence.</p>
   </div>
 </div>
 
@@ -6723,12 +6837,12 @@ HR Manager</th></tr></thead>
 <div class="pull">“Training is not an expense, but an investment in human capital”</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To identify capability gaps, provide relevant training, measure learning effectiveness and continuously improve employee performance.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Develop employee capability to perform their role effectively, provide relevant training to address performance and skill gaps, and support business development through performance excellence at individual level.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Continuous training at JSW Motors ensures customers receive accurate product information, professional handling and a consistent experience across all touchpoints.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Accurate product information, professional handling and a consistent experience across all touchpoints, increasing trust and confidence in the brand.</p>
   </div>
 </div>
 
@@ -6937,12 +7051,12 @@ HR Manager</th></tr></thead>
 <div class="pull"><em>“The key to successful performance management is to focus on the future, not the past. It’s about enabling and empowering employees, not just evaluating them.”</em></div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To review employee’s contribution fairly and consistently against agreed goals and good performance to be recognised, gaps to be addressed before they affect the business.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Structured review process to optimise individual performance, alignment with dealership KPIs, goals and targets, and to document and formalise the assessment process.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Regular, fair performance reviews keep employees focused on their job responsibilities and KPIs and ultimately impact the customer experience.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Accountable employees deliver a more consistent experience; teams with clear KPIs resolve queries faster and close transactions more efficiently.</p>
   </div>
 </div>
 
@@ -7299,15 +7413,15 @@ Reporting manager</th></tr></thead>
 <div class="ch-thumb" style="--ch-img:var(--tx-c); --ch-pos: center 0%;"></div>
   </div>
   <div class="prose reveal">
-<div class="pull">&quot;Train people well enough so they can leave. Treat them well enough so they don't want to.&quot;</div>
+<div class="pull">&quot;New challenges and opportunities are the two pillars to people growth.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To give employees a visible and achievable path for growth within the dealership, so good performers stay motivated and are retained.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Provide employees a visible career path within the dealership and retain strong performers by investing in their growth.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Long retained employees bring better value in terms of product and customer knowledge. This helps subsequently drive customer experience.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Experienced, tenured staff understand the customer base and deliver more personal service. Continuity in the team builds long-term customer trust in the dealership.</p>
   </div>
 </div>
 
@@ -7457,12 +7571,12 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <div class="pull">&quot;People work for money, but go the extra mile for recognition, praise, and rewards.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To build a culture where good work is noticed and appreciated regularly, so employees feel valued beyond their monthly pay cheque.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Create a workplace where employees feel valued, motivated and connected through employee engagement and consistent, meaningful reward programs.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Employees who feel appreciated bring more energy and care to their interactions, which customers notice and respond to positively.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Motivated manpower delivers stronger customer trust and loyalty. Stable, motivated teams provide a consistent and dependable customer experience.</p>
   </div>
 </div>
 
@@ -7904,15 +8018,15 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <div class="ch-thumb" style="--ch-img:var(--tx-c); --ch-pos: center 15%;"></div>
 </div>
   <div class="prose reveal">
-<div class="pull">&quot;Belonging is not the same thing as feeling like you fit in. Belonging is when you feel valued for everything that makes you stand out.&quot;</div>
+<div class="pull">&quot;Resignation should not turn an employee into an enemy. Every employee deserves a respectful exit.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To ensure an employee&#39;s exit is handled professionally, so employees have a positive experience and the dealership stays compliant throughout.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>To ensure employee exits are handled professionally and fairly, and apply appropriate insights to improve the overall employee experience.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>A well-managed exit ensures customers always deal with employees who are properly inducted, informed and prepared.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Maintain continuity of customer relationships and service standards through proper handover.</p>
   </div>
 </div>
 
@@ -8056,12 +8170,12 @@ Manager with HR</th></tr></thead>
 <div class="pull">&quot;Talent might make you good but it’s your attitude and work ethic that will make you great.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>The professional image of JSW motors is directly linked to the way each individual present themselves and behave. Set out clear standards of workplace behaviour and a fair process for addressing misconduct, so issues are handled consistently and employees know what is expected of them.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Maintain a professional, respectful and safe working environment and ensure that disciplinary action is consistent, fair and documented.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>A disciplined dealership environment encourages professionalism in every customer interaction. Customer gets fair treatment, timely responses and reliable service leading to trust in JSW brand.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Customers interact with staff who represent the dealership's values, ensuring better protection of personal and financial information and reliable service.</p>
   </div>
 </div>
 
@@ -8321,12 +8435,12 @@ The following code of Conduct applies to all the retail partner and its employee
 <div class="pull">&quot;Always treat your employees exactly as you want them to treat your best customers.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To bring together the dealership's day-to-day people policies in one place, so employees and managers have a single, consistent reference for how things are meant to work.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Establish clear, standardised policies that govern day-to-day working, ensure statutory compliance and provide a fair framework that protects both employer and employee.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Consistent, well-understood policies mean customers receive the same standard of treatment regardless of which employee or outlet they interact with.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>A well-governed dealership is more reliable; structured internal operations produce fewer errors and a dependable experience.</p>
   </div>
 </div>
 
@@ -9223,8 +9337,6 @@ function handleLiveSearch(query) {
 
   homeIndex.innerHTML =
     '<div class="hx-head">' +
-      '<div class="hx-brand-wrap"><img src="data:image/png;base64,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" alt="JSW" class="hx-brand-logo"></div>' +
-      '<div class="hx-eyebrow">The Manual</div>' +
       '<h2 class="hx-title">Contents</h2>' +
       '<div class="hx-rule"></div>' +
     '</div>' +

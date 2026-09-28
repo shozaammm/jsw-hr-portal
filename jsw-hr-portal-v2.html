@@ -1654,11 +1654,11 @@ kbd{
   font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.58);
 }
 .jx-hero-title{margin:14px 0 0;line-height:1}
-.jx-hero-line{display:block;font-size:clamp(24px, 3.2vw, 40px);font-weight:700;letter-spacing:-.03em;color:var(--jx-white)}
 .jx-hero-word{
-  display:flex;margin-top:6px;
+  display:flex;margin:0 0 10px;
   font-size:clamp(80px, 15vw, 176px);font-weight:800;letter-spacing:-.045em;line-height:.84;color:var(--jx-trust);
 }
+.jx-hero-line{display:block;font-size:clamp(20px, 2.8vw, 36px);font-weight:600;letter-spacing:-.025em;color:var(--jx-white);line-height:1.2}
 .jx-hero-word > span{display:inline-block}
 .jx-pillars{
   list-style:none;margin:clamp(24px, 4vw, 44px) 0 0;padding:0;
@@ -2134,8 +2134,8 @@ kbd{
         <img class="jx-hero-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAALcCAYAAAD3x0nUAAAiIElEQVR42u3d65LbtpqGUdGV+79l7h+2t2VZRwoAX+Bbq2oqzkwmh24IBB6D6G3f9wsAAAAApPrhSwAAAABAMgELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGj/+RIAAABAnP3mzzdfEipzAgsAAACy7G/+76AMAQsAAACAaAIWAAAA5HDSCu4QsAAAAACI5hJ3AAAAGM9JK/iAE1gAAAAwlngFH3ICCwAAAPppFas2X0oqcwILAAAA+nDSChoRsAAAAKAPp6agEQELAAAA+hOz4AsCFgAAAPSxP/g18CGXuAMAAMBxPcOUU1vwi4AFAAAAx/SKV8IV3BCwAAAA4HMt4tV28/cSruABAQsAAADOJVzBCy5xBwAAACCagAUAAABANK8QAgAAwHM9Lmv32iB8QMACAACAn3Zf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iCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKL9D+hny2G9zSV1AAAAAElFTkSuQmCC" alt="JSW Motors">
         <p class="jx-hero-eyebrow">JSW Motors · Dealer Partner Network · Operating Standards</p>
         <h1 class="jx-hero-title">
-          <span class="jx-hero-line">JSW HR Operations Manual:</span>
           <span class="jx-hero-word" aria-label="TRUST"><span aria-hidden="true" style="--i:0">T</span><span aria-hidden="true" style="--i:1">R</span><span aria-hidden="true" style="--i:2">U</span><span aria-hidden="true" style="--i:3">S</span><span aria-hidden="true" style="--i:4">T</span></span>
+          <span class="jx-hero-line">JSW HR Operations Manual</span>
         </h1>
         <ul class="jx-pillars">
           <li style="--i:0"><b>T</b>alent Development</li>
@@ -2144,7 +2144,6 @@ kbd{
           <li style="--i:3"><b>S</b>hared Growth</li>
           <li style="--i:4"><b>T</b>eamwork for Customers</li>
         </ul>
-        <p class="jx-hero-quote">“Building a dealership network our customers can trust.”</p>
       </div>
 
       <button class="jx-search-field jx-search-field--hero" type="button" data-action="search">
@@ -2257,12 +2256,12 @@ kbd{
   <div class="prose reveal">
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To provide dealer partners with a recommended reporting structure that is right sized for their outlet category, so accountability is clear and workforce is as required.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Provide dealer partners with an industry benchmarked organisation structure that is optimised as per outlet category. Set clear accountability and a formal reporting hierarchy.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>A right-sized, well-structured team means customers are attended to promptly at every touchpoint, without gaps caused by unclear reporting lines or missing roles.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Faster and seamless customer journey, consistent customer experience and transparent communication across all touchpoints.</p>
   </div>
 </div>
 <p style="margin-top:18px">A dealership runs on people. If reporting lines are unclear, jobs get missed, customers wait longer, and no one owns the outcome.</p>
@@ -2404,12 +2403,12 @@ kbd{
 <div class="pull">&quot;Great vision without great people is irrelevant.&quot;</div>
 <div class="meta-row reveal" style="margin-top:12px; padding-top:14px;">
   <div class="meta-item">
-    <span class="eyebrow">Objective:</span>
-    <p>To give clarity on different roles in a dealership, their job description, responsibilities, competencies and KPIs.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>To provide role-based clarity and clearly establish responsibilities and KPIs.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">Customer Impact:</span>
-    <p>When every role has clear boundaries and ownership, customers deal with the right person for their need in the first interaction itself.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Consistent support and faster resolution of queries as customers get directed to the right expert.</p>
   </div>
 </div>
 <p>This chapter covers all 34 roles required in the sales function of a JSW Motors dealership, grouped into three categories. Select any role from the list to view its full profile — department, reporting line, education and experience benchmarks, key responsibilities, KPIs and competencies.</p>
@@ -2826,15 +2825,15 @@ kbd{
       <header class="jx-head"><div class="jx-head-row"><div><p class="jx-kicker">CHAPTER 3</p><h1 class="jx-h1">Recruitment &amp; Selection</h1></div></div></header>
       <section class="chap" id="ch3">
   <div class="prose reveal">
-<div class="pull">&quot;Don't hire for only skills, hire for attitude.&quot;</div>
+<div class="pull">&quot;Don't hire just for skills, hire for attitude.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To ensure the dealership has the right people in the right roles through smart recruiting, assessment and onboarding.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Implementation of proven recruitment process across the network so manpower with correct skillset is hired.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Right people in the right role, and in sufficient quantity enhances the Customer Journey by delivering better experience.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Transparent and trustworthy business interaction, ensuring customer trusts the dealership and the brand.</p>
   </div>
 </div>
 
@@ -3387,12 +3386,12 @@ The level decides the cycle time target, the interview panel and the sourcing ro
 <div class="pull">&quot;Belonging is not the same thing as feeling like you fit in. Belonging is when you feel valued for everything that makes you stand out.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To ensure an employee's initial months are handled professionally, so employees have a positive experience, and the dealership stays compliant throughout.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>To give every new hire a structured onboarding at the dealership, set expectations during the probation period and confirm employment based on performance.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>A well-managed joining and confirmation process ensures customers always deal with employees who are properly inducted, informed and prepared.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Prepared employees handle customer interactions with confidence.</p>
   </div>
 </div>
 
@@ -3581,12 +3580,12 @@ HR Manager</th></tr></thead>
 <div class="pull">“Training is not an expense, but an investment in human capital”</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To identify capability gaps, provide relevant training, measure learning effectiveness and continuously improve employee performance.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Develop employee capability to perform their role effectively, provide relevant training to address performance and skill gaps, and support business development through performance excellence at individual level.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Continuous training at JSW Motors ensures customers receive accurate product information, professional handling and a consistent experience across all touchpoints.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Accurate product information, professional handling and a consistent experience across all touchpoints, increasing trust and confidence in the brand.</p>
   </div>
 </div>
 
@@ -3773,12 +3772,12 @@ HR Manager</th></tr></thead>
 <div class="pull"><em>“The key to successful performance management is to focus on the future, not the past. It’s about enabling and empowering employees, not just evaluating them.”</em></div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To review employee’s contribution fairly and consistently against agreed goals and good performance to be recognised, gaps to be addressed before they affect the business.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Structured review process to optimise individual performance, alignment with dealership KPIs, goals and targets, and to document and formalise the assessment process.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Regular, fair performance reviews keep employees focused on their job responsibilities and KPIs and ultimately impact the customer experience.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Accountable employees deliver a more consistent experience; teams with clear KPIs resolve queries faster and close transactions more efficiently.</p>
   </div>
 </div>
 
@@ -4132,15 +4131,15 @@ Reporting manager</th></tr></thead>
       <header class="jx-head"><div class="jx-head-row"><div><p class="jx-kicker">CHAPTER 7</p><h1 class="jx-h1">Career Progression</h1></div></div></header>
       <section class="chap" id="ch7">
   <div class="prose reveal">
-<div class="pull">&quot;Train people well enough so they can leave. Treat them well enough so they don't want to.&quot;</div>
+<div class="pull">&quot;New challenges and opportunities are the two pillars to people growth.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To give employees a visible and achievable path for growth within the dealership, so good performers stay motivated and are retained.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Provide employees a visible career path within the dealership and retain strong performers by investing in their growth.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Long retained employees bring better value in terms of product and customer knowledge. This helps subsequently drive customer experience.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Experienced, tenured staff understand the customer base and deliver more personal service. Continuity in the team builds long-term customer trust in the dealership.</p>
   </div>
 </div>
 
@@ -4261,12 +4260,12 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <div class="pull">&quot;People work for money, but go the extra mile for recognition, praise, and rewards.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To build a culture where good work is noticed and appreciated regularly, so employees feel valued beyond their monthly pay cheque.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Create a workplace where employees feel valued, motivated and connected through employee engagement and consistent, meaningful reward programs.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Employees who feel appreciated bring more energy and care to their interactions, which customers notice and respond to positively.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Motivated manpower delivers stronger customer trust and loyalty. Stable, motivated teams provide a consistent and dependable customer experience.</p>
   </div>
 </div>
 
@@ -4702,12 +4701,12 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 <div class="pull">&quot;Belonging is not the same thing as feeling like you fit in. Belonging is when you feel valued for everything that makes you stand out.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To ensure an employee&#39;s exit is handled professionally, so employees have a positive experience and the dealership stays compliant throughout.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>To ensure employee exits are handled professionally and fairly, and apply appropriate insights to improve the overall employee experience.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>A well-managed exit ensures customers always deal with employees who are properly inducted, informed and prepared.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Maintain continuity of customer relationships and service standards through proper handover.</p>
   </div>
 </div>
 
@@ -4848,12 +4847,12 @@ Manager with HR</th></tr></thead>
 <div class="pull">&quot;Talent might make you good but it’s your attitude and work ethic that will make you great.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>The professional image of JSW motors is directly linked to the way each individual present themselves and behave. Set out clear standards of workplace behaviour and a fair process for addressing misconduct, so issues are handled consistently and employees know what is expected of them.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Maintain a professional, respectful and safe working environment and ensure that disciplinary action is consistent, fair and documented.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>A disciplined dealership environment encourages professionalism in every customer interaction. Customer gets fair treatment, timely responses and reliable service leading to trust in JSW brand.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Customers interact with staff who represent the dealership's values, ensuring better protection of personal and financial information and reliable service.</p>
   </div>
 </div>
 
@@ -5110,12 +5109,12 @@ The following code of Conduct applies to all the retail partner and its employee
 <div class="pull">&quot;Always treat your employees exactly as you want them to treat your best customers.&quot;</div>
 <div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
   <div class="meta-item">
-    <span class="eyebrow">OBJECTIVE:</span>
-    <p>To bring together the dealership's day-to-day people policies in one place, so employees and managers have a single, consistent reference for how things are meant to work.</p>
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Establish clear, standardised policies that govern day-to-day working, ensure statutory compliance and provide a fair framework that protects both employer and employee.</p>
   </div>
   <div class="meta-item">
-    <span class="eyebrow">CUSTOMER IMPACT:</span>
-    <p>Consistent, well-understood policies mean customers receive the same standard of treatment regardless of which employee or outlet they interact with.</p>
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>A well-governed dealership is more reliable; structured internal operations produce fewer errors and a dependable experience.</p>
   </div>
 </div>
 
