@@ -1347,6 +1347,34 @@ button:active{transform: scale(0.97);}
   from{ background-position:0 0, 0 0, 0 0, 0 0, 0 0, 0 0; opacity:0.9; }
   to{ background-position:0 -26px, 0 -34px, 0 -20px, 0 -30px, 0 -22px, 0 -28px; opacity:0.5; }
 }
+
+.jx-card.is-disabled, .jx-card.is-locked {
+  opacity: 0.42 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+.jx-nav-chapter.is-disabled, .jx-nav-item.is-disabled {
+  opacity: 0.42 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+.jx-badge-locked {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+}
+.jx-nav-item .jx-badge-locked {
+  margin-left: auto;
+  font-size: 9px;
+  padding: 1px 6px;
+}
 </style>
 <style id="jx-app-css">
 /* ==========================================================================
@@ -2441,7 +2469,6 @@ kbd{background:transparent;border-color:var(--g-4);color:var(--g-7)}
   <button class="jx-search-field jx-search-field--nav" type="button" data-action="search">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
     <span>Search</span>
-    <kbd>⌘K</kbd>
   </button>
   <div class="jx-nav-scroll" id="jxNavList"></div>
   <div class="jx-nav-foot">
@@ -2463,7 +2490,7 @@ kbd{background:transparent;border-color:var(--g-4);color:var(--g-7)}
       <div class="jx-home-actions" aria-label="Manual Quick Actions">
         <button class="jx-action-pill jx-action-pill--chapters" type="button" data-action="open-nav">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <span>All 12 Chapters</span>
+          <span>All Chapters</span>
           <span class="jx-badge">Menu ☰</span>
         </button>
         <button class="jx-action-pill jx-action-pill--foreword" type="button" data-go="fm-i">
@@ -2471,19 +2498,14 @@ kbd{background:transparent;border-color:var(--g-4);color:var(--g-7)}
           <span>Foreword</span>
           <span class="jx-badge-arrow">→</span>
         </button>
-        <button class="jx-action-pill jx-action-pill--posh" type="button" data-go="ch10-3">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>POSH Policy</span>
+        <button class="jx-action-pill jx-action-pill--posh" type="button" data-go="ch2">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>
+          <span>Chapter 1: Org Structure</span>
           <span class="jx-badge-arrow">→</span>
         </button>
-        <button class="jx-action-pill jx-action-pill--leave" type="button" data-go="ch11-3">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>Leave &amp; Attendance</span>
-          <span class="jx-badge-arrow">→</span>
-        </button>
-        <button class="jx-action-pill jx-action-pill--annexure" type="button" data-go="annexure">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span>Annexure</span>
+        <button class="jx-action-pill jx-action-pill--leave" type="button" data-go="ch1">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>Chapter 2: Role Architecture</span>
           <span class="jx-badge-arrow">→</span>
         </button>
       </div>
@@ -2492,7 +2514,6 @@ kbd{background:transparent;border-color:var(--g-4);color:var(--g-7)}
       <button class="jx-search-field jx-search-field--hero" type="button" data-action="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
         <span>Search HR policies, terms, chapters (e.g. Gratuity, POSH, Travel, Leave)...</span>
-        <kbd>⌘K</kbd>
       </button>
 
 
@@ -6114,7 +6135,7 @@ window.JX_TOC = [
       {id:'ch2-2', num:'1.2', label:'Workforce Attrition'}
     ]},
     {id:'ch1', num:'2', label:'Role Architecture', live:true},
-    {id:'ch3', num:'3', label:'Recruitment & Selection', live:true, subs:[
+    {id:'ch3', num:'3', label:'Recruitment & Selection', live:false, subs:[
       {id:'ch3-1', num:'3.1', label:'Recruitment and Selection Process'},
       {id:'ch3-2', num:'3.2', label:'Recruitment Need and Sourcing'},
       {id:'ch3-3', num:'3.3', label:'Assessment and Selection'},
@@ -6127,7 +6148,7 @@ window.JX_TOC = [
       {id:'ch3-10', num:'3.10', label:'Recruitment KPIs'},
       {id:'ch3-11', num:'3.11', label:'Best Practice'}
     ]},
-    {id:'ch4', num:'4', label:'Joining and Confirmation', live:true, subs:[
+    {id:'ch4', num:'4', label:'Joining and Confirmation', live:false, subs:[
       {id:'ch4-1', num:'4.1', label:'Joining'},
       {id:'ch4-2', num:'4.2', label:'Induction'},
       {id:'ch4-3', num:'4.3', label:'Confirmation'},
@@ -6135,13 +6156,13 @@ window.JX_TOC = [
     ]},
   ]},
   {group:'Part 02 · Workforce Development', items:[
-    {id:'ch5', num:'5', label:'Learning and Development', live:true, subs:[
+    {id:'ch5', num:'5', label:'Learning and Development', live:false, subs:[
       {id:'ch5-1', num:'5.1', label:'Learner Journey'},
       {id:'ch5-2', num:'5.2', label:'Using the LMS'},
       {id:'ch5-3', num:'5.3', label:'HR Governance'},
       {id:'ch5-4', num:'5.4', label:'Best Practices'}
     ]},
-    {id:'ch6', num:'6', label:'Performance Management', live:true, subs:[
+    {id:'ch6', num:'6', label:'Performance Management', live:false, subs:[
       {id:'ch6-1', num:'6.1', label:'Performance Management Cycle'},
       {id:'ch6-2', num:'6.2', label:'Performance Management Process'},
       {id:'ch6-3', num:'6.3', label:'Setting Goals'},
@@ -6150,7 +6171,7 @@ window.JX_TOC = [
       {id:'ch6-6', num:'6.6', label:'Handling Underperformance'},
       {id:'ch6-7', num:'6.7', label:'Best Practices'}
     ]},
-    {id:'ch7', num:'7', label:'Career Progression', live:true, subs:[
+    {id:'ch7', num:'7', label:'Career Progression', live:false, subs:[
       {id:'ch7-1', num:'7.1', label:'Career Progression Routes'},
       {id:'ch7-2', num:'7.2', label:'Requirements for Career Progression'},
       {id:'ch7-3', num:'7.3', label:'Promotion Process'},
@@ -6159,7 +6180,7 @@ window.JX_TOC = [
     ]},
   ]},
   {group:'Part 03 · Compensation and Rewards', items:[
-    {id:'ch8', num:'8', label:'Employee Engagement, Rewards & Recognition', live:true, subs:[
+    {id:'ch8', num:'8', label:'Employee Engagement, Rewards & Recognition', live:false, subs:[
       {id:'ch8-1', num:'8.1', label:'Suggested Engagement Calendar'},
       {id:'ch8-2', num:'8.2', label:'Rewards and Recognition Calendar'},
       {id:'ch8-3', num:'8.3', label:'Spot Recognition'},
@@ -6167,18 +6188,18 @@ window.JX_TOC = [
     ]},
   ]},
   {group:'Part 04 · Workplace Governance', items:[
-    {id:'ch9', num:'9', label:'Employee Exit Management', live:true, subs:[
+    {id:'ch9', num:'9', label:'Employee Exit Management', live:false, subs:[
       {id:'ch9-1', num:'9.1', label:'Exit Process'},
       {id:'ch9-2', num:'9.2', label:'Best Practice'}
     ]},
-    {id:'ch10', num:'10', label:'Discipline & Conduct', live:true, subs:[
+    {id:'ch10', num:'10', label:'Discipline & Conduct', live:false, subs:[
       {id:'ch10-1', num:'10.1', label:'Code of Conduct'},
       {id:'ch10-2', num:'10.2', label:'The Disciplinary Process'},
       {id:'ch10-3', num:'10.3', label:'POSH: Prevention of Sexual Harassment'},
       {id:'ch10-4', num:'10.4', label:'Grievance Handling'},
       {id:'ch10-5', num:'10.5', label:'Best Practice'}
     ]},
-    {id:'ch11', num:'11', label:'Organisation Policies', live:true, subs:[
+    {id:'ch11', num:'11', label:'Organisation Policies', live:false, subs:[
       {id:'ch11-1', num:'11.1', label:'Working Hours and Week-off'},
       {id:'ch11-2', num:'11.2', label:'Attendance'},
       {id:'ch11-3', num:'11.3', label:'Leave'},
@@ -6188,7 +6209,7 @@ window.JX_TOC = [
     ]},
   ]},
   {group:'Part 05 · Annexure & Reference Documents', items:[
-    {id:'annexure', num:'12', label:'Annexure', live:true}
+    {id:'annexure', num:'12', label:'Annexure', live:false}
   ]},
 ];
 </script>
@@ -6313,14 +6334,23 @@ window.JX_TOC = [
   // Where does an id live? A page id, or any element inside a chapter.
   function locate(id){
     if(!id || id === 'home') return null;
-    if(pageIndex[id]) return { page: pageIndex[id], target: null };
-    var t = doc.getElementById(id);
-    if(!t) return null;
-    var art = t.closest ? t.closest('.jx-chapter') : null;
-    if(!art) return null;
-    var ch = chapters.filter(function(c){ return c.article === art; })[0];
-    if(!ch) return null;
-    return { page: pageOf(ch, t), target: t };
+    var res = null;
+    if(pageIndex[id]) res = { page: pageIndex[id], target: null };
+    else {
+      var t = doc.getElementById(id);
+      if(!t) return null;
+      var art = t.closest ? t.closest('.jx-chapter') : null;
+      if(!art) return null;
+      var ch = chapters.filter(function(c){ return c.article === art; })[0];
+      if(!ch) return null;
+      res = { page: pageOf(ch, t), target: t };
+    }
+    if(res && res.page && res.page.ch){
+      if(['i', 'ii', 'iii', '1', '2'].indexOf(res.page.ch.num) === -1){
+        return null; // Locked chapter routes back to home
+      }
+    }
+    return res;
   }
   function pageOf(ch, node){
     if(!ch.pageable) return ch.pages[0];
@@ -6347,14 +6377,21 @@ window.JX_TOC = [
       box.appendChild(el('div', 'jx-nav-group-label',
         g.name ? '<b>' + esc(g.short) + '</b><span>' + esc(g.name) + '</span>' : '<b>' + esc(g.short) + '</b>'));
       g.chapters.forEach(function(ch){
-        var wrap = el('div', 'jx-nav-chapter');
-        var item = el('button', 'jx-nav-item', '<span class="jx-nav-num">' + esc(ch.num) + '</span><span>' + esc(ch.label) + '</span>');
+        var isLocked = ['i', 'ii', 'iii', '1', '2'].indexOf(ch.num) === -1;
+        var wrap = el('div', 'jx-nav-chapter' + (isLocked ? ' is-disabled is-locked' : ''));
+        var actionHtml = isLocked ? '<span class="jx-badge-locked">Under Review</span>' : '';
+        var item = el('button', 'jx-nav-item' + (isLocked ? ' is-disabled' : ''), '<span class="jx-nav-num">' + esc(ch.num) + '</span><span>' + esc(ch.label) + '</span>' + actionHtml);
         item.type = 'button';
-        item.addEventListener('click', function(){ go(ch.pages[0].alias || ch.pages[0].id); });
+        if(isLocked){
+          item.disabled = true;
+          item.setAttribute('aria-disabled', 'true');
+        } else {
+          item.addEventListener('click', function(){ go(ch.pages[0].alias || ch.pages[0].id); });
+        }
         wrap.appendChild(item);
         var refs = { wrap: wrap, item: item, subs: {} };
         var list = ch.pageable ? ch.pages.filter(function(p){ return !p.lead; }) : ch.jumps;
-        if(list.length){
+        if(list.length && !isLocked){
           var subs = el('div', 'jx-nav-subs'), inner = el('div');
           list.forEach(function(p){
             var b = el('button', 'jx-nav-sub', '<b>' + esc(p.num) + '</b><span>' + esc(p.label) + '</span>');
@@ -6506,12 +6543,18 @@ window.JX_TOC = [
   // Reading order runs through the whole manual: next page, then next chapter.
   function neighbours(page){
     var ch = page.ch;
+    var res = null;
     if(ch.full || !ch.pageable){
       var pc = chapters[ch.idx - 1], nc = chapters[ch.idx + 1];
-      return { prev: pc ? pc.pages[0] : null, next: nc ? nc.pages[0] : null };
+      res = { prev: pc ? pc.pages[0] : null, next: nc ? nc.pages[0] : null };
+    } else {
+      var i = flatPages.indexOf(page);
+      res = { prev: flatPages[i - 1] || null, next: flatPages[i + 1] || null };
     }
-    var i = flatPages.indexOf(page);
-    return { prev: flatPages[i - 1] || null, next: flatPages[i + 1] || null };
+    if(res.next && res.next.ch && ['i', 'ii', 'iii', '1', '2'].indexOf(res.next.ch.num) === -1){
+      res.next = null;
+    }
+    return res;
   }
 
   /* ---------------------------------------------------- 4 router + render */
@@ -6874,10 +6917,14 @@ window.JX_TOC = [
 
     var i = 0;
     chapters.forEach(function(ch){
+      var isLocked = ['i', 'ii', 'iii', '1', '2'].indexOf(ch.num) === -1;
       var n = ch.pageable ? ch.pages.filter(function(p){ return !p.lead; }).length : ch.jumps.length;
       var meta = esc(ch.group.short) + (n ? ' · ' + n + ' sections' : '');
-      var card = el('button', 'jx-card',
-        '<div class="jx-card-top"><span class="jx-card-num">' + esc(ch.num) + '</span><span class="jx-card-go">' + ICON_NEXT + '</span></div>' +
+      var actionGo = isLocked
+        ? '<span class="jx-badge-locked">Under Review</span>'
+        : '<span class="jx-card-go">' + ICON_NEXT + '</span>';
+      var card = el('button', 'jx-card' + (isLocked ? ' is-disabled is-locked' : ''),
+        '<div class="jx-card-top"><span class="jx-card-num">' + esc(ch.num) + '</span>' + actionGo + '</div>' +
         '<span class="jx-card-title">' + esc(ch.label) + '</span>' +
         '<span class="jx-card-meta">' + meta + '</span>' +
         '<span class="jx-card-bar" aria-hidden="true"><i></i></span>');
@@ -6887,7 +6934,12 @@ window.JX_TOC = [
       card.type = 'button';
       card.dataset.group = String(ch.group.idx);
       card.style.setProperty('--i', i++);
-      card.addEventListener('click', function(){ go(ch.pages[0].alias || ch.pages[0].id); });
+      if(isLocked){
+        card.disabled = true;
+        card.setAttribute('aria-disabled', 'true');
+      } else {
+        card.addEventListener('click', function(){ go(ch.pages[0].alias || ch.pages[0].id); });
+      }
       cardsBox.appendChild(card);
     });
     filter(-1, true);

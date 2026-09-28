@@ -1468,12 +1468,17 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
 
 /* ============ STICKY 5-SECTION HEADER BAR ============ */
 .hero-strip-wrapper {
+  position: -webkit-sticky;
   position: sticky;
   top: var(--topbar-h);
   z-index: 250;
-  background: var(--sidebar);
+  background: rgba(21, 21, 21, 0.96);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border-top: 1px solid var(--sidebar-line);
   border-bottom: 1px solid var(--sidebar-line);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  width: 100%;
 }
 .hero-strip {
   display: grid;
@@ -1482,7 +1487,7 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
   margin: 0 auto;
 }
 .hero-cell {
-  padding: 8px 16px;
+  padding: 10px 16px;
   border-right: 1px solid var(--sidebar-line);
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
@@ -1500,7 +1505,7 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
   font-size: 12px;
   font-weight: 700;
   color: var(--white);
-  margin-bottom: 1px;
+  margin-bottom: 2px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1522,6 +1527,24 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.hero-cell.is-locked {
+  opacity: 0.42;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.hero-cell-badge {
+  display: inline-block;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: 6px;
+  vertical-align: middle;
+}
 @media (max-width: 900px) {
   .hero-strip { grid-template-columns: repeat(3, 1fr); }
   .hero-cell:nth-child(3) { border-right: none; }
@@ -1529,6 +1552,42 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
 @media (max-width: 600px) {
   .hero-strip { grid-template-columns: repeat(2, 1fr); }
   .hero-cell:nth-child(2), .hero-cell:nth-child(4) { border-right: none; }
+}
+
+
+.dropdown-item.is-disabled {
+  opacity: 0.42 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+.dropdown-soon {
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.55);
+  margin-left: auto;
+}
+.hx-row.is-locked {
+  opacity: 0.42 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+.hx-lock-badge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: auto;
 }
 
 /* ============ SECTION FRAME ============ */
@@ -4492,14 +4551,14 @@ body.view-intro-active .chapter-nav {
 
 /* Universal horizontal containment */
 html, body {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   width: 100% !important;
   max-width: 100vw !important;
   -webkit-overflow-scrolling: touch;
   -webkit-text-size-adjust: 100%;
 }
 .main {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   width: 100% !important;
   max-width: 100vw !important;
 }
@@ -4633,24 +4692,32 @@ html, body {
     max-width: 100% !important;
   }
 
-  /* 3. 5-Section Header Bar (Transforms to horizontal swipeable pills) */
+  /* 3. 5-Section Header Bar (Frozen on top + sleek horizontal pill carousel) */
   .hero-strip-wrapper {
-    position: relative !important;
-    top: 0 !important;
-    z-index: 20 !important;
-    background: var(--sidebar) !important;
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: var(--topbar-h) !important;
+    z-index: 250 !important;
+    background: rgba(21, 21, 21, 0.96) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    backdrop-filter: blur(14px) !important;
     border-top: 1px solid var(--sidebar-line) !important;
     border-bottom: 1px solid var(--sidebar-line) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
   }
   .hero-strip {
     display: flex !important;
     flex-direction: row !important;
+    align-items: center !important;
     overflow-x: auto !important;
     flex-wrap: nowrap !important;
     -webkit-overflow-scrolling: touch !important;
     scrollbar-width: none !important;
     gap: 8px !important;
-    padding: 10px 14px !important;
+    padding: 8px 12px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -4661,25 +4728,47 @@ html, body {
     flex: 0 0 auto !important;
     border-right: none !important;
     background: rgba(255, 255, 255, 0.06) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    border-radius: 8px !important;
-    padding: 8px 12px !important;
-    min-width: 135px !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 999px !important;
+    padding: 7px 14px !important;
+    min-width: unset !important;
     box-sizing: border-box !important;
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    transition: background 0.2s, border-color 0.2s !important;
   }
-  .hero-cell:hover, .hero-cell:active {
-    background: rgba(255, 255, 255, 0.14) !important;
+  .hero-cell:hover, .hero-cell:active, .hero-cell.active {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
   }
   .hero-cell h4 {
-    font-size: 11px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
     white-space: nowrap !important;
     color: #fff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    margin: 0 !important;
+  }
+  .hero-cell svg {
+    width: 13px !important;
+    height: 13px !important;
+    stroke: #fff !important;
+    flex-shrink: 0 !important;
   }
   .hero-cell p {
-    font-size: 9.5px !important;
-    color: var(--sidebar-text) !important;
-    white-space: nowrap !important;
-    margin: 0 !important;
+    display: none !important;
+  }
+  .hero-cell.is-locked {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    border-style: dashed !important;
   }
 
   /* 4. Dropdown Menu (Centered modal drawer on mobile) */
@@ -4998,10 +5087,9 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
   <div class="tb-center" id="tbCenter">JSW HR Operations Manual</div>
   <div class="tb-right">
     <div class="tb-actions">
-      <button class="tb-action-btn" onclick="toggleSearchModal()" title="Search Policies (Cmd + K)">
+      <button class="tb-action-btn" onclick="toggleSearchModal()" title="Search Policies">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
         <span>Search</span>
-        <kbd>⌘K</kbd>
       </button>
     </div>
     <button class="tb-menu" id="menuBtn" onclick="toggleMenu()">
@@ -5078,18 +5166,18 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
         </a>
         <a class="hero-cell" href="#ch2" onclick="scrollToSection('ch2', event)">
           <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg> Workforce Planning</h4>
-          <p>Org Structure · Roles · Recruitment · Joining</p>
+          <p>Org Structure · Role Architecture</p>
         </a>
-        <a class="hero-cell" href="#ch5" onclick="scrollToSection('ch5', event)">
-          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4-8 4-8-4 8-4z"/><path d="M4 11l8 4 8-4M4 15l8 4 8-4"/></svg> Workforce Development</h4>
+        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Workforce Development (Under Review)">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4-8 4-8-4 8-4z"/><path d="M4 11l8 4 8-4M4 15l8 4 8-4"/></svg> Workforce Development <span class="hero-cell-badge">Under Review</span></h4>
           <p>Learning · Performance · Career progression</p>
         </a>
-        <a class="hero-cell" href="#ch8" onclick="scrollToSection('ch8', event)">
-          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9 9.5h4a2 2 0 010 4H9.5a2 2 0 000 4H15"/></svg> Compensation &amp; Rewards</h4>
+        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Compensation & Rewards (Under Review)">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9 9.5h4a2 2 0 010 4H9.5a2 2 0 000 4H15"/></svg> Compensation &amp; Rewards <span class="hero-cell-badge">Under Review</span></h4>
           <p>Engagement · Rewards · Spot Recognition</p>
         </a>
-        <a class="hero-cell" href="#ch9" onclick="scrollToSection('ch9', event)">
-          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9.5h16M9.5 9.5V20"/></svg> Workplace Governance</h4>
+        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Workplace Governance (Under Review)">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9.5h16M9.5 9.5V20"/></svg> Workplace Governance <span class="hero-cell-badge">Under Review</span></h4>
           <p>Exit Management · Conduct · Policies · Annexure</p>
         </a>
       </div>
@@ -8811,7 +8899,7 @@ const TOC = [
       {id:'ch2-2', num:'1.2', label:'Workforce Attrition'}
     ]},
     {id:'ch1', num:'2', label:'Role Architecture', live:true},
-    {id:'ch3', num:'3', label:'Recruitment & Selection', live:true, subs:[
+    {id:'ch3', num:'3', label:'Recruitment & Selection', live:false, subs:[
       {id:'ch3-1', num:'3.1', label:'Recruitment and Selection Process'},
       {id:'ch3-2', num:'3.2', label:'Recruitment Need and Sourcing'},
       {id:'ch3-3', num:'3.3', label:'Assessment and Selection'},
@@ -8824,7 +8912,7 @@ const TOC = [
       {id:'ch3-10', num:'3.10', label:'Recruitment KPIs'},
       {id:'ch3-11', num:'3.11', label:'Best Practice'}
     ]},
-    {id:'ch4', num:'4', label:'Joining and Confirmation', live:true, subs:[
+    {id:'ch4', num:'4', label:'Joining and Confirmation', live:false, subs:[
       {id:'ch4-1', num:'4.1', label:'Joining'},
       {id:'ch4-2', num:'4.2', label:'Induction'},
       {id:'ch4-3', num:'4.3', label:'Confirmation'},
@@ -8832,13 +8920,13 @@ const TOC = [
     ]},
   ]},
   {group:'Part 02 · Workforce Development', items:[
-    {id:'ch5', num:'5', label:'Learning and Development', live:true, subs:[
+    {id:'ch5', num:'5', label:'Learning and Development', live:false, subs:[
       {id:'ch5-1', num:'5.1', label:'Learner Journey'},
       {id:'ch5-2', num:'5.2', label:'Using the LMS'},
       {id:'ch5-3', num:'5.3', label:'HR Governance'},
       {id:'ch5-4', num:'5.4', label:'Best Practices'}
     ]},
-    {id:'ch6', num:'6', label:'Performance Management', live:true, subs:[
+    {id:'ch6', num:'6', label:'Performance Management', live:false, subs:[
       {id:'ch6-1', num:'6.1', label:'Performance Management Cycle'},
       {id:'ch6-2', num:'6.2', label:'Performance Management Process'},
       {id:'ch6-3', num:'6.3', label:'Setting Goals'},
@@ -8847,7 +8935,7 @@ const TOC = [
       {id:'ch6-6', num:'6.6', label:'Handling Underperformance'},
       {id:'ch6-7', num:'6.7', label:'Best Practices'}
     ]},
-    {id:'ch7', num:'7', label:'Career Progression', live:true, subs:[
+    {id:'ch7', num:'7', label:'Career Progression', live:false, subs:[
       {id:'ch7-1', num:'7.1', label:'Career Progression Routes'},
       {id:'ch7-2', num:'7.2', label:'Requirements for Career Progression'},
       {id:'ch7-3', num:'7.3', label:'Promotion Process'},
@@ -8856,7 +8944,7 @@ const TOC = [
     ]},
   ]},
   {group:'Part 03 · Compensation and Rewards', items:[
-    {id:'ch8', num:'8', label:'Employee Engagement, Rewards & Recognition', live:true, subs:[
+    {id:'ch8', num:'8', label:'Employee Engagement, Rewards & Recognition', live:false, subs:[
       {id:'ch8-1', num:'8.1', label:'Suggested Engagement Calendar'},
       {id:'ch8-2', num:'8.2', label:'Rewards and Recognition Calendar'},
       {id:'ch8-3', num:'8.3', label:'Spot Recognition'},
@@ -8864,18 +8952,18 @@ const TOC = [
     ]},
   ]},
   {group:'Part 04 · Workplace Governance', items:[
-    {id:'ch9', num:'9', label:'Employee Exit Management', live:true, subs:[
+    {id:'ch9', num:'9', label:'Employee Exit Management', live:false, subs:[
       {id:'ch9-1', num:'9.1', label:'Exit Process'},
       {id:'ch9-2', num:'9.2', label:'Best Practice'}
     ]},
-    {id:'ch10', num:'10', label:'Discipline & Conduct', live:true, subs:[
+    {id:'ch10', num:'10', label:'Discipline & Conduct', live:false, subs:[
       {id:'ch10-1', num:'10.1', label:'Code of Conduct'},
       {id:'ch10-2', num:'10.2', label:'The Disciplinary Process'},
       {id:'ch10-3', num:'10.3', label:'POSH: Prevention of Sexual Harassment'},
       {id:'ch10-4', num:'10.4', label:'Grievance Handling'},
       {id:'ch10-5', num:'10.5', label:'Best Practice'}
     ]},
-    {id:'ch11', num:'11', label:'Organisation Policies', live:true, subs:[
+    {id:'ch11', num:'11', label:'Organisation Policies', live:false, subs:[
       {id:'ch11-1', num:'11.1', label:'Working Hours and Week-off'},
       {id:'ch11-2', num:'11.2', label:'Attendance'},
       {id:'ch11-3', num:'11.3', label:'Leave'},
@@ -8885,7 +8973,7 @@ const TOC = [
     ]},
   ]},
   {group:'Part 05 · Annexure & Reference Documents', items:[
-    {id:'annexure', num:'12', label:'Annexure', live:true}
+    {id:'annexure', num:'12', label:'Annexure', live:false}
   ]},
 ];
 
@@ -8903,20 +8991,27 @@ if(grid){
       wrap.className = 'dropdown-item-wrap';
       
       const a = document.createElement('a');
-      a.className='dropdown-item'+(it.live?' live':'');
-      a.href = '#'+it.id;
-      a.dataset.target = it.id;
-      a.dataset.label = it.label;
+      const isLocked = !it.live;
+      a.className='dropdown-item'+(it.live?' live':' is-disabled');
+      if(isLocked){
+        a.href = 'javascript:void(0)';
+        a.setAttribute('aria-disabled', 'true');
+        a.title = it.label + ' (Under Review)';
+      } else {
+        a.href = '#'+it.id;
+        a.dataset.target = it.id;
+        a.dataset.label = it.label;
+      }
       
       const left = document.createElement('div');
       left.className = 'di-left';
-      left.innerHTML = '<span class="di-num">' + it.num + '</span><span class="di-label">' + it.label + '</span>';
+      left.innerHTML = '<span class="di-num">' + it.num + '</span><span class="di-label">' + it.label + '</span>' + (isLocked ? '<span class="dropdown-soon">Under Review</span>' : '');
       a.appendChild(left);
       
       let sublist = null;
       let toggleBtn = null;
       
-      if(it.subs && it.subs.length > 0){
+      if(it.subs && it.subs.length > 0 && !isLocked){
         toggleBtn = document.createElement('button');
         toggleBtn.type = 'button';
         toggleBtn.className = 'di-toggle';
@@ -8953,6 +9048,10 @@ if(grid){
       }
       
       a.addEventListener('click',(e)=>{
+        if(isLocked){
+          e.preventDefault();
+          return;
+        }
         if(e.target.closest('.di-toggle')) return;
         e.preventDefault();
         scrollToSection(it.id);
@@ -9322,6 +9421,14 @@ function handleLiveSearch(query) {
     } else {
       rows = g.items.map(function(it){
         var badge = (++seq);
+        var isLocked = (it.idx >= 3);
+        if(isLocked){
+          return '<div class="hx-row is-locked" aria-disabled="true">' +
+                   '<span class="hx-num">' + badge + '</span>' +
+                   '<span class="hx-name">' + esc(it.name) + '</span>' +
+                   '<span class="hx-lock-badge">Under Review</span>' +
+                 '</div>';
+        }
         return '<button type="button" class="hx-row" data-goto="' + it.idx + '">' +
                  '<span class="hx-num">' + badge + '</span>' +
                  '<span class="hx-name">' + esc(it.name) + '</span>' +
@@ -9381,8 +9488,12 @@ function handleLiveSearch(query) {
     var next = document.createElement('button');
     next.type = 'button';
     next.className = 'cn-btn cn-next';
-    if(i === views.length - 1){
+    if(i >= 2){ // Chapters beyond Chapter 2 are currently locked
       next.setAttribute('disabled','');
+      next.style.opacity = '0.35';
+      next.style.pointerEvents = 'none';
+      next.innerHTML = '<span class="cn-kicker">Next chapter</span>' +
+                       '<span class="cn-title">Chapter 3 (Under Review)</span>';
     } else {
       next.innerHTML = '<span class="cn-kicker">Next chapter <span class="cn-arrow">&rsaquo;</span></span>' +
                        '<span class="cn-title">' + esc(views[i+1].name) + '</span>';
@@ -9486,7 +9597,7 @@ function handleLiveSearch(query) {
       jitterPrev.style.pointerEvents = prevDisabled ? 'none' : 'auto';
     }
     if (jitterNext) {
-      var nextDisabled = (i >= views.length - 1);
+      var nextDisabled = (i >= 2); // Chapters 3+ locked
       jitterNext.disabled = nextDisabled;
       jitterNext.style.opacity = nextDisabled ? '0.35' : '1';
       jitterNext.style.pointerEvents = nextDisabled ? 'none' : 'auto';
@@ -9545,6 +9656,7 @@ function handleLiveSearch(query) {
 
   function goToView(i, immediate, skipHistory){
     if(isNaN(i) || i < 0){ goHome(immediate, skipHistory); return; }
+    if(i >= 3){ goHome(immediate, skipHistory); return; } // Chapters 3+ are locked
     if(i > views.length - 1) i = views.length - 1;
     var overlay = document.getElementById('pageTransitionOverlay');
     if(immediate || !overlay){
@@ -9625,7 +9737,7 @@ function handleLiveSearch(query) {
     if(event && event.preventDefault) event.preventDefault();
     if(typeof toggleMenu === 'function') toggleMenu(false);
     var i = viewIndexForId(id);
-    if(i === -1) return;
+    if(i === -1 || i >= 3) return; // Chapters 3+ are locked
     goToView(i, false, false);
     var target = document.getElementById(id);
     if(target){
@@ -10672,13 +10784,13 @@ html.jsw-boot .home-index .hx-group:nth-child(n+5) { animation-delay: 1.10s; }
    Placed at the absolute end of the document styles for undisputed priority
    ========================================================================== */
 html, body {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   width: 100% !important;
   max-width: 100vw !important;
   -webkit-overflow-scrolling: touch;
 }
 .main {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   width: 100% !important;
   max-width: 100vw !important;
   padding-bottom: calc(90px + env(safe-area-inset-bottom, 24px)) !important;
@@ -10798,12 +10910,16 @@ html, body {
 
   /* 3. 5-Section Header Bar (Forced unpinned, horizontal swipeable strip) */
   .hero-strip-wrapper {
-    position: relative !important;
-    top: auto !important;
-    z-index: 20 !important;
-    background: var(--sidebar) !important;
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: var(--topbar-h) !important;
+    z-index: 250 !important;
+    background: rgba(21, 21, 21, 0.96) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    backdrop-filter: blur(14px) !important;
     border-top: 1px solid var(--sidebar-line) !important;
     border-bottom: 1px solid var(--sidebar-line) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
     width: 100% !important;
     max-width: 100vw !important;
     box-sizing: border-box !important;
@@ -10811,12 +10927,13 @@ html, body {
   .hero-strip {
     display: flex !important;
     flex-direction: row !important;
+    align-items: center !important;
     overflow-x: auto !important;
     flex-wrap: nowrap !important;
     -webkit-overflow-scrolling: touch !important;
     scrollbar-width: none !important;
     gap: 8px !important;
-    padding: 10px 14px !important;
+    padding: 8px 12px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -10826,26 +10943,48 @@ html, body {
   .hero-cell {
     flex: 0 0 auto !important;
     border-right: none !important;
-    background: rgba(255, 255, 255, 0.07) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
     border: 1px solid rgba(255, 255, 255, 0.14) !important;
-    border-radius: 8px !important;
-    padding: 8px 12px !important;
-    min-width: 140px !important;
+    border-radius: 999px !important;
+    padding: 7px 14px !important;
+    min-width: unset !important;
     box-sizing: border-box !important;
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    transition: background 0.2s, border-color 0.2s !important;
+  }
+  .hero-cell:hover, .hero-cell:active, .hero-cell.active {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
   }
   .hero-cell h4 {
-    font-size: 11px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
     white-space: nowrap !important;
     color: #fff !important;
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
     gap: 5px !important;
+    margin: 0 !important;
+  }
+  .hero-cell svg {
+    width: 13px !important;
+    height: 13px !important;
+    stroke: #fff !important;
+    flex-shrink: 0 !important;
   }
   .hero-cell p {
-    font-size: 9.5px !important;
-    color: var(--sidebar-text) !important;
-    white-space: nowrap !important;
-    margin: 3px 0 0 !important;
+    display: none !important;
+  }
+  .hero-cell.is-locked {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    border-style: dashed !important;
   }
 
   /* 4. Dropdown Menu (Full mobile viewport overlay) */
