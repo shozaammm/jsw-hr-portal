@@ -1801,7 +1801,7 @@ kbd{
 
 
 /* Quick Actions & Navigation Bar on First Page */
-.jx-home-actions{
+.jx-home-actions{display:none !important;
   display:flex;flex-wrap:wrap;gap:8px;align-items:center;
   margin-top:20px;margin-bottom:8px;
 }
@@ -2279,7 +2279,7 @@ kbd{background:transparent;border-color:var(--g-4);color:var(--g-7)}
 }
 
 /* quick actions — a ramp down the reference bars */
-.jx-home-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.jx-home-actions{display:none !important;display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
 .jx-action-pill{
   height:44px;padding:0 16px;border-radius:999px;box-shadow:none;
   border:1px solid transparent;font-size:13.5px;font-weight:600;
@@ -2481,30 +2481,6 @@ kbd{background:transparent;border-color:var(--g-4);color:var(--g-7)}
       <h1 class="jx-home-title">JSW HR Operations Manual: TRUST</h1>
       <div class="jx-seg" id="jxSeg" role="tablist" aria-label="Filter by part"><i class="jx-seg-ind" aria-hidden="true"></i></div>
       <div class="jx-cards" id="jxCards"></div>
-
-      <!-- Quick Action Navigation Bar on First Page -->
-      <div class="jx-home-actions" aria-label="Manual Quick Actions">
-        <button class="jx-action-pill jx-action-pill--chapters" type="button" data-action="open-nav">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <span>All Chapters</span>
-          <span class="jx-badge">Menu ☰</span>
-        </button>
-        <button class="jx-action-pill jx-action-pill--foreword" type="button" data-go="fm-i">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          <span>Foreword</span>
-          <span class="jx-badge-arrow">→</span>
-        </button>
-        <button class="jx-action-pill jx-action-pill--posh" type="button" data-go="ch2">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>
-          <span>Chapter 1: Org Structure</span>
-          <span class="jx-badge-arrow">→</span>
-        </button>
-        <button class="jx-action-pill jx-action-pill--leave" type="button" data-go="ch1">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          <span>Chapter 2: Role Architecture</span>
-          <span class="jx-badge-arrow">→</span>
-        </button>
-      </div>
 
 
 
@@ -6940,8 +6916,12 @@ window.JX_TOC = [
     resumeBtn = el('button', 'jx-resume');
     resumeBtn.type = 'button';
     resumeBtn.hidden = true;
-    var actions = $('.jx-home-actions', homeEl);
-    actions.parentNode.insertBefore(resumeBtn, actions);
+    var cards = $('#jxCards', homeEl);
+    if(cards && cards.parentNode){
+      cards.parentNode.insertBefore(resumeBtn, cards);
+    } else {
+      homeEl.appendChild(resumeBtn);
+    }
     paintRead();
     paintResume();
   })();
