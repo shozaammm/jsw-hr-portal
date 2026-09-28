@@ -1656,7 +1656,7 @@ kbd{
 }
 .jx-search-field:hover{border-color:var(--jx-line-2);box-shadow:var(--jx-shadow)}
 .jx-search-field span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.jx-search-field--nav{margin:4px 16px 8px;width:auto;height:42px;padding:0 12px;font-size:14px}
+.jx-search-field--nav{display:none !important;margin:4px 16px 8px;width:auto;height:42px;padding:0 12px;font-size:14px}
 .jx-search-field--hero{height:62px;padding:0 20px;margin-top:20px;font-size:15.5px}
 @media (max-width:1023px){ .jx-search-field kbd{display:none} }
 
@@ -2141,10 +2141,6 @@ kbd{
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
   </div>
-  <button class="jx-search-field jx-search-field--nav" type="button" data-action="search">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
-    <span>Search</span>
-  </button>
   <div class="jx-nav-scroll" id="jxNavList"></div>
   <div class="jx-nav-foot">
   </div>
@@ -6040,7 +6036,7 @@ window.JX_TOC = [
       g.chapters.forEach(function(ch){
         var isLocked = ['i', 'ii', 'iii', '1', '2'].indexOf(ch.num) === -1;
         var wrap = el('div', 'jx-nav-chapter' + (isLocked ? ' is-disabled is-locked' : ''));
-        var actionHtml = isLocked ? '<span class="jx-badge-locked">Under Review</span>' : '';
+        var actionHtml = '';
         var item = el('button', 'jx-nav-item' + (isLocked ? ' is-disabled' : ''), '<span class="jx-nav-num">' + esc(ch.num) + '</span><span>' + esc(ch.label) + '</span>' + actionHtml);
         item.type = 'button';
         if(isLocked){
@@ -6582,7 +6578,7 @@ window.JX_TOC = [
       var n = ch.pageable ? ch.pages.filter(function(p){ return !p.lead; }).length : ch.jumps.length;
       var meta = esc(ch.group.short) + (n ? ' · ' + n + ' sections' : '');
       var actionGo = isLocked
-        ? '<span class="jx-badge-locked">Under Review</span>'
+        ? ''
         : '<span class="jx-card-go">' + ICON_NEXT + '</span>';
       var card = el('button', 'jx-card' + (isLocked ? ' is-disabled is-locked' : ''),
         '<div class="jx-card-top"><span class="jx-card-num">' + esc(ch.num) + '</span>' + actionGo + '</div>' +

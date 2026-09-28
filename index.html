@@ -1591,7 +1591,7 @@ p{font-size:15.5px;color:var(--grey-700);max-width:700px}
 }
 
 /* ============ SECTION FRAME ============ */
-section.chap{padding:72px var(--edge);border-bottom:1px solid var(--line-200);position:relative;scroll-margin-top:calc(var(--topbar-h) + 90px)}
+section.chap{padding:40px var(--edge) 24px;border-bottom:1px solid var(--line-200);position:relative;scroll-margin-top:calc(var(--topbar-h) + 90px)}
 section.chap.alt{background:var(--white)}
 .part-divider{
   padding:40px var(--edge) 18px;background:var(--paper);
@@ -2095,7 +2095,7 @@ body.orgchart-fs-lock{overflow:hidden}
 
 .chapter-nav{
   display:flex;align-items:stretch;justify-content:space-between;gap:16px;
-  padding:30px var(--edge) 38px;
+  padding:20px var(--edge) 26px;
   background:var(--paper);
   border-top:1px solid var(--line-200);
 }
@@ -2150,7 +2150,7 @@ body.orgchart-fs-lock{overflow:hidden}
 
 /* ============ HOME / CONTENTS INDEX ============ */
 .home-index{
-  padding:66px var(--edge) 100px;
+  padding:44px var(--edge) 44px;
   background:var(--paper);
   border-top:1px solid var(--line-200);
 }
@@ -3851,7 +3851,7 @@ section.chap,
   background: var(--ink);
   color: #fff;
   isolation: isolate;
-  min-height: 380px;
+  min-height: auto;
 }
 .section-banner .banner-photo {
   position: absolute;
@@ -3883,7 +3883,7 @@ section.chap,
   z-index: 2;
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 50px var(--edge) 46px;
+  padding: 32px var(--edge) 26px;
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
@@ -4249,8 +4249,8 @@ section.chap.in-view .ch-thumb,
   }
 }
 
-/* Jitter-inspired Floating Glass Capsule Dock */
-.jitter-dock-wrap {
+/* Jitter-inspired Floating Glass Capsule Dock (Removed) */
+.jitter-dock-wrap { display: none !important; 
   position: fixed;
   left: 0; right: 0; bottom: 26px;
   display: flex;
@@ -4930,14 +4930,16 @@ html, body {
     display: none !important;
   }
   #backToTop {
-    display: none !important;
+    display: flex !important;
+    bottom: calc(18px + env(safe-area-inset-bottom, 12px)) !important;
+    right: 18px !important;
+    width: 40px !important;
+    height: 40px !important;
   }
 
   /* Generous bottom clearance so the floating dock never obscures the last rows */
-  .main,
-  section.chap,
   .home-index {
-    padding-bottom: calc(85px + env(safe-area-inset-bottom, 24px)) !important;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom, 16px)) !important;
   }
 
   /* 9. Search Modal Polish */
@@ -4983,7 +4985,7 @@ html, body {
 
   /* 11. Home Index & Contents */
   .home-index {
-    padding: 36px var(--edge) calc(85px + env(safe-area-inset-bottom, 24px)) !important;
+    padding: 32px var(--edge) calc(32px + env(safe-area-inset-bottom, 16px)) !important;
   }
   .hx-head {
     margin-bottom: 20px !important;
@@ -5168,23 +5170,23 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
           <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg> Workforce Planning</h4>
           <p>Org Structure · Role Architecture</p>
         </a>
-        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Workforce Development (Under Review)">
-          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4-8 4-8-4 8-4z"/><path d="M4 11l8 4 8-4M4 15l8 4 8-4"/></svg> Workforce Development <span class="hero-cell-badge">Under Review</span></h4>
+        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Workforce Development">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4-8 4-8-4 8-4z"/><path d="M4 11l8 4 8-4M4 15l8 4 8-4"/></svg> Workforce Development</h4>
           <p>Learning · Performance · Career progression</p>
         </a>
-        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Compensation & Rewards (Under Review)">
-          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9 9.5h4a2 2 0 010 4H9.5a2 2 0 000 4H15"/></svg> Compensation &amp; Rewards <span class="hero-cell-badge">Under Review</span></h4>
+        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Compensation & Rewards">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9 9.5h4a2 2 0 010 4H9.5a2 2 0 000 4H15"/></svg> Compensation &amp; Rewards</h4>
           <p>Engagement · Rewards · Spot Recognition</p>
         </a>
-        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Workplace Governance (Under Review)">
-          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9.5h16M9.5 9.5V20"/></svg> Workplace Governance <span class="hero-cell-badge">Under Review</span></h4>
+        <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Workplace Governance">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9.5h16M9.5 9.5V20"/></svg> Workplace Governance</h4>
           <p>Exit Management · Conduct · Policies · Annexure</p>
         </a>
       </div>
     </div>
 
     <!-- ============ INTRODUCTION ============ -->
-    <div class="part-divider section-banner" id="part-1" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: 380px;">
+    <div class="part-divider section-banner" id="part-1" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: auto;">
   <div class="banner-photo"></div>
   <div class="banner-inner">
     <div class="banner-kicker"><span class="banner-tick"></span><span class="pd-num">Introduction</span></div>
@@ -5295,7 +5297,7 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 </div>
 </div>
 </section>
-<div class="part-divider section-banner" id="part-2" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: 380px;">
+<div class="part-divider section-banner" id="part-2" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: auto;">
   <div class="banner-photo"></div>
   <div class="banner-inner">
     <div class="banner-kicker"><span class="banner-tick"></span><span class="pd-num">Part 01</span></div>
@@ -6904,7 +6906,7 @@ HR Manager</th></tr></thead>
 </div>
 </div>
 </section>
-<div class="part-divider section-banner" id="part-3" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: 380px;">
+<div class="part-divider section-banner" id="part-3" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: auto;">
   <div class="banner-photo"></div>
   <div class="banner-inner">
     <div class="banner-kicker"><span class="banner-tick"></span><span class="pd-num">Part 02</span></div>
@@ -7637,7 +7639,7 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 </a>
   </div>
 </section>
-<div class="part-divider section-banner" id="part-4" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: 380px;">
+<div class="part-divider section-banner" id="part-4" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: auto;">
   <div class="banner-photo"></div>
   <div class="banner-inner">
     <div class="banner-kicker"><span class="banner-tick"></span><span class="pd-num">Part 03</span></div>
@@ -8089,7 +8091,7 @@ Who: Reporting manager with the IDT/ HR Manager</th></tr></thead>
 </a>
   </div>
 </section>
-<div class="part-divider section-banner" id="part-5" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: 380px;">
+<div class="part-divider section-banner" id="part-5" style="--banner-img:var(--tx-a); --banner-pos: center right; min-height: auto;">
   <div class="banner-photo"></div>
   <div class="banner-inner">
     <div class="banner-kicker"><span class="banner-tick"></span><span class="pd-num">Part 04</span></div>
@@ -8996,7 +8998,7 @@ if(grid){
       if(isLocked){
         a.href = 'javascript:void(0)';
         a.setAttribute('aria-disabled', 'true');
-        a.title = it.label + ' (Under Review)';
+        a.title = it.label;
       } else {
         a.href = '#'+it.id;
         a.dataset.target = it.id;
@@ -9005,7 +9007,7 @@ if(grid){
       
       const left = document.createElement('div');
       left.className = 'di-left';
-      left.innerHTML = '<span class="di-num">' + it.num + '</span><span class="di-label">' + it.label + '</span>' + (isLocked ? '<span class="dropdown-soon">Under Review</span>' : '');
+      left.innerHTML = '<span class="di-num">' + it.num + '</span><span class="di-label">' + it.label + '</span>' + '';
       a.appendChild(left);
       
       let sublist = null;
@@ -9296,33 +9298,7 @@ function handleLiveSearch(query) {
 }
 </script>
 
-<!-- Jitter-inspired Floating Glass Capsule Dock -->
-<div class="jitter-dock-wrap" id="jitterDock">
-  <div class="jitter-dock">
-    <div class="jitter-brand" onclick="window.goToView ? window.goToView(-1) : window.scrollTo({top:0,behavior:'smooth'})" style="cursor:pointer;" title="Home / Table of Contents">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAALcCAYAAAD3x0nUAAAiIElEQVR42u3d65LbtpqGUdGV+79l7h+2t2VZRwoAX+Bbq2oqzkwmh24IBB6D6G3f9wsAAAAApPrhSwAAAABAMgELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGgCFgAAAADRBCwAAAAAoglYAAAAAEQTsAAAAACIJmABAAAAEE3AAgAAACCagAUAAABANAELAAAAgGj/+RIAAABAnP3mzzdfEipzAgsAAACy7G/+76AMAQsAAACAaAIWAAAA5HDSCu4QsAAAAACI5hJ3AAAAGM9JK/iAE1gAAAAwlngFH3ICCwAAAPppFas2X0oqcwILAAAA+nDSChoRsAAAAKAPp6ag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AAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKIJWAAAAABEE7AAAAAAiCZgAQAAABBNwAIAAAAgmoAFAAAAQDQBCwAAAIBoAhYAAAAA0QQsAAAAAKL9D+hny2G9zSV1AAAAAElFTkSuQmCC" alt="JSW" class="jitter-logo" />
-      <span class="jitter-pill-divider"></span>
-    </div>
-    <button class="jitter-btn jitter-prev" id="jitterPrev" title="Previous Chapter" type="button">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-    </button>
-    <div class="jitter-current" id="jitterCurrent" title="Click to view all chapters / search">
-      <span class="jitter-ch-num" id="jitterChNum">MANUAL</span>
-      <span class="jitter-ch-title" id="jitterChTitle">Table of Contents</span>
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </div>
-    <button class="jitter-btn jitter-next" id="jitterNext" title="Next Chapter" type="button">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-    </button>
-    <span class="jitter-pill-divider"></span>
-    <button class="jitter-btn" id="jitterSearchBtn" title="Search topics & chapters" type="button" onclick="toggleSearchModal(true)">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-    </button>
-    <button class="jitter-btn jitter-top" title="Top of page" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
-    </button>
-  </div>
-</div>
+
 
 <button id="backToTop" type="button" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
 <script>
@@ -9426,7 +9402,6 @@ function handleLiveSearch(query) {
           return '<div class="hx-row is-locked" aria-disabled="true">' +
                    '<span class="hx-num">' + badge + '</span>' +
                    '<span class="hx-name">' + esc(it.name) + '</span>' +
-                   '<span class="hx-lock-badge">Under Review</span>' +
                  '</div>';
         }
         return '<button type="button" class="hx-row" data-goto="' + it.idx + '">' +
@@ -9493,7 +9468,7 @@ function handleLiveSearch(query) {
       next.style.opacity = '0.35';
       next.style.pointerEvents = 'none';
       next.innerHTML = '<span class="cn-kicker">Next chapter</span>' +
-                       '<span class="cn-title">Chapter 3 (Under Review)</span>';
+                       '<span class="cn-title">Chapter 3</span>';
     } else {
       next.innerHTML = '<span class="cn-kicker">Next chapter <span class="cn-arrow">&rsaquo;</span></span>' +
                        '<span class="cn-title">' + esc(views[i+1].name) + '</span>';
@@ -11105,7 +11080,7 @@ html, body {
     box-sizing: border-box !important;
   }
   .banner-inner {
-    padding: 30px var(--edge) 24px !important;
+    padding: 22px var(--edge) 18px !important;
   }
   .banner-kicker {
     margin-bottom: 8px !important;
@@ -11131,7 +11106,7 @@ html, body {
 
   /* 7. Chapter Content & Grid System */
   section.chap {
-    padding: 32px var(--edge) calc(85px + env(safe-area-inset-bottom, 24px)) !important;
+    padding: 24px var(--edge) 18px !important;
     scroll-margin-top: calc(var(--topbar-h) + 15px) !important;
     box-sizing: border-box !important;
     width: 100% !important;
@@ -11264,12 +11239,16 @@ html, body {
     display: none !important;
   }
   #backToTop {
-    display: none !important;
+    display: flex !important;
+    bottom: calc(18px + env(safe-area-inset-bottom, 12px)) !important;
+    right: 18px !important;
+    width: 40px !important;
+    height: 40px !important;
   }
 
   /* 10. Home Contents Grid */
   .home-index {
-    padding: 28px var(--edge) calc(120px + env(safe-area-inset-bottom, 24px)) !important;
+    padding: 24px var(--edge) calc(28px + env(safe-area-inset-bottom, 16px)) !important;
   }
   .hx-grid {
     grid-template-columns: 1fr !important;
@@ -11397,13 +11376,16 @@ html, body {
     word-break: break-word !important;
   }
 
-  /* 16. Full Page Bottom Padding to Completely Clear Floating Capsule Dock */
-  .main,
-  section.chap,
-  .role-directory,
-  .prose,
+  /* 16. Clean compact spacing for prose and chapter footers */
+  .prose {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
   .manual-foot {
-    padding-bottom: calc(120px + env(safe-area-inset-bottom, 24px)) !important;
+    padding-bottom: 24px !important;
+  }
+  .main {
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 12px)) !important;
   }
 }
 </style>
