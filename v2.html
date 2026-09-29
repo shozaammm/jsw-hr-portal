@@ -2624,7 +2624,6 @@ kbd{
       </button>
   </div>
   <div class="orgchart-card">
-    <div class="orgchart-legend orgchart-legend-top" id="orgLegendTop"></div>
     <div class="orgchart-wrap">
       <svg id="orgCoordSvg" class="orgchart-svg"></svg>
       <ul class="tree" id="orgTree"></ul>
@@ -7126,25 +7125,7 @@ window.JX_TOC = [
 
 <script>
 
-      /* Sync ocRenderLegend with orgLegendTop */
-      var _origOcRenderLegend = typeof ocRenderLegend === 'function' ? ocRenderLegend : null;
-      window.ocRenderLegend = function(hasShared){
-        var legendBottom = document.getElementById('orgLegend');
-        var legendTop = document.getElementById('orgLegendTop');
-        var items = [
-          ['norm-dp', 'Per DP'],
-          ['norm-outlet', 'Per Outlet'],
-          ['norm-volume', 'Volume Based'],
-        ];
-        if(hasShared) items.push(['norm-shared', 'DP Level Shared Resource']);
-        var html = items.map(function(it){
-          return '<span class="legend-chip"><span class="legend-swatch ' + it[0] + '"></span>' + it[1] + '</span>';
-        }).join('');
-        html += '<span class="legend-chip"><span class="legend-line solid"></span>Functional reporting</span>';
-        html += '<span class="legend-chip"><span class="legend-line dashed"></span>Operational coordination</span>';
-        if(legendBottom) legendBottom.innerHTML = html;
-        if(legendTop) legendTop.innerHTML = html;
-      };
+      
 
             /* Org Chart Download Implementation */
       window.downloadOrgChart = function() {
