@@ -5819,7 +5819,7 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
         var currentOrgZoom = 1.0;
 
         function setOrgChartZoom(scale){
-          currentOrgZoom = Math.max(0.5, Math.min(2.0, Math.round(scale * 100) / 100));
+          currentOrgZoom = Math.max(0.15, Math.min(2.5, Math.round(scale * 100) / 100));
           if(chartTree){
             chartTree.style.zoom = currentOrgZoom;
             if(!('zoom' in document.documentElement.style)){
@@ -5835,10 +5835,31 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
             if(cat && cat.coord) ocDrawCoordLines(cat.coord);
           });
         }
+        window.setOrgChartZoom = setOrgChartZoom;
 
-        if(zoomInBtn) zoomInBtn.addEventListener('click', function(){ setOrgChartZoom(currentOrgZoom + 0.15); });
-        if(zoomOutBtn) zoomOutBtn.addEventListener('click', function(){ setOrgChartZoom(currentOrgZoom - 0.15); });
-        if(zoomResetBtn) zoomResetBtn.addEventListener('click', function(){ setOrgChartZoom(1.0); });
+        function fitOrgChartToView(){
+          if(!chartWrapEl || !chartTree) return;
+          var pad = 40;
+          var wrapW = chartWrapEl.clientWidth - pad;
+          var wrapH = chartWrapEl.clientHeight - pad;
+          var prevZoom = chartTree.style.zoom;
+          var prevTransform = chartTree.style.transform;
+          chartTree.style.zoom = '1.0';
+          chartTree.style.transform = 'none';
+          var treeW = chartTree.scrollWidth || 1800;
+          var treeH = chartTree.scrollHeight || 750;
+          chartTree.style.zoom = prevZoom;
+          chartTree.style.transform = prevTransform;
+
+          if(wrapW > 50 && treeW > 50 && wrapH > 50 && treeH > 50){
+            var scaleW = wrapW / treeW;
+            var scaleH = wrapH / treeH;
+            var bestScale = Math.min(scaleW, scaleH);
+            bestScale = Math.max(0.15, Math.min(1.2, Math.round(bestScale * 100) / 100));
+            setOrgChartZoom(bestScale);
+          }
+        }
+        window.fitOrgChartToView = fitOrgChartToView;
 
         var chartWrapEl = document.querySelector('.orgchart-wrap');
         if(chartWrapEl){
@@ -5859,8 +5880,34 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
             fsBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
             fsBtn.innerHTML = (on ? iconCollapse : iconExpand) +
               '<span>' + (on ? 'Exit fullscreen' : 'Fullscreen') + '</span>';
-            // The chart's connector lines are measured from live geometry, so
-            // they must be redrawn once the new box has been laid out.
+
+            if (on) {
+              try {
+                if (stage.requestFullscreen && !document.fullscreenElement) {
+                  stage.requestFullscreen().catch(function(){});
+                } else if (stage.webkitRequestFullscreen && !document.webkitFullscreenElement) {
+                  stage.webkitRequestFullscreen();
+                }
+              } catch(e){}
+
+              setTimeout(function(){
+                fitOrgChartToView();
+                requestAnimationFrame(function(){
+                  var cat = window.ORG_CATEGORIES && window.ORG_CATEGORIES[currentOrgCategory];
+                  if (cat && cat.coord) ocDrawCoordLines(cat.coord);
+                });
+              }, 120);
+            } else {
+              try {
+                if (document.fullscreenElement && document.exitFullscreen) {
+                  document.exitFullscreen().catch(function(){});
+                } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+                  document.webkitExitFullscreen();
+                }
+              } catch(e){}
+              setOrgChartZoom(1.0);
+            }
+
             requestAnimationFrame(function(){
               var cat = window.ORG_CATEGORIES && window.ORG_CATEGORIES[currentOrgCategory];
               if (cat && cat.coord) ocDrawCoordLines(cat.coord);
@@ -11650,32 +11697,131 @@ html, body {
 
 <!-- ============ ANNEXURE DOCUMENT VIEWER MODAL ============ -->
 <!-- ============ ORG CHART FULL IMAGE VIEWER MODAL ============ -->
+
+<style id="orgchart-modal-fullfit-style">
+/* ============ FULLSCREEN & FIT-TO-SCREEN FOR ORG CHART MODAL ============ */
+#orgChartModal.annex-modal-backdrop {
+  padding: 0 !important;
+  background: rgba(10, 15, 29, 0.94) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+#orgChartModal .annex-modal-dialog {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin: 0 !important;
+}
+#orgChartModal .annex-modal-header {
+  padding: 10px 18px !important;
+  flex: 0 0 auto !important;
+  background: #0f172a !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+#orgChartModal .annex-modal-body {
+  flex: 1 1 auto !important;
+  height: calc(100vh - 56px) !important;
+  max-height: calc(100vh - 56px) !important;
+  padding: 8px 12px 10px 12px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  background: #0b1120 !important;
+}
+#orgModalControls {
+  flex: 0 0 auto !important;
+  margin-bottom: 8px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+#orgModalImgWrap {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: calc(100% - 38px) !important;
+  overflow: auto !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: #0f172a !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5) !important;
+  position: relative !important;
+}
+#orgModalImg {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+  margin: auto !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.36) !important;
+  transition: max-width 0.2s ease, max-height 0.2s ease;
+}
+#orgModalImg.is-zoomed-100 {
+  max-width: none !important;
+  max-height: none !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+}
+.orgchart-stage.is-fullscreen .orgchart-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+</style>
 <div class="annex-modal-backdrop" id="orgChartModal" onclick="handleOrgModalBackdrop(event)">
-  <div class="annex-modal-dialog" style="max-width:96vw; width:1280px; max-height:94vh;">
+  <div class="annex-modal-dialog">
     <div class="annex-modal-header">
       <div class="annex-modal-title-group">
         <div class="annex-modal-sub">JSW MOTORS · OFFICIAL ORGANISATION STRUCTURE</div>
         <h3 class="annex-modal-title" id="orgModalTitle">Dealership Organisation Chart</h3>
       </div>
       <div class="annex-modal-actions">
-        <button type="button" class="annex-modal-dl-btn" onclick="downloadOrgChart('jpg')">
+        <button type="button" class="annex-modal-dl-btn secondary" id="orgModalFsBtn" onclick="toggleOrgModalFullscreen()" title="Toggle full screen mode" aria-label="Toggle Fullscreen">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          <span id="orgModalFsText">Fullscreen</span>
+        </button>
+        <button type="button" class="annex-modal-dl-btn" onclick="downloadOrgChart('jpg')" title="Download high-resolution JPG image">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
           Download JPG
         </button>
-        <button type="button" class="annex-modal-dl-btn secondary" onclick="downloadOrgChart('svg')">
+        <button type="button" class="annex-modal-dl-btn secondary" onclick="downloadOrgChart('svg')" title="Download vector SVG">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          Download SVG
+          SVG
         </button>
         <button type="button" class="annex-modal-close" onclick="closeOrgChartViewer()" aria-label="Close chart">&times;</button>
       </div>
     </div>
-    <div class="annex-modal-body" style="padding:16px;text-align:center;overflow:auto;max-height:calc(94vh - 120px);background:#f8fafc;">
-      <div style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:#475569;flex-wrap:wrap;gap:8px;">
-        <span>📱 <em>Viewing entire flowchart at once. Tap &amp; hold image on mobile or click buttons above to save.</em></span>
-        <button type="button" class="orgchart-zoom-val" onclick="toggleOrgModalFit()" id="orgModalFitBtn" style="padding:5px 12px;cursor:pointer;border-radius:16px;border:1px solid var(--line-200);background:#fff;font-weight:600;">100% Zoom</button>
+    <div class="annex-modal-body">
+      <div id="orgModalControls">
+        <span style="display:flex;align-items:center;gap:6px;">
+          <span>📱</span>
+          <strong style="color:#f8fafc;">Showing whole flowchart fitted to screen.</strong>
+          <span style="opacity:0.75;">No parts cut off. Tap &amp; hold on mobile to save to photos.</span>
+        </span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button type="button" class="orgchart-zoom-val" onclick="toggleOrgModalFit()" id="orgModalFitBtn" style="padding:4px 12px;cursor:pointer;border-radius:14px;border:1px solid #475569;background:#1e293b;color:#f8fafc;font-weight:600;font-size:12px;">🔍 100% Zoom</button>
+        </div>
       </div>
-      <div id="orgModalImgWrap" style="overflow:auto;border-radius:10px;border:1px solid #cbd5e1;background:#ffffff;box-shadow:0 4px 16px rgba(0,0,0,0.08);display:inline-block;max-width:100%;text-align:center;">
-        <img id="orgModalImg" src="" alt="JSW Org Chart" style="max-width:100%;height:auto;display:block;margin:0 auto;"/>
+      <div id="orgModalImgWrap">
+        <img id="orgModalImg" src="" alt="JSW Org Chart"/>
       </div>
     </div>
   </div>
@@ -12007,6 +12153,12 @@ html, body {
 
         if (modalTitle) modalTitle.textContent = 'Organisation Chart: ' + data.catLabel;
 
+        // Ensure starts in fitted mode (showing the whole thing, not cropped)
+        if (modalImg) {
+          modalImg.classList.remove('is-zoomed-100');
+        }
+        if (fitBtn) fitBtn.innerHTML = '🔍 100% Zoom';
+
         // Render JPG to modal image
         var img = new Image();
         var svgBlob = new Blob([data.svgString], { type: 'image/svg+xml;charset=utf-8' });
@@ -12026,10 +12178,7 @@ html, body {
 
           if (modalImg) {
             modalImg.src = canvas.toDataURL('image/jpeg', 0.94);
-            modalImg.style.maxWidth = '100%';
-            modalImg.style.width = 'auto';
           }
-          if (fitBtn) fitBtn.textContent = '100% Zoom';
         };
         img.src = url;
 
@@ -12041,9 +12190,15 @@ html, body {
 
       window.closeOrgChartViewer = function() {
         var modal = document.getElementById('orgChartModal');
-        if (modal) {
-          modal.classList.remove('show');
-          document.body.style.overflow = '';
+        if (modal) modal.classList.remove('show');
+        document.body.style.overflow = '';
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+          try {
+            if (document.exitFullscreen) document.exitFullscreen().catch(function(){});
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+          } catch(e){}
+          var fsText = document.getElementById('orgModalFsText');
+          if (fsText) fsText.textContent = 'Fullscreen';
         }
       };
 
@@ -12054,188 +12209,50 @@ html, body {
       };
 
       window.toggleOrgModalFit = function() {
-        var modalImg = document.getElementById('orgModalImg');
-        var fitBtn = document.getElementById('orgModalFitBtn');
-        if (!modalImg || !fitBtn) return;
-        if (fitBtn.textContent.indexOf('100%') !== -1) {
-          modalImg.style.maxWidth = 'none';
-          modalImg.style.width = '100%';
-          fitBtn.textContent = 'Fit Screen';
+        var img = document.getElementById('orgModalImg');
+        var btn = document.getElementById('orgModalFitBtn');
+        if (!img) return;
+
+        var isZoomed = img.classList.toggle('is-zoomed-100');
+        if (isZoomed) {
+          if (btn) btn.innerHTML = '⛶ Fit Entire Chart';
         } else {
-          modalImg.style.maxWidth = '100%';
-          modalImg.style.width = 'auto';
-          fitBtn.textContent = '100% Zoom';
+          if (btn) btn.innerHTML = '🔍 100% Zoom';
         }
       };
 
-      
-
-      /* Annexure Viewer & Document Management */
-      window.ANNEX_DOCS = {
-        '2A': {
-          code: 'ANNEXURE 2A',
-          title: 'Job Description Template',
-          filename: 'JSW_Motors_Annexure_2A_Job_Description_Template.doc',
-          content: `
-            <div class="annex-doc-header-box">
-              <div class="annex-doc-field"><span class="annex-doc-label">Document Code</span><span class="annex-doc-val">DOC-JSW-HR-JDT-01</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Version / Status</span><span class="annex-doc-val">v1.0 &middot; Approved Standard</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Effective Date</span><span class="annex-doc-val">September 2026</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Applicability</span><span class="annex-doc-val">All JSW Motors Dealership Outlets</span></div>
-            </div>
-
-            <div class="annex-doc-sec-title">1. Role Master Details</div>
-            <table class="annex-doc-table">
-              <tr><th style="width:25%">Job Title</th><td>[ Insert Position Title, e.g., Sales Manager ]</td><th style="width:25%">Department</th><td>[ e.g., Sales / Aftersales ]</td></tr>
-              <tr><th>Reports To (Functional)</th><td>[ e.g., General Manager - Sales ]</td><th>Reports To (Coordination)</th><td>[ e.g., CRM Head ]</td></tr>
-              <tr><th>Grade / Band</th><td>[ L1 / L2 / L3 / L4 / L5 ]</td><th>Employment Type</th><td>Full-time / On-roll</td></tr>
-              <tr><th>Location / Outlet</th><td>[ Dealership Main Showroom / 2S / 3S ]</td><th>Direct Reports</th><td>[ List Direct Report Positions ]</td></tr>
-            </table>
-
-            <div class="annex-doc-sec-title">2. Position Overview & Purpose</div>
-            <p style="background:#f8fafc;padding:12px 14px;border-left:4px solid #0f172a;border-radius:4px;">
-              [ State concise 2-3 sentence overview of why this role exists, its strategic value to dealership profitability, brand governance, and seamless customer journey. ]
-            </p>
-
-            <div class="annex-doc-sec-title">3. Benchmark Qualifications & Experience</div>
-            <table class="annex-doc-table">
-              <tr><th style="width:30%">Education</th><td>Graduate in any discipline. MBA / Post Graduate in Management or relevant technical automotive diploma preferred.</td></tr>
-              <tr><th>Industry Experience</th><td>[ e.g., 5-8 years in automotive dealership sales, minimum 2 years in team leadership ]</td></tr>
-              <tr><th>Segment Exposure</th><td>Passenger Car Retail / Premium OEM experience. EV / NEV / PHEV exposure preferred.</td></tr>
-              <tr><th>Certifications & Licenses</th><td>Valid 4-wheeler driving license. Certified OEM Sales Professional credentials preferred.</td></tr>
-            </table>
-
-            <div class="annex-doc-sec-title">4. Key Responsibilities & Performance Accountabilities</div>
-            <table class="annex-doc-table">
-              <thead><tr><th style="width:10%">S.No.</th><th style="width:35%">Key Responsibility Area (KRA)</th><th>Specific Tasks & Deliverables</th></tr></thead>
-              <tbody>
-                <tr><td>01</td><td>Business Strategy & Sales Target Delivery</td><td>Achieve monthly/quarterly retail, wholesale and market share targets across vehicle variants.</td></tr>
-                <tr><td>02</td><td>Customer Journey & Delight</td><td>Enforce 100% adherence to JSW Motors sales process steps, test drive protocols, and CSI benchmarks.</td></tr>
-                <tr><td>03</td><td>Enquiry Pipeline & CRM Hygiene</td><td>Daily lead review in Dealer Management System (DMS), follow-up discipline, test drive ratio &gt;65%.</td></tr>
-                <tr><td>04</td><td>Value Added Services (VAS) Penetration</td><td>Ensure target finance attachment, insurance renewal, extended warranty, and accessories sales.</td></tr>
-                <tr><td>05</td><td>Team Development & Governance</td><td>Daily morning briefings, skill coaching, product certification adherence, and discipline enforcement.</td></tr>
-              </tbody>
-            </table>
-
-            <div class="annex-doc-sec-title">5. Key Performance Indicators (KPIs) & Target Weights</div>
-            <table class="annex-doc-table">
-              <thead><tr><th>Category</th><th>KPI Description</th><th>Benchmark / Target</th><th>Weightage</th></tr></thead>
-              <tbody>
-                <tr><td>Volume</td><td>Retail Target Achievement %</td><td>&ge; 100% of assigned monthly quota</td><td>35%</td></tr>
-                <tr><td>Customer Delight</td><td>Customer Satisfaction Index (CSI)</td><td>&ge; 95% 5-star customer ratings</td><td>25%</td></tr>
-                <tr><td>Pipeline Efficiency</td><td>Enquiry to Test Drive Conversion %</td><td>&ge; 65% of qualified enquiries</td><td>15%</td></tr>
-                <tr><td>Value Added Services</td><td>F&I Attachment & Accessories Per Vehicle</td><td>Benchmark revenue per delivery</td><td>15%</td></tr>
-                <tr><td>Operational Rigor</td><td>DMS Updating & Training Compliance</td><td>100% LMS and daily attendance logging</td><td>10%</td></tr>
-              </tbody>
-            </table>
-
-            <div class="annex-doc-sec-title">6. Core Competencies Profile</div>
-            <table class="annex-doc-table">
-              <thead><tr><th>Competency Domain</th><th>Expected Proficiency</th><th>Behavioral Indicator</th></tr></thead>
-              <tbody>
-                <tr><td>Customer Centricity</td><td>Advanced</td><td>Anticipates customer desires, resolves friction, and delivers bespoke hospitality.</td></tr>
-                <tr><td>Product & NEV Knowledge</td><td>Expert</td><td>Fluent in vehicle architecture, EV battery tech, connected features, and competitor USPs.</td></tr>
-                <tr><td>Consultative Value Selling</td><td>Advanced</td><td>Conducts structured discovery, objection handling, and transparent total-cost-of-ownership advisory.</td></tr>
-                <tr><td>Operational Rigor</td><td>Proficient</td><td>Strict adherence to DMS logging, documentation checks, and audit standards.</td></tr>
-              </tbody>
-            </table>
-
-            <div class="annex-doc-sec-title">7. Sign-off & Document Authorization</div>
-            <table class="annex-doc-table">
-              <tr><th style="width:33%">Incumbent Employee</th><th style="width:33%">Reporting Manager</th><th style="width:33%">Dealer Principal / HR Head</th></tr>
-              <tr style="height:48px;"><td>Signature: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Date:</td><td>Signature: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Date:</td><td>Signature: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Date:</td></tr>
-            </table>
-          `
-        },
-        '2B': {
-          code: 'ANNEXURE 2B',
-          title: 'All Job Descriptions (Master Directory)',
-          filename: 'JSW_Motors_Annexure_2B_All_Job_Descriptions.doc',
-          content: `
-            <div class="annex-doc-header-box">
-              <div class="annex-doc-field"><span class="annex-doc-label">Directory</span><span class="annex-doc-val">Master JSW Dealership Job Profiles</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Coverage</span><span class="annex-doc-val">26 Standard Sales & Support Roles</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Classification</span><span class="annex-doc-val">Sales, Service Support, Ops, Leadership</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Status</span><span class="annex-doc-val">Standard Operating Architecture</span></div>
-            </div>
-
-            <div class="annex-doc-sec-title">Dealership Sales & Operations Functional Breakdown</div>
-            <p>Below is the master roster of all 26 standardized role profiles defined for JSW Motors dealerships. Each profile includes educational benchmarks, experience expectations, key responsibilities, KPIs, and competency indicators.</p>
-
-            <table class="annex-doc-table">
-              <thead><tr><th>Department</th><th>Standard Role Title</th><th>Typical Reports To</th><th>Role Basis</th></tr></thead>
-              <tbody>
-                <tr><td>Executive Leadership</td><td><strong>CEO / Dealer Principal</strong></td><td>Board / Dealer Partner</td><td>Per DP</td></tr>
-                <tr><td>Executive Leadership</td><td><strong>Business Head – Sales / GM Sales</strong></td><td>CEO / Dealer Principal</td><td>Per DP</td></tr>
-                <tr><td>Finance & Control</td><td><strong>CFO / Accounts & Finance Head</strong></td><td>CEO / Dealer Principal</td><td>Per DP</td></tr>
-                <tr><td>Finance & Control</td><td><strong>Accountant & Cashier</strong></td><td>Accounts Head</td><td>Per Outlet</td></tr>
-                <tr><td>Sales Management</td><td><strong>Sales Manager</strong></td><td>GM Sales</td><td>Volume Based</td></tr>
-                <tr><td>Sales Management</td><td><strong>Sales Team Leader</strong></td><td>Sales Manager</td><td>Volume Based</td></tr>
-                <tr><td>Showroom Sales</td><td><strong>Sales Consultant</strong></td><td>Team Leader / Sales Mgr</td><td>Volume Based</td></tr>
-                <tr><td>B2B & Fleet</td><td><strong>Corporate Sales Manager & Executive</strong></td><td>GM Sales</td><td>Per DP / Outlet</td></tr>
-                <tr><td>Customer Experience</td><td><strong>Customer Relations Head (CR Head)</strong></td><td>CEO / GM Sales</td><td>Per DP</td></tr>
-                <tr><td>Customer Experience</td><td><strong>CRM Sales & CRE Sales</strong></td><td>CR Head</td><td>Volume Based</td></tr>
-                <tr><td>Hospitality & Delivery</td><td><strong>Delivery Coordinator & Hostess</strong></td><td>CR Head</td><td>Per Outlet</td></tr>
-                <tr><td>Value Added Services</td><td><strong>Car Finance & Insurance Specialists</strong></td><td>Internal Dealer Trainer</td><td>Volume Based</td></tr>
-                <tr><td>Pre-Owned Cars</td><td><strong>Used Car Consultant & Evaluator</strong></td><td>Internal Dealer Trainer</td><td>Per Outlet</td></tr>
-                <tr><td>Showroom Operations</td><td><strong>Test Drive Coordinator & Valet</strong></td><td>Internal Dealer Trainer</td><td>Per Outlet</td></tr>
-                <tr><td>Support & Admin</td><td><strong>Sales Admin, EDP, HR Executive</strong></td><td>Respective Dept Heads</td><td>Per DP / Outlet</td></tr>
-                <tr><td>Facility Management</td><td><strong>Security, Housekeeping, Pantry Team</strong></td><td>HR / Admin Manager</td><td>Per Outlet</td></tr>
-              </tbody>
-            </table>
-
-            <div class="annex-doc-sec-title">Quick Role Directory Navigation</div>
-            <p>You can view and inspect the complete profile of any of these 26 roles in detail via the interactive <strong>Role Directory</strong> above in Chapter 2.</p>
-          `
-        },
-        '2C': {
-          code: 'ANNEXURE 2C',
-          title: 'Core Competency Framework & Dictionary',
-          filename: 'JSW_Motors_Annexure_2C_Competencies_Dictionary.doc',
-          content: `
-            <div class="annex-doc-header-box">
-              <div class="annex-doc-field"><span class="annex-doc-label">Framework</span><span class="annex-doc-val">JSW Dealership Competency Dictionary</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Proficiency Levels</span><span class="annex-doc-val">Foundational (L1) &middot; Proficient (L2) &middot; Mastery (L3)</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Target Audience</span><span class="annex-doc-val">All Dealership Frontline & Leadership Roles</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Assessment</span><span class="annex-doc-val">Hiring, Annual Reviews & Promotions</span></div>
-            </div>
-
-            <div class="annex-doc-sec-title">1. Customer Centricity & Hospitality Mindset</div>
-            <p>The dedication to understanding customer expectations, delivering transparent advisory, empathizing with concerns, and providing an elevated premium retail experience at every touchpoint.</p>
-            <table class="annex-doc-table">
-              <tr><th style="width:25%">Foundational (Level 1)</th><td>Greets customers warmly within 30 seconds; demonstrates attentive listening; adheres strictly to basic showroom etiquette and grooming standards.</td></tr>
-              <tr><th>Proficient (Level 2)</th><td>Proactively uncovers unspoken lifestyle needs; tailors vehicle demonstrations to individual usage patterns; de-escalates customer friction with empathy and composure.</td></tr>
-              <tr><th>Mastery (Level 3)</th><td>Champions an organizational culture of customer advocacy; institutes customer journey enhancements across outlets; turns dissatisfied buyers into loyal brand ambassadors.</td></tr>
-            </table>
-
-            <div class="annex-doc-sec-title">2. Product & NEV / PHEV Technical Knowledge</div>
-            <p>Comprehensive command over vehicle specifications, advanced powertrain architectures (PHEV, EV, ICE), battery management systems, connected car software, and competitive benchmarking.</p>
-            <table class="annex-doc-table">
-              <tr><th style="width:25%">Foundational (Level 1)</th><td>Accurately quotes standard brochure specifications, safety ratings, color trims, and basic EV charging durations without hesitation.</td></tr>
-              <tr><th>Proficient (Level 2)</th><td>Explains intricate technical concepts (regenerative braking, battery degradation warranty, total cost of ownership) in simple, compelling buyer terminology; articulates clear USPs against competitor models.</td></tr>
-              <tr><th>Mastery (Level 3)</th><td>Acts as an internal technical authority; coaches dealership staff on future mobility trends; designs persuasive sales battlecards for new model launches.</td></tr>
-            </table>
-
-            <div class="annex-doc-sec-title">3. Consultative Selling & Value Articulation</div>
-            <p>The ability to guide prospective buyers through structured inquiry, address hesitations transparently, negotiate mutually beneficial terms, and close sales without high-pressure tactics.</p>
-            <table class="annex-doc-table">
-              <tr><th style="width:25%">Foundational (Level 1)</th><td>Conducts structured product walkthroughs; follows up promptly on digital enquiries; captures complete lead records in DMS.</td></tr>
-              <tr><th>Proficient (Level 2)</th><td>Effectively reframes price objections around lifetime value, warranty protection, and resale predictability; achieves high closing ratios on test drives.</td></tr>
-              <tr><th>Mastery (Level 3)</th><td>Structures complex multi-vehicle corporate leases; mentors junior consultants on closing strategies; consistently delivers double-digit conversion benchmarks.</td></tr>
-            </table>
-
-            <div class="annex-doc-sec-title">4. Operational Rigor, CRM Hygiene & Compliance</div>
-            <p>Disciplined adherence to operating protocols, digital CRM workflow updating, financial and statutory integrity, and brand audit requirements.</p>
-            <table class="annex-doc-table">
-              <tr><th style="width:25%">Foundational (Level 1)</th><td>Logs all customer interactions into DMS within 2 hours; maintains pristine test drive vehicle documentation; complies with POSH and code of conduct.</td></tr>
-              <tr><th>Proficient (Level 2)</th><td>Maintains 100% pipeline accuracy; prevents lead leakage through systematic follow-up calendars; ensures zero discrepancies in booking documents and receipts.</td></tr>
-              <tr><th>Mastery (Level 3)</th><td>Designs and audits dealership operating workflows; eliminates operational bottlenecks; ensures consistent 100% score on OEM governance audits.</td></tr>
-            </table>
-          `
+      window.toggleOrgModalFullscreen = function() {
+        var modal = document.getElementById('orgChartModal');
+        var fsText = document.getElementById('orgModalFsText');
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+          if (modal && modal.requestFullscreen) {
+            modal.requestFullscreen().catch(function(){});
+          } else if (modal && modal.webkitRequestFullscreen) {
+            modal.webkitRequestFullscreen();
+          }
+          if (fsText) fsText.textContent = 'Exit Fullscreen';
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen().catch(function(){});
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+          if (fsText) fsText.textContent = 'Fullscreen';
         }
-};
+      };
 
-      window.activeAnnexKey = '2A';
+      document.addEventListener('fullscreenchange', function(){
+        var fsText = document.getElementById('orgModalFsText');
+        if (!document.fullscreenElement && fsText) {
+          fsText.textContent = 'Fullscreen';
+        }
+      });
+      document.addEventListener('webkitfullscreenchange', function(){
+        var fsText = document.getElementById('orgModalFsText');
+        if (!document.webkitFullscreenElement && fsText) {
+          fsText.textContent = 'Fullscreen';
+        }
+      });
 
       window.openAnnexViewer = function(e, key) {
         if (e && e.preventDefault) e.preventDefault();
