@@ -5650,9 +5650,10 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
   </div>
 </div>
 
-<h3 class="sub-title subhead" id="ch2-1" style="margin-top:28px;">Recommended Organisation Chart</h3>
+<h3 class="sub-title subhead" id="ch2-1">Recommended Organisation Chart</h3>
 <p><em>Note: Defined as per the volume norms and city category.</em></p>
-<div class="orgchart-stage"  id="orgStage">
+
+<div class="orgchart-stage" id="orgStage">
   <div class="orgchart-toolbar">
     <div class="orgchart-tabs" id="orgTabs"></div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -6322,7 +6323,96 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
       </div>
     </div>
   </div>
-</div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 05–08</span>Phase 2: Sourcing &amp; Pre-Screening</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">05</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Begin external sourcing if position not closed internally</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">06</span><span class="rf-step-role">AI + HR Manager</span></div><div class="rf-step-text">Screen applications against the job description</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">07</span><span class="rf-step-role">Shortlisted Candidate</span></div><div class="rf-step-text">Candidate portal login; upload CV, DL &amp; Photo</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">08</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidate’s entry in recruitment portal</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 09–12</span>Phase 3: Assessment &amp; Interviews</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">09</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidates with &gt;=60% in psychometric &amp; AI video interaction</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">10</span><span class="rf-step-role">HR Manager + SM/GM</span></div><div class="rf-step-text">Conduct interview round 1 and enter scores online</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">11</span><span class="rf-step-role">HR Manager + ASM/RM</span></div><div class="rf-step-text">Conduct interview round 2</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">12</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Complete reference check and background verification</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 13–15</span>Phase 4: Decision &amp; Onboarding Offer</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">13</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Take hiring decision based on the comprehensive report generated</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">14</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Get offer letter approval from reporting manager and DP</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">15</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Release offer letter via official email and obtain signed candidate acceptance</div></div></div></div></div>
+</div>
+<div style="display:none">ANNEXTURE 2A. Job Description Template 2B. All Job Descriptions 2C. Competencies 2D. Dealer Work Area (DWA)</div>
+  </div>
+</section>
+
+    <script>
+      (function(){
+        var activeRoleIndex = -1;
+        var cachedRoleBtns = null;
+        var rdDetail = null;
+
+        window.rdSelect = function(i){
+          if (i === activeRoleIndex) return;
+          if (!rdDetail) rdDetail = document.getElementById('rdDetail');
+          if (!rdDetail) return;
+
+          var stored = document.getElementById('rd-role-' + i);
+          if (stored){
+            rdDetail.innerHTML = stored.innerHTML;
+            rdDetail.scrollTop = 0;
+          }
+
+          if (!cachedRoleBtns){
+            cachedRoleBtns = document.querySelectorAll('.rd-role-btn');
+          }
+
+          if (activeRoleIndex >= 0 && cachedRoleBtns[activeRoleIndex]){
+            cachedRoleBtns[activeRoleIndex].classList.remove('active');
+          }
+
+          var nextBtn = document.querySelector('.rd-role-btn[data-role="' + i + '"]');
+          if (nextBtn){
+            nextBtn.classList.add('active');
+            nextBtn.scrollIntoView({block: 'nearest'});
+          }
+
+          activeRoleIndex = i;
+        };
+
+        document.addEventListener('DOMContentLoaded', function(){
+          var rdList = document.querySelector('.rd-list');
+          if (rdList){
+            rdList.addEventListener('click', function(e){
+              var btn = e.target.closest('.rd-role-btn');
+              if (btn && btn.dataset.role !== undefined){
+                window.rdSelect(parseInt(btn.dataset.role, 10));
+              }
+            });
+          }
+          window.rdSelect(0);
+        });
+      })();
+    </script>
+
+<section class="chap alt" id="ch3">
+  <div class="chap-head reveal">
+    <div class="chap-num">CHAPTER 3</div>
+    <h2 class="sec-title">Recruitment &amp; Selection</h2>
+    <div class="rule"></div>
+<div class="ch-thumb" style="--ch-img:var(--tx-c); --ch-pos: center 20%;"></div>
+  </div>
+  <div class="prose reveal">
+<div class="pull">&quot;Don't hire just for skills, hire for attitude.&quot;</div>
+<div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
+  <div class="meta-item">
+    <span class="eyebrow">PURPOSE:</span>
+    <p>Implementation of proven recruitment process across the network so manpower with correct skillset is hired.</p>
+  </div>
+  <div class="meta-item">
+    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
+    <p>Transparent and trustworthy business interaction, ensuring customer trusts the dealership and the brand.</p>
+  </div>
+</div>
+
+<p>A standardised hiring process is key to a consistent customer experience across the network. A poor dealership recruitment process leads to:</p>
+<ul class="list-clean">
+  <li>High staff turnover.</li>
+  <li>Increased hiring costs.</li>
+  <li>Increased training cost.</li>
+  <li>Burnout of strong performers while covering for vacant roles.</li>
+  <li>Loss of vehicle retail.</li>
+  <li>Decline in loyalty and repeat business.</li>
+</ul>
+<p>Therefore, this chapter standardises the JSW recruitment and selection process across its dealer network.</p>
+
+<h3 class="sub-title subhead">Principles</h3>
+<ul class="list-clean"><li>Hire on knowledge, skill and attitude (refer <em>3A. Candidate Evaluation Sheet</em>).</li><li>No discrimination or hiring below the age of 18 years.</li><li>Promote internal mobility before external hiring.</li><li>Anti-poaching - consult JSW area office before contacting any fellow JSW dealership partner employee.</li>
+<li>Pay salary on the 5th day of every month.</li></ul>
+<h3 class="sub-title subhead" id="ch3-1">3.1 Recruitment and Selection Process</h3>
+<div class="rf-flow"><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 01–04</span>Phase 1: Requisition &amp; Approvals</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">01</span><span class="rf-step-role">Reporting Manager</span></div><div class="rf-step-text">Identify the recruitment need</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">02</span><span class="rf-step-role">Reporting Manager</span></div><div class="rf-step-text">Use 3B. Manpower Requisition Form to get DP’s approval</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">03</span><span class="rf-step-role">Dealer Principal</span></div><div class="rf-step-text">Approve the requisition form &amp; share with HR</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">04</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Notify the position internally</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 05–08</span>Phase 2: Sourcing &amp; Pre-Screening</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">05</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Begin external sourcing if position not closed internally</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">06</span><span class="rf-step-role">AI + HR Manager</span></div><div class="rf-step-text">Screen applications against the job description</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">07</span><span class="rf-step-role">Shortlisted Candidate</span></div><div class="rf-step-text">Candidate portal login; upload CV, DL &amp; Photo</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">08</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidate’s entry in recruitment portal</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 09–12</span>Phase 3: Assessment &amp; Interviews</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">09</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidates with &gt;=60% in psychometric &amp; AI video interaction</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">10</span><span class="rf-step-role">HR Manager + SM/GM</span></div><div class="rf-step-text">Conduct interview round 1 and enter scores online</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">11</span><span class="rf-step-role">HR Manager + ASM/RM</span></div><div class="rf-step-text">Conduct interview round 2</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">12</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Complete reference check and background verification</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 13–15</span>Phase 4: Decision &amp; Onboarding Offer</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">13</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Take hiring decision based on the comprehensive report generated</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">14</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Get offer letter approval from reporting manager and DP</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">15</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Release offer letter via official email and obtain signed candidate acceptance</div></div></div></div></div>
 <div style="display:none"><div class="table-wrap">
   <table>
     <thead><tr><th>Identify the recruitment need
@@ -11570,7 +11660,7 @@ html, body {
       </div>
       <div class="annex-modal-actions">
         <button type="button" class="annex-modal-dl-btn" id="annexModalDlBtn" onclick="downloadActiveAnnex()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           Download File
         </button>
         <button type="button" class="annex-modal-close" onclick="closeAnnexModal()" aria-label="Close document">&times;</button>
@@ -11759,11 +11849,10 @@ html, body {
         var legX = padding + 80;
         function addLegItem(colorObj, label) {
           svgParts.push('<rect x="' + legX + '" y="' + (legY - 8) + '" width="14" height="14" rx="3" fill="' + colorObj.fill + '" stroke="' + colorObj.stroke + '"/>');
-          svgParts.push('<rect x="' + legX + '" y="' + (legY - 8) + '" width="3.5" height="' + nh_legend + '" rx="1" fill="' + colorObj.stripe + '"/>');
+          svgParts.push('<rect x="' + legX + '" y="' + (legY - 8) + '" width="3.5" height="14" rx="1" fill="' + colorObj.stripe + '"/>');
           svgParts.push('<text x="' + (legX + 20) + '" y="' + (legY + 4) + '" style="font-size:12px;font-weight:600;fill:#334155;">' + label + '</text>');
           legX += label.length * 7 + 55;
         }
-        var nh_legend = 14;
         addLegItem(colorMap['dp'], 'Per DP');
         addLegItem(colorMap['outlet'], 'Per Outlet');
         addLegItem(colorMap['volume'], 'Volume Based');
@@ -11988,7 +12077,7 @@ html, body {
             <ul style="padding-left:20px;margin-bottom:16px;">
               <li><strong>Territory Exclusivity:</strong> Dealer partners have primary marketing and lead generation responsibility for assigned pin codes.</li>
               <li><strong>Lead Routing Governance:</strong> OEM digital leads generated from customer IP or residential pin codes are automatically routed to the designated DWA dealer partner.</li>
-              <li><strong>Cross-Territory Sales Protocol:</strong> Walk-in customers from outside the DWA must be served with equal hospitality; however, active outdoor marketing or B2B poaching in an adjacent dealer's DWA is strictly prohibited without prior OEM zonal approval.</li>
+              <li><strong>Cross-Territory Sales Protocol:</strong> Walk-in customers from outside the DWA must be served with equal hospitality; however, active outdoor marketing or B2B poaching in an adjacent dealer\'s DWA is strictly prohibited without prior OEM zonal approval.</li>
               <li><strong>Showroom & Workshop Floor Demarcation:</strong> Minimum square footage and functional zoning standards (customer lounge, delivery bay, consulting pods, accessories studio) must strictly follow JSW Motors corporate identity guidelines.</li>
             </ul>
 
@@ -11999,7 +12088,7 @@ html, body {
                 <tr><td>Vehicle Display Area</td><td>3 to 8 vehicle pads depending on category (XPlus to Z)</td><td>Spot lighting, high-contrast floor, uninterrupted 360-degree walking clearance.</td></tr>
                 <tr><td>Digital Consultation Pods</td><td>2-4 dedicated acoustic booths</td><td>High-resolution interactive digital car configurator touchscreens.</td></tr>
                 <tr><td>Customer Delivery Bay</td><td>Dedicated indoor handover suite</td><td>Unveiling curtain mechanism, celebratory photography lighting, personalized welcome display.</td></tr>
-                <tr><td>Hospitality Lounge & Cafe</td><td>Minimum 6-12 guest seating</td><td>Freshly brewed premium refreshments, Wi-Fi connectivity, children's engagement corner.</td></tr>
+                <tr><td>Hospitality Lounge & Cafe</td><td>Minimum 6-12 guest seating</td><td>Freshly brewed premium refreshments, Wi-Fi connectivity, children\'s engagement corner.</td></tr>
               </tbody>
             </table>
           `
@@ -12071,7 +12160,7 @@ html, body {
         clearTimeout(window._toastTimeout);
         window._toastTimeout = setTimeout(function(){ toast.classList.remove('show'); }, 3500);
       };
-    
+
 </script>
 </body>
 </html>
