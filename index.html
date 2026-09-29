@@ -48,13 +48,7 @@
   gap: 10px;
 }
 .jsw-card-title::before {
-  content: '';
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--gold, #1B1B1B);
-  box-shadow: 0 0 10px rgba(54, 54, 54, 0.5);
+  display: none !important;
 }
 
 .jsw-diagram-scaler {
@@ -162,9 +156,7 @@
   color: var(--grey-700, #484848);
 }
 .jsw-interactive-card.is-inline .jsw-card-title::before {
-  width: 5px;
-  height: 5px;
-  box-shadow: none;
+  display: none !important;
 }
 .jsw-interactive-card.is-inline .jsw-diagram-scaler {
   background: transparent;
@@ -1932,10 +1924,10 @@ body.orgchart-fs-lock{overflow:hidden}
 }
 .legend-chip{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--grey-700);font-weight:600}
 .legend-swatch{width:12px;height:12px;border-radius:3px;flex-shrink:0}
-.legend-swatch.norm-dp{background:var(--ink)}
-.legend-swatch.norm-outlet{background:var(--grey-300)}
+.legend-swatch.norm-dp{background:#18181b}
+.legend-swatch.norm-outlet{background:#4b5563}
 .legend-swatch.norm-volume{background:var(--gold)}
-.legend-swatch.norm-shared{background:repeating-linear-gradient(45deg,var(--white),var(--white) 2px,var(--gold) 2px,var(--gold) 4px)}
+.legend-swatch.norm-shared{background:repeating-linear-gradient(45deg,#2d3748,#2d3748 2px,#f59e0b 2px,#f59e0b 4px)}
 .legend-line{width:18px;height:0;border-top:1.5px solid var(--grey-500);flex-shrink:0}
 .legend-line.dashed{border-top:1.5px dashed var(--gold)}
 
@@ -1967,14 +1959,33 @@ body.orgchart-fs-lock{overflow:hidden}
   color:var(--ink);line-height:1.3;box-shadow:0 2px 6px rgba(0,0,0,0.03);
   width:106px;word-break:normal;
 }
-.tree .node.norm-dp{border-left-color:var(--ink)}
-.tree .node.norm-outlet{border-left-color:var(--grey-300)}
-.tree .node.norm-volume{border-left-color:var(--gold)}
-.tree .node.norm-shared{
-  border-left-color:var(--gold);
-  background:repeating-linear-gradient(45deg,var(--white),var(--white) 5px,var(--paper) 5px,var(--paper) 10px);
+.tree .node.norm-dp{
+  background:#18181b;
+  color:#ffffff;
+  border:1px solid #09090b;
+  border-left:4px solid #000000;
+  box-shadow:0 3px 8px rgba(0,0,0,0.22);
 }
-.tree .node.root{background:var(--ink);border-color:var(--ink);color:var(--white);font-size:12.5px}
+.tree .node.norm-outlet{
+  background:#4b5563;
+  color:#ffffff;
+  border:1px solid #374151;
+  border-left:4px solid #1f2937;
+  box-shadow:0 3px 8px rgba(0,0,0,0.14);
+}
+.tree .node.norm-volume{
+  background:#fffbeb;
+  color:#78350f;
+  border:1px solid #fde68a;
+  border-left:4px solid #d97706;
+}
+.tree .node.norm-shared{
+  background:repeating-linear-gradient(45deg,#2d3748,#2d3748 5px,#1a202c 5px,#1a202c 10px);
+  color:#ffffff;
+  border:1px solid #1a202c;
+  border-left:4px solid #f59e0b;
+}
+.tree .node.root{background:#000000;border-color:#000000;color:var(--white);font-size:12.5px}
 .yes-cell{font-weight:700;color:var(--ink)}
 
 /* ============ TOPBAR ACTIONS & TOOLBAR ============ */
@@ -5168,7 +5179,7 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
         </a>
         <a class="hero-cell" href="#ch2" onclick="scrollToSection('ch2', event)">
           <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg> Workforce Planning</h4>
-          <p>Org Structure · Role Architecture</p>
+          <p>Org Structure · Job Descriptions</p>
         </a>
         <a class="hero-cell is-locked" href="javascript:void(0)" aria-disabled="true" title="Workforce Development">
           <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4-8 4-8-4 8-4z"/><path d="M4 11l8 4 8-4M4 15l8 4 8-4"/></svg> Workforce Development</h4>
@@ -5303,7 +5314,7 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
     <div class="banner-kicker"><span class="banner-tick"></span><span class="pd-num">Part 01</span></div>
     <h2 class="banner-title"><span class="pd-name">Workforce Planning and Selection</span></h2>
     <div class="banner-accent-line"></div>
-    <div class="banner-contents"><span>Dealership Organisation Structure &middot; Role Architecture &middot; Recruitment &amp; Selection &middot; Joining and Confirmation</span></div>
+    <div class="banner-contents"><span>Dealership Organisation Structure &middot; Job Descriptions &middot; Recruitment and Selection &middot; Compensation, Benefits, and Incentive Policy &middot; Joining and Confirmation</span></div>
   </div>
 </div>
 <section class="chap alt" id="ch2">
@@ -5397,7 +5408,7 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
   </div>
 </div>
 
-<h3 class="sub-title subhead" id="ch2-1">Factors governing the structure:</h3>
+<h3 class="sub-title subhead" id="ch2-factors">Factors governing the structure:</h3>
 <div class="pull">Carefully review the volume norms shared by JSW Motors and plan your workforce accordingly.</div>
 
 <div class="jsw-interactive-card is-inline" id="card-visual-3">
@@ -5455,7 +5466,7 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 </div>
 
 
-<h3 class="sub-title subhead">Recommended Organisation Chart</h3>
+<h3 class="sub-title subhead" id="ch2-1">Recommended Organisation Chart</h3>
 <p><em>Note: Defined as per the volume norms and city category.</em></p>
 <ul class="list-clean" style="margin-bottom:18px;">
   <li><strong>Chart 1.1:</strong> Recommended sales organisation structure - X Category</li>
@@ -5738,7 +5749,7 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 <section class="chap" id="ch1">
   <div class="chap-head reveal">
     <div class="chap-num">CHAPTER 2</div>
-    <h2 class="sec-title">Role Architecture</h2>
+    <h2 class="sec-title">Job Descriptions</h2>
     <div class="rule"></div>
 <div class="ch-thumb" style="--ch-img:var(--tx-c); --ch-pos: center 60%;"></div>
   </div>
@@ -8847,7 +8858,7 @@ The following code of Conduct applies to all the retail partner and its employee
 <p>This section consolidates all standard templates, forms, letters, checklists, and reference formats referenced across the JSW Motors Dealership HR Manual. Each form is mapped to its parent chapter for operational ease.</p>
 </div>
 <div class="prose reveal" style="margin-top:24px">
-<h3 class="sub-title subhead" id="annex-1" style="margin-bottom:12px">2. Role Architecture</h3>
+<h3 class="sub-title subhead" id="annex-1" style="margin-bottom:12px">2. Job Descriptions</h3>
 <ul class="list-clean">
 <li style="margin-bottom:8px"><strong style="color:var(--navy);font-family:monospace;font-size:13px;display:inline-block;min-width:40px">2A.</strong> Job Description Template</li>
 <li style="margin-bottom:8px"><strong style="color:var(--navy);font-family:monospace;font-size:13px;display:inline-block;min-width:40px">2B.</strong> All Job Descriptions</li>
@@ -8967,87 +8978,76 @@ const TOC = [
     {id:'fm-ii', num:'ii', label:'JSW Brand Vision and Foundation', live:true},
     {id:'fm-iii', num:'iii', label:'Role and Importance of Human Resources', live:true},
   ]},
-  {group:'Part 01 · Workforce Planning and Selection', items:[
+  {group:'Manpower Planning and Selection', items:[
     {id:'ch2', num:'1', label:'Dealership Organization Structure', live:true, subs:[
-      {id:'ch2-1', num:'1.1', label:'Recommended Organisation Chart'},
-      {id:'ch2-2', num:'1.2', label:'Workforce Attrition'}
+      {id:'ch2-1', num:'1.1', label:'Recommended Organisation Chart'}
     ]},
-    {id:'ch1', num:'2', label:'Role Architecture', live:true},
-    {id:'ch3', num:'3', label:'Recruitment & Selection', live:false, subs:[
+    {id:'ch1', num:'2', label:'Job Descriptions', live:true},
+    {id:'ch3', num:'3', label:'Recruitment and Selection', live:false, subs:[
       {id:'ch3-1', num:'3.1', label:'Recruitment and Selection Process'},
-      {id:'ch3-2', num:'3.2', label:'Recruitment Need and Sourcing'},
-      {id:'ch3-3', num:'3.3', label:'Assessment and Selection'},
-      {id:'ch3-4', num:'3.4', label:'Reference Checks and Background Verification'},
-      {id:'ch3-5', num:'3.5', label:'Components of Salary'},
-      {id:'ch3-6', num:'3.6', label:'Benefits'},
-      {id:'ch3-7', num:'3.7', label:'Changes in Salary'},
-      {id:'ch3-8', num:'3.8', label:'Incentive Scheme'},
-      {id:'ch3-9', num:'3.9', label:'Timelines for Compensation, Benefits and Incentive Processing Workflow'},
-      {id:'ch3-10', num:'3.10', label:'Recruitment KPIs'},
-      {id:'ch3-11', num:'3.11', label:'Best Practice'}
+      {id:'ch3-2', num:'3.2', label:'Best Practice'}
     ]},
-    {id:'ch4', num:'4', label:'Joining and Confirmation', live:false, subs:[
-      {id:'ch4-1', num:'4.1', label:'Joining'},
-      {id:'ch4-2', num:'4.2', label:'Induction'},
-      {id:'ch4-3', num:'4.3', label:'Confirmation'},
-      {id:'ch4-4', num:'4.4', label:'Best Practice'}
+    {id:'ch4', num:'4', label:'Compensation, Benefits, and Incentive Policy', live:false, subs:[
+      {id:'ch4-1', num:'4.1', label:'Components of Salary'},
+      {id:'ch4-2', num:'4.2', label:'Perks'},
+      {id:'ch4-3', num:'4.3', label:'Changes in Salary'},
+      {id:'ch4-4', num:'4.4', label:'Incentive Scheme'},
+      {id:'ch4-5', num:'4.5', label:'Best Practice'}
+    ]},
+    {id:'ch5', num:'5', label:'Joining and Confirmation', live:false, subs:[
+      {id:'ch5-1', num:'5.1', label:'Joining and Induction Process'},
+      {id:'ch5-2', num:'5.2', label:'Probation and Confirmation Process'},
+      {id:'ch5-3', num:'5.3', label:'Best Practice'}
     ]},
   ]},
-  {group:'Part 02 · Workforce Development', items:[
-    {id:'ch5', num:'5', label:'Learning and Development', live:false, subs:[
-      {id:'ch5-1', num:'5.1', label:'Learner Journey'},
-      {id:'ch5-2', num:'5.2', label:'Using the LMS'},
-      {id:'ch5-3', num:'5.3', label:'HR Governance'},
-      {id:'ch5-4', num:'5.4', label:'Best Practices'}
+  {group:'Manpower Development', items:[
+    {id:'ch6', num:'6', label:'Learning and Development', live:false, subs:[
+      {id:'ch6-1', num:'6.1', label:"Learner's Journey"},
+      {id:'ch6-2', num:'6.2', label:'Introduction to Training Management System'},
+      {id:'ch6-3', num:'6.3', label:'Monthly In-house Training Calendar Planning Process'},
+      {id:'ch6-4', num:'6.4', label:'Non-availability/ Absenteeism for JSW Motors Trainings'},
+      {id:'ch6-5', num:'6.5', label:'Failing an Assessment in JSW Motors Trainings'},
+      {id:'ch6-6', num:'6.6', label:'Introduction to Learning Management System (LMS)'},
+      {id:'ch6-7', num:'6.7', label:'HR & IDT Governance'},
+      {id:'ch6-8', num:'6.8', label:'Best Practice'}
     ]},
-    {id:'ch6', num:'6', label:'Performance Management', live:false, subs:[
-      {id:'ch6-1', num:'6.1', label:'Performance Management Cycle'},
-      {id:'ch6-2', num:'6.2', label:'Performance Management Process'},
-      {id:'ch6-3', num:'6.3', label:'Setting Goals'},
-      {id:'ch6-4', num:'6.4', label:'Quarterly and Mid-year Review'},
-      {id:'ch6-5', num:'6.5', label:'The Annual Appraisal and Ratings'},
-      {id:'ch6-6', num:'6.6', label:'Handling Underperformance'},
-      {id:'ch6-7', num:'6.7', label:'Best Practices'}
+    {id:'ch7', num:'7', label:'Performance Management', live:false, subs:[
+      {id:'ch7-1', num:'7.1', label:'Career Driven Performance Management'},
+      {id:'ch7-2', num:'7.2', label:'Performance Management Process'},
+      {id:'ch7-3', num:'7.3', label:'Business Driven Performance Management'}
     ]},
-    {id:'ch7', num:'7', label:'Career Progression', live:false, subs:[
-      {id:'ch7-1', num:'7.1', label:'Career Progression Routes'},
-      {id:'ch7-2', num:'7.2', label:'Requirements for Career Progression'},
-      {id:'ch7-3', num:'7.3', label:'Promotion Process'},
-      {id:'ch7-4', num:'7.4', label:'Cross Department Movement'},
-      {id:'ch7-5', num:'7.5', label:'Best Practices'}
+    {id:'ch8', num:'8', label:'Career Progression', live:false, subs:[
+      {id:'ch8-1', num:'8.1', label:'Career Progression Routes'},
+      {id:'ch8-2', num:'8.2', label:'Promotion Process'},
+      {id:'ch8-3', num:'8.3', label:'Lateral Movement'}
     ]},
-  ]},
-  {group:'Part 03 · Compensation and Rewards', items:[
-    {id:'ch8', num:'8', label:'Employee Engagement, Rewards & Recognition', live:false, subs:[
-      {id:'ch8-1', num:'8.1', label:'Suggested Engagement Calendar'},
-      {id:'ch8-2', num:'8.2', label:'Rewards and Recognition Calendar'},
-      {id:'ch8-3', num:'8.3', label:'Spot Recognition'},
-      {id:'ch8-4', num:'8.4', label:'Best Practices'}
+    {id:'ch9', num:'9', label:'Employee Engagement, Rewards and Recognition', live:false, subs:[
+      {id:'ch9-1', num:'9.1', label:'Employee Engagement Activities'},
+      {id:'ch9-2', num:'9.2', label:'Rewards and Recognition'},
+      {id:'ch9-3', num:'9.3', label:'Best Practice'}
     ]},
   ]},
-  {group:'Part 04 · Workplace Governance', items:[
-    {id:'ch9', num:'9', label:'Employee Exit Management', live:false, subs:[
-      {id:'ch9-1', num:'9.1', label:'Exit Process'},
-      {id:'ch9-2', num:'9.2', label:'Best Practice'}
-    ]},
+  {group:'Manpower Governance', items:[
     {id:'ch10', num:'10', label:'Discipline & Conduct', live:false, subs:[
       {id:'ch10-1', num:'10.1', label:'Code of Conduct'},
-      {id:'ch10-2', num:'10.2', label:'The Disciplinary Process'},
-      {id:'ch10-3', num:'10.3', label:'POSH: Prevention of Sexual Harassment'},
-      {id:'ch10-4', num:'10.4', label:'Grievance Handling'},
-      {id:'ch10-5', num:'10.5', label:'Best Practice'}
+      {id:'ch10-2', num:'10.2', label:'Serious Misconduct Leading to Immediate Termination'},
+      {id:'ch10-3', num:'10.3', label:'The Disciplinary Process'},
+      {id:'ch10-4', num:'10.4', label:'POSH: Prevention of Sexual Harassment'},
+      {id:'ch10-5', num:'10.5', label:'Grievance Handling'}
     ]},
-    {id:'ch11', num:'11', label:'Organisation Policies', live:false, subs:[
-      {id:'ch11-1', num:'11.1', label:'Working Hours and Week-off'},
-      {id:'ch11-2', num:'11.2', label:'Attendance'},
-      {id:'ch11-3', num:'11.3', label:'Leave'},
-      {id:'ch11-4', num:'11.4', label:'Holidays'},
-      {id:'ch11-5', num:'11.5', label:'Travel'},
-      {id:'ch11-6', num:'11.6', label:'Best Practice'}
+    {id:'ch11', num:'11', label:'Employee Exit Management', live:false, subs:[
+      {id:'ch11-1', num:'11.1', label:'Exit Process'},
+      {id:'ch11-2', num:'11.2', label:'Manpower Attrition'}
+    ]},
+    {id:'ch12', num:'12', label:'Organisation Policies', live:false, subs:[
+      {id:'ch12-1', num:'12.1', label:'Working Hours, Attendance and Week-off Policy'},
+      {id:'ch12-2', num:'12.2', label:'Leaves and Holiday Policy'},
+      {id:'ch12-3', num:'12.3', label:'Travel Policy'},
+      {id:'ch12-4', num:'12.4', label:'Uniform Policy'}
     ]},
   ]},
-  {group:'Part 05 · Annexure & Reference Documents', items:[
-    {id:'annexure', num:'12', label:'Annexure', live:false}
+  {group:'ANNEXURE', items:[
+    {id:'annexure', num:'', label:'Annexure', live:false}
   ]},
 ];
 
@@ -9085,7 +9085,7 @@ if(grid){
       let sublist = null;
       let toggleBtn = null;
       
-      if(it.subs && it.subs.length > 0 && !isLocked){
+      if(it.subs && it.subs.length > 0){
         toggleBtn = document.createElement('button');
         toggleBtn.type = 'button';
         toggleBtn.className = 'di-toggle';
@@ -9098,16 +9098,24 @@ if(grid){
         
         it.subs.forEach(sub=>{
           const sa = document.createElement('a');
-          sa.className = 'dropdown-subitem';
-          sa.href = '#' + sub.id;
-          sa.dataset.target = sub.id;
+          sa.className = 'dropdown-subitem' + (isLocked ? ' is-disabled' : '');
+          if(isLocked){
+            sa.href = 'javascript:void(0)';
+            sa.setAttribute('aria-disabled', 'true');
+            sa.style.opacity = '0.5';
+            sa.style.cursor = 'not-allowed';
+            sa.style.pointerEvents = 'none';
+          } else {
+            sa.href = '#' + sub.id;
+            sa.dataset.target = sub.id;
+            sa.addEventListener('click', (e)=>{
+              e.preventDefault();
+              e.stopPropagation();
+              scrollToSection(sub.id);
+              toggleMenu(false);
+            });
+          }
           sa.innerHTML = '<span class="ds-num">' + sub.num + '</span><span class="ds-label">' + sub.label + '</span>';
-          sa.addEventListener('click', (e)=>{
-            e.preventDefault();
-            e.stopPropagation();
-            scrollToSection(sub.id);
-            toggleMenu(false);
-          });
           sublist.appendChild(sa);
         });
         
