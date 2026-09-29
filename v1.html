@@ -5035,6 +5035,273 @@ html, body {
   }
 }
 
+
+/* ============ ENHANCED ORG CHART NODES, SHADES & LEGEND ============ */
+.tree .node {
+  display: inline-block !important;
+  border-radius: 8px !important;
+  padding: 10px 12px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  width: 130px !important;
+  min-height: 52px !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06) !important;
+  word-break: normal !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+.tree .node:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12) !important;
+}
+.tree .node.norm-dp {
+  background: #111827 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #1f2937 !important;
+  border-left: 5px solid #000000 !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.24) !important;
+}
+.tree .node.norm-outlet {
+  background: #3b4858 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #283340 !important;
+  border-left: 5px solid #64748b !important;
+  box-shadow: 0 4px 10px rgba(59,72,88,0.2) !important;
+}
+.tree .node.norm-volume {
+  background: #fffbeb !important;
+  color: #78350f !important;
+  border: 1.5px solid #fcd34d !important;
+  border-left: 5px solid #d97706 !important;
+  box-shadow: 0 4px 10px rgba(217,119,6,0.14) !important;
+}
+.tree .node.norm-shared {
+  background: #1e1b4b !important;
+  color: #ffffff !important;
+  border: 1.5px solid #312e81 !important;
+  border-left: 5px solid #f59e0b !important;
+  box-shadow: 0 4px 12px rgba(30,27,75,0.25) !important;
+}
+
+.legend-swatch.norm-dp { background: #111827 !important; border: 1px solid #000000 !important; }
+.legend-swatch.norm-outlet { background: #3b4858 !important; border: 1px solid #283340 !important; }
+.legend-swatch.norm-volume { background: #fffbeb !important; border: 1.5px solid #d97706 !important; }
+.legend-swatch.norm-shared { background: #1e1b4b !important; border: 1.5px solid #f59e0b !important; }
+
+.orgchart-legend.orgchart-legend-top {
+  border-top: none !important;
+  border-bottom: 1px solid var(--line-100) !important;
+  background: #fafaf9 !important;
+  padding: 10px 20px !important;
+}
+
+.orgchart-dl-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  border: 1px solid var(--line-200) !important;
+  background: var(--white) !important;
+  color: var(--ink) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+}
+.orgchart-dl-btn:hover {
+  background: var(--grey-100) !important;
+  border-color: var(--grey-400) !important;
+  color: #000000 !important;
+}
+
+.annex-view-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  border-radius: 6px !important;
+  background: #111827 !important;
+  border: 1px solid #000000 !important;
+  color: #ffffff !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.4px !important;
+  text-transform: uppercase !important;
+  transition: all 0.18s ease !important;
+  white-space: nowrap !important;
+}
+.annex-file-item:hover .annex-view-badge {
+  background: #374151 !important;
+  color: #ffffff !important;
+  border-color: #374151 !important;
+}
+
+/* ============ ANNEXURE MODAL VIEWER ============ */
+.annex-modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(15, 23, 42, 0.72) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px 16px !important;
+}
+.annex-modal-backdrop.show {
+  display: flex !important;
+}
+.annex-modal-dialog {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  width: 100% !important;
+  max-width: 880px !important;
+  max-height: 88vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4) !important;
+  overflow: hidden !important;
+  border: 1px solid #cbd5e1 !important;
+}
+.annex-modal-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 16px 24px !important;
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid #1e293b !important;
+  gap: 16px !important;
+}
+.annex-modal-sub {
+  font-size: 10px !important;
+  letter-spacing: 1.5px !important;
+  color: #94a3b8 !important;
+  font-weight: 700 !important;
+  margin-bottom: 2px !important;
+}
+.annex-modal-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+}
+.annex-modal-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+.annex-modal-dl-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+.annex-modal-dl-btn:hover {
+  background: #f1f5f9 !important;
+  transform: translateY(-1px) !important;
+}
+.annex-modal-dl-btn.secondary {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
+.annex-modal-dl-btn.secondary:hover {
+  background: #1e293b !important;
+}
+.annex-modal-close {
+  background: transparent !important;
+  border: none !important;
+  color: #94a3b8 !important;
+  font-size: 26px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  padding: 0 4px !important;
+  transition: color 0.15s ease !important;
+}
+.annex-modal-close:hover {
+  color: #ffffff !important;
+}
+.annex-modal-body {
+  padding: 24px 28px !important;
+  overflow-y: auto !important;
+  flex: 1 1 auto !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+  color: #334155 !important;
+}
+.annex-modal-footer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 12px 24px !important;
+  background: #f8fafc !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+.annex-modal-footer-note {
+  font-size: 11.5px !important;
+  color: #64748b !important;
+  font-weight: 500 !important;
+}
+.annex-doc-header-box {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 14px 18px;
+  background: #f8fafc;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.annex-doc-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  font-weight: 700;
+}
+.annex-doc-val {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+}
+.annex-doc-sec-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  border-bottom: 1.5px solid #e2e8f0;
+  padding-bottom: 6px;
+  margin: 20px 0 10px;
+}
+.annex-doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 18px;
+  font-size: 13px;
+}
+.annex-doc-table th, .annex-doc-table td {
+  border: 1px solid #cbd5e1;
+  padding: 8px 12px;
+  text-align: left;
+}
+.annex-doc-table th {
+  background: #f1f5f9;
+  font-weight: 700;
+  color: #0f172a;
+}
+
 </style>
 
 <script>
@@ -5383,100 +5650,9 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
   </div>
 </div>
 
-<div class="jsw-interactive-card is-inline" id="card-visual-2">
-  <div class="jsw-card-header">
-    <div class="jsw-card-title">How The Structure Works</div>
-  </div>
-  <div class="jsw-card-body">
-    <div class="jsw-pipeline-flow">
-      <div class="jsw-pipeline-step jsw-pipeline-step-1">
-        <span class="jsw-pipeline-badge">01</span>
-        <div class="jsw-pipeline-title">What roles a dealership needs</div>
-        <div class="jsw-pipeline-sub">Sized to outlet category &amp; volume plan</div>
-      </div>
-      <div class="jsw-pipeline-step jsw-pipeline-step-2">
-        <span class="jsw-pipeline-badge">02</span>
-        <div class="jsw-pipeline-title">Reporting structure of each role</div>
-        <div class="jsw-pipeline-sub">Who each role answers to day to day</div>
-      </div>
-      <div class="jsw-pipeline-step jsw-pipeline-step-3">
-        <span class="jsw-pipeline-badge">03</span>
-        <div class="jsw-pipeline-title">Shared and dedicated roles</div>
-        <div class="jsw-pipeline-sub">Functions pooled across smaller outlets</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<h3 class="sub-title subhead" id="ch2-factors">Factors governing the structure:</h3>
-<div class="pull">Carefully review the volume norms shared by JSW Motors and plan your workforce accordingly.</div>
-
-<div class="jsw-interactive-card is-inline" id="card-visual-3">
-  <div class="jsw-card-header">
-    <div class="jsw-card-title">5 Factors That Shape Your Org Chart</div>
-  </div>
-  <div class="jsw-card-body">
-    <div class="jsw-factors-layout">
-      <div class="jsw-pyramid-col">
-        <div class="jsw-pyramid-tier jsw-tier-1">01</div>
-        <div class="jsw-pyramid-tier jsw-tier-2">02</div>
-        <div class="jsw-pyramid-tier jsw-tier-3">03</div>
-        <div class="jsw-pyramid-tier jsw-tier-4">04</div>
-        <div class="jsw-pyramid-tier jsw-tier-5">05</div>
-      </div>
-      <div class="jsw-factors-list">
-        <div class="jsw-factor-item">
-          <div class="jsw-factor-badge">01</div>
-          <div class="jsw-factor-info">
-            <div class="jsw-factor-title">Business Plan</div>
-            <div class="jsw-factor-desc">Enquiry flow and retail targets</div>
-          </div>
-        </div>
-        <div class="jsw-factor-item">
-          <div class="jsw-factor-badge">02</div>
-          <div class="jsw-factor-info">
-            <div class="jsw-factor-title">Business Volume</div>
-            <div class="jsw-factor-desc">New, used, corporate deals &amp; add-ons</div>
-          </div>
-        </div>
-        <div class="jsw-factor-item">
-          <div class="jsw-factor-badge">03</div>
-          <div class="jsw-factor-info">
-            <div class="jsw-factor-title">City Tier</div>
-            <div class="jsw-factor-desc">Where the dealership is located — Tier 1, 2, 3</div>
-          </div>
-        </div>
-        <div class="jsw-factor-item">
-          <div class="jsw-factor-badge">04</div>
-          <div class="jsw-factor-info">
-            <div class="jsw-factor-title">Productivity Norms</div>
-            <div class="jsw-factor-desc">Set against JSW Motors volume benchmarks</div>
-          </div>
-        </div>
-        <div class="jsw-factor-item">
-          <div class="jsw-factor-badge">05</div>
-          <div class="jsw-factor-info">
-            <div class="jsw-factor-title">Outlet Type</div>
-            <div class="jsw-factor-desc">2S or 3S format</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<h3 class="sub-title subhead" id="ch2-1">Recommended Organisation Chart</h3>
+<h3 class="sub-title subhead" id="ch2-1" style="margin-top:28px;">Recommended Organisation Chart</h3>
 <p><em>Note: Defined as per the volume norms and city category.</em></p>
-<ul class="list-clean" style="margin-bottom:18px;">
-  <li><strong>Chart 1.1:</strong> Recommended sales organisation structure - X Category</li>
-  <li><strong>Chart 1.2:</strong> Recommended sales organisation structure - XPlus Category</li>
-  <li><strong>Chart 1.3:</strong> Recommended sales organisation structure - Y Category</li>
-  <li><strong>Chart 1.4:</strong> Recommended sales organisation structure - Z Category</li>
-  <li><strong>Chart 1.5:</strong> Recommended sales organisation structure, ZNext Category (Standalone)</li>
-  <li><strong>Chart 1.6:</strong> Recommended sales organisation structure - ZNext Category (Extended)</li>
-</ul>
-<div class="orgchart-stage" id="orgStage">
+<div class="orgchart-stage"  id="orgStage">
   <div class="orgchart-toolbar">
     <div class="orgchart-tabs" id="orgTabs"></div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -5491,9 +5667,14 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
         </button>
       </div>
       <button type="button" class="orgchart-fs-btn" id="orgFsBtn" aria-pressed="false"></button>
+      <button type="button" class="orgchart-dl-btn" id="orgDlBtn" onclick="downloadOrgChart()" title="Download flowchart" aria-label="Download Flowchart">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>Download Chart</span>
+      </button>
     </div>
   </div>
   <div class="orgchart-card">
+    <div class="orgchart-legend orgchart-legend-top" id="orgLegendTop"></div>
     <div class="orgchart-wrap">
       <svg id="orgCoordSvg" class="orgchart-svg"></svg>
       <ul class="tree" id="orgTree"></ul>
@@ -5504,59 +5685,7 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 <div class="tree-store" id="orgTreeCat0" style="display:none"><ul class="tree"><li><div class="node norm-dp" data-name="DP / CEO">DP / CEO</div><ul><li><div class="node norm-dp" data-name="CFO">CFO</div><ul><li><div class="node norm-outlet" data-name="Accountant">Accountant</div></li><li><div class="node norm-outlet" data-name="Cashier">Cashier</div></li></ul></li><li><div class="node norm-dp" data-name="Business Head – Sales / GM Sales">Business Head – Sales / GM Sales</div><ul><li><div class="node norm-dp" data-name="Marketing Manager">Marketing Manager</div><ul><li><div class="node norm-outlet" data-name="Marketing Executive">Marketing Executive</div></li><li><div class="node norm-dp" data-name="Digital Engagement Manager">Digital Engagement Manager</div></li></ul></li><li><div class="node norm-volume" data-name="Sales Manager">Sales Manager</div><ul><li><div class="node norm-volume" data-name="Sales Team Leader">Sales Team Leader</div></li><li><div class="node norm-volume" data-name="Sales Consultant">Sales Consultant</div></li></ul></li><li><div class="node norm-dp" data-name="Internal Dealer Trainer">Internal Dealer Trainer</div><ul><li><div class="node norm-volume" data-name="Car Finance">Car Finance</div></li><li><div class="node norm-volume" data-name="Car Insurance">Car Insurance</div></li><li><div class="node norm-outlet" data-name="Test Drive Coordinator">Test Drive Coordinator</div><ul><li><div class="node norm-outlet" data-name="Driver / Valet">Driver / Valet</div></li></ul></li><li><div class="node norm-volume" data-name="Car Registration &amp; Delivery (Sales Admin)">Car Registration &amp; Delivery (Sales Admin)</div></li><li><div class="node norm-outlet" data-name="Car Evaluator">Car Evaluator</div></li><li><div class="node norm-outlet" data-name="Acc. Sales Executive">Acc. Sales Executive</div></li><li><div class="node norm-outlet" data-name="Used Car Consultant">Used Car Consultant</div></li></ul></li><li><div class="node norm-dp" data-name="Corporate Sales Manager">Corporate Sales Manager</div><ul><li><div class="node norm-outlet" data-name="Corporate Sales Executive">Corporate Sales Executive</div></li><li><div class="node norm-outlet" data-name="EDP">EDP</div></li></ul></li></ul></li><li><div class="node norm-dp" data-name="HR Manager">HR Manager</div><ul><li><div class="node norm-dp" data-name="HR Executive / Admin">HR Executive / Admin</div></li><li><div class="node norm-outlet" data-name="Security">Security</div></li></ul></li><li><div class="node norm-dp" data-name="CR Head (Sales)">CR Head (Sales)</div><ul><li><div class="node norm-volume" data-name="CRM Sales">CRM Sales</div><ul><li><div class="node norm-volume" data-name="CRE Sales">CRE Sales</div></li><li><div class="node norm-outlet" data-name="Delivery Coordinator">Delivery Coordinator</div></li><li><div class="node norm-outlet" data-name="Hostess">Hostess</div><ul><li><div class="node norm-outlet" data-name="Housekeeping (SR)">Housekeeping (SR)</div></li><li><div class="node norm-outlet" data-name="Pantry Team">Pantry Team</div></li></ul></li></ul></li></ul></li></ul></li></ul></div><div class="tree-store" id="orgTreeCat1" style="display:none"><ul class="tree"><li><div class="node norm-dp" data-name="DP / CEO">DP / CEO</div><ul><li><div class="node norm-dp" data-name="Accounts &amp; Finance Head">Accounts &amp; Finance Head</div><ul><li><div class="node norm-outlet" data-name="Accountant">Accountant</div></li><li><div class="node norm-outlet" data-name="Cashier">Cashier</div></li></ul></li><li><div class="node norm-dp" data-name="Business Head – Sales / GM Sales">Business Head – Sales / GM Sales</div><ul><li><div class="node norm-dp" data-name="Marketing Manager">Marketing Manager</div><ul><li><div class="node norm-dp" data-name="Digital Engagement Manager">Digital Engagement Manager</div></li></ul></li><li><div class="node norm-volume" data-name="Sales Team Leader">Sales Team Leader</div><ul><li><div class="node norm-volume" data-name="Sales Consultant">Sales Consultant</div></li></ul></li><li><div class="node norm-dp" data-name="Internal Dealer Trainer">Internal Dealer Trainer</div><ul><li><div class="node norm-volume" data-name="Car Finance">Car Finance</div></li><li><div class="node norm-volume" data-name="Car Insurance">Car Insurance</div></li><li><div class="node norm-outlet" data-name="Test Drive Coordinator">Test Drive Coordinator</div><ul><li><div class="node norm-outlet" data-name="Driver / Valet">Driver / Valet</div></li></ul></li><li><div class="node norm-volume" data-name="Car Registration &amp; Delivery (Sales Admin)">Car Registration &amp; Delivery (Sales Admin)</div></li><li><div class="node norm-outlet" data-name="Car Evaluator">Car Evaluator</div></li><li><div class="node norm-outlet" data-name="Acc. Sales Executive">Acc. Sales Executive</div></li><li><div class="node norm-outlet" data-name="Used Car Consultant">Used Car Consultant</div></li></ul></li><li><div class="node norm-dp" data-name="Corporate Sales Manager">Corporate Sales Manager</div><ul><li><div class="node norm-outlet" data-name="EDP">EDP</div></li></ul></li></ul></li><li><div class="node norm-dp" data-name="HR Manager">HR Manager</div><ul><li><div class="node norm-dp" data-name="HR Executive / Admin">HR Executive / Admin</div></li><li><div class="node norm-outlet" data-name="Security">Security</div></li></ul></li><li><div class="node norm-dp" data-name="CR Head (Sales)">CR Head (Sales)</div><ul><li><div class="node norm-volume" data-name="CRM Sales">CRM Sales</div><ul><li><div class="node norm-volume" data-name="CRE Sales">CRE Sales</div></li><li><div class="node norm-outlet" data-name="Delivery Coordinator">Delivery Coordinator</div></li><li><div class="node norm-outlet" data-name="Hostess">Hostess</div><ul><li><div class="node norm-outlet" data-name="Housekeeping (SR)">Housekeeping (SR)</div></li><li><div class="node norm-outlet" data-name="Pantry Team">Pantry Team</div></li></ul></li></ul></li></ul></li></ul></li></ul></div><div class="tree-store" id="orgTreeCat2" style="display:none"><ul class="tree"><li><div class="node norm-dp" data-name="DP / CEO">DP / CEO</div><ul><li><div class="node norm-dp" data-name="Accounts &amp; Finance Head">Accounts &amp; Finance Head</div><ul><li><div class="node norm-outlet" data-name="Accountant">Accountant</div></li><li><div class="node norm-outlet" data-name="Cashier">Cashier</div></li></ul></li><li><div class="node norm-dp" data-name="Business Head – Sales / GM Sales">Business Head – Sales / GM Sales</div><ul><li><div class="node norm-dp" data-name="Marketing Manager">Marketing Manager</div><ul><li><div class="node norm-dp" data-name="Digital Engagement Manager">Digital Engagement Manager</div></li></ul></li><li><div class="node norm-volume" data-name="Sales Team Leader">Sales Team Leader</div><ul><li><div class="node norm-volume" data-name="Sales Consultant">Sales Consultant</div></li></ul></li><li><div class="node norm-dp" data-name="Internal Dealer Trainer">Internal Dealer Trainer</div><ul><li><div class="node norm-volume" data-name="Car Finance">Car Finance</div></li><li><div class="node norm-volume" data-name="Car Insurance">Car Insurance</div></li><li><div class="node norm-outlet" data-name="Test Drive Coordinator">Test Drive Coordinator</div><ul><li><div class="node norm-outlet" data-name="Driver / Valet">Driver / Valet</div></li></ul></li><li><div class="node norm-volume" data-name="Car Registration &amp; Delivery (Sales Admin)">Car Registration &amp; Delivery (Sales Admin)</div></li><li><div class="node norm-outlet" data-name="Car Evaluator">Car Evaluator</div></li><li><div class="node norm-outlet" data-name="Acc. Sales Executive">Acc. Sales Executive</div></li><li><div class="node norm-outlet" data-name="Used Car Consultant">Used Car Consultant</div></li></ul></li><li><div class="node norm-dp" data-name="Corporate Sales Manager">Corporate Sales Manager</div><ul><li><div class="node norm-outlet" data-name="EDP">EDP</div></li></ul></li></ul></li><li><div class="node norm-dp" data-name="HR Manager">HR Manager</div><ul><li><div class="node norm-outlet" data-name="Security">Security</div></li></ul></li><li><div class="node norm-volume" data-name="CRM Sales">CRM Sales</div><ul><li><div class="node norm-volume" data-name="CRE Sales">CRE Sales</div></li><li><div class="node norm-outlet" data-name="Delivery Coordinator">Delivery Coordinator</div></li><li><div class="node norm-outlet" data-name="Hostess">Hostess</div><ul><li><div class="node norm-outlet" data-name="Housekeeping (SR)">Housekeeping (SR)</div></li><li><div class="node norm-outlet" data-name="Pantry Team">Pantry Team</div></li></ul></li></ul></li></ul></li></ul></div><div class="tree-store" id="orgTreeCat3" style="display:none"><ul class="tree"><li><div class="node norm-dp" data-name="Dealer Principal">Dealer Principal</div><ul><li><div class="node norm-dp" data-name="Accounts &amp; Finance Head">Accounts &amp; Finance Head</div><ul><li><div class="node norm-outlet" data-name="Cashier">Cashier</div></li></ul></li><li><div class="node norm-dp" data-name="Business Head – Sales / GM Sales">Business Head – Sales / GM Sales</div><ul><li><div class="node norm-outlet" data-name="Marketing Executive">Marketing Executive</div></li><li><div class="node norm-volume" data-name="Sales Team Leader">Sales Team Leader</div><ul><li><div class="node norm-volume" data-name="Sales Consultant">Sales Consultant</div></li></ul></li><li><div class="node norm-dp" data-name="Internal Dealer Trainer">Internal Dealer Trainer</div><ul><li><div class="node norm-outlet" data-name="Driver / Valet">Driver / Valet</div></li><li><div class="node norm-outlet" data-name="Acc. Sales Executive">Acc. Sales Executive</div></li></ul></li><li><div class="node norm-outlet" data-name="Corporate Sales Executive">Corporate Sales Executive</div><ul><li><div class="node norm-outlet" data-name="EDP">EDP</div></li></ul></li></ul></li><li><div class="node norm-dp" data-name="HR Manager">HR Manager</div><ul><li><div class="node norm-outlet" data-name="Security">Security</div></li></ul></li><li><div class="node norm-volume" data-name="CRM Sales">CRM Sales</div><ul><li><div class="node norm-volume" data-name="CRE Sales">CRE Sales</div></li><li><div class="node norm-outlet" data-name="Delivery Coordinator">Delivery Coordinator</div></li><li><div class="node norm-outlet" data-name="Hostess">Hostess</div><ul><li><div class="node norm-outlet" data-name="Housekeeping (SR)">Housekeeping (SR)</div></li><li><div class="node norm-outlet" data-name="Pantry Team">Pantry Team</div></li></ul></li></ul></li></ul></li></ul></div><div class="tree-store" id="orgTreeCat4" style="display:none"><ul class="tree"><li><div class="node norm-shared" data-name="Dealer Principal">Dealer Principal</div><ul><li><div class="node norm-shared" data-name="CEO">CEO</div><ul><li><div class="node norm-outlet" data-name="Accountant">Accountant</div></li><li><div class="node norm-outlet" data-name="Cashier">Cashier</div></li></ul></li><li><div class="node norm-shared" data-name="Business Head – Sales / GM Sales">Business Head – Sales / GM Sales</div><ul><li><div class="node norm-shared" data-name="Marketing Manager">Marketing Manager</div></li><li><div class="node norm-dp" data-name="Sales Manager">Sales Manager</div><ul><li><div class="node norm-dp" data-name="Sales Consultant">Sales Consultant</div></li></ul></li><li><div class="node norm-shared" data-name="Internal Dealer Trainer">Internal Dealer Trainer</div><ul><li><div class="node norm-dp" data-name="Car Finance">Car Finance</div></li><li><div class="node norm-dp" data-name="Car Insurance">Car Insurance</div></li><li><div class="node norm-outlet" data-name="Driver / Valet">Driver / Valet</div></li><li><div class="node norm-dp" data-name="Car Registration &amp; Delivery (Sales Admin)">Car Registration &amp; Delivery (Sales Admin)</div></li><li><div class="node norm-outlet" data-name="Acc. Sales Executive">Acc. Sales Executive</div></li></ul></li><li><div class="node norm-shared" data-name="Corporate Sales Manager">Corporate Sales Manager</div><ul><li><div class="node norm-outlet" data-name="EDP">EDP</div></li></ul></li></ul></li><li><div class="node norm-shared" data-name="HR Manager">HR Manager</div><ul><li><div class="node norm-outlet" data-name="Security">Security</div></li></ul></li><li><div class="node norm-shared" data-name="CR Head (Sales)">CR Head (Sales)</div><ul><li><div class="node norm-dp" data-name="CRE Sales">CRE Sales</div></li><li><div class="node norm-outlet" data-name="Delivery Coordinator">Delivery Coordinator</div></li><li><div class="node norm-outlet" data-name="Hostess">Hostess</div><ul><li><div class="node norm-outlet" data-name="Housekeeping (SR)">Housekeeping (SR)</div></li><li><div class="node norm-outlet" data-name="Pantry Team">Pantry Team</div></li></ul></li></ul></li></ul></li></ul></div>
 <div style="display:none"></div>
 
-      <div class="prose reveal" style="margin-top:28px">
-        <div class="competency-block">
-          <div class="comp-index">1.2 · Reporting relationships</div>
-          <h3 class="sub-title" id="ch2-2">Functional reporting vs. operational coordination</h3>
-        </div>
-        <div class="two-col" style="margin-top:16px">
-          <div class="eval-card good">
-            <div class="eval-title">Functional reporting (solid line)</div>
-            <p style="font-size:13px;color:var(--grey-700);margin-top:6px">The person this employee works for.</p>
-          </div>
-          <div class="eval-card">
-            <div class="eval-title" style="color:var(--grey-700)">Operational coordination (dashed line)</div>
-            <p style="font-size:13px;color:var(--grey-700);margin-top:6px">A working relationship the employee must maintain to do the job.</p>
-          </div>
-        </div>
-
-        <div class="table-wrap" style="margin-top:20px">
-          <table>
-            <thead><tr><th>&nbsp;</th><th>Functional reporting</th><th>Operational coordination</th></tr></thead>
-            <tbody>
-              <tr><td>Sets goals and KPIs</td><td class="yes-cell">Yes</td><td>No, but may be consulted</td></tr>
-              <tr><td>Conducts the review</td><td class="yes-cell">Yes</td><td>Provides input to the functional manager</td></tr>
-              <tr><td>Approves leave</td><td class="yes-cell">Yes</td><td>No</td></tr>
-              <tr><td>Directs day-to-day work</td><td class="yes-cell">Yes</td><td>Only within the agreed area of coordination</td></tr>
-              <tr><td>Initiates disciplinary action</td><td class="yes-cell">Yes</td><td>No, raises it with the functional manager</td></tr>
-            </tbody>
-          </table>
-        </div>
       </div>
-
-      <div class="prose reveal" style="margin-top:28px">
-        <div class="competency-block">
-          <div class="comp-index">1.3</div>
-          <h3 class="sub-title" id="ch2-3">Workforce Attrition</h3>
-        </div>
-        <p>Attrition Rate (%) = (Number of Employees Who Left During the Period ÷ Average Number of Employees During the Period) × 100</p>
-        <p>Average Headcount = (Beginning Headcount + Ending Headcount) ÷ 2</p>
-        <h4 class="item-title">Example</h4>
-        <p>Employees at start of month = 120</p>
-        <p>Employees at end of month = 110</p>
-        <p>Employees who left during month = 8</p>
-        <p>Average Headcount: (120 + 110) ÷ 2 = 115</p>
-        <p>Monthly Attrition Rate: (8 ÷ 115) × 100 = 6.96%</p>
-        <h4 class="item-title">Cost of an Exit</h4>
-        <p>Total cost of one exit = vacancy loss + pipeline loss + replacement cost + ramp-up loss</p>
-        <ul class="list-clean">
-          <li>Vacancy loss = (monthly team retail before the exit - monthly team retail during the vacancy) x months vacant x average gross margin per vehicle</li>
-          <li>Pipeline loss = number of open leads held x cost per lead</li>
-          <li>Replacement cost = sourcing cost + referral or agency payout + induction and training cost</li>
-          <li>Ramp-up loss = shortfall against target during the ramp-up period x average gross margin per vehicle</li>
-        </ul>
-      </div>
-    </div>
 </section>
 
     <script>
@@ -6152,137 +6281,48 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
 <div class="chap-annexure-hint" id="ch1-annex" style="margin-top:32px">
   <h4 class="subhead" style="font-weight:700;margin-bottom:12px;">ANNEXTURE</h4>
   <div class="annex-file-list">
-  <a class="annex-file-item" href="#annexure" title="Download 2A. Job Description Template" onclick="handleAnnexDownload(event, '2A. Job Description Template')">
-    <div class="annex-file-left">
-      <div class="annex-file-icon">📄</div>
-      <div class="annex-file-name">2A. Job Description Template</div>
+    <div class="annex-file-item" title="View 2A. Job Description Template" onclick="openAnnexViewer(event, '2A')">
+      <div class="annex-file-left">
+        <div class="annex-file-icon">📄</div>
+        <div class="annex-file-name">2A. Job Description Template</div>
+      </div>
+      <div class="annex-view-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        View File
+      </div>
     </div>
-    <div class="annex-dl-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-      Download File
+    <div class="annex-file-item" title="View 2B. All Job Descriptions" onclick="openAnnexViewer(event, '2B')">
+      <div class="annex-file-left">
+        <div class="annex-file-icon">📄</div>
+        <div class="annex-file-name">2B. All Job Descriptions</div>
+      </div>
+      <div class="annex-view-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        View File
+      </div>
     </div>
-  </a>
-  <a class="annex-file-item" href="#annexure" title="Download 2B. All Job Descriptions" onclick="handleAnnexDownload(event, '2B. All Job Descriptions')">
-    <div class="annex-file-left">
-      <div class="annex-file-icon">📄</div>
-      <div class="annex-file-name">2B. All Job Descriptions</div>
+    <div class="annex-file-item" title="View 2C. Competencies" onclick="openAnnexViewer(event, '2C')">
+      <div class="annex-file-left">
+        <div class="annex-file-icon">📄</div>
+        <div class="annex-file-name">2C. Competencies</div>
+      </div>
+      <div class="annex-view-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        View File
+      </div>
     </div>
-    <div class="annex-dl-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-      Download File
+    <div class="annex-file-item" title="View 2D. Dealer Work Area (DWA)" onclick="openAnnexViewer(event, '2D')">
+      <div class="annex-file-left">
+        <div class="annex-file-icon">📄</div>
+        <div class="annex-file-name">2D. Dealer Work Area (DWA)</div>
+      </div>
+      <div class="annex-view-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        View File
+      </div>
     </div>
-  </a>
-  <a class="annex-file-item" href="#annexure" title="Download 2C. Competencies" onclick="handleAnnexDownload(event, '2C. Competencies')">
-    <div class="annex-file-left">
-      <div class="annex-file-icon">📄</div>
-      <div class="annex-file-name">2C. Competencies</div>
-    </div>
-    <div class="annex-dl-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-      Download File
-    </div>
-  </a>
-  <a class="annex-file-item" href="#annexure" title="Download 2D. Dealer Work Area (DWA)" onclick="handleAnnexDownload(event, '2D. Dealer Work Area (DWA)')">
-    <div class="annex-file-left">
-      <div class="annex-file-icon">📄</div>
-      <div class="annex-file-name">2D. Dealer Work Area (DWA)</div>
-    </div>
-    <div class="annex-dl-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-      Download File
-    </div>
-  </a>
   </div>
-</div>
-<div style="display:none">ANNEXTURE 2A. Job Description Template 2B. All Job Descriptions 2C. Competencies 2D. Dealer Work Area (DWA)</div>
-  </div>
-</section>
-
-    <script>
-      (function(){
-        var activeRoleIndex = -1;
-        var cachedRoleBtns = null;
-        var rdDetail = null;
-
-        window.rdSelect = function(i){
-          if (i === activeRoleIndex) return;
-          if (!rdDetail) rdDetail = document.getElementById('rdDetail');
-          if (!rdDetail) return;
-
-          var stored = document.getElementById('rd-role-' + i);
-          if (stored){
-            rdDetail.innerHTML = stored.innerHTML;
-            rdDetail.scrollTop = 0;
-          }
-
-          if (!cachedRoleBtns){
-            cachedRoleBtns = document.querySelectorAll('.rd-role-btn');
-          }
-
-          if (activeRoleIndex >= 0 && cachedRoleBtns[activeRoleIndex]){
-            cachedRoleBtns[activeRoleIndex].classList.remove('active');
-          }
-
-          var nextBtn = document.querySelector('.rd-role-btn[data-role="' + i + '"]');
-          if (nextBtn){
-            nextBtn.classList.add('active');
-            nextBtn.scrollIntoView({block: 'nearest'});
-          }
-
-          activeRoleIndex = i;
-        };
-
-        document.addEventListener('DOMContentLoaded', function(){
-          var rdList = document.querySelector('.rd-list');
-          if (rdList){
-            rdList.addEventListener('click', function(e){
-              var btn = e.target.closest('.rd-role-btn');
-              if (btn && btn.dataset.role !== undefined){
-                window.rdSelect(parseInt(btn.dataset.role, 10));
-              }
-            });
-          }
-          window.rdSelect(0);
-        });
-      })();
-    </script>
-
-<section class="chap alt" id="ch3">
-  <div class="chap-head reveal">
-    <div class="chap-num">CHAPTER 3</div>
-    <h2 class="sec-title">Recruitment &amp; Selection</h2>
-    <div class="rule"></div>
-<div class="ch-thumb" style="--ch-img:var(--tx-c); --ch-pos: center 20%;"></div>
-  </div>
-  <div class="prose reveal">
-<div class="pull">&quot;Don't hire just for skills, hire for attitude.&quot;</div>
-<div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">
-  <div class="meta-item">
-    <span class="eyebrow">PURPOSE:</span>
-    <p>Implementation of proven recruitment process across the network so manpower with correct skillset is hired.</p>
-  </div>
-  <div class="meta-item">
-    <span class="eyebrow">BENEFIT TO CUSTOMERS:</span>
-    <p>Transparent and trustworthy business interaction, ensuring customer trusts the dealership and the brand.</p>
-  </div>
-</div>
-
-<p>A standardised hiring process is key to a consistent customer experience across the network. A poor dealership recruitment process leads to:</p>
-<ul class="list-clean">
-  <li>High staff turnover.</li>
-  <li>Increased hiring costs.</li>
-  <li>Increased training cost.</li>
-  <li>Burnout of strong performers while covering for vacant roles.</li>
-  <li>Loss of vehicle retail.</li>
-  <li>Decline in loyalty and repeat business.</li>
-</ul>
-<p>Therefore, this chapter standardises the JSW recruitment and selection process across its dealer network.</p>
-
-<h3 class="sub-title subhead">Principles</h3>
-<ul class="list-clean"><li>Hire on knowledge, skill and attitude (refer <em>3A. Candidate Evaluation Sheet</em>).</li><li>No discrimination or hiring below the age of 18 years.</li><li>Promote internal mobility before external hiring.</li><li>Anti-poaching - consult JSW area office before contacting any fellow JSW dealership partner employee.</li>
-<li>Pay salary on the 5th day of every month.</li></ul>
-<h3 class="sub-title subhead" id="ch3-1">3.1 Recruitment and Selection Process</h3>
-<div class="rf-flow"><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 01–04</span>Phase 1: Requisition &amp; Approvals</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">01</span><span class="rf-step-role">Reporting Manager</span></div><div class="rf-step-text">Identify the recruitment need</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">02</span><span class="rf-step-role">Reporting Manager</span></div><div class="rf-step-text">Use 3B. Manpower Requisition Form to get DP’s approval</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">03</span><span class="rf-step-role">Dealer Principal</span></div><div class="rf-step-text">Approve the requisition form &amp; share with HR</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">04</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Notify the position internally</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 05–08</span>Phase 2: Sourcing &amp; Pre-Screening</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">05</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Begin external sourcing if position not closed internally</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">06</span><span class="rf-step-role">AI + HR Manager</span></div><div class="rf-step-text">Screen applications against the job description</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">07</span><span class="rf-step-role">Shortlisted Candidate</span></div><div class="rf-step-text">Candidate portal login; upload CV, DL &amp; Photo</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">08</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidate’s entry in recruitment portal</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 09–12</span>Phase 3: Assessment &amp; Interviews</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">09</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidates with &gt;=60% in psychometric &amp; AI video interaction</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">10</span><span class="rf-step-role">HR Manager + SM/GM</span></div><div class="rf-step-text">Conduct interview round 1 and enter scores online</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">11</span><span class="rf-step-role">HR Manager + ASM/RM</span></div><div class="rf-step-text">Conduct interview round 2</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">12</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Complete reference check and background verification</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 13–15</span>Phase 4: Decision &amp; Onboarding Offer</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">13</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Take hiring decision based on the comprehensive report generated</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">14</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Get offer letter approval from reporting manager and DP</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">15</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Release offer letter via official email and obtain signed candidate acceptance</div></div></div></div></div>
+</div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 05–08</span>Phase 2: Sourcing &amp; Pre-Screening</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">05</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Begin external sourcing if position not closed internally</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">06</span><span class="rf-step-role">AI + HR Manager</span></div><div class="rf-step-text">Screen applications against the job description</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">07</span><span class="rf-step-role">Shortlisted Candidate</span></div><div class="rf-step-text">Candidate portal login; upload CV, DL &amp; Photo</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">08</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidate’s entry in recruitment portal</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 09–12</span>Phase 3: Assessment &amp; Interviews</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">09</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Approve candidates with &gt;=60% in psychometric &amp; AI video interaction</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">10</span><span class="rf-step-role">HR Manager + SM/GM</span></div><div class="rf-step-text">Conduct interview round 1 and enter scores online</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">11</span><span class="rf-step-role">HR Manager + ASM/RM</span></div><div class="rf-step-text">Conduct interview round 2</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">12</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Complete reference check and background verification</div></div></div></div><div class="rf-phase"><div class="rf-phase-header"><div class="rf-phase-title"><span class="rf-phase-badge">Steps 13–15</span>Phase 4: Decision &amp; Onboarding Offer</div></div><div class="rf-steps-grid"><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">13</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Take hiring decision based on the comprehensive report generated</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">14</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Get offer letter approval from reporting manager and DP</div></div><div class="rf-step-card"><div class="rf-step-top"><span class="rf-step-num">15</span><span class="rf-step-role">HR Manager</span></div><div class="rf-step-text">Release offer letter via official email and obtain signed candidate acceptance</div></div></div></div></div>
 <div style="display:none"><div class="table-wrap">
   <table>
     <thead><tr><th>Identify the recruitment need
@@ -11518,6 +11558,520 @@ html, body {
 
   
 })();
+</script>
+
+<!-- ============ ANNEXURE DOCUMENT VIEWER MODAL ============ -->
+<div class="annex-modal-backdrop" id="annexModal" onclick="handleAnnexModalBackdrop(event)">
+  <div class="annex-modal-dialog">
+    <div class="annex-modal-header">
+      <div class="annex-modal-title-group">
+        <div class="annex-modal-sub">JSW MOTORS &middot; OFFICIAL ANNEXURE VIEWER</div>
+        <h3 class="annex-modal-title" id="annexModalTitle">2A. Job Description Template</h3>
+      </div>
+      <div class="annex-modal-actions">
+        <button type="button" class="annex-modal-dl-btn" id="annexModalDlBtn" onclick="downloadActiveAnnex()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download File
+        </button>
+        <button type="button" class="annex-modal-close" onclick="closeAnnexModal()" aria-label="Close document">&times;</button>
+      </div>
+    </div>
+    <div class="annex-modal-body" id="annexModalBody"></div>
+    <div class="annex-modal-footer">
+      <span class="annex-modal-footer-note">JSW Motors Dealership Operations Manual &middot; Controlled Document</span>
+      <button type="button" class="annex-modal-dl-btn secondary" onclick="downloadActiveAnnex()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download File
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+      /* Sync ocRenderLegend with orgLegendTop */
+      var _origOcRenderLegend = typeof ocRenderLegend === 'function' ? ocRenderLegend : null;
+      window.ocRenderLegend = function(hasShared){
+        var legendBottom = document.getElementById('orgLegend');
+        var legendTop = document.getElementById('orgLegendTop');
+        var items = [
+          ['norm-dp', 'Per DP'],
+          ['norm-outlet', 'Per Outlet'],
+          ['norm-volume', 'Volume Based'],
+        ];
+        if(hasShared) items.push(['norm-shared', 'DP Level Shared Resource']);
+        var html = items.map(function(it){
+          return '<span class="legend-chip"><span class="legend-swatch ' + it[0] + '"></span>' + it[1] + '</span>';
+        }).join('');
+        html += '<span class="legend-chip"><span class="legend-line solid"></span>Functional reporting</span>';
+        html += '<span class="legend-chip"><span class="legend-line dashed"></span>Operational coordination</span>';
+        if(legendBottom) legendBottom.innerHTML = html;
+        if(legendTop) legendTop.innerHTML = html;
+      };
+
+      /* Org Chart Download Implementation */
+      window.downloadOrgChart = function() {
+        var catIdx = typeof currentOrgCategory !== 'undefined' ? currentOrgCategory : 0;
+        var cat = (window.ORG_CATEGORIES && window.ORG_CATEGORIES[catIdx]) ? window.ORG_CATEGORIES[catIdx] : null;
+        if (!cat) return;
+
+        var catLabel = cat.label || ('Category ' + (catIdx + 1));
+        var cleanName = catLabel.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+        function measureTree(node) {
+          var nodeW = 140;
+          var nodeH = 54;
+          var gapX = 24;
+          if (!node.children || node.children.length === 0) {
+            return { node: node, w: nodeW, h: nodeH, children: [] };
+          }
+          var measuredChildren = node.children.map(measureTree);
+          var totalChildrenW = measuredChildren.reduce(function(sum, c){ return sum + c.w; }, 0) + (measuredChildren.length - 1) * gapX;
+          var w = Math.max(nodeW, totalChildrenW);
+          return { node: node, w: w, h: nodeH, children: measuredChildren };
+        }
+
+        var measured = measureTree(cat.tree);
+        var padding = 40;
+        var headerH = 100;
+        var footerH = 120;
+        var totalW = Math.max(920, measured.w + padding * 2);
+        var treeOffsetY = padding + headerH;
+
+        function getMaxDepth(n) {
+          if (!n.children || n.children.length === 0) return 1;
+          var maxC = 0;
+          n.children.forEach(function(c){ var d = getMaxDepth(c); if(d > maxC) maxC = d; });
+          return 1 + maxC;
+        }
+        var depth = getMaxDepth(cat.tree);
+        var treeH = depth * (54 + 48);
+        var totalH = treeOffsetY + treeH + footerH;
+
+        var svgParts = [];
+        svgParts.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + totalW + ' ' + totalH + '" width="' + totalW + '" height="' + totalH + '" style="background:#ffffff;font-family:sans-serif;">');
+        svgParts.push('<defs>');
+        svgParts.push('<style>');
+        svgParts.push('  .node-box { rx: 7px; ry: 7px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12)); }');
+        svgParts.push('  .txt-title { font-size: 20px; font-weight: 800; fill: #0f172a; letter-spacing: 0.5px; }');
+        svgParts.push('  .txt-sub { font-size: 13px; fill: #64748b; font-weight: 500; }');
+        svgParts.push('  .node-text { font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }');
+        svgParts.push('  .line-conn { stroke: #94a3b8; stroke-width: 1.5; fill: none; }');
+        svgParts.push('  .line-dashed { stroke: #d97706; stroke-width: 1.5; stroke-dasharray: 4,4; fill: none; }');
+        svgParts.push('</style>');
+        svgParts.push('</defs>');
+
+        svgParts.push('<rect width="100%" height="100%" fill="#f8fafc"/>');
+        svgParts.push('<rect x="' + (padding/2) + '" y="' + (padding/2) + '" width="' + (totalW - padding) + '" height="' + (totalH - padding) + '" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>');
+
+        svgParts.push('<text x="' + padding + '" y="' + (padding + 30) + '" class="txt-title">JSW MOTORS &middot; DEALERSHIP ORGANISATION STRUCTURE</text>');
+        svgParts.push('<text x="' + padding + '" y="' + (padding + 52) + '" class="txt-sub">Recommended Structure: ' + catLabel + ' &middot; Defined as per volume norms and city category</text>');
+        svgParts.push('<line x1="' + padding + '" y1="' + (padding + 66) + '" x2="' + (totalW - padding) + '" y2="' + (padding + 66) + '" stroke="#e2e8f0" stroke-width="1"/>');
+
+        var colorMap = {
+          'dp': { fill: '#111827', stroke: '#000000', text: '#ffffff', stripe: '#000000' },
+          'outlet': { fill: '#3b4858', stroke: '#283340', text: '#ffffff', stripe: '#64748b' },
+          'volume': { fill: '#fffbeb', stroke: '#fcd34d', text: '#78350f', stripe: '#d97706' },
+          'shared': { fill: '#1e1b4b', stroke: '#312e81', text: '#ffffff', stripe: '#f59e0b' }
+        };
+
+        var nodeCoords = {};
+
+        function renderNode(mNode, x, y) {
+          var nw = 132;
+          var nh = 50;
+          var curCenterX = x + mNode.w / 2;
+          var boxX = curCenterX - nw / 2;
+          var boxY = y;
+          var node = mNode.node;
+          var basis = node.basis || 'dp';
+          var theme = colorMap[basis] || colorMap['dp'];
+
+          nodeCoords[node.name] = { cx: curCenterX, cy: boxY + nh / 2, topY: boxY, bottomY: boxY + nh, x: boxX, y: boxY };
+
+          svgParts.push('<rect x="' + boxX + '" y="' + boxY + '" width="' + nw + '" height="' + nh + '" class="node-box" fill="' + theme.fill + '" stroke="' + theme.stroke + '" stroke-width="1.5"/>');
+          svgParts.push('<rect x="' + boxX + '" y="' + boxY + '" width="4.5" height="' + nh + '" rx="2" fill="' + theme.stripe + '"/>');
+
+          var words = (node.name || '').split(' ');
+          var lines = [];
+          var curLine = '';
+          words.forEach(function(w){
+            if ((curLine + ' ' + w).trim().length > 17 && curLine.length > 0) {
+              lines.push(curLine.trim());
+              curLine = w;
+            } else {
+              curLine = (curLine + ' ' + w).trim();
+            }
+          });
+          if (curLine) lines.push(curLine);
+
+          var startTextY = boxY + nh / 2 - ((lines.length - 1) * 7);
+          lines.forEach(function(line, li){
+            svgParts.push('<text x="' + curCenterX + '" y="' + (startTextY + li * 14) + '" class="node-text" fill="' + theme.text + '">' + line.replace(/&/g, '&amp;') + '</text>');
+          });
+
+          if (mNode.children && mNode.children.length > 0) {
+            var childY = y + nh + 48;
+            var curX = x;
+            var childCenters = [];
+
+            mNode.children.forEach(function(c){
+              renderNode(c, curX, childY);
+              childCenters.push(curX + c.w / 2);
+              curX += c.w + 24;
+            });
+
+            var parentBottomY = boxY + nh;
+            var midY = parentBottomY + 24;
+            svgParts.push('<path d="M ' + curCenterX + ' ' + parentBottomY + ' V ' + midY + '" class="line-conn"/>');
+
+            var firstC = childCenters[0];
+            var lastC = childCenters[childCenters.length - 1];
+            if (childCenters.length > 1) {
+              svgParts.push('<path d="M ' + firstC + ' ' + midY + ' H ' + lastC + '" class="line-conn"/>');
+            }
+            childCenters.forEach(function(cx){
+              svgParts.push('<path d="M ' + cx + ' ' + midY + ' V ' + childY + '" class="line-conn"/>');
+            });
+          }
+        }
+
+        var treeStartX = (totalW - measured.w) / 2;
+        renderNode(measured, treeStartX, treeOffsetY);
+
+        if (cat.coord && cat.coord.length > 0) {
+          cat.coord.forEach(function(cd){
+            var n1 = nodeCoords[cd.from];
+            var n2 = nodeCoords[cd.to];
+            if (n1 && n2) {
+              var x1 = n1.cx, y1 = n1.bottomY;
+              var x2 = n2.cx, y2 = n2.bottomY;
+              var curveY = Math.max(y1, y2) + 16;
+              svgParts.push('<path d="M ' + x1 + ' ' + y1 + ' Q ' + ((x1+x2)/2) + ' ' + (curveY + 20) + ' ' + x2 + ' ' + y2 + '" class="line-dashed"/>');
+            }
+          });
+        }
+
+        var legY = totalH - footerH + 30;
+        svgParts.push('<line x1="' + padding + '" y1="' + (legY - 14) + '" x2="' + (totalW - padding) + '" y2="' + (legY - 14) + '" stroke="#e2e8f0" stroke-width="1"/>');
+        svgParts.push('<text x="' + padding + '" y="' + (legY + 4) + '" style="font-size:12px;font-weight:700;fill:#475569;">LEGEND:</text>');
+
+        var legX = padding + 80;
+        function addLegItem(colorObj, label) {
+          svgParts.push('<rect x="' + legX + '" y="' + (legY - 8) + '" width="14" height="14" rx="3" fill="' + colorObj.fill + '" stroke="' + colorObj.stroke + '"/>');
+          svgParts.push('<rect x="' + legX + '" y="' + (legY - 8) + '" width="3.5" height="' + nh_legend + '" rx="1" fill="' + colorObj.stripe + '"/>');
+          svgParts.push('<text x="' + (legX + 20) + '" y="' + (legY + 4) + '" style="font-size:12px;font-weight:600;fill:#334155;">' + label + '</text>');
+          legX += label.length * 7 + 55;
+        }
+        var nh_legend = 14;
+        addLegItem(colorMap['dp'], 'Per DP');
+        addLegItem(colorMap['outlet'], 'Per Outlet');
+        addLegItem(colorMap['volume'], 'Volume Based');
+        if (cat.label && cat.label.indexOf('Extended') !== -1) {
+          addLegItem(colorMap['shared'], 'DP Level Shared Resource');
+        }
+
+        svgParts.push('<line x1="' + legX + '" y1="' + legY + '" x2="' + (legX + 24) + '" y2="' + legY + '" class="line-conn"/>');
+        svgParts.push('<text x="' + (legX + 30) + '" y="' + (legY + 4) + '" style="font-size:12px;font-weight:600;fill:#334155;">Functional reporting</text>');
+        legX += 160;
+
+        if (cat.coord && cat.coord.length > 0) {
+          svgParts.push('<line x1="' + legX + '" y1="' + legY + '" x2="' + (legX + 24) + '" y2="' + legY + '" class="line-dashed"/>');
+          svgParts.push('<text x="' + (legX + 30) + '" y="' + (legY + 4) + '" style="font-size:12px;font-weight:600;fill:#334155;">Operational coordination</text>');
+        }
+
+        svgParts.push('</svg>');
+
+        var svgData = svgParts.join('\n');
+        var blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'JSW_Motors_Org_Chart_' + cleanName + '.svg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        var toast = document.getElementById('portalToast');
+        if(!toast){
+          toast = document.createElement('div');
+          toast.id = 'portalToast';
+          toast.className = 'portal-toast';
+          document.body.appendChild(toast);
+        }
+        toast.innerHTML = '<span style="font-size:18px;">📊</span> <span>Downloaded <strong>JSW Motors Org Chart (' + catLabel + ')</strong> successfully.</span>';
+        toast.classList.add('show');
+        clearTimeout(window._toastTimeout);
+        window._toastTimeout = setTimeout(function(){ toast.classList.remove('show'); }, 3500);
+      };
+
+      /* Annexure Viewer & Document Management */
+      window.ANNEX_DOCS = {
+        '2A': {
+          code: 'ANNEXURE 2A',
+          title: 'Job Description Template',
+          filename: 'JSW_Motors_Annexure_2A_Job_Description_Template.doc',
+          content: `
+            <div class="annex-doc-header-box">
+              <div class="annex-doc-field"><span class="annex-doc-label">Document Code</span><span class="annex-doc-val">DOC-JSW-HR-JDT-01</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Version / Status</span><span class="annex-doc-val">v1.0 &middot; Approved Standard</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Effective Date</span><span class="annex-doc-val">September 2026</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Applicability</span><span class="annex-doc-val">All JSW Motors Dealership Outlets</span></div>
+            </div>
+
+            <div class="annex-doc-sec-title">1. Role Master Details</div>
+            <table class="annex-doc-table">
+              <tr><th style="width:25%">Job Title</th><td>[ Insert Position Title, e.g., Sales Manager ]</td><th style="width:25%">Department</th><td>[ e.g., Sales / Aftersales ]</td></tr>
+              <tr><th>Reports To (Functional)</th><td>[ e.g., General Manager - Sales ]</td><th>Reports To (Coordination)</th><td>[ e.g., CRM Head ]</td></tr>
+              <tr><th>Grade / Band</th><td>[ L1 / L2 / L3 / L4 / L5 ]</td><th>Employment Type</th><td>Full-time / On-roll</td></tr>
+              <tr><th>Location / Outlet</th><td>[ Dealership Main Showroom / 2S / 3S ]</td><th>Direct Reports</th><td>[ List Direct Report Positions ]</td></tr>
+            </table>
+
+            <div class="annex-doc-sec-title">2. Position Overview & Purpose</div>
+            <p style="background:#f8fafc;padding:12px 14px;border-left:4px solid #0f172a;border-radius:4px;">
+              [ State concise 2-3 sentence overview of why this role exists, its strategic value to dealership profitability, brand governance, and seamless customer journey. ]
+            </p>
+
+            <div class="annex-doc-sec-title">3. Benchmark Qualifications & Experience</div>
+            <table class="annex-doc-table">
+              <tr><th style="width:30%">Education</th><td>Graduate in any discipline. MBA / Post Graduate in Management or relevant technical automotive diploma preferred.</td></tr>
+              <tr><th>Industry Experience</th><td>[ e.g., 5-8 years in automotive dealership sales, minimum 2 years in team leadership ]</td></tr>
+              <tr><th>Segment Exposure</th><td>Passenger Car Retail / Premium OEM experience. EV / NEV / PHEV exposure preferred.</td></tr>
+              <tr><th>Certifications & Licenses</th><td>Valid 4-wheeler driving license. Certified OEM Sales Professional credentials preferred.</td></tr>
+            </table>
+
+            <div class="annex-doc-sec-title">4. Key Responsibilities & Performance Accountabilities</div>
+            <table class="annex-doc-table">
+              <thead><tr><th style="width:10%">S.No.</th><th style="width:35%">Key Responsibility Area (KRA)</th><th>Specific Tasks & Deliverables</th></tr></thead>
+              <tbody>
+                <tr><td>01</td><td>Business Strategy & Sales Target Delivery</td><td>Achieve monthly/quarterly retail, wholesale and market share targets across vehicle variants.</td></tr>
+                <tr><td>02</td><td>Customer Journey & Delight</td><td>Enforce 100% adherence to JSW Motors sales process steps, test drive protocols, and CSI benchmarks.</td></tr>
+                <tr><td>03</td><td>Enquiry Pipeline & CRM Hygiene</td><td>Daily lead review in Dealer Management System (DMS), follow-up discipline, test drive ratio &gt;65%.</td></tr>
+                <tr><td>04</td><td>Value Added Services (VAS) Penetration</td><td>Ensure target finance attachment, insurance renewal, extended warranty, and accessories sales.</td></tr>
+                <tr><td>05</td><td>Team Development & Governance</td><td>Daily morning briefings, skill coaching, product certification adherence, and discipline enforcement.</td></tr>
+              </tbody>
+            </table>
+
+            <div class="annex-doc-sec-title">5. Key Performance Indicators (KPIs) & Target Weights</div>
+            <table class="annex-doc-table">
+              <thead><tr><th>Category</th><th>KPI Description</th><th>Benchmark / Target</th><th>Weightage</th></tr></thead>
+              <tbody>
+                <tr><td>Volume</td><td>Retail Target Achievement %</td><td>&ge; 100% of assigned monthly quota</td><td>35%</td></tr>
+                <tr><td>Customer Delight</td><td>Customer Satisfaction Index (CSI)</td><td>&ge; 95% 5-star customer ratings</td><td>25%</td></tr>
+                <tr><td>Pipeline Efficiency</td><td>Enquiry to Test Drive Conversion %</td><td>&ge; 65% of qualified enquiries</td><td>15%</td></tr>
+                <tr><td>Value Added Services</td><td>F&I Attachment & Accessories Per Vehicle</td><td>Benchmark revenue per delivery</td><td>15%</td></tr>
+                <tr><td>Operational Rigor</td><td>DMS Updating & Training Compliance</td><td>100% LMS and daily attendance logging</td><td>10%</td></tr>
+              </tbody>
+            </table>
+
+            <div class="annex-doc-sec-title">6. Core Competencies Profile</div>
+            <table class="annex-doc-table">
+              <thead><tr><th>Competency Domain</th><th>Expected Proficiency</th><th>Behavioral Indicator</th></tr></thead>
+              <tbody>
+                <tr><td>Customer Centricity</td><td>Advanced</td><td>Anticipates customer desires, resolves friction, and delivers bespoke hospitality.</td></tr>
+                <tr><td>Product & NEV Knowledge</td><td>Expert</td><td>Fluent in vehicle architecture, EV battery tech, connected features, and competitor USPs.</td></tr>
+                <tr><td>Consultative Value Selling</td><td>Advanced</td><td>Conducts structured discovery, objection handling, and transparent total-cost-of-ownership advisory.</td></tr>
+                <tr><td>Operational Rigor</td><td>Proficient</td><td>Strict adherence to DMS logging, documentation checks, and audit standards.</td></tr>
+              </tbody>
+            </table>
+
+            <div class="annex-doc-sec-title">7. Sign-off & Document Authorization</div>
+            <table class="annex-doc-table">
+              <tr><th style="width:33%">Incumbent Employee</th><th style="width:33%">Reporting Manager</th><th style="width:33%">Dealer Principal / HR Head</th></tr>
+              <tr style="height:48px;"><td>Signature: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Date:</td><td>Signature: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Date:</td><td>Signature: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Date:</td></tr>
+            </table>
+          `
+        },
+        '2B': {
+          code: 'ANNEXURE 2B',
+          title: 'All Job Descriptions (Master Directory)',
+          filename: 'JSW_Motors_Annexure_2B_All_Job_Descriptions.doc',
+          content: `
+            <div class="annex-doc-header-box">
+              <div class="annex-doc-field"><span class="annex-doc-label">Directory</span><span class="annex-doc-val">Master JSW Dealership Job Profiles</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Coverage</span><span class="annex-doc-val">26 Standard Sales & Support Roles</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Classification</span><span class="annex-doc-val">Sales, Service Support, Ops, Leadership</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Status</span><span class="annex-doc-val">Standard Operating Architecture</span></div>
+            </div>
+
+            <div class="annex-doc-sec-title">Dealership Sales & Operations Functional Breakdown</div>
+            <p>Below is the master roster of all 26 standardized role profiles defined for JSW Motors dealerships. Each profile includes educational benchmarks, experience expectations, key responsibilities, KPIs, and competency indicators.</p>
+
+            <table class="annex-doc-table">
+              <thead><tr><th>Department</th><th>Standard Role Title</th><th>Typical Reports To</th><th>Role Basis</th></tr></thead>
+              <tbody>
+                <tr><td>Executive Leadership</td><td><strong>CEO / Dealer Principal</strong></td><td>Board / Dealer Partner</td><td>Per DP</td></tr>
+                <tr><td>Executive Leadership</td><td><strong>Business Head – Sales / GM Sales</strong></td><td>CEO / Dealer Principal</td><td>Per DP</td></tr>
+                <tr><td>Finance & Control</td><td><strong>CFO / Accounts & Finance Head</strong></td><td>CEO / Dealer Principal</td><td>Per DP</td></tr>
+                <tr><td>Finance & Control</td><td><strong>Accountant & Cashier</strong></td><td>Accounts Head</td><td>Per Outlet</td></tr>
+                <tr><td>Sales Management</td><td><strong>Sales Manager</strong></td><td>GM Sales</td><td>Volume Based</td></tr>
+                <tr><td>Sales Management</td><td><strong>Sales Team Leader</strong></td><td>Sales Manager</td><td>Volume Based</td></tr>
+                <tr><td>Showroom Sales</td><td><strong>Sales Consultant</strong></td><td>Team Leader / Sales Mgr</td><td>Volume Based</td></tr>
+                <tr><td>B2B & Fleet</td><td><strong>Corporate Sales Manager & Executive</strong></td><td>GM Sales</td><td>Per DP / Outlet</td></tr>
+                <tr><td>Customer Experience</td><td><strong>Customer Relations Head (CR Head)</strong></td><td>CEO / GM Sales</td><td>Per DP</td></tr>
+                <tr><td>Customer Experience</td><td><strong>CRM Sales & CRE Sales</strong></td><td>CR Head</td><td>Volume Based</td></tr>
+                <tr><td>Hospitality & Delivery</td><td><strong>Delivery Coordinator & Hostess</strong></td><td>CR Head</td><td>Per Outlet</td></tr>
+                <tr><td>Value Added Services</td><td><strong>Car Finance & Insurance Specialists</strong></td><td>Internal Dealer Trainer</td><td>Volume Based</td></tr>
+                <tr><td>Pre-Owned Cars</td><td><strong>Used Car Consultant & Evaluator</strong></td><td>Internal Dealer Trainer</td><td>Per Outlet</td></tr>
+                <tr><td>Showroom Operations</td><td><strong>Test Drive Coordinator & Valet</strong></td><td>Internal Dealer Trainer</td><td>Per Outlet</td></tr>
+                <tr><td>Support & Admin</td><td><strong>Sales Admin, EDP, HR Executive</strong></td><td>Respective Dept Heads</td><td>Per DP / Outlet</td></tr>
+                <tr><td>Facility Management</td><td><strong>Security, Housekeeping, Pantry Team</strong></td><td>HR / Admin Manager</td><td>Per Outlet</td></tr>
+              </tbody>
+            </table>
+
+            <div class="annex-doc-sec-title">Quick Role Directory Navigation</div>
+            <p>You can view and inspect the complete profile of any of these 26 roles in detail via the interactive <strong>Role Directory</strong> above in Chapter 2.</p>
+          `
+        },
+        '2C': {
+          code: 'ANNEXURE 2C',
+          title: 'Core Competency Framework & Dictionary',
+          filename: 'JSW_Motors_Annexure_2C_Competencies_Dictionary.doc',
+          content: `
+            <div class="annex-doc-header-box">
+              <div class="annex-doc-field"><span class="annex-doc-label">Framework</span><span class="annex-doc-val">JSW Dealership Competency Dictionary</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Proficiency Levels</span><span class="annex-doc-val">Foundational (L1) &middot; Proficient (L2) &middot; Mastery (L3)</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Target Audience</span><span class="annex-doc-val">All Dealership Frontline & Leadership Roles</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Assessment</span><span class="annex-doc-val">Hiring, Annual Reviews & Promotions</span></div>
+            </div>
+
+            <div class="annex-doc-sec-title">1. Customer Centricity & Hospitality Mindset</div>
+            <p>The dedication to understanding customer expectations, delivering transparent advisory, empathizing with concerns, and providing an elevated premium retail experience at every touchpoint.</p>
+            <table class="annex-doc-table">
+              <tr><th style="width:25%">Foundational (Level 1)</th><td>Greets customers warmly within 30 seconds; demonstrates attentive listening; adheres strictly to basic showroom etiquette and grooming standards.</td></tr>
+              <tr><th>Proficient (Level 2)</th><td>Proactively uncovers unspoken lifestyle needs; tailors vehicle demonstrations to individual usage patterns; de-escalates customer friction with empathy and composure.</td></tr>
+              <tr><th>Mastery (Level 3)</th><td>Champions an organizational culture of customer advocacy; institutes customer journey enhancements across outlets; turns dissatisfied buyers into loyal brand ambassadors.</td></tr>
+            </table>
+
+            <div class="annex-doc-sec-title">2. Product & NEV / PHEV Technical Knowledge</div>
+            <p>Comprehensive command over vehicle specifications, advanced powertrain architectures (PHEV, EV, ICE), battery management systems, connected car software, and competitive benchmarking.</p>
+            <table class="annex-doc-table">
+              <tr><th style="width:25%">Foundational (Level 1)</th><td>Accurately quotes standard brochure specifications, safety ratings, color trims, and basic EV charging durations without hesitation.</td></tr>
+              <tr><th>Proficient (Level 2)</th><td>Explains intricate technical concepts (regenerative braking, battery degradation warranty, total cost of ownership) in simple, compelling buyer terminology; articulates clear USPs against competitor models.</td></tr>
+              <tr><th>Mastery (Level 3)</th><td>Acts as an internal technical authority; coaches dealership staff on future mobility trends; designs persuasive sales battlecards for new model launches.</td></tr>
+            </table>
+
+            <div class="annex-doc-sec-title">3. Consultative Selling & Value Articulation</div>
+            <p>The ability to guide prospective buyers through structured inquiry, address hesitations transparently, negotiate mutually beneficial terms, and close sales without high-pressure tactics.</p>
+            <table class="annex-doc-table">
+              <tr><th style="width:25%">Foundational (Level 1)</th><td>Conducts structured product walkthroughs; follows up promptly on digital enquiries; captures complete lead records in DMS.</td></tr>
+              <tr><th>Proficient (Level 2)</th><td>Effectively reframes price objections around lifetime value, warranty protection, and resale predictability; achieves high closing ratios on test drives.</td></tr>
+              <tr><th>Mastery (Level 3)</th><td>Structures complex multi-vehicle corporate leases; mentors junior consultants on closing strategies; consistently delivers double-digit conversion benchmarks.</td></tr>
+            </table>
+
+            <div class="annex-doc-sec-title">4. Operational Rigor, CRM Hygiene & Compliance</div>
+            <p>Disciplined adherence to operating protocols, digital CRM workflow updating, financial and statutory integrity, and brand audit requirements.</p>
+            <table class="annex-doc-table">
+              <tr><th style="width:25%">Foundational (Level 1)</th><td>Logs all customer interactions into DMS within 2 hours; maintains pristine test drive vehicle documentation; complies with POSH and code of conduct.</td></tr>
+              <tr><th>Proficient (Level 2)</th><td>Maintains 100% pipeline accuracy; prevents lead leakage through systematic follow-up calendars; ensures zero discrepancies in booking documents and receipts.</td></tr>
+              <tr><th>Mastery (Level 3)</th><td>Designs and audits dealership operating workflows; eliminates operational bottlenecks; ensures consistent 100% score on OEM governance audits.</td></tr>
+            </table>
+          `
+        },
+        '2D': {
+          code: 'ANNEXURE 2D',
+          title: 'Dealer Work Area (DWA) Guidelines',
+          filename: 'JSW_Motors_Annexure_2D_Dealer_Work_Area_Guidelines.doc',
+          content: `
+            <div class="annex-doc-header-box">
+              <div class="annex-doc-field"><span class="annex-doc-label">Operational Guideline</span><span class="annex-doc-val">Dealer Work Area (DWA) Framework</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Scope</span><span class="annex-doc-val">Territory Demarcation & Catchment Management</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Authority</span><span class="annex-doc-val">JSW Motors Network Development</span></div>
+              <div class="annex-doc-field"><span class="annex-doc-label">Version</span><span class="annex-doc-val">2026.1 &middot; Mandatory Compliance</span></div>
+            </div>
+
+            <div class="annex-doc-sec-title">1. Purpose and Philosophy of DWA</div>
+            <p>The Dealer Work Area (DWA) defines the assigned geographical territory, micro-markets, and pin codes allocated to each dealer partner. It ensures disciplined market development, eliminates territory poaching, and enables deep localized customer engagement.</p>
+
+            <div class="annex-doc-sec-title">2. DWA Core Operating Principles</div>
+            <ul style="padding-left:20px;margin-bottom:16px;">
+              <li><strong>Territory Exclusivity:</strong> Dealer partners have primary marketing and lead generation responsibility for assigned pin codes.</li>
+              <li><strong>Lead Routing Governance:</strong> OEM digital leads generated from customer IP or residential pin codes are automatically routed to the designated DWA dealer partner.</li>
+              <li><strong>Cross-Territory Sales Protocol:</strong> Walk-in customers from outside the DWA must be served with equal hospitality; however, active outdoor marketing or B2B poaching in an adjacent dealer's DWA is strictly prohibited without prior OEM zonal approval.</li>
+              <li><strong>Showroom & Workshop Floor Demarcation:</strong> Minimum square footage and functional zoning standards (customer lounge, delivery bay, consulting pods, accessories studio) must strictly follow JSW Motors corporate identity guidelines.</li>
+            </ul>
+
+            <div class="annex-doc-sec-title">3. Showroom Zone Standards</div>
+            <table class="annex-doc-table">
+              <thead><tr><th>Zone</th><th>Minimum Standard</th><th>Key Requirements</th></tr></thead>
+              <tbody>
+                <tr><td>Vehicle Display Area</td><td>3 to 8 vehicle pads depending on category (XPlus to Z)</td><td>Spot lighting, high-contrast floor, uninterrupted 360-degree walking clearance.</td></tr>
+                <tr><td>Digital Consultation Pods</td><td>2-4 dedicated acoustic booths</td><td>High-resolution interactive digital car configurator touchscreens.</td></tr>
+                <tr><td>Customer Delivery Bay</td><td>Dedicated indoor handover suite</td><td>Unveiling curtain mechanism, celebratory photography lighting, personalized welcome display.</td></tr>
+                <tr><td>Hospitality Lounge & Cafe</td><td>Minimum 6-12 guest seating</td><td>Freshly brewed premium refreshments, Wi-Fi connectivity, children's engagement corner.</td></tr>
+              </tbody>
+            </table>
+          `
+        }
+      };
+
+      window.activeAnnexKey = '2A';
+
+      window.openAnnexViewer = function(e, key) {
+        if (e && e.preventDefault) e.preventDefault();
+        var doc = window.ANNEX_DOCS[key] || window.ANNEX_DOCS['2A'];
+        window.activeAnnexKey = key;
+
+        var modal = document.getElementById('annexModal');
+        var titleEl = document.getElementById('annexModalTitle');
+        var bodyEl = document.getElementById('annexModalBody');
+
+        if (titleEl) titleEl.textContent = doc.code + ': ' + doc.title;
+        if (bodyEl) {
+          bodyEl.innerHTML = doc.content;
+          bodyEl.scrollTop = 0;
+        }
+
+        if (modal) {
+          modal.classList.add('show');
+          document.body.style.overflow = 'hidden';
+        }
+      };
+
+      window.closeAnnexModal = function() {
+        var modal = document.getElementById('annexModal');
+        if (modal) {
+          modal.classList.remove('show');
+          document.body.style.overflow = '';
+        }
+      };
+
+      window.handleAnnexModalBackdrop = function(e) {
+        if (e.target && e.target.id === 'annexModal') {
+          window.closeAnnexModal();
+        }
+      };
+
+      window.downloadActiveAnnex = function() {
+        var doc = window.ANNEX_DOCS[window.activeAnnexKey] || window.ANNEX_DOCS['2A'];
+        var textContent = doc.title + '\n' + doc.code + '\nJSW Motors Dealership Operations Manual\n\n' +
+                          'Document content exported from JSW HR Portal.\n\n' +
+                          doc.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
+        var blob = new Blob([textContent], { type: 'application/msword;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = doc.filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        var toast = document.getElementById('portalToast');
+        if(!toast){
+          toast = document.createElement('div');
+          toast.id = 'portalToast';
+          toast.className = 'portal-toast';
+          document.body.appendChild(toast);
+        }
+        toast.innerHTML = '<span style="font-size:18px;">📄</span> <span>Downloaded <strong>' + doc.code + ' &middot; ' + doc.title + '</strong> successfully.</span>';
+        toast.classList.add('show');
+        clearTimeout(window._toastTimeout);
+        window._toastTimeout = setTimeout(function(){ toast.classList.remove('show'); }, 3500);
+      };
+    
 </script>
 </body>
 </html>
