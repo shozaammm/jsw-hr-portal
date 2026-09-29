@@ -3070,11 +3070,6 @@ kbd{
         View File
       </div>
     </div>
-    <div class="annex-file-item" title="View 2D. Dealer Work Area (DWA)" onclick="openAnnexViewer(event, '2D')">
-      <div class="annex-file-left">
-        <div class="annex-file-icon">📄</div>
-        <div class="annex-file-name">2D. Dealer Work Area (DWA)</div>
-      </div>
       <div class="annex-view-badge">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
         View File
@@ -3082,7 +3077,7 @@ kbd{
     </div>
   </div>
 </div>
-<div style="display:none">ANNEXTURE 2A. Job Description Template 2B. All Job Descriptions 2C. Competencies 2D. Dealer Work Area (DWA)</div>
+<div style="display:none">ANNEXTURE 2A. Job Description Template 2B. All Job Descriptions 2C. Competencies</div>
   </div>
 </section>
     </article>
@@ -5616,7 +5611,6 @@ The following code of Conduct applies to all the retail partner and its employee
 <li style="margin-bottom:8px"><strong style="color:var(--navy);font-family:monospace;font-size:13px;display:inline-block;min-width:40px">2A.</strong> Job Description Template</li>
 <li style="margin-bottom:8px"><strong style="color:var(--navy);font-family:monospace;font-size:13px;display:inline-block;min-width:40px">2B.</strong> All Job Descriptions</li>
 <li style="margin-bottom:8px"><strong style="color:var(--navy);font-family:monospace;font-size:13px;display:inline-block;min-width:40px">2C.</strong> Competencies</li>
-<li style="margin-bottom:8px"><strong style="color:var(--navy);font-family:monospace;font-size:13px;display:inline-block;min-width:40px">2D.</strong> Dealer Work Area (DWA)</li>
 </ul>
 </div>
 <div class="prose reveal" style="margin-top:24px">
@@ -7152,7 +7146,7 @@ window.JX_TOC = [
         if(legendTop) legendTop.innerHTML = html;
       };
 
-      /* Org Chart Download Implementation */
+            /* Org Chart Download Implementation */
       window.downloadOrgChart = function() {
         var catIdx = typeof currentOrgCategory !== 'undefined' ? currentOrgCategory : 0;
         var cat = (window.ORG_CATEGORIES && window.ORG_CATEGORIES[catIdx]) ? window.ORG_CATEGORIES[catIdx] : null;
@@ -7160,6 +7154,18 @@ window.JX_TOC = [
 
         var catLabel = cat.label || ('Category ' + (catIdx + 1));
         var cleanName = catLabel.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+        function xmlEscape(str) {
+          if (str === null || str === undefined) return '';
+          return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&apos;');
+        }
+
+        var cleanCatLabel = xmlEscape(catLabel);
 
         function measureTree(node) {
           var nodeW = 140;
@@ -7192,6 +7198,7 @@ window.JX_TOC = [
         var totalH = treeOffsetY + treeH + footerH;
 
         var svgParts = [];
+        svgParts.push('<?xml version="1.0" encoding="UTF-8"?>');
         svgParts.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + totalW + ' ' + totalH + '" width="' + totalW + '" height="' + totalH + '" style="background:#ffffff;font-family:sans-serif;">');
         svgParts.push('<defs>');
         svgParts.push('<style>');
@@ -7207,8 +7214,8 @@ window.JX_TOC = [
         svgParts.push('<rect width="100%" height="100%" fill="#f8fafc"/>');
         svgParts.push('<rect x="' + (padding/2) + '" y="' + (padding/2) + '" width="' + (totalW - padding) + '" height="' + (totalH - padding) + '" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>');
 
-        svgParts.push('<text x="' + padding + '" y="' + (padding + 30) + '" class="txt-title">JSW MOTORS &middot; DEALERSHIP ORGANISATION STRUCTURE</text>');
-        svgParts.push('<text x="' + padding + '" y="' + (padding + 52) + '" class="txt-sub">Recommended Structure: ' + catLabel + ' &middot; Defined as per volume norms and city category</text>');
+        svgParts.push('<text x="' + padding + '" y="' + (padding + 30) + '" class="txt-title">JSW MOTORS &#183; DEALERSHIP ORGANISATION STRUCTURE</text>');
+        svgParts.push('<text x="' + padding + '" y="' + (padding + 52) + '" class="txt-sub">Recommended Structure: ' + cleanCatLabel + ' &#183; Defined as per volume norms and city category</text>');
         svgParts.push('<line x1="' + padding + '" y1="' + (padding + 66) + '" x2="' + (totalW - padding) + '" y2="' + (padding + 66) + '" stroke="#e2e8f0" stroke-width="1"/>');
 
         var colorMap = {
@@ -7250,7 +7257,7 @@ window.JX_TOC = [
 
           var startTextY = boxY + nh / 2 - ((lines.length - 1) * 7);
           lines.forEach(function(line, li){
-            svgParts.push('<text x="' + curCenterX + '" y="' + (startTextY + li * 14) + '" class="node-text" fill="' + theme.text + '">' + line.replace(/&/g, '&amp;') + '</text>');
+            svgParts.push('<text x="' + curCenterX + '" y="' + (startTextY + li * 14) + '" class="node-text" fill="' + theme.text + '">' + xmlEscape(line) + '</text>');
           });
 
           if (mNode.children && mNode.children.length > 0) {
@@ -7303,7 +7310,7 @@ window.JX_TOC = [
         function addLegItem(colorObj, label) {
           svgParts.push('<rect x="' + legX + '" y="' + (legY - 8) + '" width="14" height="14" rx="3" fill="' + colorObj.fill + '" stroke="' + colorObj.stroke + '"/>');
           svgParts.push('<rect x="' + legX + '" y="' + (legY - 8) + '" width="3.5" height="14" rx="1" fill="' + colorObj.stripe + '"/>');
-          svgParts.push('<text x="' + (legX + 20) + '" y="' + (legY + 4) + '" style="font-size:12px;font-weight:600;fill:#334155;">' + label + '</text>');
+          svgParts.push('<text x="' + (legX + 20) + '" y="' + (legY + 4) + '" style="font-size:12px;font-weight:600;fill:#334155;">' + xmlEscape(label) + '</text>');
           legX += label.length * 7 + 55;
         }
         addLegItem(colorMap['dp'], 'Per DP');
@@ -7342,7 +7349,7 @@ window.JX_TOC = [
           toast.className = 'portal-toast';
           document.body.appendChild(toast);
         }
-        toast.innerHTML = '<span style="font-size:18px;">📊</span> <span>Downloaded <strong>JSW Motors Org Chart (' + catLabel + ')</strong> successfully.</span>';
+        toast.innerHTML = '<span style="font-size:18px;">📊</span> <span>Downloaded <strong>JSW Motors Org Chart (' + cleanCatLabel + ')</strong> successfully.</span>';
         toast.classList.add('show');
         clearTimeout(window._toastTimeout);
         window._toastTimeout = setTimeout(function(){ toast.classList.remove('show'); }, 3500);
@@ -7510,43 +7517,8 @@ window.JX_TOC = [
               <tr><th>Mastery (Level 3)</th><td>Designs and audits dealership operating workflows; eliminates operational bottlenecks; ensures consistent 100% score on OEM governance audits.</td></tr>
             </table>
           `
-        },
-        '2D': {
-          code: 'ANNEXURE 2D',
-          title: 'Dealer Work Area (DWA) Guidelines',
-          filename: 'JSW_Motors_Annexure_2D_Dealer_Work_Area_Guidelines.doc',
-          content: `
-            <div class="annex-doc-header-box">
-              <div class="annex-doc-field"><span class="annex-doc-label">Operational Guideline</span><span class="annex-doc-val">Dealer Work Area (DWA) Framework</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Scope</span><span class="annex-doc-val">Territory Demarcation & Catchment Management</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Authority</span><span class="annex-doc-val">JSW Motors Network Development</span></div>
-              <div class="annex-doc-field"><span class="annex-doc-label">Version</span><span class="annex-doc-val">2026.1 &middot; Mandatory Compliance</span></div>
-            </div>
-
-            <div class="annex-doc-sec-title">1. Purpose and Philosophy of DWA</div>
-            <p>The Dealer Work Area (DWA) defines the assigned geographical territory, micro-markets, and pin codes allocated to each dealer partner. It ensures disciplined market development, eliminates territory poaching, and enables deep localized customer engagement.</p>
-
-            <div class="annex-doc-sec-title">2. DWA Core Operating Principles</div>
-            <ul style="padding-left:20px;margin-bottom:16px;">
-              <li><strong>Territory Exclusivity:</strong> Dealer partners have primary marketing and lead generation responsibility for assigned pin codes.</li>
-              <li><strong>Lead Routing Governance:</strong> OEM digital leads generated from customer IP or residential pin codes are automatically routed to the designated DWA dealer partner.</li>
-              <li><strong>Cross-Territory Sales Protocol:</strong> Walk-in customers from outside the DWA must be served with equal hospitality; however, active outdoor marketing or B2B poaching in an adjacent dealer\'s DWA is strictly prohibited without prior OEM zonal approval.</li>
-              <li><strong>Showroom & Workshop Floor Demarcation:</strong> Minimum square footage and functional zoning standards (customer lounge, delivery bay, consulting pods, accessories studio) must strictly follow JSW Motors corporate identity guidelines.</li>
-            </ul>
-
-            <div class="annex-doc-sec-title">3. Showroom Zone Standards</div>
-            <table class="annex-doc-table">
-              <thead><tr><th>Zone</th><th>Minimum Standard</th><th>Key Requirements</th></tr></thead>
-              <tbody>
-                <tr><td>Vehicle Display Area</td><td>3 to 8 vehicle pads depending on category (XPlus to Z)</td><td>Spot lighting, high-contrast floor, uninterrupted 360-degree walking clearance.</td></tr>
-                <tr><td>Digital Consultation Pods</td><td>2-4 dedicated acoustic booths</td><td>High-resolution interactive digital car configurator touchscreens.</td></tr>
-                <tr><td>Customer Delivery Bay</td><td>Dedicated indoor handover suite</td><td>Unveiling curtain mechanism, celebratory photography lighting, personalized welcome display.</td></tr>
-                <tr><td>Hospitality Lounge & Cafe</td><td>Minimum 6-12 guest seating</td><td>Freshly brewed premium refreshments, Wi-Fi connectivity, children\'s engagement corner.</td></tr>
-              </tbody>
-            </table>
-          `
         }
-      };
+};
 
       window.activeAnnexKey = '2A';
 
