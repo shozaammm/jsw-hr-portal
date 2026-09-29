@@ -5111,6 +5111,8 @@ html, body {
   transition: all 0.15s ease !important;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
 }
+.orgchart-dl-btn.primary { background: var(--navy, #1e293b) !important; color: #ffffff !important; border-color: var(--navy, #1e293b) !important; }
+.orgchart-dl-btn.primary:hover { background: #0f172a !important; color: #ffffff !important; }
 .orgchart-dl-btn:hover {
   background: var(--grey-100) !important;
   border-color: var(--grey-400) !important;
@@ -5667,10 +5669,18 @@ section.chap > .chap-head:not(:has(> .ch-thumb))::after{
           <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
         </button>
       </div>
-      <button type="button" class="orgchart-fs-btn" id="orgFsBtn" aria-pressed="false"></button>
-      <button type="button" class="orgchart-dl-btn" id="orgDlBtn" onclick="downloadOrgChart()" title="Download flowchart" aria-label="Download Flowchart">
+            <button type="button" class="orgchart-fs-btn" id="orgFsBtn" aria-pressed="false"></button>
+      <button type="button" class="orgchart-dl-btn" id="orgViewFullBtn" onclick="openOrgChartViewer()" title="View full flowchart at once on screen" aria-label="View Full Chart">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        <span>View Full Chart</span>
+      </button>
+      <button type="button" class="orgchart-dl-btn primary" id="orgDlJpgBtn" onclick="downloadOrgChart('jpg')" title="Download high-resolution JPG image (ideal for phone, gallery & viewing whole thing)" aria-label="Download JPG">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span>Download JPG</span>
+      </button>
+      <button type="button" class="orgchart-dl-btn" id="orgDlSvgBtn" onclick="downloadOrgChart('svg')" title="Download vector SVG" aria-label="Download SVG">
         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        <span>Download Chart</span>
+        <span>SVG</span>
       </button>
     </div>
   </div>
@@ -11639,6 +11649,38 @@ html, body {
 </script>
 
 <!-- ============ ANNEXURE DOCUMENT VIEWER MODAL ============ -->
+<!-- ============ ORG CHART FULL IMAGE VIEWER MODAL ============ -->
+<div class="annex-modal-backdrop" id="orgChartModal" onclick="handleOrgModalBackdrop(event)">
+  <div class="annex-modal-dialog" style="max-width:96vw; width:1280px; max-height:94vh;">
+    <div class="annex-modal-header">
+      <div class="annex-modal-title-group">
+        <div class="annex-modal-sub">JSW MOTORS · OFFICIAL ORGANISATION STRUCTURE</div>
+        <h3 class="annex-modal-title" id="orgModalTitle">Dealership Organisation Chart</h3>
+      </div>
+      <div class="annex-modal-actions">
+        <button type="button" class="annex-modal-dl-btn" onclick="downloadOrgChart('jpg')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Download JPG
+        </button>
+        <button type="button" class="annex-modal-dl-btn secondary" onclick="downloadOrgChart('svg')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download SVG
+        </button>
+        <button type="button" class="annex-modal-close" onclick="closeOrgChartViewer()" aria-label="Close chart">&times;</button>
+      </div>
+    </div>
+    <div class="annex-modal-body" style="padding:16px;text-align:center;overflow:auto;max-height:calc(94vh - 120px);background:#f8fafc;">
+      <div style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:#475569;flex-wrap:wrap;gap:8px;">
+        <span>📱 <em>Viewing entire flowchart at once. Tap &amp; hold image on mobile or click buttons above to save.</em></span>
+        <button type="button" class="orgchart-zoom-val" onclick="toggleOrgModalFit()" id="orgModalFitBtn" style="padding:5px 12px;cursor:pointer;border-radius:16px;border:1px solid var(--line-200);background:#fff;font-weight:600;">100% Zoom</button>
+      </div>
+      <div id="orgModalImgWrap" style="overflow:auto;border-radius:10px;border:1px solid #cbd5e1;background:#ffffff;box-shadow:0 4px 16px rgba(0,0,0,0.08);display:inline-block;max-width:100%;text-align:center;">
+        <img id="orgModalImg" src="" alt="JSW Org Chart" style="max-width:100%;height:auto;display:block;margin:0 auto;"/>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="annex-modal-backdrop" id="annexModal" onclick="handleAnnexModalBackdrop(event)">
   <div class="annex-modal-dialog">
     <div class="annex-modal-header">
@@ -11669,13 +11711,13 @@ html, body {
 
       
 
-            /* Org Chart Download Implementation */
-      window.downloadOrgChart = function() {
-        var catIdx = typeof currentOrgCategory !== 'undefined' ? currentOrgCategory : 0;
-        var cat = (window.ORG_CATEGORIES && window.ORG_CATEGORIES[catIdx]) ? window.ORG_CATEGORIES[catIdx] : null;
-        if (!cat) return;
+                  /* Org Chart SVG & JPG Download and Viewer Implementation */
+      window.generateOrgChartSvgData = function(catIdx) {
+        var idx = (catIdx !== undefined && catIdx !== null) ? catIdx : (typeof currentOrgCategory !== 'undefined' ? currentOrgCategory : 0);
+        var cat = (window.ORG_CATEGORIES && window.ORG_CATEGORIES[idx]) ? window.ORG_CATEGORIES[idx] : null;
+        if (!cat) return null;
 
-        var catLabel = cat.label || ('Category ' + (catIdx + 1));
+        var catLabel = cat.label || ('Category ' + (idx + 1));
         var cleanName = catLabel.replace(/[^a-zA-Z0-9_-]/g, '_');
 
         function xmlEscape(str) {
@@ -11722,7 +11764,7 @@ html, body {
 
         var svgParts = [];
         svgParts.push('<?xml version="1.0" encoding="UTF-8"?>');
-        svgParts.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + totalW + ' ' + totalH + '" width="' + totalW + '" height="' + totalH + '" style="background:#ffffff;font-family:sans-serif;">');
+        svgParts.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + totalW + ' ' + totalH + '" width="' + totalW + '" height="' + totalH + '" style="background:#ffffff;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">');
         svgParts.push('<defs>');
         svgParts.push('<style>');
         svgParts.push('  .node-box { rx: 7px; ry: 7px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12)); }');
@@ -11853,30 +11895,180 @@ html, body {
         }
 
         svgParts.push('</svg>');
+        return {
+          svgString: svgParts.join('\n'),
+          width: totalW,
+          height: totalH,
+          catLabel: catLabel,
+          cleanName: cleanName
+        };
+      };
 
-        var svgData = svgParts.join('\n');
-        var blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-        var url = URL.createObjectURL(blob);
-        var link = document.createElement('a');
-        link.href = url;
-        link.download = 'JSW_Motors_Org_Chart_' + cleanName + '.svg';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-
+      function showPortalToast(icon, msg) {
         var toast = document.getElementById('portalToast');
-        if(!toast){
+        if (!toast) {
           toast = document.createElement('div');
           toast.id = 'portalToast';
           toast.className = 'portal-toast';
           document.body.appendChild(toast);
         }
-        toast.innerHTML = '<span style="font-size:18px;">📊</span> <span>Downloaded <strong>JSW Motors Org Chart (' + cleanCatLabel + ')</strong> successfully.</span>';
+        toast.innerHTML = '<span style="font-size:18px;">' + icon + '</span> <span>' + msg + '</span>';
         toast.classList.add('show');
         clearTimeout(window._toastTimeout);
         window._toastTimeout = setTimeout(function(){ toast.classList.remove('show'); }, 3500);
+      }
+
+      window.downloadOrgChart = function(format) {
+        format = (format || 'jpg').toLowerCase();
+        var data = window.generateOrgChartSvgData();
+        if (!data) return;
+
+        if (format === 'svg') {
+          var blob = new Blob([data.svgString], { type: 'image/svg+xml;charset=utf-8' });
+          var url = URL.createObjectURL(blob);
+          var link = document.createElement('a');
+          link.href = url;
+          link.download = 'JSW_Motors_Org_Chart_' + data.cleanName + '.svg';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          showPortalToast('📐', 'Downloaded <strong>JSW Motors Org Chart (' + data.catLabel + ') [SVG]</strong> successfully.');
+          return;
+        }
+
+        // Default to JPG for universal mobile / phone / gallery viewing
+        showPortalToast('⏳', 'Generating high-resolution JPG for <strong>' + data.catLabel + '</strong>...');
+        var img = new Image();
+        var svgBlob = new Blob([data.svgString], { type: 'image/svg+xml;charset=utf-8' });
+        var DOMURL = window.URL || window.webkitURL || window;
+        var url = DOMURL.createObjectURL(svgBlob);
+
+        img.onload = function() {
+          try {
+            var scale = 2; // High-resolution 2x DPR
+            var canvas = document.createElement('canvas');
+            canvas.width = data.width * scale;
+            canvas.height = data.height * scale;
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            DOMURL.revokeObjectURL(url);
+
+            if (canvas.toBlob) {
+              canvas.toBlob(function(jpgBlob) {
+                if (!jpgBlob) { fallbackDataUrl(); return; }
+                var jpgUrl = DOMURL.createObjectURL(jpgBlob);
+                var link = document.createElement('a');
+                link.href = jpgUrl;
+                link.download = 'JSW_Motors_Org_Chart_' + data.cleanName + '.jpg';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(function(){ DOMURL.revokeObjectURL(jpgUrl); }, 2000);
+                showPortalToast('🖼️', 'Downloaded <strong>JSW Motors Org Chart (' + data.catLabel + ') [JPG]</strong> to your device.');
+              }, 'image/jpeg', 0.94);
+            } else {
+              fallbackDataUrl();
+            }
+
+            function fallbackDataUrl() {
+              var jpgData = canvas.toDataURL('image/jpeg', 0.94);
+              var link = document.createElement('a');
+              link.href = jpgData;
+              link.download = 'JSW_Motors_Org_Chart_' + data.cleanName + '.jpg';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              showPortalToast('🖼️', 'Downloaded <strong>JSW Motors Org Chart (' + data.catLabel + ') [JPG]</strong> to your device.');
+            }
+          } catch(err) {
+            console.error('Canvas JPG generation error:', err);
+            window.downloadOrgChart('svg');
+          }
+        };
+        img.onerror = function() {
+          DOMURL.revokeObjectURL(url);
+          window.downloadOrgChart('svg');
+        };
+        img.src = url;
       };
+
+      /* Org Chart Full Viewer Modal */
+      window.openOrgChartViewer = function() {
+        var data = window.generateOrgChartSvgData();
+        if (!data) return;
+
+        var modal = document.getElementById('orgChartModal');
+        var modalTitle = document.getElementById('orgModalTitle');
+        var modalImg = document.getElementById('orgModalImg');
+        var fitBtn = document.getElementById('orgModalFitBtn');
+
+        if (modalTitle) modalTitle.textContent = 'Organisation Chart: ' + data.catLabel;
+
+        // Render JPG to modal image
+        var img = new Image();
+        var svgBlob = new Blob([data.svgString], { type: 'image/svg+xml;charset=utf-8' });
+        var DOMURL = window.URL || window.webkitURL || window;
+        var url = DOMURL.createObjectURL(svgBlob);
+
+        img.onload = function() {
+          var scale = 2;
+          var canvas = document.createElement('canvas');
+          canvas.width = data.width * scale;
+          canvas.height = data.height * scale;
+          var ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          DOMURL.revokeObjectURL(url);
+
+          if (modalImg) {
+            modalImg.src = canvas.toDataURL('image/jpeg', 0.94);
+            modalImg.style.maxWidth = '100%';
+            modalImg.style.width = 'auto';
+          }
+          if (fitBtn) fitBtn.textContent = '100% Zoom';
+        };
+        img.src = url;
+
+        if (modal) {
+          modal.classList.add('show');
+          document.body.style.overflow = 'hidden';
+        }
+      };
+
+      window.closeOrgChartViewer = function() {
+        var modal = document.getElementById('orgChartModal');
+        if (modal) {
+          modal.classList.remove('show');
+          document.body.style.overflow = '';
+        }
+      };
+
+      window.handleOrgModalBackdrop = function(e) {
+        if (e.target && e.target.id === 'orgChartModal') {
+          window.closeOrgChartViewer();
+        }
+      };
+
+      window.toggleOrgModalFit = function() {
+        var modalImg = document.getElementById('orgModalImg');
+        var fitBtn = document.getElementById('orgModalFitBtn');
+        if (!modalImg || !fitBtn) return;
+        if (fitBtn.textContent.indexOf('100%') !== -1) {
+          modalImg.style.maxWidth = 'none';
+          modalImg.style.width = '100%';
+          fitBtn.textContent = 'Fit Screen';
+        } else {
+          modalImg.style.maxWidth = '100%';
+          modalImg.style.width = 'auto';
+          fitBtn.textContent = '100% Zoom';
+        }
+      };
+
+      
 
       /* Annexure Viewer & Document Management */
       window.ANNEX_DOCS = {
