@@ -10,7 +10,7 @@ Text is copied verbatim from the docx. Layout reuses the portal's own
 classes (pull, meta-row, sub-title, item-title, list-clean, table-wrap,
 zigzag, img-card, annex-file-item).
 """
-import base64, html, io, re, subprocess, sys
+import base64, hashlib, html, io, re, subprocess, sys
 from pathlib import Path
 
 import docx
@@ -114,7 +114,7 @@ class Doc:
                 buf = io.BytesIO(); im.save(buf, 'PNG'); blob, mime = buf.getvalue(), 'image/png'
             ext = dr.find('.//' + qn('wp:extent'))
             width = round(int(ext.get('cx')) / 9525) if ext is not None else None
-            out.append((mime, blob, width))
+            out.append((mime, blob, width, hashlib.md5(part.blob).hexdigest()[:8]))
         return out
 
     def fmt(self, p):
@@ -192,6 +192,34 @@ def flow_steps(t):
             cells = cells[::-1]
         steps.extend(cells)
     return steps
+
+
+def parse_step(c, idx):
+    """(num, when[], body[], who[], rms) for one flow-table cell."""
+    paras = [p for p in c.paragraphs if p.text.strip() and p.text.strip() not in ARROWS]
+    li = next((i for i, p in enumerate(paras) if re.match(r'^[A-Z]\.\s', p.text.strip())), None)
+    num, when, body, who = f'{idx:02d}', [], [], []
+    if li is None:
+        body = [paras[0].text.strip()] if paras else []
+        rest = paras[1:]
+    else:
+        when = [p.text.strip() for p in paras[:li]]
+        m = re.match(r'^([A-Z])\.\s*(.*)$', paras[li].text.strip())
+        num, body = m.group(1), [m.group(2)]
+        rest = paras[li + 1:]
+    for p in rest:
+        rs = [r for r in p.runs if r.text.strip()]
+        role = rs and all(r.italic or r.bold for r in rs)
+        (who if role or who else body).append(p.text.strip())
+    return num, when, body, who, cell_fill(c) == RMS_FILL
+
+
+def flow_cells(tables):
+    out, i = [], 1
+    for t in tables:
+        for c in flow_steps(t):
+            out.append(parse_step(c, i)); i += 1
+    return out
 
 
 def step_html(c, idx):
@@ -276,7 +304,7 @@ def table_html(t, D):
 
 
 # ───────────────────────────── renderer ─────────────────────────────
-META = re.compile(r'^(Purpose|Principles|Benefits? to (?:the )?(?:Dealerships?|Customers?))\s*:?\s*$', re.I)
+META = re.compile(r'^(Purpose|Principles|Benefits? to (?:the )?(?:Dealers?|Dealerships?|Customers?))\s*:?\s*$', re.I)
 ANNEX = re.compile(r'^ANNEXT?URES?$')
 ANNEX_ITEM = re.compile(r'^(\d{1,2}[A-Z])\.\s+(.+)$')
 DOWNLOAD_SVG = ('<svg fill="none" height="12" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="12">'
@@ -286,7 +314,7 @@ DOWNLOAD_SVG = ('<svg fill="none" height="12" stroke="currentColor" stroke-width
 
 def img_html(imgs, alt):
     out = []
-    for mime, blob, width in imgs:
+    for mime, blob, width, _ in imgs:
         b64 = base64.b64encode(blob).decode()
         mw = f' style="max-width:{width}px"' if width else ''
         out.append(f'<div class="img-card v7-img"{mw}><img alt="{html.escape(alt)}" loading="lazy" src="data:{mime};base64,{b64}"/></div>')
@@ -342,10 +370,17 @@ class Renderer:
             self.list_stack.pop()
         self.out.append('</li><li>' + body)
 
+    hooks = None      # set by build(): fn(renderer, blocks, i) -> (html, consumed) | None
+
     def render(self, blocks):
         i = 0
         while i < len(blocks):
             b = blocks[i]
+            hit = Renderer.hooks(self, blocks, i) if Renderer.hooks else None
+            if hit:
+                self.close_meta()
+                self.out.append(hit[0])
+                i += hit[1]; continue
             if b['k'] == 'tbl':
                 self.close_meta()
                 if is_flow(b['t']):
@@ -478,11 +513,225 @@ def sub_num(label):
     return (m.group(1), m.group(2)) if m else ('', label.strip())
 
 
+# ───────────────────────────── infographics ─────────────────────────────
+# Wording inside V7's own images, transcribed verbatim (the image is the source).
+IMG_LEARNER_JOURNEY = '27eb860c'
+IMG_TMS_FLOW = '356c72a9'
+IMG_TNA_TABLE = 'fc9e18c9'
+IMG_CAL_FINAL = '4b87c084'
+IMG_SAMPLE_PLAN = 'de0d0bbd'
+IMG_LMS = 'f49625e6'
+
+LEARNER_JOURNEY = [
+    {'title': 'Customer-facing roles',
+     'subtitle': 'Sales Consultant | Sales Team Leader | Hostess | Customer Relationship Executive | Corporate Sales Executive | IDT | Sales Manager',
+     'steps': [('Level 1', 'Within 30 days of joining'), ('Level 2', 'Within 90 days of joining'), ('Level 3', 'Within 180 days of joining')],
+     'chips': ['Level 1 Certification Assessment', 'Level 2 Certification Assessment', 'Level 3 Certification Assessment']},
+    {'title': 'All other roles', 'subtitle': 'Every other role in the dealership',
+     'steps': [('Role-specific training', '30 days of joining'), ('Refresher Trainings', 'Run through the year as per the training calendar')],
+     'chips': ['Role-specific Training Assessment']},
+]
+TMS_FLOW = ('Training Process Flow in TMS for JSW Trainings', [
+    ('Step 1 — Training Calendar Release', 'JSW Motors releases monthly training calendar & nominates dealer manpower'),
+    ('Step 2 — Nomination Confirmation', 'Nomination available on Training Management System to respective IDT for review & confirmation'),
+    ('Step 3 — Attend Scheduled Training', 'Confirmed manpower attends scheduled training at venue'),
+    ('Step 4 — Attendance Capture', 'Attendance marked digitally in TMS by the trainee under Trainer’s Supervision'),
+    ('Step 5 — Pre & Post Training Assessment', 'Pre & Post training assessment conducted digitally on Training Management System'),
+    ('Step 6 — Results Published & Visibility', 'Assessment results generated & published in real-time, immediate visibility for Trainers & Dealers'),
+    ('Step 7 — Training Feedback', 'Feedback is captured to measure participant satisfaction and learning experience'),
+])
+TNA_TABLE = ('TNA Process', ['Parameter', 'Methods', 'Applicable Category'], [
+    ('Knowledge Check', 'Assessments', ['Product', 'Process']),
+    ('Performance Check', 'Data on — Sales funnel: Enquiry → Booking → Retail, Test Drive Ratio, Demo observations', ['Product', 'Process']),
+    ('Training Gaps', 'Score gaps in LMS-assigned modules to Dealership role holders', ['Product', 'Process']),
+    ('SOP Adherence', 'Customer Journey Gaps through On-Job Observation (OJO) by IDT', ['Process', 'Soft Skills']),
+    ('Complaints', 'Data on — SSI Score, number of complaints logged, Customer Satisfaction', ['Soft Skills']),
+    ('Follow-up Quality', 'Follow-up done / not done tracking through Log review', ['Soft Skills']),
+])
+CAL_FINAL = ('Training Calendar Finalization Process For Internal Dealer Trainer (IDT)', [
+    ('TNA Report (Input)', ['Inputs for: Product, Process & Soft Skills Trainings', 'Avoid – assuming needs without data & Validation',
+                            'Timelines – By 20th of every Month']),
+    ('Calendar Draft Preparation & Nomination Confirmation', ['Create training calendar 6A basis to TNA inputs using form',
+                            'Define: Topics | Mode | Duration | Date I Targeted nomination', 'Nominate participants and inform respective reporting manager',
+                            'Avoid - Peak sales/festive periods', 'Timelines – Between 21st to 23rd of every Month']),
+    ('GM Discussion & Approval', ['Present calendar to GM & Incorporate Feedback if any', 'Adjust dates if there are any conflicts',
+                            'Get formal sign-off from GM', 'Timelines – by 24th of every month']),
+    ('Calendar Rollout', ['Email to GM, Reporting manager & nominated participants & Display on notice board with Nominations',
+                            'Share through digital platforms within dealership', 'Communicate changes as and when required', 'Timelines – 25th of Every Month']),
+    ('Conduct Training', ['Conduct training as per schedule', 'Maintain attendance & Photos/documentation for records',
+                            'Avoid – starting sessions without pre-training readiness checks – Reading material, attendance sheet, content readiness',
+                            'Timelines – 1st to 3rd Week of every month']),
+    ('Post-Training Assessment', ['Conduct post-test', 'Evaluate and record Scores', 'Update Dealership training records', 'Timelines – On the training day']),
+    ('Feedback Collection', ['Take participant feedback using feedback form 6B', 'Avoid – Not evaluating feedback and taking corrective action',
+                            'Timelines – On the training day']),
+    ('Records & Documentation', ['Record attendance & assessment scores', 'Maintain training & certification records',
+                            'Avoid – Closing the cycle without updating all records and documenting key learnings']),
+])
+SAMPLE_PLAN = ('Sample Training Calendar – Week Wise Plan', ['Week', 'Topic/Modules', 'Coverage'], [
+    (['Week 1', 'Product Orientation Training'], ['New Product Introduction', 'Key Features', 'USPs & Competitive Edge', 'Product Demo Techniques', 'Field Application'],
+     ['Product line-up overview, model range & variants, brand positioning', 'Technical specifications, feature walkthrough, segment-wise comparison',
+      'Unique selling propositions, competitor comparison', 'Walkaround demo practice, demo scripts', 'Showroom display standards, demo vehicle etiquette',
+      'Written quiz + verbal product pitch evaluation']),
+    (['Week 2', 'Process Knowledge'], ['Sales Process Overview', 'Customer Inquiry Handling', 'Test Drive & Delivery Process', 'Finance & Insurance', 'Documentation & Reporting'],
+     ['End-to-end sales funnel, lead stages, CRM', 'Inquiry logging, follow-up cadence, prospect categorization', 'Test drive SOP’s, delivery ceremony',
+      'Insurance, accessories, finance documentation', 'CRM data entry, escalation matrix', 'Process simulation roleplay']),
+    (['Week 3', 'Soft Skills & Behavioral Training'], ['Communication Skills', 'Customer Handling', 'Negotiation Skills', 'Objection Handling', 'Presentation & Confidence Building'],
+     ['Negotiation framework, value vs. price conversations, closing techniques', 'Common objections bank,  de-escalation tactics',
+      'Public speaking, product storytelling, mock presentations']),
+])
+LMS_STEPS = [('Publish', 'Training team publishes a plan for each role holder'), ('Assign', 'Users see only content that fits their role'),
+             ('Learn', "Modules, videos, PDFs and Web based trainings (WBT's)"), ('Assess', 'Online quizzes and knowledge checks'),
+             ('Track', 'Progress and scores visible to user and management')]
+
+
+def tna_table_html(title, head, rows):
+    cats = {'Product': 'v7-cat-product', 'Process': 'v7-cat-process', 'Soft Skills': 'v7-cat-soft'}
+    body = ''.join(f'<tr><td><strong>{esc(p)}</strong></td><td>{esc(m)}</td><td>'
+                   + ''.join(f'<span class="v7-cat {cats[c]}">{esc(c)}</span>' for c in cs) + '</td></tr>' for p, m, cs in rows)
+    return (f'<h5 class="item-title v7-h5">{esc(title)}</h5><div class="table-wrap"><table><thead><tr>'
+            + ''.join(f'<th>{esc(h)}</th>' for h in head) + f'</tr></thead><tbody>{body}</tbody></table></div>')
+
+
+def plan_table_html(title, head, rows):
+    ul = lambda xs: '<ul class="cell-bullets">' + ''.join(f'<li>{esc(x)}</li>' for x in xs) + '</ul>'
+    body = ''.join(f'<tr><td><strong>{esc(w[0])}</strong><br>{esc(w[1])}</td><td>{ul(t)}</td><td>{ul(c)}</td></tr>' for w, t, c in rows)
+    return (f'<h5 class="item-title v7-h5">{esc(title)}</h5><div class="table-wrap"><table><thead><tr>'
+            + ''.join(f'<th>{esc(h)}</th>' for h in head) + f'</tr></thead><tbody>{body}</tbody></table></div>')
+
+
+def calendar_events(D, chunks):
+    """Every dated item V7 gives, as calendar rules. Titles/descriptions are V7 text."""
+    def table_rows(title, first):
+        for b in chunks[title]['blocks']:
+            if b['k'] == 'tbl' and b['t'].rows[0].cells[0].text.strip() == first:
+                return [[c.text.strip() for c in cells_of(r)] for r in b['t'].rows]
+        raise KeyError(first)
+    E = []
+    eng = table_rows('Employee Engagement, Rewards and Recognition', 'Activity')
+    for act, guide, purpose, by, att in eng[1:]:
+        when = guide.split('When – ')[-1].strip()
+        rule = None
+        if '1st week of the next month' in when: rule = {'m': 'all', 'day': None}
+        elif '7th April' in when: rule = {'m': 3, 'day': 7}
+        elif '2nd October' in when: rule = {'m': 9, 'day': 2}
+        if rule:
+            E.append({**rule, 'title': act.replace('\n', ' '), 'category': 'engagement', 'freq': guide.replace('\n', ' · ').strip(' ·'),
+                      'audience': att, 'chapter': 'ch9-1', 'chapterLabel': 'Ch.9 · 9.1 Employee Engagement Activities',
+                      'desc': f'Purpose: {purpose} · Arranged by: {by}'})
+    E.append({'m': 11, 'day': None, 'title': 'Employee Engagement Calendar is published', 'category': 'engagement',
+              'freq': 'December month of the previous year', 'audience': 'All', 'chapter': 'ch9-1',
+              'chapterLabel': 'Ch.9 · 9.1 Employee Engagement Activities',
+              'desc': 'Employee Engagement Calendar is published in December month of the previous year on digital platforms and also placed on the notice board'})
+    monthly =[b for b in chunks['Employee Engagement, Rewards and Recognition']['blocks'] if b['k'] == 'tbl'
+               and b['t'].rows[0].cells[0].text.strip() == 'Award']
+    for blk in monthly:
+        rows = [[c.text.strip() for c in cells_of(r)] for r in blk['t'].rows]
+        hdr = rows[0]
+        wi = next(i for i, h in enumerate(hdr) if h.startswith('When to give award'))
+        ri = next(i for i, h in enumerate(hdr) if h.startswith('Applicable') or h.startswith('Roleholders'))
+        for r in rows[1:]:
+            when = r[wi].replace('\n', ' ')
+            m = re.match(r'(1st|3rd) Friday of the (N\+1 month|1st month of the N\+1 QTR)', when)
+            if not m:
+                continue
+            n = 1 if m.group(1) == '1st' else 3
+            # "N+1 month" → every month; "1st month of the N+1 QTR" → Jan/Apr/Jul/Oct (V7: Q1 2026 awards in April 2026)
+            months = 'all' if 'N+1 month' in when else [0, 3, 6, 9]
+            E.append({'m': months, 'nth': [n, 5], 'day': None, 'title': r[0].replace('\n', ' '), 'category': 'recognition',
+                      'freq': when, 'audience': r[ri].replace('\n', ' '), 'chapter': 'ch9-2',
+                      'chapterLabel': 'Ch.9 · 9.2 Rewards and Recognition', 'desc': r[1].replace('\n', ' ')})
+    inc = table_rows('Compensation, Benefits and Incentive Policy', 'Date')
+    for date, act, who in inc[1:]:
+        day = int(re.search(r'\d+', date).group(0))
+        E.append({'m': 'all', 'day': day, 'title': act, 'category': 'incentive', 'freq': f'{date} of every month',
+                  'audience': who, 'chapter': 'ch4-4', 'chapterLabel': 'Ch.4 · 4.4 Incentive Scheme',
+                  'desc': 'It is a monthly performance reward program for achieving business targets.'})
+    rev_desc = 'Two weeks before the review is due, HR should remind the reporting manager to conduct the review meeting'
+    for m, t in ((5, 'Quarterly reviews are held in June and December'), (11, 'Quarterly reviews are held in June and December'),
+                 (8, 'Mid-year review is held in September'), (2, 'Annual review is held in March')):
+        E.append({'m': m, 'day': None, 'title': t, 'category': 'reviews', 'freq': 'For April to March cycle', 'audience': 'Employee, Reporting Manager, HR Manager',
+                  'chapter': 'ch7-1', 'chapterLabel': 'Ch.7 · 7.1 Career Driven Performance Management', 'desc': rev_desc})
+    for day, head, bullets in ((20, *CAL_FINAL[1][0]), (21, *CAL_FINAL[1][1]), (24, *CAL_FINAL[1][2]), (25, *CAL_FINAL[1][3])):
+        E.append({'m': 'all', 'day': day, 'title': head, 'category': 'training', 'freq': bullets[-1], 'audience': 'IDT',
+                  'chapter': 'ch6-3', 'chapterLabel': 'Ch.6 · 6.3 Monthly In-house Training Calendar Planning Process',
+                  'desc': ' · '.join(bullets[:-1])})
+    head, bullets = CAL_FINAL[1][4]
+    E.append({'m': 'all', 'day': None, 'title': head, 'category': 'training', 'freq': bullets[-1], 'audience': 'IDT',
+              'chapter': 'ch6-3', 'chapterLabel': 'Ch.6 · 6.3 Monthly In-house Training Calendar Planning Process', 'desc': ' · '.join(bullets[:-1])})
+    return E
+
+
+def phone_fallback(card, lines):
+    """Canvas diagrams scale to the screen; under 600px their text is unreadable, so phones get V7's points as a list."""
+    card = card.replace('class="jsw-interactive-card', 'class="v7-desk jsw-interactive-card', 1)
+    return card + '<ul class="list-clean v7-phone">' + ''.join(f'<li>{x}</li>' for x in lines) + '</ul>'
+
+
+def make_hooks(T, D, chunks):
+    import infographics as G
+    texts_after = lambda blocks, i, n: [blocks[i + 1 + k]['text'] for k in range(n)]
+
+    def hook(R, blocks, i):
+        b = blocks[i]
+        cid = R.cid
+        if b['k'] == 'tbl':
+            first = b['t'].rows[0].cells[0].text.strip()
+            if cid == 'ch3' and is_flow(b['t']):
+                steps = [(n, ' '.join(body), (when + who) or [], rms) for n, when, body, who, rms in flow_cells([b['t']])]
+                return G.rf_flow(T, steps), 1
+            if cid == 'ch8' and first == 'Work Area':
+                rows = [[c.text.strip() for c in cells_of(r)] for r in b['t'].rows]
+                nxt = blocks[i + 1]['text'] if i + 1 < len(blocks) else ''
+                cap, _, note = nxt.partition('\n')
+                assert cap.startswith('Chart 8.1')
+                return G.career_matrix(T, rows, cap.strip()) + (f'\n<p>{esc(note.strip())}</p>' if note.strip() else ''), 2
+            if cid == 'ch9' and first == 'Month':
+                rows = [[c.text.strip() for c in cells_of(r)] for r in b['t'].rows][1:]
+                assert len(rows) == 12
+                themes = [(t, p, a) for _, t, p, a in rows]
+                return G.calendar(T, themes, calendar_events(D, chunks)), 1   # the annual view carries every cell of 9.1.2
+            return None
+        t = b['text']
+        if b['imgs']:
+            h = b['imgs'][0][3]
+            tail = f'<p>{b["html"]}</p>' if t else ''
+            if h == IMG_LEARNER_JOURNEY: return G.learner_journey(T, LEARNER_JOURNEY) + tail, 1
+            if h == IMG_TMS_FLOW: return G.step_flow(T, TMS_FLOW[1], TMS_FLOW[0]) + tail, 1
+            if h == IMG_TNA_TABLE: return tna_table_html(*TNA_TABLE) + tail, 1
+            if h == IMG_CAL_FINAL: return G.module_cards(T, *CAL_FINAL) + tail, 1
+            if h == IMG_SAMPLE_PLAN: return plan_table_html(*SAMPLE_PLAN) + tail, 1
+            if h == IMG_LMS: return phone_fallback(G.chevrons(T, LMS_STEPS), [f'<strong>{esc(a)}</strong> – {esc(b)}' for a, b in LMS_STEPS]) + tail, 1
+            return None
+        if cid == 'ch4' and t.startswith('Interest free salary advance'):
+            items = texts_after(blocks, i, 4)
+            return f'<p>{b["html"]}</p>' + phone_fallback(G.cycle4(T, items, ['Salary', 'advance']), [esc(x) for x in items]), 5
+        if cid == 'ch6' and t == 'i. Training delivery coverage':
+            a, b2 = texts_after(blocks, i, 2), blocks[i + 3]
+            assert b2['text'] == 'ii. Effectiveness'
+            c = texts_after(blocks, i + 3, 2)
+            return phone_fallback(G.ring(T, ['What IDT', 'reports'], [(t, a), (b2['text'], c)]), [f'<strong>{esc(t)}</strong><ul class="list-clean">' + ''.join(f'<li>{esc(x)}</li>' for x in a) + '</ul>', f'<strong>{esc(b2["text"])}</strong><ul class="list-clean">' + ''.join(f'<li>{esc(x)}</li>' for x in c) + '</ul>']), 6
+        if cid == 'ch7' and t == 'Follow the SMART framework while setting KPIs:':
+            rows = []
+            for x in texts_after(blocks, i, 5):
+                l, w, d = [p.strip() for p in re.split(r'\s+–\s+', x, maxsplit=2)]
+                rows.append((l, w, d))
+            return f'<p>{b["html"]}</p>' + G.smart(T, rows), 6
+        if cid == 'ch7' and t == 'Review performance expectations against the set KPIs:':
+            return f'<p>{b["html"]}</p>' + G.review_cards(T, texts_after(blocks, i, 4)), 5
+        if cid == 'ch9' and t.startswith('Managers should immediately recognise'):
+            return f'<p>{b["html"]}</p>' + phone_fallback(G.spot(T, texts_after(blocks, i, 3), 'SPOT'), [esc(x) for x in texts_after(blocks, i, 3)]), 4
+        return None
+    return hook
+
+
 def build():
     base = subprocess.run(['git', 'show', f'{BASE_COMMIT}:v2.html'], cwd=REPO, capture_output=True,
                           text=True, check=True).stdout
     D = Doc(DOCX)
     chunks = {c['title']: c for c in split_chapters(D)}
+    sys.path.insert(0, str(Path(__file__).parent))
+    from infographics import Templates
+    Renderer.hooks = make_hooks(Templates(base), D, chunks)
     toc_subs, annex_all = {}, []
 
     # ── intro pages ───────────────────────────────────────────────
@@ -492,7 +741,10 @@ def build():
         parts.append(f'<h3 class="sub-title subhead"{" style=\"margin-top:0\"" if name == "JSW Group" else ""}>{esc(name)}</h3>')
         fm_i.out = []
         fm_i.render(chunks[name]['blocks'])
-        parts.append('\n'.join(fm_i.out))
+        # inside JSW Group / JSW Motors, V7's "Our Purpose / Our Vision …" sit one level below the group name
+        part = '\n'.join(fm_i.out)
+        part = re.sub(r'<h3 class="sub-title subhead" id="fm-i-\d+">(.*?)</h3>', r'<h4 class="item-title">\1</h4>', part)
+        parts.append(part)
     fm_i_html = article('fm-i', 'i.', 'JSW Group and JSW Motors Vision and Foundation', '\n'.join(parts))
 
     # Message from Management: keep the existing photo beside Option 1
@@ -566,6 +818,10 @@ def build():
         assert html_out.count(guard) == 1
         html_out = html_out.replace(guard, '')
     assert "['i', 'ii', 'iii', '1', '2']" not in html_out
+    # groups lost their "Part X · " prefix (ab1bffd), so short === name and the sidebar printed it twice
+    dup = "g.name ? '<b>' + esc(g.short) + '</b><span>' + esc(g.name) + '</span>'"
+    assert html_out.count(dup) == 1
+    html_out = html_out.replace(dup, "g.name && g.name !== g.short ? '<b>' + esc(g.short) + '</b><span>' + esc(g.name) + '</span>'")
     html_out = patch_home(html_out)
     html_out = patch_toc(html_out, toc_subs)
     html_out = inject_css(html_out)
@@ -670,6 +926,20 @@ CSS = '''<style id="jx-v7">
 .jx-chapter .v7-img img{display:block;width:100%;height:auto !important;object-fit:contain !important;aspect-ratio:auto !important}
 .jx-chapter blockquote.v7-quote{margin:16px 0;padding:14px 18px;border-left:3px solid var(--line-200,#ccc);font-style:italic}
 .jx-chapter .v7-disclaimer{font-size:13px;opacity:.85}
+.jx-chapter .rf-phase-badge{background:rgba(255,255,255,.16);color:#fff}
+.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#2c2c2c"] [style*="background:linear-gradient(145deg,#fdfdfd"] *,
+.jsw-diagram-canvas [style*="background:linear-gradient(145deg,#2c2c2c"] [style*="background:linear-gradient(145deg,#fdfdfd"]{color:#0A0A0A !important}
+.jx-chapter .rf-step-card.zz-rms{background:#FAE2D5;border-color:#E9B79B}
+.jx-chapter .v7-cat{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;margin:2px 4px 2px 0;border:1px solid var(--line-200,#ccc)}
+.jx-chapter .v7-cat-product{background:#DCE8F7}
+.jx-chapter .v7-cat-process{background:#FBE3CC}
+.jx-chapter .v7-cat-soft{background:#E1EBD3}
+.jx-chapter .ch-month-notes{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 10px}
+.jx-chapter .ch-month-notes:empty{display:none}
+.jx-chapter .ch-month-notes .ch-pill{cursor:pointer;font-size:11px;padding:4px 8px;white-space:normal}
+.jx-chapter .ch-notes-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-right:4px}
+.jx-chapter .v7-phone{display:none}
+@media (max-width:600px){.jx-chapter .v7-desk{display:none !important}.jx-chapter .v7-phone{display:block}}
 .jx-hero-quote{margin:18px auto 0;font-style:italic;opacity:.8;text-align:center}
 </style>
 '''
