@@ -14,6 +14,7 @@ import base64, hashlib, html, io, json, re, subprocess, sys
 from pathlib import Path
 
 import docx
+import flowcharts as fc
 from docx.oxml.ns import qn
 from docx.table import Table
 from docx.text.paragraph import Paragraph
@@ -250,6 +251,31 @@ def step_html(c, idx):
     return f'<div class="zigzag-item"><div class="{cls}">{out}</div></div>'
 
 
+def flow_nodes(tables):
+    """Steps with their grid position, exactly as the Word tables lay them out (arrow cells sit between step cells)."""
+    nodes, row0, idx = [], 0, 1
+    for t in tables:
+        used = 0
+        for r in t.rows:
+            cells, col = [], 0
+            for c in cells_of(r):
+                span = c._tc.tcPr.gridSpan.val if c._tc.tcPr is not None and c._tc.tcPr.gridSpan is not None else 1
+                cells.append((col, c)); col += span
+            steps = [(k, c) for k, c in cells if c.text.strip() and c.text.strip() not in ARROWS]
+            if not steps:
+                continue
+            used += 1
+            if any(c.text.strip() == '←' or c.text.strip().endswith('←') for _, c in cells):
+                steps = steps[::-1]
+            for k, c in steps:
+                num, when, body, who, rms = parse_step(c, idx)
+                nodes.append({'num': str(int(num)) if re.fullmatch(r'0\d', num) else num, 'when': when, 'body': body,
+                              'who': who, 'rms': rms, 'row': row0 + used, 'col': k // 2 + 1})
+                idx += 1
+        row0 += used
+    return nodes
+
+
 def flow_html(tables):
     items, i = [], 1
     for t in tables:
@@ -281,12 +307,34 @@ def cell_html(c, D):
     return re.sub(r'<br>$', '', ''.join(out))
 
 
+def sections_html(rows, D):
+    """One-column box whose rows are 'title + bullets' (e.g. How to make an IJP): each row is its own titled section."""
+    out = []
+    for r in rows:
+        paras = [p for p in r[0].paragraphs if p.text.strip()]
+        listed = lambda p: p._p.pPr is not None and p._p.pPr.numPr is not None
+        body, buf = [], []
+        for p in paras[1:]:
+            if listed(p):
+                buf.append(f'<li>{D.runs_html(p)}</li>')
+                continue
+            if buf:
+                body.append('<ul class="cell-bullets">' + ''.join(buf) + '</ul>'); buf = []
+            body.append(f'<p class="v7-sec-note">{D.runs_html(p)}</p>')
+        if buf:
+            body.append('<ul class="cell-bullets">' + ''.join(buf) + '</ul>')
+        out.append(f'<section class="v7-sec"><h4 class="v7-sec-title">{D.runs_html(paras[0])}</h4>{"".join(body)}</section>')
+    return '<div class="v7-panel">' + ''.join(out) + '</div>'
+
+
 def table_html(t, D):
     rows = [cells_of(r) for r in t.rows]
     rows = [r for r in rows if any(c.text.strip() for c in r)]
     if not rows:
         return ''
     ncol = max(len(r) for r in rows)
+    if ncol == 1 and any(len([p for p in r[0].paragraphs if p.text.strip()]) > 1 for r in rows):
+        return sections_html(rows, D)
     head, body = rows[0], rows[1:]
     # a first row that is one merged banner (e.g. "SECTION 1 — …") stays a full-width header
     def tr(cells, tag):
@@ -385,9 +433,15 @@ class Renderer:
                 self.close_meta()
                 if is_flow(b['t']):
                     group = [b['t']]
-                    while i + 1 < len(blocks) and blocks[i + 1]['k'] == 'tbl' and is_flow(blocks[i + 1]['t']):
-                        i += 1; group.append(blocks[i]['t'])
-                    self.out.append(flow_html(group))
+                    while True:
+                        j = i + 1       # a lone ↓ paragraph between two flow tables continues the same flow
+                        if j < len(blocks) and blocks[j]['k'] == 'p' and blocks[j]['text'] in ARROWS and not blocks[j]['imgs']:
+                            j += 1
+                        if j < len(blocks) and blocks[j]['k'] == 'tbl' and is_flow(blocks[j]['t']):
+                            group.append(blocks[j]['t']); i = j
+                            continue
+                        break
+                    self.out.append(fc.snake(flow_nodes(group)))
                 else:
                     self.out.append(table_html(b['t'], self.D))
                 i += 1; continue
@@ -522,6 +576,7 @@ IMG_CAL_FINAL = '4b87c084'
 IMG_SAMPLE_PLAN = 'de0d0bbd'
 IMG_LMS = 'f49625e6'
 IMG_UNIFIED = 'd5ddab0d'
+IMG_ABSENT = '597b4569'
 # text printed in the Unified Apps image (About the Manual)
 UNIFIED = ('Unified App’s', ['Recruitment Management System (RMS)', 'Training Management System (TMS)',
                              'Learning Management System (LMS)', 'Performance Management System (PMS)', 'SOP’s'])
@@ -586,20 +641,6 @@ SAMPLE_PLAN = ('Sample Training Calendar – Week Wise Plan', ['Week', 'Topic/Mo
 LMS_STEPS = [('Publish', 'Training team publishes a plan for each role holder'), ('Assign', 'Users see only content that fits their role'),
              ('Learn', "Modules, videos, PDFs and Web based trainings (WBT's)"), ('Assess', 'Online quizzes and knowledge checks'),
              ('Track', 'Progress and scores visible to user and management')]
-
-
-def unified_html(root, apps):
-    """Unified Apps tree: root box, connector bar, one card per app — the image's own labels."""
-    items = []
-    for a in apps:
-        m = re.match(r'^(.*?)\s*(\([A-Z]+\))$', a)
-        if m:
-            items.append(f'<li class="v7-app"><span class="v7-app-name">{esc(m.group(1))}</span> '
-                         f'<span class="v7-app-code">{esc(m.group(2))}</span></li>')
-        else:
-            items.append(f'<li class="v7-app v7-app-solo"><span class="v7-app-code">{esc(a)}</span></li>')
-    return (f'<figure class="v7-apps"><div class="v7-apps-root">{esc(root)}</div>'
-            f'<ol class="v7-apps-row">{"".join(items)}</ol></figure>')
 
 
 def tna_table_html(title, head, rows):
@@ -694,9 +735,6 @@ def make_hooks(T, D, chunks):
         cid = R.cid
         if b['k'] == 'tbl':
             first = b['t'].rows[0].cells[0].text.strip()
-            if cid == 'ch3' and is_flow(b['t']):
-                steps = [(n, ' '.join(body), (when + who) or [], rms) for n, when, body, who, rms in flow_cells([b['t']])]
-                return G.rf_flow(T, steps), 1
             if cid == 'ch8' and first == 'Work Area':
                 rows = [[c.text.strip() for c in cells_of(r)] for r in b['t'].rows]
                 nxt = blocks[i + 1]['text'] if i + 1 < len(blocks) else ''
@@ -713,32 +751,30 @@ def make_hooks(T, D, chunks):
         if b['imgs']:
             h = b['imgs'][0][3]
             tail = f'<p>{b["html"]}</p>' if t else ''
-            if h == IMG_LEARNER_JOURNEY: return G.learner_journey(T, LEARNER_JOURNEY) + tail, 1
-            if h == IMG_TMS_FLOW: return G.step_flow(T, TMS_FLOW[1], TMS_FLOW[0]) + tail, 1
+            if h == IMG_LEARNER_JOURNEY: return fc.learner_journey(LEARNER_JOURNEY) + tail, 1
+            if h == IMG_TMS_FLOW: return fc.vlist(TMS_FLOW[0], TMS_FLOW[1]) + tail, 1
             if h == IMG_TNA_TABLE: return tna_table_html(*TNA_TABLE) + tail, 1
-            if h == IMG_CAL_FINAL: return G.module_cards(T, *CAL_FINAL) + tail, 1
+            if h == IMG_CAL_FINAL: return fc.module_snake(*CAL_FINAL) + tail, 1
             if h == IMG_SAMPLE_PLAN: return plan_table_html(*SAMPLE_PLAN) + tail, 1
-            if h == IMG_UNIFIED: return unified_html(*UNIFIED) + tail, 1
-            if h == IMG_LMS: return phone_fallback(G.chevrons(T, LMS_STEPS), [f'<strong>{esc(a)}</strong> – {esc(b)}' for a, b in LMS_STEPS]) + tail, 1
+            if h == IMG_UNIFIED: return fc.unified(*UNIFIED) + tail, 1
+            if h == IMG_ABSENT: return fc.absent_flow() + tail, 1
+            if h == IMG_LMS: return fc.chevrons(LMS_STEPS) + tail, 1
             return None
-        if cid == 'ch4' and t.startswith('Interest free salary advance'):
-            items = texts_after(blocks, i, 4)
-            return f'<p>{b["html"]}</p>' + phone_fallback(G.cycle4(T, items, ['Salary', 'advance']), [esc(x) for x in items]), 5
         if cid == 'ch6' and t == 'i. Training delivery coverage':
             a, b2 = texts_after(blocks, i, 2), blocks[i + 3]
             assert b2['text'] == 'ii. Effectiveness'
             c = texts_after(blocks, i + 3, 2)
-            return phone_fallback(G.ring(T, ['What IDT', 'reports'], [(t, a), (b2['text'], c)]), [f'<strong>{esc(t)}</strong><ul class="list-clean">' + ''.join(f'<li>{esc(x)}</li>' for x in a) + '</ul>', f'<strong>{esc(b2["text"])}</strong><ul class="list-clean">' + ''.join(f'<li>{esc(x)}</li>' for x in c) + '</ul>']), 6
+            return fc.ring(['What IDT', 'reports'], [(t, a), (b2['text'], c)]), 6
         if cid == 'ch7' and t == 'Follow the SMART framework while setting KPIs:':
             rows = []
             for x in texts_after(blocks, i, 5):
                 l, w, d = [p.strip() for p in re.split(r'\s+–\s+', x, maxsplit=2)]
                 rows.append((l, w, d))
-            return f'<p>{b["html"]}</p>' + G.smart(T, rows), 6
+            return f'<p>{b["html"]}</p>' + fc.smart(rows), 6
         if cid == 'ch7' and t == 'Review performance expectations against the set KPIs:':
-            return f'<p>{b["html"]}</p>' + G.review_cards(T, texts_after(blocks, i, 4)), 5
+            return f'<p>{b["html"]}</p>' + fc.review(texts_after(blocks, i, 4)), 5
         if cid == 'ch9' and t.startswith('Managers should immediately recognise'):
-            return f'<p>{b["html"]}</p>' + phone_fallback(G.spot(T, texts_after(blocks, i, 3), 'SPOT'), [esc(x) for x in texts_after(blocks, i, 3)]), 4
+            return f'<p>{b["html"]}</p>' + fc.spot(texts_after(blocks, i, 3), 'SPOT'), 4
         return None
     return hook
 
@@ -998,15 +1034,16 @@ CSS = '''<style id="jx-v7">
 .jx-chapter section.chap .prose p{color:var(--rd-body);font-size:16px;line-height:1.72;max-width:74ch}
 .jx-chapter section.chap .prose .list-clean li{color:var(--rd-body);font-size:15.5px;line-height:1.7;max-width:76ch}
 .jx-chapter section.chap .prose .list-clean li + li{margin-top:4px}
-.jx-chapter section.chap .prose em{color:var(--rd-ink)}
+:root{--gold:#9A6B0A !important;--gold-lite:#DFBE7A !important;--jx-gold:#C5A059 !important;--jx-gold-2:#DFBE7A !important;--jx-gold-3:#9A6B0A !important}
 .jx-chapter section.chap .prose > h4.item-title{font-size:19px;line-height:1.35;font-weight:750;letter-spacing:-.012em;color:var(--rd-ink);
-  margin:44px 0 12px;padding-top:22px;border-top:1px solid var(--line-100);display:flex;align-items:flex-start;gap:12px;text-wrap:balance}
+  margin:44px 0 12px;padding-top:22px;border-top:1.5px solid rgba(17,17,19,.22);display:flex;align-items:flex-start;gap:12px;text-wrap:balance}
+.jx-chapter section.chap .prose > hr,.jx-chapter hr{border:none;border-top:1.5px solid rgba(17,17,19,.22);margin:36px 0}
 .jx-chapter section.chap .prose > h3 + h4.item-title,.jx-chapter section.chap .prose > h4.item-title:first-child{border-top:0;padding-top:0;margin-top:20px}
 .jx-chapter section.chap .prose > h5.item-title{font-size:16.5px;line-height:1.4;font-weight:720;color:var(--rd-ink);margin:30px 0 8px;letter-spacing:-.005em}
 .jx-chapter section.chap .prose > h6.item-title{font-size:15.5px;line-height:1.4;font-weight:700;font-style:normal;color:var(--rd-ink);margin:26px 0 8px;display:flex;align-items:center;gap:10px}
-.jx-chapter .v7-mk{flex:none;display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 6px;border-radius:7px;background:var(--ink);color:#fff;
+.jx-chapter .v7-mk{flex:none;display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 7px;border-radius:8px;background:var(--ink);color:#fff;
   font-size:13px;font-weight:750;letter-spacing:0;font-variant-numeric:tabular-nums;margin-top:-1px}
-.jx-chapter .v7-mk.v7-mk-lower{min-width:24px;height:24px;border-radius:999px;background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);font-size:12px}
+.jx-chapter .v7-mk.v7-mk-lower{min-width:26px;height:26px;font-size:12.5px}
 .jx-chapter .v7-mk-dot{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .jx-chapter section.chap .prose p.v7-runin{font-size:17.5px;line-height:1.4;color:var(--rd-ink);margin:34px 0 10px;letter-spacing:-.01em}
 .jx-chapter section.chap .prose p.v7-runin strong{font-weight:750}
@@ -1018,96 +1055,14 @@ CSS = '''<style id="jx-v7">
 .jx-chapter .v7-chart-cap{display:flex;flex-wrap:wrap;gap:6px 18px;margin:14px 0 6px;font-size:13.5px;font-weight:650;color:var(--rd-ink,#1d1d1f)}
 .jx-chapter .v7-chart-cap:empty{display:none}
 
-/* ── Unified Apps tree (replaces the docx picture; labels are the picture's own) ── */
-.jx-chapter .v7-apps{--gap:16px;--drop:30px;margin:22px 0 30px;padding:28px 24px 26px;border:1px solid var(--line-200);border-radius:14px;
-  background:radial-gradient(120% 90% at 50% 0%,#fff 0%,rgba(255,255,255,.72) 70%);box-shadow:0 1px 2px rgba(17,17,19,.04),0 10px 30px -18px rgba(17,17,19,.25)}
-.jx-chapter .v7-apps-root{position:relative;width:max-content;max-width:100%;margin:0 auto;padding:14px 30px;border-radius:10px;background:var(--ink);color:#fff;
-  font-size:17px;font-weight:750;letter-spacing:-.01em;box-shadow:0 8px 20px -10px rgba(17,17,19,.55)}
-.jx-chapter .v7-apps-root::after{content:'';position:absolute;left:50%;top:100%;width:1.5px;height:var(--drop);background:var(--ink);transform:translateX(-50%)}
-.jx-chapter .v7-apps-row{list-style:none;margin:calc(var(--drop) * 2) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--gap)}
-.jx-chapter .v7-app{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;min-height:118px;padding:16px 14px 14px;
-  background:#fff;border:1px solid var(--line-200);border-radius:10px;text-align:center;transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .2s,box-shadow .25s}
-.jx-chapter .v7-app:hover{transform:translateY(-3px);border-color:var(--ink);box-shadow:0 10px 22px -14px rgba(17,17,19,.45)}
-/* bus bar across the row, then a drop + arrowhead into each card */
-.jx-chapter .v7-app::before{content:'';position:absolute;bottom:calc(100% + var(--drop));left:calc(var(--gap) / -2 - 1px);right:calc(var(--gap) / -2 - 1px);height:1.5px;background:var(--ink)}
-.jx-chapter .v7-app:first-child::before{left:50%}
-.jx-chapter .v7-app:last-child::before{right:50%}
-.jx-chapter .v7-app::after{content:'';position:absolute;left:50%;bottom:100%;width:14px;height:calc(var(--drop) + 1px);transform:translateX(-50%);
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='31' viewBox='0 0 14 31' preserveAspectRatio='none'%3E%3Cpath d='M7 0v29' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 23.5 7 29.5l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center bottom/14px 100% no-repeat}
-.jx-chapter .v7-app-code{font-size:22px;line-height:1;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
-.jx-chapter .v7-app-name{font-size:13.5px;line-height:1.38;font-weight:600;color:var(--rd-ink,#1d1d1f);text-wrap:balance}
-.jx-chapter .v7-app-solo{justify-content:center}
-.jx-chapter .v7-app-solo .v7-app-code{font-size:22px}
-@media (max-width:820px){
-  .jx-chapter .v7-apps{padding:22px 16px 18px;--drop:22px}
-  .jx-chapter .v7-apps-root{margin:0}
-  .jx-chapter .v7-apps-root::after{left:24px;height:calc(var(--drop) + 4px)}
-  .jx-chapter .v7-apps-row{grid-template-columns:1fr;gap:10px;margin:var(--drop) 0 0 24px;padding-left:22px;border-left:1.5px solid var(--ink);padding-top:4px}
-  .jx-chapter .v7-app{flex-direction:row;justify-content:space-between;align-items:center;gap:14px;min-height:0;padding:12px 14px;text-align:left}
-  .jx-chapter .v7-app::before{left:-22px;right:auto;bottom:auto;top:50%;width:14px;height:1.5px}
-  .jx-chapter .v7-app:first-child::before,.jx-chapter .v7-app:last-child::before{left:-22px;right:auto}
-  .jx-chapter .v7-app::after{left:-9px;bottom:auto;top:50%;width:9px;height:10px;transform:translateY(-50%);
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='10' viewBox='0 0 9 10'%3E%3Cpath d='M2 1l5 4-5 4' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/9px 10px no-repeat}
-  .jx-chapter .v7-app-code{flex:none;font-size:17px}
-  .jx-chapter .v7-app-solo{justify-content:flex-start}
-  .jx-chapter .v7-app-solo .v7-app-code{width:auto;font-size:19px}
-}
-
-/* ── flowcharts read as flows: a connector + arrowhead between every step ── */
-.jx-chapter .zigzag{display:flex;flex-direction:column;gap:30px;max-width:780px;margin:22px 0 28px;padding:0}
-.jx-chapter .zigzag::before{display:none}
-.jx-chapter .zigzag-item,.jx-chapter .zigzag-item:nth-child(odd),.jx-chapter .zigzag-item:nth-child(even){width:100%;margin:0;padding:0;justify-content:flex-start;position:relative}
-.jx-chapter .zigzag-item .zigzag-pill::after{display:none !important}
-.jx-chapter .zigzag-pill{width:100%;max-width:none;align-items:flex-start;gap:14px;padding:14px 18px;font-size:14.5px;line-height:1.5;font-weight:600;
-  box-shadow:0 1px 2px rgba(17,17,19,.04);transition:border-color .2s,transform .25s cubic-bezier(.2,.8,.2,1)}
-.jx-chapter .zigzag-pill:hover{border-color:var(--ink);transform:translateX(3px)}
-.jx-chapter .zigzag-pill .zz-num{width:30px;height:30px;font-size:12.5px;margin-top:-2px}
-.jx-chapter .zigzag-item:not(:last-child)::after,.jx-chapter .rf-phase:not(:last-child)::after{content:'';position:absolute;top:100%;width:14px;height:30px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
-.jx-chapter .zigzag-item:not(:last-child)::after{left:26px}
-.jx-chapter .rf-flow{gap:30px}
-.jx-chapter .rf-phase{position:relative;overflow:visible}
-.jx-chapter .rf-phase:not(:last-child)::after{left:50%;transform:translateX(-50%)}
-.jx-chapter .rf-steps-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:30px;border-radius:12px}
-.jx-chapter .rf-step-card{position:relative}
-.jx-chapter .rf-step-card:not(:last-child)::after{content:'';position:absolute;left:100%;top:50%;width:30px;height:14px;transform:translateY(-50%);
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='14' viewBox='0 0 30 14'%3E%3Cpath d='M4 7h21' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M20 2l6 5-6 5' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/30px 14px no-repeat}
-.jx-chapter .rf-step-text{font-size:13.5px;color:var(--rd-ink,#1d1d1f)}
-@media (max-width:980px){
-  .jx-chapter .rf-steps-grid{grid-template-columns:1fr}
-  .jx-chapter .rf-step-card:not(:last-child)::after{left:50%;top:100%;width:14px;height:30px;transform:translateX(-50%);
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
-}
-/* 6.3 calendar finalisation: snake layout as in V7's picture */
-.jx-chapter .tna-modules-grid.v7-snake{grid-template-columns:repeat(3,minmax(0,1fr));gap:34px}
-.jx-chapter .v7-snake > .tna-mod-card{position:relative;overflow:visible}
-.jx-chapter .v7-snake > .tna-mod-card > .tna-mod-head{border-radius:7px 7px 0 0}
-.jx-chapter .v7-snake > :nth-child(4){grid-area:2/3} .jx-chapter .v7-snake > :nth-child(5){grid-area:2/2} .jx-chapter .v7-snake > :nth-child(6){grid-area:2/1}
-.jx-chapter .v7-snake > :nth-child(7){grid-area:3/1} .jx-chapter .v7-snake > :nth-child(8){grid-area:3/2}
-.jx-chapter .v7-snake > .tna-mod-card::after{content:'';position:absolute}
-.jx-chapter .v7-snake > :is(:nth-child(1),:nth-child(2),:nth-child(7))::after{left:100%;top:50%;width:34px;height:14px;transform:translateY(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='14' viewBox='0 0 30 14'%3E%3Cpath d='M4 7h21' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M20 2l6 5-6 5' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/30px 14px no-repeat}
-.jx-chapter .v7-snake > :is(:nth-child(4),:nth-child(5))::after{right:100%;top:50%;width:34px;height:14px;transform:translateY(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='14' viewBox='0 0 30 14'%3E%3Cpath d='M5 7h21' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M10 2 4 7l6 5' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/30px 14px no-repeat}
-.jx-chapter .v7-snake > :is(:nth-child(3),:nth-child(6))::after{top:100%;left:50%;width:14px;height:34px;transform:translateX(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
-.jx-chapter .tna-mod-card li{font-size:13.5px}
-@media (max-width:900px){
-  .jx-chapter .tna-modules-grid.v7-snake{grid-template-columns:1fr}
-  .jx-chapter .v7-snake > .tna-mod-card{grid-area:auto !important}
-  .jx-chapter .v7-snake > .tna-mod-card:not(:last-child)::after{left:50%;right:auto;top:100%;width:14px;height:34px;transform:translateX(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
-}
-/* TMS step flow + learner journey: real connectors instead of a faint glyph / hairline */
-.jx-chapter .enquiry-flow > div:not(.enquiry-card){font-size:0 !important;height:34px;margin:0 !important;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
-.jx-chapter .enquiry-card > div:first-child{font-size:13.5px !important}
-.jx-chapter .enquiry-card > div:last-child{font-size:14px !important;line-height:1.5;color:var(--rd-ink,#1d1d1f) !important}
-.jx-chapter .lj-connector-line{height:1.5px;background:var(--ink)}
-.jx-chapter .lj-connector-arrow{border-left-color:var(--ink);border-top-width:6px;border-bottom-width:6px;border-left-width:9px}
-@media (prefers-reduced-motion:reduce){.jx-chapter .v7-app,.jx-chapter .zigzag-pill{transition:none}}
 </style>
 '''
 
 
 def inject_css(h):
     assert 'id="jx-v7"' not in h
-    return h.replace('</head>', CSS + '</head>', 1)
+    css = CSS.replace('</style>', (Path(__file__).with_name('flow.css')).read_text() + '</style>')
+    return h.replace('</head>', css + '</head>', 1)
 
 
 if __name__ == '__main__':

@@ -17,7 +17,7 @@ VOID = {'br', 'img', 'input', 'hr', 'meta', 'link', 'source', 'wbr', 'col', 'are
 BLOCK = {'p', 'li', 'td'}
 NO_EMPH = {'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'b', 'a', 'button', 'svg', 'script', 'style', 'th',
            'code', 'label', 'select', 'option', 'textarea', 'summary'}
-SKIP_CLASS = re.compile(r'jsw-interactive-card|zigzag|\brf-|\bch-|orgchart|\bnode\b|annex-file|v7-apps|jx-head|signoff')
+SKIP_CLASS = re.compile(r'jsw-interactive-card|zigzag|(?<![\w-])rf-|(?<![\w-])ch-|orgchart|(?<![\w-])node(?![\w-])|annex-file|v7-apps|jx-head|signoff')
 
 TAG = re.compile(r'<(/?)([a-zA-Z][a-zA-Z0-9]*)([^>]*?)(/?)>|<!--.*?-->', re.S)
 
