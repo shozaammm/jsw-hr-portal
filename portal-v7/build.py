@@ -10,7 +10,7 @@ Text is copied verbatim from the docx. Layout reuses the portal's own
 classes (pull, meta-row, sub-title, item-title, list-clean, table-wrap,
 zigzag, img-card, annex-file-item).
 """
-import base64, hashlib, html, io, re, subprocess, sys
+import base64, hashlib, html, io, json, re, subprocess, sys
 from pathlib import Path
 
 import docx
@@ -521,6 +521,10 @@ IMG_TNA_TABLE = 'fc9e18c9'
 IMG_CAL_FINAL = '4b87c084'
 IMG_SAMPLE_PLAN = 'de0d0bbd'
 IMG_LMS = 'f49625e6'
+IMG_UNIFIED = 'd5ddab0d'
+# text printed in the Unified Apps image (About the Manual)
+UNIFIED = ('Unified App’s', ['Recruitment Management System (RMS)', 'Training Management System (TMS)',
+                             'Learning Management System (LMS)', 'Performance Management System (PMS)', 'SOP’s'])
 
 LEARNER_JOURNEY = [
     {'title': 'Customer-facing roles',
@@ -549,7 +553,7 @@ TNA_TABLE = ('TNA Process', ['Parameter', 'Methods', 'Applicable Category'], [
     ('Follow-up Quality', 'Follow-up done / not done tracking through Log review', ['Soft Skills']),
 ])
 CAL_FINAL = ('Training Calendar Finalization Process For Internal Dealer Trainer (IDT)', [
-    ('TNA Report (Input)', ['Inputs for: Product, Process & Soft Skills Trainings', 'Avoid – assuming needs without data & Validation',
+    ('TNA Report (Input)', ['Inputs for', '1. Product, Process & Soft Skills Trainings', 'Avoid – assuming needs without data & Validation',
                             'Timelines – By 20th of every Month']),
     ('Calendar Draft Preparation & Nomination Confirmation', ['Create training calendar 6A basis to TNA inputs using form',
                             'Define: Topics | Mode | Duration | Date I Targeted nomination', 'Nominate participants and inform respective reporting manager',
@@ -562,7 +566,7 @@ CAL_FINAL = ('Training Calendar Finalization Process For Internal Dealer Trainer
                             'Avoid – starting sessions without pre-training readiness checks – Reading material, attendance sheet, content readiness',
                             'Timelines – 1st to 3rd Week of every month']),
     ('Post-Training Assessment', ['Conduct post-test', 'Evaluate and record Scores', 'Update Dealership training records', 'Timelines – On the training day']),
-    ('Feedback Collection', ['Take participant feedback using feedback form 6B', 'Avoid – Not evaluating feedback and taking corrective action',
+    ('Feedback Collection', ['Take participant feedback using feedback form 6B', 'Avoid – Not evaluating feedback and taking corrective actions',
                             'Timelines – On the training day']),
     ('Records & Documentation', ['Record attendance & assessment scores', 'Maintain training & certification records',
                             'Avoid – Closing the cycle without updating all records and documenting key learnings']),
@@ -582,6 +586,20 @@ SAMPLE_PLAN = ('Sample Training Calendar – Week Wise Plan', ['Week', 'Topic/Mo
 LMS_STEPS = [('Publish', 'Training team publishes a plan for each role holder'), ('Assign', 'Users see only content that fits their role'),
              ('Learn', "Modules, videos, PDFs and Web based trainings (WBT's)"), ('Assess', 'Online quizzes and knowledge checks'),
              ('Track', 'Progress and scores visible to user and management')]
+
+
+def unified_html(root, apps):
+    """Unified Apps tree: root box, connector bar, one card per app — the image's own labels."""
+    items = []
+    for a in apps:
+        m = re.match(r'^(.*?)\s*(\([A-Z]+\))$', a)
+        if m:
+            items.append(f'<li class="v7-app"><span class="v7-app-name">{esc(m.group(1))}</span> '
+                         f'<span class="v7-app-code">{esc(m.group(2))}</span></li>')
+        else:
+            items.append(f'<li class="v7-app v7-app-solo"><span class="v7-app-code">{esc(a)}</span></li>')
+    return (f'<figure class="v7-apps"><div class="v7-apps-root">{esc(root)}</div>'
+            f'<ol class="v7-apps-row">{"".join(items)}</ol></figure>')
 
 
 def tna_table_html(title, head, rows):
@@ -700,6 +718,7 @@ def make_hooks(T, D, chunks):
             if h == IMG_TNA_TABLE: return tna_table_html(*TNA_TABLE) + tail, 1
             if h == IMG_CAL_FINAL: return G.module_cards(T, *CAL_FINAL) + tail, 1
             if h == IMG_SAMPLE_PLAN: return plan_table_html(*SAMPLE_PLAN) + tail, 1
+            if h == IMG_UNIFIED: return unified_html(*UNIFIED) + tail, 1
             if h == IMG_LMS: return phone_fallback(G.chevrons(T, LMS_STEPS), [f'<strong>{esc(a)}</strong> – {esc(b)}' for a, b in LMS_STEPS]) + tail, 1
             return None
         if cid == 'ch4' and t.startswith('Interest free salary advance'):
@@ -768,7 +787,8 @@ def build():
 
     r = Renderer(D, 'fm-iii'); r.render(chunks['About the Manual']['blocks'])
     about = '\n'.join(r.out)
-    about = about.replace('<p>Introduction to Unified Apps</p>', '<h3 class="sub-title subhead">Introduction to Unified Apps</h3>')
+    about = about.replace('<p><strong>Introduction to Unified Apps</strong></p>', '<h3 class="sub-title subhead">Introduction to Unified Apps</h3>')
+    assert 'Introduction to Unified Apps</h3>' in about
     fm_iii_html = article('fm-iii', 'iii.', 'About the Manual', about)
 
     # ── chapters 3-12 ─────────────────────────────────────────────
@@ -822,11 +842,30 @@ def build():
     dup = "g.name ? '<b>' + esc(g.short) + '</b><span>' + esc(g.name) + '</span>'"
     assert html_out.count(dup) == 1
     html_out = html_out.replace(dup, "g.name && g.name !== g.short ? '<b>' + esc(g.short) + '</b><span>' + esc(g.name) + '</span>'")
+    # org-chart caption follows the selected tab
+    fn = '      function ocSelect(i){\n'
+    assert html_out.count(fn) == 1
+    html_out = html_out.replace(fn, fn + "        var _cap = document.getElementById('orgCaption'), _caps = " + json.dumps(ORG_CAPS, ensure_ascii=False)
+                                + ";\n        if(_cap) _cap.innerHTML = (_caps[i] || []).map(function(c){ return '<span>' + c + '</span>'; }).join('');\n")
+    # reading emphasis — markup only; text content must be byte-identical
+    import readability
+    a = html_out.find('    <article class="jx-chapter" id="chap-fm-i"')
+    e = html_out.find('</article>', html_out.find('id="chap-annexure"')) + len('</article>')
+    region, stats, leads = readability.emphasize(html_out[a:e])
+    strip = lambda x: re.sub(r'<[^>]+>', '', x)
+    assert strip(region) == strip(html_out[a:e]), 'emphasis changed text'
+    html_out = html_out[:a] + region + html_out[e:]
+    print('emphasis', stats)
+    if '--leads' in sys.argv:
+        print('\n'.join(sorted(set(leads))))
     html_out = patch_home(html_out)
     html_out = patch_toc(html_out, toc_subs)
     html_out = inject_css(html_out)
     OUT.write_text(html_out)
     print('wrote', OUT, len(html_out))
+
+
+ORG_CAPS = None
 
 
 def patch_ch1_ch2(mid, D, chunks, toc_subs):
@@ -848,7 +887,19 @@ def patch_ch1_ch2(mid, D, chunks, toc_subs):
     lab = '<span class="eyebrow">BENEFIT TO CUSTOMERS:</span>'
     assert mid.count(lab, k) == 1
     mid = mid[:k] + mid[k:].replace(lab, '<span class="eyebrow">BENEFIT TO CUSTOMER:</span>')
+    for lab in ('Role Clarity', 'Efficient Decision Making', 'Enhanced Collaboration', 'Resource Optimization'):
+        a = f'font-weight:700;">{lab}</h4>'
+        assert mid.count(a) == 1
+        mid = mid.replace(a, f'font-weight:700;">{lab}:</h4>')
     blocks = chunks['Dealership Organisation Structure']['blocks']
+    # V7 captions each org chart ("Chart 1.1 X Category" …); X and XPlus share one chart (portal tab 1)
+    caps = [b['text'] for b in blocks if b['k'] == 'p' and re.match(r'^Chart 1\.\d ', b['text'])]
+    assert len(caps) == 6, caps
+    global ORG_CAPS
+    ORG_CAPS = [caps[0:2], caps[2:3], caps[3:4], caps[4:5], caps[5:6]]
+    stage = '<div class="orgchart-stage" id="orgStage">'
+    assert mid.count(stage) == 1
+    mid = mid.replace(stage, '<p class="v7-chart-cap" id="orgCaption" aria-live="polite"></p>\n' + stage)
     k = next(i for i, b in enumerate(blocks) if b['k'] == 'p' and b['text'].startswith('1.2 Build My Organisation'))
     r = Renderer(D, 'ch2'); r.subs = [('ch2-1', '1.1 Recommended Organisation Chart')]; r.seen_h2 = True
     sec = r.render(blocks[k:])
@@ -941,6 +992,115 @@ CSS = '''<style id="jx-v7">
 .jx-chapter .v7-phone{display:none}
 @media (max-width:600px){.jx-chapter .v7-desk{display:none !important}.jx-chapter .v7-phone{display:block}}
 .jx-hero-quote{margin:18px auto 0;font-style:italic;opacity:.8;text-align:center}
+
+/* ── reading: hierarchy + emphasis (markup from readability.py; wording untouched) ── */
+.jx-chapter section.chap{--rd-ink:#1d1d1f;--rd-body:#333336;--rd-mark:rgba(17,17,19,.11)}
+.jx-chapter section.chap .prose p{color:var(--rd-body);font-size:16px;line-height:1.72;max-width:74ch}
+.jx-chapter section.chap .prose .list-clean li{color:var(--rd-body);font-size:15.5px;line-height:1.7;max-width:76ch}
+.jx-chapter section.chap .prose .list-clean li + li{margin-top:4px}
+.jx-chapter section.chap .prose em{color:var(--rd-ink)}
+.jx-chapter section.chap .prose > h4.item-title{font-size:19px;line-height:1.35;font-weight:750;letter-spacing:-.012em;color:var(--rd-ink);
+  margin:44px 0 12px;padding-top:22px;border-top:1px solid var(--line-100);display:flex;align-items:flex-start;gap:12px;text-wrap:balance}
+.jx-chapter section.chap .prose > h3 + h4.item-title,.jx-chapter section.chap .prose > h4.item-title:first-child{border-top:0;padding-top:0;margin-top:20px}
+.jx-chapter section.chap .prose > h5.item-title{font-size:16.5px;line-height:1.4;font-weight:720;color:var(--rd-ink);margin:30px 0 8px;letter-spacing:-.005em}
+.jx-chapter section.chap .prose > h6.item-title{font-size:15.5px;line-height:1.4;font-weight:700;font-style:normal;color:var(--rd-ink);margin:26px 0 8px;display:flex;align-items:center;gap:10px}
+.jx-chapter .v7-mk{flex:none;display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 6px;border-radius:7px;background:var(--ink);color:#fff;
+  font-size:13px;font-weight:750;letter-spacing:0;font-variant-numeric:tabular-nums;margin-top:-1px}
+.jx-chapter .v7-mk.v7-mk-lower{min-width:24px;height:24px;border-radius:999px;background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);font-size:12px}
+.jx-chapter .v7-mk-dot{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.jx-chapter section.chap .prose p.v7-runin{font-size:17.5px;line-height:1.4;color:var(--rd-ink);margin:34px 0 10px;letter-spacing:-.01em}
+.jx-chapter section.chap .prose p.v7-runin strong{font-weight:750}
+.jx-chapter strong.v7-lead{color:var(--rd-ink,#1d1d1f);font-weight:700}
+.jx-chapter .v7-key{color:var(--rd-ink,#1d1d1f);font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap;
+  background:linear-gradient(transparent 58%,var(--rd-mark,rgba(17,17,19,.11)) 58%,var(--rd-mark,rgba(17,17,19,.11)) 92%,transparent 92%);padding:0 1px}
+.jx-chapter .v7-ref{display:inline-block;font-style:normal;font-weight:700;font-size:.82em;line-height:1.45;letter-spacing:.02em;color:var(--ink);
+  padding:0 6px;border:1px solid var(--line-200);border-radius:5px;background:#fff;vertical-align:.08em;white-space:nowrap}
+.jx-chapter .v7-chart-cap{display:flex;flex-wrap:wrap;gap:6px 18px;margin:14px 0 6px;font-size:13.5px;font-weight:650;color:var(--rd-ink,#1d1d1f)}
+.jx-chapter .v7-chart-cap:empty{display:none}
+
+/* ── Unified Apps tree (replaces the docx picture; labels are the picture's own) ── */
+.jx-chapter .v7-apps{--gap:16px;--drop:30px;margin:22px 0 30px;padding:28px 24px 26px;border:1px solid var(--line-200);border-radius:14px;
+  background:radial-gradient(120% 90% at 50% 0%,#fff 0%,rgba(255,255,255,.72) 70%);box-shadow:0 1px 2px rgba(17,17,19,.04),0 10px 30px -18px rgba(17,17,19,.25)}
+.jx-chapter .v7-apps-root{position:relative;width:max-content;max-width:100%;margin:0 auto;padding:14px 30px;border-radius:10px;background:var(--ink);color:#fff;
+  font-size:17px;font-weight:750;letter-spacing:-.01em;box-shadow:0 8px 20px -10px rgba(17,17,19,.55)}
+.jx-chapter .v7-apps-root::after{content:'';position:absolute;left:50%;top:100%;width:1.5px;height:var(--drop);background:var(--ink);transform:translateX(-50%)}
+.jx-chapter .v7-apps-row{list-style:none;margin:calc(var(--drop) * 2) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--gap)}
+.jx-chapter .v7-app{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;min-height:118px;padding:16px 14px 14px;
+  background:#fff;border:1px solid var(--line-200);border-radius:10px;text-align:center;transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .2s,box-shadow .25s}
+.jx-chapter .v7-app:hover{transform:translateY(-3px);border-color:var(--ink);box-shadow:0 10px 22px -14px rgba(17,17,19,.45)}
+/* bus bar across the row, then a drop + arrowhead into each card */
+.jx-chapter .v7-app::before{content:'';position:absolute;bottom:calc(100% + var(--drop));left:calc(var(--gap) / -2 - 1px);right:calc(var(--gap) / -2 - 1px);height:1.5px;background:var(--ink)}
+.jx-chapter .v7-app:first-child::before{left:50%}
+.jx-chapter .v7-app:last-child::before{right:50%}
+.jx-chapter .v7-app::after{content:'';position:absolute;left:50%;bottom:100%;width:14px;height:calc(var(--drop) + 1px);transform:translateX(-50%);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='31' viewBox='0 0 14 31' preserveAspectRatio='none'%3E%3Cpath d='M7 0v29' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 23.5 7 29.5l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center bottom/14px 100% no-repeat}
+.jx-chapter .v7-app-code{font-size:22px;line-height:1;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+.jx-chapter .v7-app-name{font-size:13.5px;line-height:1.38;font-weight:600;color:var(--rd-ink,#1d1d1f);text-wrap:balance}
+.jx-chapter .v7-app-solo{justify-content:center}
+.jx-chapter .v7-app-solo .v7-app-code{font-size:22px}
+@media (max-width:820px){
+  .jx-chapter .v7-apps{padding:22px 16px 18px;--drop:22px}
+  .jx-chapter .v7-apps-root{margin:0}
+  .jx-chapter .v7-apps-root::after{left:24px;height:calc(var(--drop) + 4px)}
+  .jx-chapter .v7-apps-row{grid-template-columns:1fr;gap:10px;margin:var(--drop) 0 0 24px;padding-left:22px;border-left:1.5px solid var(--ink);padding-top:4px}
+  .jx-chapter .v7-app{flex-direction:row;justify-content:space-between;align-items:center;gap:14px;min-height:0;padding:12px 14px;text-align:left}
+  .jx-chapter .v7-app::before{left:-22px;right:auto;bottom:auto;top:50%;width:14px;height:1.5px}
+  .jx-chapter .v7-app:first-child::before,.jx-chapter .v7-app:last-child::before{left:-22px;right:auto}
+  .jx-chapter .v7-app::after{left:-9px;bottom:auto;top:50%;width:9px;height:10px;transform:translateY(-50%);
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='10' viewBox='0 0 9 10'%3E%3Cpath d='M2 1l5 4-5 4' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/9px 10px no-repeat}
+  .jx-chapter .v7-app-code{flex:none;font-size:17px}
+  .jx-chapter .v7-app-solo{justify-content:flex-start}
+  .jx-chapter .v7-app-solo .v7-app-code{width:auto;font-size:19px}
+}
+
+/* ── flowcharts read as flows: a connector + arrowhead between every step ── */
+.jx-chapter .zigzag{display:flex;flex-direction:column;gap:30px;max-width:780px;margin:22px 0 28px;padding:0}
+.jx-chapter .zigzag::before{display:none}
+.jx-chapter .zigzag-item,.jx-chapter .zigzag-item:nth-child(odd),.jx-chapter .zigzag-item:nth-child(even){width:100%;margin:0;padding:0;justify-content:flex-start;position:relative}
+.jx-chapter .zigzag-item .zigzag-pill::after{display:none !important}
+.jx-chapter .zigzag-pill{width:100%;max-width:none;align-items:flex-start;gap:14px;padding:14px 18px;font-size:14.5px;line-height:1.5;font-weight:600;
+  box-shadow:0 1px 2px rgba(17,17,19,.04);transition:border-color .2s,transform .25s cubic-bezier(.2,.8,.2,1)}
+.jx-chapter .zigzag-pill:hover{border-color:var(--ink);transform:translateX(3px)}
+.jx-chapter .zigzag-pill .zz-num{width:30px;height:30px;font-size:12.5px;margin-top:-2px}
+.jx-chapter .zigzag-item:not(:last-child)::after,.jx-chapter .rf-phase:not(:last-child)::after{content:'';position:absolute;top:100%;width:14px;height:30px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
+.jx-chapter .zigzag-item:not(:last-child)::after{left:26px}
+.jx-chapter .rf-flow{gap:30px}
+.jx-chapter .rf-phase{position:relative;overflow:visible}
+.jx-chapter .rf-phase:not(:last-child)::after{left:50%;transform:translateX(-50%)}
+.jx-chapter .rf-steps-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:30px;border-radius:12px}
+.jx-chapter .rf-step-card{position:relative}
+.jx-chapter .rf-step-card:not(:last-child)::after{content:'';position:absolute;left:100%;top:50%;width:30px;height:14px;transform:translateY(-50%);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='14' viewBox='0 0 30 14'%3E%3Cpath d='M4 7h21' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M20 2l6 5-6 5' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/30px 14px no-repeat}
+.jx-chapter .rf-step-text{font-size:13.5px;color:var(--rd-ink,#1d1d1f)}
+@media (max-width:980px){
+  .jx-chapter .rf-steps-grid{grid-template-columns:1fr}
+  .jx-chapter .rf-step-card:not(:last-child)::after{left:50%;top:100%;width:14px;height:30px;transform:translateX(-50%);
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
+}
+/* 6.3 calendar finalisation: snake layout as in V7's picture */
+.jx-chapter .tna-modules-grid.v7-snake{grid-template-columns:repeat(3,minmax(0,1fr));gap:34px}
+.jx-chapter .v7-snake > .tna-mod-card{position:relative;overflow:visible}
+.jx-chapter .v7-snake > .tna-mod-card > .tna-mod-head{border-radius:7px 7px 0 0}
+.jx-chapter .v7-snake > :nth-child(4){grid-area:2/3} .jx-chapter .v7-snake > :nth-child(5){grid-area:2/2} .jx-chapter .v7-snake > :nth-child(6){grid-area:2/1}
+.jx-chapter .v7-snake > :nth-child(7){grid-area:3/1} .jx-chapter .v7-snake > :nth-child(8){grid-area:3/2}
+.jx-chapter .v7-snake > .tna-mod-card::after{content:'';position:absolute}
+.jx-chapter .v7-snake > :is(:nth-child(1),:nth-child(2),:nth-child(7))::after{left:100%;top:50%;width:34px;height:14px;transform:translateY(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='14' viewBox='0 0 30 14'%3E%3Cpath d='M4 7h21' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M20 2l6 5-6 5' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/30px 14px no-repeat}
+.jx-chapter .v7-snake > :is(:nth-child(4),:nth-child(5))::after{right:100%;top:50%;width:34px;height:14px;transform:translateY(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='14' viewBox='0 0 30 14'%3E%3Cpath d='M5 7h21' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M10 2 4 7l6 5' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/30px 14px no-repeat}
+.jx-chapter .v7-snake > :is(:nth-child(3),:nth-child(6))::after{top:100%;left:50%;width:14px;height:34px;transform:translateX(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
+.jx-chapter .tna-mod-card li{font-size:13.5px}
+@media (max-width:900px){
+  .jx-chapter .tna-modules-grid.v7-snake{grid-template-columns:1fr}
+  .jx-chapter .v7-snake > .tna-mod-card{grid-area:auto !important}
+  .jx-chapter .v7-snake > .tna-mod-card:not(:last-child)::after{left:50%;right:auto;top:100%;width:14px;height:34px;transform:translateX(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
+}
+/* TMS step flow + learner journey: real connectors instead of a faint glyph / hairline */
+.jx-chapter .enquiry-flow > div:not(.enquiry-card){font-size:0 !important;height:34px;margin:0 !important;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='30' viewBox='0 0 14 30'%3E%3Cpath d='M7 3v22' stroke='%23111113' stroke-width='1.5'/%3E%3Cpath d='M2 20 7 26l5-6' fill='none' stroke='%23111113' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px 30px no-repeat}
+.jx-chapter .enquiry-card > div:first-child{font-size:13.5px !important}
+.jx-chapter .enquiry-card > div:last-child{font-size:14px !important;line-height:1.5;color:var(--rd-ink,#1d1d1f) !important}
+.jx-chapter .lj-connector-line{height:1.5px;background:var(--ink)}
+.jx-chapter .lj-connector-arrow{border-left-color:var(--ink);border-top-width:6px;border-bottom-width:6px;border-left-width:9px}
+@media (prefers-reduced-motion:reduce){.jx-chapter .v7-app,.jx-chapter .zigzag-pill{transition:none}}
 </style>
 '''
 

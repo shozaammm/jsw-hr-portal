@@ -61,11 +61,7 @@ def rf_flow(T, steps):
     for k in range(0, len(steps), 4):
         chunk = steps[k:k + 4]
         ph = copy.copy(phase_tpl)
-        title = ph.find(class_='rf-phase-title')
-        title.clear()
-        badge = s.new_tag('span', attrs={'class': 'rf-phase-badge'})
-        badge.string = f'Steps {chunk[0][0]}–{chunk[-1][0]}'
-        title.append(badge)
+        ph.find(class_='rf-phase-header').decompose()   # V7 has no group label for these rows
         grid = ph.find(class_='rf-steps-grid')
         grid.clear()
         for letter, text, roles, rms in chunk:
@@ -187,6 +183,8 @@ def module_cards(T, title, cards):
     pt.append(sp)
     grid = sec.find(class_='tna-modules-grid')
     grid.clear()
+    if len(cards) == 8:     # V7's picture runs as a snake: 1→2→3 ↓ 4←5←6 ↓ 7→8
+        grid['class'] = grid['class'] + ['v7-snake']
     for i, (head, bullets) in enumerate(cards):
         c = copy.copy(card_tpl)
         h = c.find(class_='tna-mod-head')
@@ -378,7 +376,7 @@ def calendar(T, themes, events):
                    title, category, freq, audience, chapter, chapterLabel, desc} — all text from V7."""
     js, modal = T.calendar_assets()
     hub = str(T.get(25))
-    month_themes = json.dumps([{'theme': f'{t} · {p}', 'desc': a} for t, p, a in themes], ensure_ascii=False)
+    month_themes = json.dumps([{'theme': f'{t} · {p}', 'desc': f'Sample Activity: {a}'} for t, p, a in themes], ensure_ascii=False)
     cats = json.dumps({k: {'label': v['label'], 'dot': {'townhall': 'var(--grey-300)', 'recruitment': 'var(--ink)',
                                                         'incentive': 'var(--gold)', 'appraisal': 'var(--ink)',
                                                         'training': 'var(--gold-lite)'}[v['cls']], 'cls': v['cls']}
