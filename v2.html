@@ -1792,13 +1792,13 @@ kbd{
   transition:opacity .15s ease, transform .15s ease, visibility .15s ease;
   z-index:var(--jx-z-toast);
 }
-@media (hover: hover){
+@media (hover: hover) and (pointer: fine){
   .jx-tooltip-wrap:hover::after{opacity:1;visibility:visible}
 }
-.jx-sidebar-toggle.jx-tooltip-wrap::after{right:0;left:auto;transform:translateY(-2px)}
-.jx-sidebar-toggle.jx-tooltip-wrap:hover::after{transform:translateY(0)}
-.jx-sidebar-toggle-open.jx-tooltip-wrap::after{left:0;right:auto;transform:translateY(-2px)}
-.jx-sidebar-toggle-open.jx-tooltip-wrap:hover::after{transform:translateY(0)}
+.jx-sidebar-toggle.jx-tooltip-wrap::after{right:0;left:auto;transform:scale(0.96) translateY(-2px)}
+.jx-sidebar-toggle.jx-tooltip-wrap:hover::after{transform:scale(1) translateY(0)}
+.jx-sidebar-toggle-open.jx-tooltip-wrap::after{left:0;right:auto;transform:scale(0.96) translateY(-2px)}
+.jx-sidebar-toggle-open.jx-tooltip-wrap:hover::after{transform:scale(1) translateY(0)}
 
 /* 2 Layout -------------------------------------------------------------------- */
 .jx-main{
