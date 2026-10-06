@@ -1,7 +1,7 @@
 
 /* ═════════ Flowcharts — one visual language (markup from flowcharts.py) ═════════
    white node · coloured top band · ringed number badge · chunky coloured arrows · snake layout like the Word tables
-   palette (muted): navy #1F3A5F  blue #2F5D8C  teal #2E7D7A  green #3F6B3A  bronze #8F6A1F  brick #A8493E  plum #6C4E96 */
+   palette (muted): navy #1B1B1D  blue #303136  teal #2E7D7A  green #3F6B3A  bronze #8F6A1F  brick #A8493E  plum #6C4E96 */
 .jx-chapter{
   --fx-r:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 18'%3E%3Crect x='0' y='7' width='38' height='4' rx='2'/%3E%3Cpath d='M35 1.5l16 7.5-16 7.5z' stroke='%23000' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
   --fx-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 18'%3E%3Crect x='14' y='7' width='38' height='4' rx='2'/%3E%3Cpath d='M17 1.5L1 9l16 7.5z' stroke='%23000' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -9,18 +9,18 @@
   --fx-gap:56px;--fx-rgap:56px;
 }
 .jx-chapter .fx-fig{margin:26px 0 34px}
-.jx-chapter .fx-banner{display:block;background:#1F3A5F;color:#fff;font-size:16px;font-weight:750;letter-spacing:-.005em;text-align:center;padding:14px 20px;border-radius:12px;margin:0 0 40px}
+.jx-chapter .fx-banner{display:block;background:#1B1B1D;color:#fff;font-size:16px;font-weight:750;letter-spacing:-.005em;text-align:center;padding:14px 20px;border-radius:12px;margin:0 0 40px}
 .jx-chapter .fx-banner-pill{width:max-content;max-width:100%;margin:0 auto 36px;border-radius:999px;padding:11px 26px}
 
 /* snake grid */
 .jx-chapter .fx-flow{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));column-gap:var(--fx-gap);row-gap:var(--fx-rgap);
   margin:44px 0 40px;max-width:1120px;align-items:stretch}
 .jx-chapter .fx-fig .fx-flow{margin-top:0}
-.jx-chapter .fx-node{--c:#2F5D8C;position:relative;display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid var(--line-200);border-radius:13px;
+.jx-chapter .fx-node{--c:#303136;position:relative;display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid var(--line-200);border-radius:13px;
   padding:26px 16px 16px;box-shadow:0 1px 2px rgba(17,17,19,.05),0 8px 20px -14px rgba(17,17,19,.28)}
 .jx-chapter .fx-node::before{content:'';position:absolute;left:-1px;right:-1px;top:-1px;height:6px;border-radius:13px 13px 0 0;background:var(--c)}
 .jx-chapter .fx-badge{position:absolute;left:14px;top:-17px;display:grid;place-items:center;min-width:34px;height:34px;padding:0 4px;border-radius:999px;background:var(--c);color:#fff;
-  font-size:14px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;box-shadow:0 0 0 3px #fff,0 0 0 4.5px color-mix(in srgb,var(--c) 38%,transparent)}
+  font-size:14px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;box-shadow:0 0 0 3px #fff,0 0 0 4.5px #B8962E}
 .jx-chapter .fx-when{align-self:flex-start;margin:0 0 8px;padding:2px 10px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.02em;
   color:var(--c);background:color-mix(in srgb,var(--c) 11%,#fff)}
 .jx-chapter .fx-node p.fx-text{margin:0;max-width:none;font-size:14.5px;line-height:1.5;font-weight:560;color:var(--rd-ink,#1d1d1f)}
@@ -50,7 +50,7 @@
 
 /* TMS vertical process */
 .jx-chapter .fx-vlist{list-style:none;margin:0 auto;padding:0;max-width:780px}
-.jx-chapter .fx-vstep{--c:#2F5D8C;position:relative;display:grid;grid-template-columns:48px 1fr;gap:18px;padding-bottom:50px}
+.jx-chapter .fx-vstep{--c:#303136;position:relative;display:grid;grid-template-columns:48px 1fr;gap:18px;padding-bottom:50px}
 .jx-chapter .fx-vstep.fx-last{padding-bottom:0}
 .jx-chapter .fx-vstep .fx-badge{position:relative;left:auto;top:auto;min-width:48px;height:48px;font-size:18px;z-index:1}
 .jx-chapter .fx-vstep:not(.fx-last)::after{content:'';position:absolute;left:22px;top:54px;bottom:12px;width:4px;border-radius:2px;background:var(--c)}
@@ -63,16 +63,16 @@
 /* 6.1 learner journey */
 .jx-chapter .fx-lj{display:grid;gap:36px;margin:22px 0 32px}
 .jx-chapter .fx-lj-card{background:transparent;border:none;border-radius:0;padding:0;box-shadow:none}
-.jx-chapter h4.fx-lj-title{margin:0;font-size:20px;font-weight:780;letter-spacing:-.012em;color:#1F3A5F}
+.jx-chapter h4.fx-lj-title{margin:0;font-size:20px;font-weight:780;letter-spacing:-.012em;color:#1B1B1D}
 .jx-chapter p.fx-lj-sub{margin:6px 0 0;max-width:none;font-size:14.5px;color:var(--grey-700)}
 .jx-chapter .fx-lj-track{display:flex;align-items:stretch;margin-top:22px}
-.jx-chapter .fx-lj-step{flex:1 1 0;min-width:0;display:flex;flex-direction:column;border-radius:11px;overflow:hidden;border:1.5px solid #2F5D8C;--c:#2F5D8C;--t:#E9EFF7}
-.jx-chapter .fx-lj-alt{--c:#A8493E;--t:#F8EAE8;border-color:#A8493E}
+.jx-chapter .fx-lj-step{flex:1 1 0;min-width:0;display:flex;flex-direction:column;border-radius:11px;overflow:hidden;border:1.5px solid #303136;--c:#303136;--t:#ECECEE}
+.jx-chapter .fx-lj-alt{--c:#5C5D62;--t:#F3F3F4;border-color:#5C5D62}
 .jx-chapter .fx-lj-head{background:var(--c);color:#fff;text-align:center;font-size:16px;font-weight:750;padding:11px 12px}
-.jx-chapter .fx-lj-body{flex:1;display:grid;place-items:center;text-align:center;background:var(--t);color:#1F3A5F;font-size:15px;font-weight:550;line-height:1.45;padding:26px 16px;min-height:104px}
-.jx-chapter .fx-lj-alt .fx-lj-body{color:#6e2f27}
+.jx-chapter .fx-lj-body{flex:1;display:grid;place-items:center;text-align:center;background:var(--t);color:#1B1B1D;font-size:15px;font-weight:550;line-height:1.45;padding:26px 16px;min-height:104px}
+.jx-chapter .fx-lj-alt .fx-lj-body{color:#3B3C41}
 .jx-chapter .fx-lj-link{flex:0 0 150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:0 8px}
-.jx-chapter .fx-lj-label{text-align:center;font-size:12.5px;font-weight:750;line-height:1.3;color:#A8493E}
+.jx-chapter .fx-lj-label{text-align:center;font-size:12.5px;font-weight:750;line-height:1.3;color:#46474C}
 .jx-chapter .fx-arrow{display:block;width:76px;height:27px;background:#5f6068;-webkit-mask:var(--fx-r) center/100% 100% no-repeat;mask:var(--fx-r) center/100% 100% no-repeat}
 .jx-chapter .fx-trophy{width:60px;height:60px}
 .jx-chapter .fx-lj-end{flex-basis:130px}
@@ -83,23 +83,23 @@
 .jx-chapter .fx-phone{display:none}
 .jx-chapter .fx-dm{flex-direction:column;align-items:stretch}
 .jx-chapter .fx-dm-node{padding:13px 16px;border-radius:11px;color:#fff;text-align:center;font-size:14.5px;font-weight:600;line-height:1.45}
-.jx-chapter .fx-dm-node.fx-s{background:#1F3A5F;border-radius:999px;font-weight:700}
-.jx-chapter .fx-dm-node.fx-b{background:#2F5D8C}
+.jx-chapter .fx-dm-node.fx-s{background:#1B1B1D;border-radius:999px;font-weight:700}
+.jx-chapter .fx-dm-node.fx-b{background:#303136}
 .jx-chapter .fx-dm-node.fx-r{background:#A8493E}
-.jx-chapter .fx-dm-q{margin-top:0;padding:14px 16px;text-align:center;font-weight:750;font-size:14.5px;line-height:1.4;color:#1d1d1f;background:#E8C45A;border:1px solid #B8962E;border-radius:11px}
+.jx-chapter .fx-dm-q{margin-top:0;padding:14px 16px;text-align:center;font-weight:750;font-size:14.5px;line-height:1.4;color:#1d1d1f;background:#E6E5E1;border:1px solid #9A6B0A;border-radius:11px}
 .jx-chapter .fx-dm>.fx-arrow,.jx-chapter .fx-dm-b>.fx-arrow{width:22px;height:36px;margin:7px auto;--fx-r:var(--fx-d)}
 .jx-chapter .fx-dm-b{display:flex;flex-direction:column;margin-top:18px;padding:14px;border:1.5px dashed var(--line-200);border-radius:14px}
 .jx-chapter .fx-dm-sub{display:flex;flex-direction:column;margin-top:14px}
 .jx-chapter .fx-dm-tag{align-self:flex-start;margin-bottom:10px;padding:3px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.06em;color:#fff}
-.jx-chapter .fx-dm-tag.fx-yes{background:#2F5D8C}
+.jx-chapter .fx-dm-tag.fx-yes{background:#303136}
 .jx-chapter .fx-dm-tag.fx-no{background:#A8493E}
 
 /* Unified Apps tree */
 .jx-chapter .v7-apps{--gap:18px;--drop:34px;margin:24px 0 32px;padding:12px 0 20px;border:none;border-radius:0;
   background:transparent;box-shadow:none}
-.jx-chapter .v7-apps-root{position:relative;width:max-content;max-width:100%;margin:0 auto;padding:14px 34px;border-radius:11px;background:#1F3A5F;color:#fff;
+.jx-chapter .v7-apps-root{position:relative;width:max-content;max-width:100%;margin:0 auto;padding:14px 34px;border-radius:11px;background:#1B1B1D;color:#fff;
   font-size:17px;font-weight:760;letter-spacing:-.01em;box-shadow:0 8px 20px -10px rgba(31,58,95,.6)}
-.jx-chapter .v7-apps-root::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:var(--drop);background:#1F3A5F;transform:translateX(-50%)}
+.jx-chapter .v7-apps-root::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:var(--drop);background:#1B1B1D;transform:translateX(-50%)}
 .jx-chapter .v7-apps-row{list-style:none;margin:calc(var(--drop) * 2) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--gap)}
 .jx-chapter .v7-app{position:relative;display:flex;flex-direction:column-reverse;min-height:132px;background:#fff;border:1px solid var(--line-200);border-radius:12px;text-align:center;
   box-shadow:0 1px 2px rgba(17,17,19,.05),0 8px 18px -14px rgba(17,17,19,.3)}
@@ -107,7 +107,7 @@
 .jx-chapter .v7-app-name{flex:1;display:grid;place-items:center;padding:16px 12px 18px;font-size:14px;line-height:1.4;font-weight:620;color:var(--rd-ink,#1d1d1f)}
 .jx-chapter .v7-app-solo{justify-content:stretch}
 .jx-chapter .v7-app-solo .v7-app-code{flex:1;display:grid;place-items:center;border-radius:11px;font-size:20px}
-.jx-chapter .v7-app::before{content:'';position:absolute;bottom:calc(100% + var(--drop));left:calc(var(--gap) / -2 - 1px);right:calc(var(--gap) / -2 - 1px);height:2px;background:#1F3A5F}
+.jx-chapter .v7-app::before{content:'';position:absolute;bottom:calc(100% + var(--drop));left:calc(var(--gap) / -2 - 1px);right:calc(var(--gap) / -2 - 1px);height:2px;background:#1B1B1D}
 .jx-chapter .v7-app:first-child::before{left:50%}
 .jx-chapter .v7-app:last-child::before{right:50%}
 .jx-chapter .v7-app::after{content:'';position:absolute;left:50%;bottom:100%;width:14px;height:calc(var(--drop) + 1px);transform:translateX(-50%);
@@ -115,10 +115,10 @@
 
 /* one-column boxes whose rows are "title + bullets" (How to make an IJP …) */
 .jx-chapter .v7-panel{margin:20px 0 28px;border:1px solid var(--line-200);border-radius:15px;background:#fff;overflow:hidden;box-shadow:0 1px 2px rgba(17,17,19,.04)}
-.jx-chapter .v7-sec{--c:#9A6B0A;padding:22px 26px 20px}
-.jx-chapter .v7-sec:nth-child(2){--c:#9A6B0A}
-.jx-chapter .v7-sec:nth-child(3){--c:#9A6B0A}
-.jx-chapter .v7-sec:nth-child(4){--c:#9A6B0A}
+.jx-chapter .v7-sec{--c:#55565B;padding:22px 26px 20px}
+.jx-chapter .v7-sec:nth-child(2){--c:#55565B}
+.jx-chapter .v7-sec:nth-child(3){--c:#55565B}
+.jx-chapter .v7-sec:nth-child(4){--c:#55565B}
 .jx-chapter .v7-sec + .v7-sec{border-top:1.5px solid rgba(17,17,19,.15)}
 .jx-chapter h4.v7-sec-title{display:flex;align-items:center;gap:11px;margin:0 0 10px;font-size:17px;font-weight:760;color:var(--rd-ink,#1d1d1f);letter-spacing:-.008em}
 .jx-chapter h4.v7-sec-title::before{content:'';flex:none;width:11px;height:11px;border-radius:3px;background:var(--c)}
@@ -142,7 +142,7 @@
   .jx-chapter .v7-apps{padding:12px 0 16px;--drop:24px;border:none;background:transparent;box-shadow:none}
   .jx-chapter .v7-apps-root{margin:0}
   .jx-chapter .v7-apps-root::after{left:26px;height:calc(var(--drop) + 4px)}
-  .jx-chapter .v7-apps-row{grid-template-columns:1fr;gap:12px;margin:var(--drop) 0 0 26px;padding:6px 0 0 24px;border-left:2px solid #1F3A5F}
+  .jx-chapter .v7-apps-row{grid-template-columns:1fr;gap:12px;margin:var(--drop) 0 0 26px;padding:6px 0 0 24px;border-left:2px solid #1B1B1D}
   .jx-chapter .v7-app{flex-direction:row;min-height:0;text-align:left;align-items:stretch}
   .jx-chapter .v7-app-name{order:1;place-items:center start;padding:12px 14px}
   .jx-chapter .v7-app-code{order:2;display:grid;place-items:center;font-size:17px;min-width:72px;border-radius:0 11px 11px 0}
@@ -179,9 +179,9 @@
   font-size:14px;line-height:1.5;font-weight:560;color:var(--rd-ink,#1d1d1f);flex:1}
 
 .jx-chapter .fx-hubfig{padding:12px 0 12px 12px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:0 56px;align-items:center;max-width:960px}
-.jx-chapter .fx-hub{position:relative;display:grid;place-items:center;width:180px;height:180px;border-radius:50%;background:#1F3A5F;color:#fff;text-align:center;
-  font-size:17px;font-weight:800;padding:0 26px;box-shadow:0 0 0 8px #fff,0 0 0 10px color-mix(in srgb,#1F3A5F 35%,transparent)}
-.jx-chapter .fx-hub::after{content:'';position:absolute;left:100%;top:50%;width:66px;height:18px;margin-top:-9px;background:#1F3A5F;-webkit-mask:var(--fx-r) center/100% 100% no-repeat;mask:var(--fx-r) center/100% 100% no-repeat}
+.jx-chapter .fx-hub{position:relative;display:grid;place-items:center;width:180px;height:180px;border-radius:50%;background:#1B1B1D;color:#fff;text-align:center;
+  font-size:17px;font-weight:800;padding:0 26px;box-shadow:0 0 0 8px #fff,0 0 0 10px color-mix(in srgb,#1B1B1D 35%,transparent)}
+.jx-chapter .fx-hub::after{content:'';position:absolute;left:100%;top:50%;width:66px;height:18px;margin-top:-9px;background:#1B1B1D;-webkit-mask:var(--fx-r) center/100% 100% no-repeat;mask:var(--fx-r) center/100% 100% no-repeat}
 .jx-chapter .fx-hubcards{display:grid;gap:26px}
 .jx-chapter .fx-hubcard{padding:22px 20px 16px}
 .jx-chapter .fx-hubcard .fx-list{margin:0;padding-left:18px}
@@ -194,12 +194,12 @@
 .jx-chapter .fx-letter .fx-vhead{margin-bottom:4px}
 
 .jx-chapter .fx-spot{max-width:900px}
-.jx-chapter .fx-spot-hub{display:flex;align-items:center;gap:12px;width:max-content;margin:0 auto;padding:10px 26px 10px 18px;border-radius:999px;background:#1F3A5F;color:#fff;font-size:17px;font-weight:800;letter-spacing:.06em;position:relative}
+.jx-chapter .fx-spot-hub{display:flex;align-items:center;gap:12px;width:max-content;margin:0 auto;padding:10px 26px 10px 18px;border-radius:999px;background:#1B1B1D;color:#fff;font-size:17px;font-weight:800;letter-spacing:.06em;position:relative}
 .jx-chapter .fx-spot-hub .fx-star{width:34px;height:34px;flex:none}
 .jx-chapter .fx-spot-row{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:26px;margin-top:56px}
-.jx-chapter .fx-spot-row::before{content:'';position:absolute;left:calc(50% / var(--n));right:calc(50% / var(--n));top:-28px;height:2px;background:#1F3A5F}
-.jx-chapter .fx-spot-row .fx-node::after{display:block;content:'';position:absolute;left:50%;top:-30px;width:2px;height:30px;background:#1F3A5F;-webkit-mask:none;mask:none}
-.jx-chapter .fx-spot .fx-spot-hub::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:28px;background:#1F3A5F}
+.jx-chapter .fx-spot-row::before{content:'';position:absolute;left:calc(50% / var(--n));right:calc(50% / var(--n));top:-28px;height:2px;background:#1B1B1D}
+.jx-chapter .fx-spot-row .fx-node::after{display:block;content:'';position:absolute;left:50%;top:-30px;width:2px;height:30px;background:#1B1B1D;-webkit-mask:none;mask:none}
+.jx-chapter .fx-spot .fx-spot-hub::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:28px;background:#1B1B1D}
 
 @media (max-width:900px){
   .jx-chapter .fx-chev{grid-template-columns:1fr;gap:12px}
@@ -234,3 +234,14 @@
 @media (max-width:760px){
   .jx-chapter .ch-timeline{overflow-x:auto;grid-template-columns:repeat(12,minmax(38px,1fr));padding:10px 12px;-webkit-overflow-scrolling:touch}
 }
+
+/* clickable lettered steps + annexure chips */
+.jx-chapter .fx-go{position:absolute;inset:0;z-index:1;border-radius:inherit;text-decoration:none}
+.jx-chapter .fx-link{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.jx-chapter .fx-link:hover{transform:translateY(-2px);border-color:#1B1B1D;box-shadow:0 1px 2px rgba(17,17,19,.06),0 12px 24px -14px rgba(17,17,19,.4)}
+.jx-chapter .fx-go:focus-visible{outline:2px solid #1B1B1D;outline-offset:3px}
+.jx-chapter .fx-node .fx-badge,.jx-chapter .fx-node .v7-ref,.jx-chapter .fx-whos{position:relative;z-index:2}
+.jx-chapter .fx-node .fx-badge{position:absolute}
+.jx-chapter a.v7-ref{text-decoration:none;cursor:pointer;transition:background .15s ease,color .15s ease}
+.jx-chapter a.v7-ref:hover{background:#1B1B1D;color:#fff;border-color:#1B1B1D}
+.jx-chapter .fx-node.fx-link .fx-text{position:relative}

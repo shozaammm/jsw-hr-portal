@@ -12,10 +12,10 @@ import re
 
 esc = lambda s: html.escape(s, quote=False)
 
-# muted, dark enough for white text (all ≥ 4.5:1)
-NAVY, BLUE, TEAL, GREEN, BRONZE, BRICK, PLUM = '#1F3A5F', '#2F5D8C', '#2E7D7A', '#3F6B3A', '#8F6A1F', '#A8493E', '#6C4E96'
+# greys and blacks to match the portal; BRICK only marks the negative branch of a decision (all ≥ 4.5:1 with white)
+NAVY, BLUE, TEAL, GREEN, BRONZE, BRICK, PLUM = '#1B1B1D', '#303136', '#46474C', '#5C5D62', '#6E6F74', '#8E3A32', '#3B3C41'
 GOLD = '#9A6B0A'
-SEQ = [NAVY, BLUE, TEAL, GREEN, BRONZE, BRICK, PLUM]
+SEQ = [NAVY, BLUE, TEAL, GREEN, BRONZE, GREEN, TEAL]
 ROW_SEQ = [BLUE, TEAL, PLUM, BRONZE, GREEN, BRICK]
 
 
@@ -38,7 +38,7 @@ def snake(nodes):
     dirs = _dirs(nodes)
     parts = []
     for n, d in zip(nodes, dirs):
-        color = GOLD
+        color = NAVY
         cls = 'fx-node' + (f' fx-to-{d}' if d else '') + (' fx-rms' if n.get('rms') else '')
         inner = f'<span class="fx-badge">{esc(n["num"])}</span>'
         if n['when']:
@@ -51,7 +51,7 @@ def snake(nodes):
 
 
 # ───────────── 6.3: eight cards on the same snake, each with its own colour ─────────────
-CARD_COLORS = [BLUE, BRONZE, TEAL, GREEN, PLUM, PLUM, PLUM, BRICK]
+CARD_COLORS = [NAVY, BLUE, TEAL, GREEN, PLUM, TEAL, BLUE, NAVY]
 CARD_POS = [(1, 1), (1, 2), (1, 3), (2, 3), (2, 2), (2, 1), (3, 1), (3, 2)]
 
 
@@ -177,7 +177,7 @@ def _box(cx, top, w, h, text, fill, maxc, fg='#fff', rx=12, weight=600):
 
 def _diamond(cx, cy, hw, hh, text, maxc=20):
     pts = f'{cx},{cy - hh} {cx + hw},{cy} {cx},{cy + hh} {cx - hw},{cy}'
-    return (f'<polygon points="{pts}" fill="#E8C45A" stroke="#B8962E" stroke-width="1.5"/>'
+    return (f'<polygon points="{pts}" fill="#E6E5E1" stroke="#9A6B0A" stroke-width="1.5"/>'
             + _label(cx, cy, _wrap(text, maxc), '#1d1d1f'))
 
 
@@ -194,7 +194,7 @@ def absent_flow():
     s.append(_diamond(xC, 176, 205, 70, A['q1']))
     # YES branch (left)
     line(f'{xC - 205},176 {xL},176 {xL},306')
-    s.append(f'<text x="{(xC - 205 + xL) / 2}" y="164" text-anchor="middle" font-size="14" font-weight="800" fill="{BLUE}">YES</text>')
+    s.append(f'<text x="{(xC - 205 + xL) / 2}" y="164" text-anchor="middle" font-size="14" font-weight="800" fill="{NAVY}">YES</text>')
     ys = [(306, 86, 34), (432, 62, 29), (534, 62, 29)]
     for (top, h, mc), t in zip(ys, A['y']):
         s.append(_box(xL, top, 292, h, t, BLUE, mc))
@@ -207,10 +207,10 @@ def absent_flow():
     line(f'{xR},370 {xR},408')
     s.append(_diamond(xR, 478, 150, 70, A['q2'], 16))
     line(f'{xR - 150},478 690,478 690,618')
-    s.append(f'<text x="716" y="466" text-anchor="middle" font-size="14" font-weight="800" fill="{BLUE}">YES</text>')
+    s.append(f'<text x="716" y="466" text-anchor="middle" font-size="14" font-weight="800" fill="{NAVY}">YES</text>')
     line(f'{xR + 150},478 1068,478 1068,618')
     s.append(f'<text x="1048" y="466" text-anchor="middle" font-size="14" font-weight="800" fill="{BRICK}">NO</text>')
-    s.append(_box(690, 620, 250, 82, A['n_yes'], BRICK, 28))
+    s.append(_box(690, 620, 250, 82, A['n_yes'], TEAL, 28))
     s.append(_box(1068, 620, 264, 98, A['n_no'], BRICK, 31))
     svg = (f'<svg viewBox="0 0 1200 730" role="img" aria-label="Flowchart: what happens when a participant cannot attend a training session. '
            f'If they informed in advance, the absence is documented and they are scheduled for the next session. '
@@ -224,7 +224,7 @@ def absent_flow():
              f'<section class="fx-dm-b"><span class="fx-dm-tag fx-yes">YES</span>{yes}</section>'
              f'<section class="fx-dm-b"><span class="fx-dm-tag fx-no">NO</span>{node(A["n"], "fx-r")}{arrow}'
              f'<div class="fx-dm-q">{esc(A["q2"])}</div>'
-             f'<div class="fx-dm-sub"><span class="fx-dm-tag fx-yes">YES</span>{node(A["n_yes"], "fx-r")}</div>'
+             f'<div class="fx-dm-sub"><span class="fx-dm-tag fx-yes">YES</span>{node(A["n_yes"], "fx-b")}</div>'
              f'<div class="fx-dm-sub"><span class="fx-dm-tag fx-no">NO</span>{node(A["n_no"], "fx-r")}</div></section></div>')
     return f'<figure class="fx-fig fx-dfig"><div class="fx-desk">{svg}</div>{phone}</figure>'
 
@@ -266,7 +266,7 @@ def smart(rows):
 
 
 def review(items):
-    cs = [BLUE, TEAL, PLUM, BRONZE, GREEN, BRICK]
+    cs = [NAVY, BLUE, TEAL, PLUM]
     nodes = [_node(f'{i + 1:02d}', cs[i % 6], f'<p class="fx-text">{esc(t)}</p>') for i, t in enumerate(items)]
     return f'<figure class="fx-fig"><div class="fx-flow fx-plain" style="--cols:{min(len(items), 4)}">' + ''.join(nodes) + '</div></figure>'
 

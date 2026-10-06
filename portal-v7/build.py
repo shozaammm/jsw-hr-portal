@@ -858,31 +858,18 @@ def build():
     html_out = (base[:a] + '    ' + fm_i_html + '\n    ' + fm_ii_html + '\n    ' + fm_iii_html + '\n' + mid
                 + '    ' + '\n    '.join(arts) + '\n    ' + annex_html_ + base[e:])
 
-    # chapters 3-12 were locked (fb2dafc) until their content matched the new manual; V7 content is now in
-    lock = "['i', 'ii', 'iii', '1', '2'].indexOf(ch.num) === -1"
-    assert html_out.count(lock) == 2
-    html_out = html_out.replace(lock, 'false')
-    for guard in ("""    if(res && res.page && res.page.ch){
-      if(['i', 'ii', 'iii', '1', '2'].indexOf(res.page.ch.num) === -1){
-        return null; // Locked chapter routes back to home
-      }
-    }
-""", """    if(res.next && res.next.ch && ['i', 'ii', 'iii', '1', '2'].indexOf(res.next.ch.num) === -1){
-      res.next = null;
-    }
-"""):
-        assert html_out.count(guard) == 1
-        html_out = html_out.replace(guard, '')
-    assert "['i', 'ii', 'iii', '1', '2']" not in html_out
+    # chapters 3-12 + annexure stay locked (base routing/nav guards) until the user releases them; only i-iii, 1, 2 are open
+    assert html_out.count("['i', 'ii', 'iii', '1', '2'].indexOf(ch.num) === -1") == 2
     # groups lost their "Part X · " prefix (ab1bffd), so short === name and the sidebar printed it twice
     dup = "g.name ? '<b>' + esc(g.short) + '</b><span>' + esc(g.name) + '</span>'"
     assert html_out.count(dup) == 1
     html_out = html_out.replace(dup, "g.name && g.name !== g.short ? '<b>' + esc(g.short) + '</b><span>' + esc(g.name) + '</span>'")
-    # org-chart caption follows the selected tab
-    fn = '      function ocSelect(i){\n'
-    assert html_out.count(fn) == 1
-    html_out = html_out.replace(fn, fn + "        var _cap = document.getElementById('orgCaption'), _caps = " + json.dumps(ORG_CAPS, ensure_ascii=False)
-                                + ";\n        if(_cap) _cap.innerHTML = (_caps[i] || []).map(function(c){ return '<span>' + c + '</span>'; }).join('');\n")
+    # X and XPlus share one chart but get their own tab each
+    tabs = "        window.ORG_CATEGORIES.forEach(function(cat, i){\n          var btn = document.createElement('button');"
+    assert html_out.count(tabs) == 1
+    html_out = html_out.replace(tabs, "        (function(a){ var x = a[0]; a.splice(0, 1, Object.assign({}, x, {label: 'X Category'}), Object.assign({}, x, {label: 'XPlus Category'})); })(window.ORG_CATEGORIES);\n" + tabs)
+    # one chapter-opening order, as in the docx: Purpose, then Principles, then the two Benefit lists
+    html_out = reorder_openers(html_out)
     # reading emphasis — markup only; text content must be byte-identical
     import readability
     a = html_out.find('    <article class="jx-chapter" id="chap-fm-i"')
@@ -894,14 +881,189 @@ def build():
     print('emphasis', stats)
     if '--leads' in sys.argv:
         print('\n'.join(sorted(set(leads))))
+    html_out = link_steps(html_out)
     html_out = patch_home(html_out)
     html_out = patch_toc(html_out, toc_subs)
     html_out = inject_css(html_out)
+    html_out = finish(html_out)
     OUT.write_text(html_out)
     print('wrote', OUT, len(html_out))
 
 
-ORG_CAPS = None
+
+
+def _gray(r, g, b):
+    import colorsys
+    hh, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+    return s > 0.3 and 0.04 < l < 0.98, round(0.299 * r + 0.587 * g + 0.114 * b)
+
+
+def desaturate(h):
+    """Gold / red / green / purple literals -> neutral grey of the same lightness (house palette is greyscale)."""
+    def hx(m):
+        x = m.group(1)
+        x = ''.join(c * 2 for c in x) if len(x) == 3 else x
+        hit, y = _gray(*(int(x[i:i + 2], 16) for i in (0, 2, 4)))
+        return '#%02X%02X%02X' % (y, y, y) if hit else m.group(0)
+    def rg(m):
+        hit, y = _gray(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+        return 'rgb%s(%d, %d, %d%s)' % (m.group(0)[3:4] if m.group(0)[3:4] == 'a' else '', y, y, y, m.group(4) or '') if hit else m.group(0)
+    h = re.sub(r'(?<![\w&])#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b(?![\w-])', hx, h)
+    return re.sub(r'rgba?\(\s*(\d+),\s*(\d+),\s*(\d+)(,\s*[\d.]+)?\)', rg, h)
+
+
+def _principles_block(h, i):
+    """end index of a body-level 'Principles' block starting at the <h3> at i (Ch.1 / Ch.2 openers)."""
+    j = h.index('</h3>', i) + 5
+    k = re.compile(r'\s*').match(h, j).end()
+    if h.startswith('<ul', k):
+        return h.index('</ul>', k) + 5
+    assert h.startswith('<p>', k)
+    p_end = h.index('</p>', k) + 4
+    d = re.compile(r'\s*').match(h, p_end).end()
+    assert h.startswith('<div class="row-2col"', d)
+    return _div_end(h, d)
+
+
+def reorder_openers(h):
+    row_re = re.compile(r'<div class="meta-row reveal"[^>]*>')
+    out, pos, n = [], 0, 0
+    for m in row_re.finditer(h):
+        if m.start() < pos:
+            continue
+        end = _div_end(h, m.start())
+        items = re.findall(r'<div class="meta-item">.*?</div>', h[m.end():end], re.S)
+        purpose = [x for x in items if '<span class="eyebrow">Purpose:</span>' in x or '<span class="eyebrow">PURPOSE:</span>' in x]
+        pr = [x for x in items if re.search(r'<span class="eyebrow">Principles:</span>', x)]
+        rest = [x for x in items if x not in pr and x not in purpose]
+        if not purpose:
+            continue
+        row = lambda xs: m.group(0).replace('style="', 'style="grid-template-columns:1fr;', 1) if False else m.group(0)
+        solo = m.group(0)[:-1] + ' data-solo="1">' if 'style=' not in m.group(0) else re.sub(r'style="', 'data-solo="1" style="', m.group(0), 1)
+        if pr:
+            body = re.sub(r'<div class="meta-item"><span class="eyebrow">Principles:</span>\s*(.*)</div>$', r'\1', pr[0].strip(), flags=re.S)
+            princ = '\n<h3 class="sub-title subhead">Principles</h3>\n' + body
+            tail_from = end
+        else:
+            k = re.compile(r'\s*').match(h, end).end()
+            if not h.startswith('<h3 class="sub-title subhead">Principles</h3>', k):
+                continue
+            tail_from = _principles_block(h, k)
+            princ = '\n' + h[k:tail_from]
+        out.append(h[pos:m.start()] + solo + ''.join(purpose) + '</div>' + princ + '\n' + m.group(0) + ''.join(rest) + '</div>')
+        pos = tail_from
+        n += 1
+    out.append(h[pos:])
+    print('openers reordered', n)
+    return ''.join(out)
+
+
+CALC = '''<div class="mp-calc" id="mpCalc">
+<table class="mp-table"><thead><tr><th>Sales Manpower Productivity (Month)</th><th><input id="mpVol" type="number" min="0" step="1" inputmode="numeric" placeholder="ENTER NUMBER" aria-label="Enter your outlet's monthly sales target"></th><th>Manpower required</th><th>Salary (&#8377;)</th></tr></thead><tbody>
+@@ROWS@@
+</tbody><tfoot><tr><td colspan="2">Total Manpower Required / Total Fixed Cost (Salaries)</td><td><b id="mpTot">&mdash;</b></td><td><b id="mpCost">&mdash;</b></td></tr></tfoot></table>
+</div>
+<script>
+(function(){
+  /* formulae and salary rates from "Ch1 manpower calculator.xlsx" */
+  var rows = document.querySelectorAll('#mpCalc tr[data-role]');
+  var vol = document.getElementById('mpVol');
+  function fmt(n){ return (Math.round(n * 100) / 100).toLocaleString('en-IN', {maximumFractionDigits: 2}); }
+  function calc(){
+    var t = parseFloat(vol.value), ok = isFinite(t) && t > 0;
+    var C = {};
+    C.cons = t / 4;
+    C.tl = C.cons / 5;
+    C.sm = t > 1 ? Math.max(C.tl / 5, 1) : C.tl / 5;
+    C.cre = t > 1 ? Math.max(t / 50, 1) : t / 50;
+    C.fi = t > 1 ? Math.max(t / 50, 1) : t / 50;
+    C.rd = t / 50;
+    C.crm = C.cre / 3;
+    var men = 0, cost = 0;
+    rows.forEach(function(tr){
+      var n = C[tr.dataset.role], sal = n * parseFloat(tr.dataset.sal);
+      tr.querySelector('.mp-n').textContent = ok ? fmt(n) : 'X';
+      tr.querySelector('.mp-c').textContent = ok ? fmt(sal) : '—';
+      if(ok){ men += n; cost += sal; }
+    });
+    document.getElementById('mpTot').textContent = ok ? fmt(men) : '—';
+    document.getElementById('mpCost').textContent = ok ? fmt(cost) : '—';
+  }
+  vol.addEventListener('input', calc);
+  calc();
+})();
+</script>'''
+
+CALC_ROWS = [('cons', 'No. Sales Consultants required', 40000), ('tl', 'No. of Team Leaders required', 55000),
+             ('sm', 'No. of Sales Managers required', 100000), ('cre', 'No. of CREs required', 22500),
+             ('fi', 'No. of Car Finance &amp; Insurance Executives required', 27000),
+             ('rd', 'No. of Car Registration &amp; Delivery Executives required', 22500),
+             ('crm', 'No. of CRM Sales required', 45000)]
+
+
+def calculator(h):
+    pat = re.compile(r'<div class="table-wrap"><table><thead><tr><th><strong>Sales Manpower Productivity \(Month\)</strong></th>.*?</table></div>', re.S)
+    assert len(pat.findall(h)) == 1
+    rows = ['<tr data-role="%s" data-sal="%d"><td>%s</td><td class="mp-n">X</td><td class="mp-n">&mdash;</td><td class="mp-c">&mdash;</td></tr>' % (k, sal, label) for k, label, sal in CALC_ROWS]
+    # columns: label | (input col) | manpower | salary -> keep the input column empty in body rows
+    rows = [r.replace('<td class="mp-n">X</td><td class="mp-n">&mdash;</td>', '<td></td><td class="mp-n">X</td>') for r in rows]
+    return pat.sub(lambda m: CALC.replace('@@ROWS@@', '\n'.join(rows)), h)
+
+
+MP_CSS = '''
+.mp-calc{margin:14px 0 8px}
+.mp-table{width:100%;border-collapse:collapse;font-size:15px}
+.mp-table th,.mp-table td{border:1px solid var(--border,#d2d2d2);padding:10px 12px;text-align:left;vertical-align:middle}
+.mp-table thead th{background:var(--ink,#1b1b1d);color:#fff;font-weight:600}
+.mp-table tfoot td{font-weight:600;background:rgba(0,0,0,.04)}
+.mp-table input{width:100%;min-width:90px;padding:7px 9px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;background:#fff;color:#1b1b1d}
+.mp-table thead input{font-weight:600}
+.mp-table .mp-n{font-weight:700;text-align:center;width:90px}
+.mp-per{display:inline-flex;align-items:center;gap:6px;margin-left:10px;color:#46474c;font-size:13px}
+.mp-per input{width:64px;min-width:0}
+.mp-note{margin-top:10px;font-size:13px;color:#46474c;max-width:none}
+.jx-lc{text-transform:none!important;letter-spacing:0!important}
+.meta-row[data-solo]{grid-template-columns:1fr!important}
+@media(max-width:720px){.mp-table{display:block;overflow-x:auto}}
+'''
+
+
+FX_CSS = '''
+.fx-node:not(.fx-link){cursor:pointer}
+.fx-node.fx-on{outline:2px solid #1b1b1d;outline-offset:3px;box-shadow:0 6px 18px rgba(0,0,0,.18);transition:box-shadow .2s}
+.fx-node:focus-visible{outline:2px solid #1b1b1d;outline-offset:3px}
+'''
+FX_JS = '''<script>
+(function(){
+  /* flow steps that have no heading to jump to: click / Enter / Space to highlight the step */
+  function nodes(){ document.querySelectorAll('.fx-node:not(.fx-link)').forEach(function(n){ n.tabIndex = 0; n.setAttribute('role','button'); n.setAttribute('aria-pressed','false'); }); }
+  function pick(n){
+    var f = n.closest('.fx-flow') || n.parentNode, on = n.classList.contains('fx-on');
+    f.querySelectorAll('.fx-node.fx-on').forEach(function(x){ x.classList.remove('fx-on'); x.setAttribute('aria-pressed','false'); });
+    if(!on){ n.classList.add('fx-on'); n.setAttribute('aria-pressed','true'); }
+  }
+  document.addEventListener('click', function(e){ var n = e.target.closest('.fx-node:not(.fx-link)'); if(n && !e.target.closest('a')) pick(n); });
+  document.addEventListener('keydown', function(e){ if(e.key !== 'Enter' && e.key !== ' ') return; var n = e.target.closest && e.target.closest('.fx-node:not(.fx-link)'); if(n && n === e.target){ e.preventDefault(); pick(n); } });
+  nodes();
+})();
+</script>'''
+
+
+def finish(h):
+    # colours and graphs left as approved
+    h = calculator(h)
+    # "Annexure", not ANNEXURE (headings, chapter sub-lists, sidebar group, viewer modal)
+    h = h.replace('<strong style="color:var(--ink)">ANNEXURE</strong>', '<strong style="color:var(--ink)">Annexure</strong>')
+    h = h.replace('<h4 class="subhead" style="font-weight:700;margin-bottom:12px;">ANNEXURE</h4>', '<h4 class="subhead" style="font-weight:700;margin-bottom:12px;">Annexure</h4>')
+    h = h.replace('<p class="jx-kicker">ANNEXURE</p>', '<p class="jx-kicker jx-lc">Annexure</p>')
+    h = h.replace("{group:'ANNEXURE'", "{group:'Annexure'")
+    h = h.replace('OFFICIAL ANNEXURE VIEWER', 'Official Annexure Viewer').replace('<div style="display:none">ANNEXURE ', '<div style="display:none">Annexure ')
+    old = "'<b>' + esc(g.short) + '</b>'));"
+    assert h.count(old) == 1
+    h = h.replace(old, "'<b' + (g.short === 'Annexure' ? ' class=\"jx-lc\"' : '') + '>' + esc(g.short) + '</b>'));")
+    h = h.replace('</head>', '<style id="jx-mp">' + MP_CSS + FX_CSS + '</style></head>', 1)
+    h = h.replace('</body>', FX_JS + '</body>', 1)
+    return h
 
 
 def patch_ch1_ch2(mid, D, chunks, toc_subs):
@@ -928,14 +1090,6 @@ def patch_ch1_ch2(mid, D, chunks, toc_subs):
         assert mid.count(a) == 1
         mid = mid.replace(a, f'font-weight:700;">{lab}:</h4>')
     blocks = chunks['Dealership Organisation Structure']['blocks']
-    # V7 captions each org chart ("Chart 1.1 X Category" …); X and XPlus share one chart (portal tab 1)
-    caps = [b['text'] for b in blocks if b['k'] == 'p' and re.match(r'^Chart 1\.\d ', b['text'])]
-    assert len(caps) == 6, caps
-    global ORG_CAPS
-    ORG_CAPS = [caps[0:2], caps[2:3], caps[3:4], caps[4:5], caps[5:6]]
-    stage = '<div class="orgchart-stage" id="orgStage">'
-    assert mid.count(stage) == 1
-    mid = mid.replace(stage, '<p class="v7-chart-cap" id="orgCaption" aria-live="polite"></p>\n' + stage)
     k = next(i for i, b in enumerate(blocks) if b['k'] == 'p' and b['text'].startswith('1.2 Build My Organisation'))
     r = Renderer(D, 'ch2'); r.subs = [('ch2-1', '1.1 Recommended Organisation Chart')]; r.seen_h2 = True
     sec = r.render(blocks[k:])
@@ -1002,6 +1156,87 @@ def patch_toc(h, subs):
     return h[:a] + toc + h[b:]
 
 
+def _div_end(h, start):
+    """index just after the </div> that closes the <div> opening at `start`."""
+    depth, i = 0, start
+    for m in re.finditer(r'<div\b|</div>', h[start:]):
+        depth += 1 if m.group(0) != '</div>' else -1
+        if depth == 0:
+            return start + m.end()
+    raise ValueError('unbalanced')
+
+
+def link_steps(h):
+    """Lettered flow boxes jump to their step's heading; annexure chips jump to the annexure file."""
+    art_re = re.compile(r'<article class="jx-chapter" id="chap-([^"]+)"')
+    pieces, last, linked, miss = [], 0, 0, []
+    for am in art_re.finditer(h):
+        a, e = am.start(), h.find('</article>', am.end())
+        if am.group(1) == 'annexure' or e < 0:
+            continue
+        seg, n = h[a:e], 0
+        used, out, pos = set(), [], 0
+        for fm in re.finditer(r'<div class="fx-flow"', seg):
+            if fm.start() < pos:
+                continue
+            fend = _div_end(seg, fm.start())
+            flow = seg[fm.start():fend]
+            letters = re.findall(r'<span class="fx-badge">([A-Z])</span>', flow)
+            if not letters or len(letters) != len(re.findall(r'<span class="fx-badge">', flow)):
+                continue
+            ids = {}
+            for L in letters:
+                hm = None
+                for c in re.finditer(r'<h([456]) class="item-title([^"]*)"><span class="v7-mk">%s<span class="v7-mk-dot">\.</span></span>' % L, seg[fend:]):
+                    if fend + c.start() not in used:
+                        hm = c; break
+                if not hm:
+                    miss.append((am.group(1), L)); continue
+                pos_h = fend + hm.start()
+                used.add(pos_h)
+                n += 1
+                ids[L] = (pos_h, hm, f'{am.group(1)}-step-{n}')
+            # rewrite headings (collected) and nodes
+            new_flow, q = [], 0
+            for nm in re.finditer(r'<div class="fx-node', flow):
+                if nm.start() < q:
+                    continue
+                nend = _div_end(flow, nm.start())
+                node = flow[nm.start():nend]
+                L = re.search(r'<span class="fx-badge">([A-Z])</span>', node).group(1)
+                if L in ids:
+                    i0 = node.index('>') + 1
+                    node = (node[:i0].replace('class="fx-node', 'class="fx-node fx-link', 1)
+                            + '<a class="fx-go" href="#%s" aria-label="Go to step %s"></a>' % (ids[L][2], L) + node[i0:])
+                new_flow.append(flow[q:nm.start()] + node); q = nend
+            new_flow.append(flow[q:])
+            out.append((fm.start(), fend, ''.join(new_flow)))
+            pos = fend
+            for L, (ph, hm, hid) in ids.items():
+                out.append((ph, ph + len('<h%s class="item-title%s"' % (hm.group(1), hm.group(2))),
+                            '<h%s id="%s" class="item-title%s"' % (hm.group(1), hid, hm.group(2))))
+        res, q = [], 0
+        for s0, s1, rep in sorted(out):
+            res.append(seg[q:s0] + rep); q = s1
+        res.append(seg[q:])
+        pieces.append((a, e, ''.join(res)))
+        linked += n
+    for a, e, rep in reversed(pieces):
+        h = h[:a] + rep + h[e:]
+    # annexure chips -> the annexure file entry
+    a = h.find('id="chap-annexure"'); e = h.find('</article>', a)
+    seg = h[a:e]
+    codes = set(re.findall(r'title="Download (\d{1,2}[A-Z])\. ', seg))
+    seg = re.sub(r'(<a class="annex-file-item" href="#annexure")( onclick="handleAnnexDownload\(event, \'(\d{1,2}[A-Z])\.)',
+                 lambda m: m.group(1).replace('<a ', '<a id="annex-%s" ' % m.group(3)) + m.group(2), seg)
+    h = h[:a] + seg + h[e:]
+    used_codes = set(re.findall(r'<span class="v7-ref">(\d{1,2}[A-Z])</span>', h))
+    assert used_codes <= codes, used_codes - codes
+    h = re.sub(r'<span class="v7-ref">(\d{1,2}[A-Z])</span>', r'<a class="v7-ref" href="#annex-\1">\1</a>', h)
+    print('step links', linked, 'unmatched', miss)
+    return h
+
+
 CSS = '''<style id="jx-v7">
 .jx-chapter h5.item-title{font-size:14.5px;font-weight:700;margin:18px 0 6px}
 .jx-chapter h6.item-title{font-size:14px;font-weight:600;font-style:italic;margin:14px 0 4px;color:var(--grey-700,#444)}
@@ -1018,9 +1253,9 @@ CSS = '''<style id="jx-v7">
 .jsw-diagram-canvas [style*="background:linear-gradient(145deg,#2c2c2c"] [style*="background:linear-gradient(145deg,#fdfdfd"]{color:#0A0A0A !important}
 .jx-chapter .rf-step-card.zz-rms{background:#FAE2D5;border-color:#E9B79B}
 .jx-chapter .v7-cat{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;margin:2px 4px 2px 0;border:1px solid var(--line-200,#ccc)}
-.jx-chapter .v7-cat-product{background:#DCE8F7}
-.jx-chapter .v7-cat-process{background:#FBE3CC}
-.jx-chapter .v7-cat-soft{background:#E1EBD3}
+.jx-chapter .v7-cat-product{background:#E4E4E7}
+.jx-chapter .v7-cat-process{background:#CFCFD4}
+.jx-chapter .v7-cat-soft{background:#F2F2F4}
 .jx-chapter .ch-month-notes{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 10px}
 .jx-chapter .ch-month-notes:empty{display:none}
 .jx-chapter .ch-month-notes .ch-pill{cursor:pointer;font-size:11px;padding:4px 8px;white-space:normal}
@@ -1034,7 +1269,7 @@ CSS = '''<style id="jx-v7">
 .jx-chapter section.chap .prose p{color:var(--rd-body);font-size:16px;line-height:1.72;max-width:74ch}
 .jx-chapter section.chap .prose .list-clean li{color:var(--rd-body);font-size:15.5px;line-height:1.7;max-width:76ch}
 .jx-chapter section.chap .prose .list-clean li + li{margin-top:4px}
-:root{--gold:#9A6B0A !important;--gold-lite:#DFBE7A !important;--jx-gold:#C5A059 !important;--jx-gold-2:#DFBE7A !important;--jx-gold-3:#9A6B0A !important}
+.jx-card-bar i{background:linear-gradient(90deg,#9A6B0A,#C5A059)}
 .jx-chapter section.chap .prose > h4.item-title{font-size:19px;line-height:1.35;font-weight:750;letter-spacing:-.012em;color:var(--rd-ink);
   margin:44px 0 12px;padding-top:22px;border-top:1.5px solid rgba(17,17,19,.22);display:flex;align-items:flex-start;gap:12px;text-wrap:balance}
 .jx-chapter section.chap .prose > hr,.jx-chapter hr{border:none;border-top:1.5px solid rgba(17,17,19,.22);margin:36px 0}
@@ -1043,7 +1278,7 @@ CSS = '''<style id="jx-v7">
 .jx-chapter section.chap .prose > h6.item-title{font-size:15.5px;line-height:1.4;font-weight:700;font-style:normal;color:var(--rd-ink);margin:26px 0 8px;display:flex;align-items:center;gap:10px}
 .jx-chapter .v7-mk{flex:none;display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 7px;border-radius:8px;background:var(--ink);color:#fff;
   font-size:13px;font-weight:750;letter-spacing:0;font-variant-numeric:tabular-nums;margin-top:-1px}
-.jx-chapter .v7-mk.v7-mk-lower{min-width:26px;height:26px;font-size:12.5px}
+.jx-chapter .v7-mk.v7-mk-lower{min-width:0;height:auto;padding:0;border-radius:0;background:none;color:var(--rd-ink,#1d1d1f);font-size:inherit;font-weight:600;margin:0 -4px 0 0}
 .jx-chapter .v7-mk-dot{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .jx-chapter section.chap .prose p.v7-runin{font-size:17.5px;line-height:1.4;color:var(--rd-ink);margin:34px 0 10px;letter-spacing:-.01em}
 .jx-chapter section.chap .prose p.v7-runin strong{font-weight:750}
