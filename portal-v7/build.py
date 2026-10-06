@@ -868,8 +868,9 @@ def build():
     tabs = "        window.ORG_CATEGORIES.forEach(function(cat, i){\n          var btn = document.createElement('button');"
     assert html_out.count(tabs) == 1
     html_out = html_out.replace(tabs, "        (function(a){ var x = a[0]; a.splice(0, 1, Object.assign({}, x, {label: 'X Category'}), Object.assign({}, x, {label: 'XPlus Category'})); })(window.ORG_CATEGORIES);\n" + tabs)
-    # one chapter-opening order, as in the docx: Purpose, then Principles, then the two Benefit lists
+    # one chapter-opening order: Purpose, the two Benefit lists, then Principles after them
     html_out = reorder_openers(html_out)
+    html_out = about_manual(html_out)
     # reading emphasis — markup only; text content must be byte-identical
     import readability
     a = html_out.find('    <article class="jx-chapter" id="chap-fm-i"')
@@ -925,6 +926,24 @@ def _principles_block(h, i):
     return _div_end(h, d)
 
 
+def about_manual(h):
+    """iii. About the Manual: the four definitions in the chapter-opener format (Purpose, Benefits, Principles); wording untouched."""
+    i = h.index('id="fm-iii"')
+    a = h.index('<p>', i)
+    e = h.index('<h3', a)
+    blk = h[a:e]
+    t = {}
+    for m in re.finditer(r'<p>(?:<strong>)?(Purpose|Principles|Benefit to Dealership|Benefit to Customers)(?:</strong>)?\s*[\u2013-]\s*(.*?)</p>', blk, re.S):
+        t[m.group(1)] = m.group(2).strip()
+    assert len(t) == 4 and len(re.findall(r'<p>', blk)) == 4, t.keys()
+    item = lambda lab, txt: '<div class="meta-item">\n    <span class="eyebrow">%s:</span>\n    <ul class="list-clean" style="margin-top:4px;">\n      <li>%s</li>\n    </ul>\n  </div>' % (lab, txt)
+    new = ('<div class="meta-row reveal" data-solo="1" style="margin-top:14px; padding-top:16px;">' + item('PURPOSE', t['Purpose']) + '</div>\n'
+           '<div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">' + item('Benefit to Dealership', t['Benefit to Dealership'])
+           + item('Benefit to Customers', t['Benefit to Customers']) + '</div>\n'
+           '<h3 class="sub-title subhead">Principles</h3>\n<ul class="list-clean">\n  <li>' + t['Principles'] + '</li>\n</ul>\n')
+    return h[:a] + new + h[e:]
+
+
 def reorder_openers(h):
     row_re = re.compile(r'<div class="meta-row reveal"[^>]*>')
     out, pos, n = [], 0, 0
@@ -950,7 +969,7 @@ def reorder_openers(h):
                 continue
             tail_from = _principles_block(h, k)
             princ = '\n' + h[k:tail_from]
-        out.append(h[pos:m.start()] + solo + ''.join(purpose) + '</div>' + princ + '\n' + m.group(0) + ''.join(rest) + '</div>')
+        out.append(h[pos:m.start()] + solo + ''.join(purpose) + '</div>\n' + m.group(0) + ''.join(rest) + '</div>' + princ + '\n')
         pos = tail_from
         n += 1
     out.append(h[pos:])
@@ -959,16 +978,17 @@ def reorder_openers(h):
 
 
 CALC = '''<div class="mp-calc" id="mpCalc">
-<table class="mp-table"><thead><tr><th>Sales Manpower Productivity (Month)</th><th><input id="mpVol" type="number" min="0" step="1" inputmode="numeric" placeholder="ENTER NUMBER" aria-label="Enter your outlet's monthly sales target"></th><th>Manpower required</th><th>Salary (&#8377;)</th></tr></thead><tbody>
+<div class="mp-ask"><input id="mpVol" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter your outlet's monthly sales target" aria-label="Enter your outlet's monthly sales target"></div>
+<table class="mp-table"><thead><tr><th>Sales Manpower Productivity (Month)</th><th>Manpower required</th><th>Salary (&#8377;)</th></tr></thead><tbody>
 @@ROWS@@
-</tbody><tfoot><tr><td colspan="2">Total Manpower Required / Total Fixed Cost (Salaries)</td><td><b id="mpTot">&mdash;</b></td><td><b id="mpCost">&mdash;</b></td></tr></tfoot></table>
+</tbody><tfoot><tr><td>Total Manpower Required / Total Fixed Cost (Salaries)</td><td><b id="mpTot">&mdash;</b></td><td><b id="mpCost">&mdash;</b></td></tr></tfoot></table>
 </div>
 <script>
 (function(){
   /* formulae and salary rates from "Ch1 manpower calculator.xlsx" */
   var rows = document.querySelectorAll('#mpCalc tr[data-role]');
   var vol = document.getElementById('mpVol');
-  function fmt(n){ return (Math.round(n * 100) / 100).toLocaleString('en-IN', {maximumFractionDigits: 2}); }
+  function fmt(n){ return Math.round(n).toLocaleString('en-IN'); }  /* whole numbers, as the sheet's "0" format */
   function calc(){
     var t = parseFloat(vol.value), ok = isFinite(t) && t > 0;
     var C = {};
@@ -994,19 +1014,17 @@ CALC = '''<div class="mp-calc" id="mpCalc">
 })();
 </script>'''
 
-CALC_ROWS = [('cons', 'No. Sales Consultants required', 40000), ('tl', 'No. of Team Leaders required', 55000),
-             ('sm', 'No. of Sales Managers required', 100000), ('cre', 'No. of CREs required', 22500),
-             ('fi', 'No. of Car Finance &amp; Insurance Executives required', 27000),
-             ('rd', 'No. of Car Registration &amp; Delivery Executives required', 22500),
-             ('crm', 'No. of CRM Sales required', 45000)]
+CALC_ROWS = [('cons', 'No. Sales Consultants required', 40000, 4), ('tl', 'No. of Team Leaders required', 55000, 5),
+             ('sm', 'No. of Sales Managers required', 100000, 5), ('cre', 'No. of CREs required', 22500, 50),
+             ('fi', 'No. of Car Finance &amp; Insurance Executives required', 27000, 50),
+             ('rd', 'No. of Car Registration &amp; Delivery Executives required', 22500, 50),
+             ('crm', 'No. of CRM Sales required', 45000, 3)]
 
 
 def calculator(h):
     pat = re.compile(r'<div class="table-wrap"><table><thead><tr><th><strong>Sales Manpower Productivity \(Month\)</strong></th>.*?</table></div>', re.S)
     assert len(pat.findall(h)) == 1
-    rows = ['<tr data-role="%s" data-sal="%d"><td>%s</td><td class="mp-n">X</td><td class="mp-n">&mdash;</td><td class="mp-c">&mdash;</td></tr>' % (k, sal, label) for k, label, sal in CALC_ROWS]
-    # columns: label | (input col) | manpower | salary -> keep the input column empty in body rows
-    rows = [r.replace('<td class="mp-n">X</td><td class="mp-n">&mdash;</td>', '<td></td><td class="mp-n">X</td>') for r in rows]
+    rows = ['<tr data-role="%s" data-sal="%d"><td>%s</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>' % (k, sal, label) for k, label, sal, div in CALC_ROWS]
     return pat.sub(lambda m: CALC.replace('@@ROWS@@', '\n'.join(rows)), h)
 
 
@@ -1016,8 +1034,7 @@ MP_CSS = '''
 .mp-table th,.mp-table td{border:1px solid var(--border,#d2d2d2);padding:10px 12px;text-align:left;vertical-align:middle}
 .mp-table thead th{background:var(--ink,#1b1b1d);color:#fff;font-weight:600}
 .mp-table tfoot td{font-weight:600;background:rgba(0,0,0,.04)}
-.mp-table input{width:100%;min-width:90px;padding:7px 9px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;background:#fff;color:#1b1b1d}
-.mp-table thead input{font-weight:600}
+.mp-ask input{width:100%;padding:10px 12px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:15px;background:#fff;color:#1b1b1d;margin-bottom:10px}
 .mp-table .mp-n{font-weight:700;text-align:center;width:90px}
 .mp-per{display:inline-flex;align-items:center;gap:6px;margin-left:10px;color:#46474c;font-size:13px}
 .mp-per input{width:64px;min-width:0}
