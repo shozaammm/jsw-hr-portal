@@ -927,21 +927,11 @@ def _principles_block(h, i):
 
 
 def about_manual(h):
-    """iii. About the Manual: the four definitions in the chapter-opener format (Purpose, Benefits, Principles); wording untouched."""
+    """iii. About the Manual: page content removed at the user's request; the page just says "Upcoming"."""
     i = h.index('id="fm-iii"')
-    a = h.index('<p>', i)
-    e = h.index('<h3', a)
-    blk = h[a:e]
-    t = {}
-    for m in re.finditer(r'<p>(?:<strong>)?(Purpose|Principles|Benefit to Dealership|Benefit to Customers)(?:</strong>)?\s*[\u2013-]\s*(.*?)</p>', blk, re.S):
-        t[m.group(1)] = m.group(2).strip()
-    assert len(t) == 4 and len(re.findall(r'<p>', blk)) == 4, t.keys()
-    item = lambda lab, txt: '<div class="meta-item">\n    <span class="eyebrow">%s:</span>\n    <ul class="list-clean" style="margin-top:4px;">\n      <li>%s</li>\n    </ul>\n  </div>' % (lab, txt)
-    new = ('<div class="meta-row reveal" data-solo="1" style="margin-top:14px; padding-top:16px;">' + item('PURPOSE', t['Purpose']) + '</div>\n'
-           '<div class="meta-row reveal" style="margin-top:14px; padding-top:16px;">' + item('Benefit to Dealership', t['Benefit to Dealership'])
-           + item('Benefit to Customers', t['Benefit to Customers']) + '</div>\n'
-           '<h3 class="sub-title subhead">Principles</h3>\n<ul class="list-clean">\n  <li>' + t['Principles'] + '</li>\n</ul>\n')
-    return h[:a] + new + h[e:]
+    a = h.index('>', i) + 1
+    e = h.index('</section>', a)
+    return h[:a] + '\n<div class="prose reveal">\n<p>Upcoming</p>\n</div>\n' + h[e:]
 
 
 def reorder_openers(h):
