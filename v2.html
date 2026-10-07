@@ -2774,17 +2774,24 @@ kbd{
 <style id="jx-mp">
 .mp-calc{margin:14px 0 8px}
 .mp-table{width:100%;border-collapse:collapse;font-size:15px}
-.mp-table th,.mp-table td{border:1px solid var(--border,#d2d2d2);padding:10px 12px;text-align:left;vertical-align:middle}
+.mp-table th,.mp-table td{border:1px solid var(--border,#d2d2d2);padding:10px 9px;text-align:left;vertical-align:middle}
 .mp-table thead th{background:var(--ink,#1b1b1d);color:#fff;font-weight:600}
 .mp-table tfoot td{font-weight:600;background:rgba(0,0,0,.04)}
 .mp-ask input{width:100%;padding:10px 12px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:15px;background:#fff;color:#1b1b1d;margin-bottom:10px}
 .mp-table .mp-n{font-weight:700;text-align:center;width:90px}
 .mp-per{display:inline-flex;align-items:center;gap:6px;margin-left:10px;color:#46474c;font-size:13px}
 .mp-per input{width:64px;min-width:0}
+.mp-ask{display:flex;gap:10px;flex-wrap:wrap}
+.mp-ask input,.mp-ask select{flex:1 1 260px}
+.mp-ask select{padding:10px 12px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:15px;background:#fff;color:#1b1b1d;margin-bottom:10px}
+.mp-scroll{overflow-x:auto}
+.mp-sal{width:110px;min-width:0;padding:6px 8px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:14px;background:#fff;color:#1b1b1d}
+.mp-table .mp-sg,.mp-table .mp-c{text-align:right;white-space:nowrap}
+.mp-table .mp-n{width:auto;white-space:nowrap}
 .mp-note{margin-top:10px;font-size:13px;color:#46474c;max-width:none}
 .jx-lc{text-transform:none!important;letter-spacing:0!important}
 .meta-row[data-solo]{grid-template-columns:1fr!important}
-@media(max-width:720px){.mp-table{display:block;overflow-x:auto}}
+@media(max-width:720px){.mp-table{min-width:640px}}
 
 .fx-node:not(.fx-link){cursor:pointer}
 .fx-node.fx-on{outline:2px solid #1b1b1d;outline-offset:3px;box-shadow:0 6px 18px rgba(0,0,0,.18);transition:box-shadow .2s}
@@ -3051,46 +3058,88 @@ kbd{
 <div style="display:none"></div>
 
       <h3 class="sub-title subhead" id="ch2-2">1.2 Build My Organisation</h3>
-<p>Enter your monthly sales volume to build your organisation structure below:</p>
+<p>Enter your monthly sales target and select your city category to build your organisation structure below:</p>
 <div class="mp-calc" id="mpCalc">
-<div class="mp-ask"><input id="mpVol" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter your outlet's monthly sales target" aria-label="Enter your outlet's monthly sales target"></div>
-<table class="mp-table"><thead><tr><th>Sales Manpower Productivity (Month)</th><th>Manpower required</th><th>Salary (&#8377;)</th></tr></thead><tbody>
-<tr data-role="cons" data-sal="40000"><td>No. Sales Consultants required</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>
-<tr data-role="tl" data-sal="55000"><td>No. of Team Leaders required</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>
-<tr data-role="sm" data-sal="100000"><td>No. of Sales Managers required</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>
-<tr data-role="cre" data-sal="22500"><td>No. of CREs required</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>
-<tr data-role="fi" data-sal="27000"><td>No. of Car Finance &amp; Insurance Executives required</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>
-<tr data-role="rd" data-sal="22500"><td>No. of Car Registration &amp; Delivery Executives required</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>
-<tr data-role="crm" data-sal="45000"><td>No. of CRM Sales required</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>
-</tbody><tfoot><tr><td>Total Manpower Required / Total Fixed Cost (Salaries)</td><td><b id="mpTot">&mdash;</b></td><td><b id="mpCost">&mdash;</b></td></tr></tfoot></table>
+<div class="mp-ask"><input id="mpVol" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter your outlet's monthly sales target" aria-label="Enter your outlet's monthly sales target">
+<select id="mpCity" aria-label="Select your city category"><option value="">Select your city category</option><option value="0">X Plus</option><option value="1">X</option><option value="2">Y</option><option value="3">Z</option><option value="4">ZNext Extended</option><option value="5">ZNext Standalone</option></select></div>
+<div class="mp-scroll"><table class="mp-table"><thead><tr><th>Roles</th><th id="mpHead">Headcount</th><th>Suggested Salary per Month (&#8377;)</th><th>Actual Salary per Month (&#8377;)</th><th>Total Salary per Month (&#8377;)</th></tr></thead><tbody>
+<tr data-i="0"><td>DP / CEO</td><td class="mp-n">&mdash;</td><td class="mp-sg">250,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for DP / CEO"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="1"><td>CFO</td><td class="mp-n">&mdash;</td><td class="mp-sg">75,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for CFO"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="2"><td>CR Head (Sales)</td><td class="mp-n">&mdash;</td><td class="mp-sg">65,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for CR Head (Sales)"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="3"><td>Business Head- Sales / GM Sales</td><td class="mp-n">&mdash;</td><td class="mp-sg">130,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Business Head- Sales / GM Sales"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="4"><td>HR Manager</td><td class="mp-n">&mdash;</td><td class="mp-sg">50,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for HR Manager"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="5"><td>Sales Manager</td><td class="mp-n">&mdash;</td><td class="mp-sg">100,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Sales Manager"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="6"><td>Sales Team Leader</td><td class="mp-n">&mdash;</td><td class="mp-sg">55,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Sales Team Leader"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="7"><td>Sales Consultant</td><td class="mp-n">&mdash;</td><td class="mp-sg">40,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Sales Consultant"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="8"><td>Marketing Manager</td><td class="mp-n">&mdash;</td><td class="mp-sg">45,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Marketing Manager"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="9"><td>Marketing Executive</td><td class="mp-n">&mdash;</td><td class="mp-sg">30,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Marketing Executive"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="10"><td>Corporate Sales Manager</td><td class="mp-n">&mdash;</td><td class="mp-sg">45,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Corporate Sales Manager"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="11"><td>Corporate Sales Executive</td><td class="mp-n">&mdash;</td><td class="mp-sg">30,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Corporate Sales Executive"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="12"><td>Receptionist</td><td class="mp-n">&mdash;</td><td class="mp-sg">25,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Receptionist"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="13"><td>CRM Sales</td><td class="mp-n">&mdash;</td><td class="mp-sg">45,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for CRM Sales"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="14"><td>CRE Sales</td><td class="mp-n">&mdash;</td><td class="mp-sg">22,500</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for CRE Sales"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="15"><td>Car Finance</td><td class="mp-n">&mdash;</td><td class="mp-sg">27,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Car Finance"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="16"><td>Car Insurance</td><td class="mp-n">&mdash;</td><td class="mp-sg">27,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Car Insurance"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="17"><td>Car Registration &amp; delivery (Sales admin)</td><td class="mp-n">&mdash;</td><td class="mp-sg">22,500</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Car Registration &amp; delivery (Sales admin)"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="18"><td>Car evaluator</td><td class="mp-n">&mdash;</td><td class="mp-sg">22,500</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Car evaluator"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="19"><td>Acc Sales Executive</td><td class="mp-n">&mdash;</td><td class="mp-sg">22,500</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Acc Sales Executive"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="20"><td>Used Car Consultant</td><td class="mp-n">&mdash;</td><td class="mp-sg">27,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Used Car Consultant"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="21"><td>Digital Engagement Manager</td><td class="mp-n">&mdash;</td><td class="mp-sg">30,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Digital Engagement Manager"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="22"><td>Internal Dealer Trainer</td><td class="mp-n">&mdash;</td><td class="mp-sg">55,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Internal Dealer Trainer"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="23"><td>Cashier</td><td class="mp-n">&mdash;</td><td class="mp-sg">27,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Cashier"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="24"><td>Delivery Coordinator</td><td class="mp-n">&mdash;</td><td class="mp-sg">30,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Delivery Coordinator"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="25"><td>Test Drive Coordinator</td><td class="mp-n">&mdash;</td><td class="mp-sg">30,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Test Drive Coordinator"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="26"><td>Driver/Valet</td><td class="mp-n">&mdash;</td><td class="mp-sg">22,500</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Driver/Valet"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="27"><td>Security</td><td class="mp-n">&mdash;</td><td class="mp-sg">18,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Security"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="28"><td>Hostess</td><td class="mp-n">&mdash;</td><td class="mp-sg">22,500</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Hostess"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="29"><td>Pantry Team</td><td class="mp-n">&mdash;</td><td class="mp-sg">22,500</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Pantry Team"></td><td class="mp-c">&mdash;</td></tr>
+<tr data-i="30"><td>Housekeeping (SR)</td><td class="mp-n">&mdash;</td><td class="mp-sg">15,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for Housekeeping (SR)"></td><td class="mp-c">&mdash;</td></tr>
+</tbody><tfoot><tr><td>Total headcount / Total salary per month</td><td class="mp-n"><b id="mpTot">&mdash;</b></td><td></td><td></td><td><b id="mpCost">&mdash;</b></td></tr></tfoot></table></div>
 </div>
 <script>
 (function(){
-  /* formulae and salary rates from "Ch1 manpower calculator.xlsx" */
-  var rows = document.querySelectorAll('#mpCalc tr[data-role]');
-  var vol = document.getElementById('mpVol');
-  function fmt(n){ return Math.round(n).toLocaleString('en-IN'); }  /* whole numbers, as the sheet's "0" format */
+  /* headcounts, formulas and suggested salaries from "Ch1 manpower calculator (1).xlsx"; columns: X Plus, X, Y, Z, ZNext Extended, ZNext Standalone */
+  var ST = [[0, 0, 0, 0, 0, 0], [1, 1, 0, 0, 0, 0], [1, 1, 1, 0, 0, 0], [1, 1, 1, 1, 0, 1], [1, 1, 1, 1, 0, 1], ["=IF(M1>1,MAX(B8/5,1),B8/5)", "=IF(M1>1,MAX(C8/5,1),C8/5)", 0, 0, 1, 0], ["=IF(B9>9.4, B9/5, 0)", "=IF(C9>9.4, C9/5, 0)", "=IF(D9>9.4, D9/5, 0)", "=IF(E9>9.4, E9/5, 0)", "=F7/5", 1], ["=M1/4", "=M1/4", "=M1/4", "=M1/4", 5, 5], [1, 1, 1, 1, 0, 0], [1, 1, 0, 0, 0, 1], [1, 1, 1, 1, 0, 0], [1, 1, 0, 0, 0, 1], [1, 1, 0, 0, 0, 0], ["=IF(B16>2.4, 1, 0)", "=IF(C16>2.4, 1, 0)", "=IF(D16>2.4, 1, 0)", 1, 0, 1], ["=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", 1, 1], ["=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", 1, 0], ["=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", 1, 0], ["=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", "=IF(M1>1,MAX(M1/50,1),M1/50)", 1, 0], [1, 1, 1, 1, 0, 0], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 0, 0], [1, 1, 1, 1, 0, 0], [1, 1, 1, 1, 0, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 0, 0], [3, 3, 2, 2, 1, 1], [2, 2, 1, 1, 1, 1], [2, 2, 2, 2, 1, 1], [2, 2, 2, 1, 1, 1], [2, 2, 2, 2, 1, 1]];
+  var LBL = ['X Plus','X','Y','Z','ZNext Extended','ZNext Standalone'];
+  var IX = {"DP / CEO": 0, "CFO": 1, "CR Head (Sales)": 2, "Business Head- Sales / GM Sales": 3, "HR Manager": 4, "Sales Manager": 5, "Sales Team Leader": 6, "Sales Consultant": 7, "Marketing Manager": 8, "Marketing Executive": 9, "Corporate Sales Manager": 10, "Corporate Sales Executive": 11, "Receptionist": 12, "CRM Sales": 13, "CRE Sales": 14, "Car Finance": 15, "Car Insurance": 16, "Car Registration & delivery (Sales admin)": 17, "Car evaluator": 18, "Acc Sales Executive": 19, "Used Car Consultant": 20, "Digital Engagement Manager": 21, "Internal Dealer Trainer": 22, "Cashier": 23, "Delivery Coordinator": 24, "Test Drive Coordinator": 25, "Driver/Valet": 26, "Security": 27, "Hostess": 28, "Pantry Team": 29, "Housekeeping (SR)": 30};
+  var rows = document.querySelectorAll('#mpCalc tbody tr');
+  var vol = document.getElementById('mpVol'), city = document.getElementById('mpCity');
+  function fmt(n){ return Math.round(n).toLocaleString('en-IN'); }
+  function counts(c, t){
+    var n = ST.map(function(r){ return r[c]; }), big = c < 4, m = t > 1;
+    var cons = big ? t/4 : n[IX['Sales Consultant']];
+    var cre = big ? (m ? Math.max(t/50,1) : t/50) : n[IX['CRE Sales']];
+    var tl = c < 4 ? (cons > 9.4 ? cons/5 : 0) : n[IX['Sales Team Leader']];
+    var sm = n[IX['Sales Manager']];
+    if(c < 2) sm = m ? Math.max(tl/5,1) : tl/5;
+    if(c === 4){ tl = sm/5; }
+    n[IX['Sales Consultant']] = cons;
+    n[IX['Sales Team Leader']] = tl;
+    n[IX['Sales Manager']] = sm;
+    n[IX['CRE Sales']] = cre;
+    if(c < 4){
+      ['Car Finance','Car Insurance','Car Registration & delivery (Sales admin)'].forEach(function(k){ n[IX[k]] = cre; });
+      if(c < 3) n[IX['CRM Sales']] = cre > 2.4 ? 1 : 0;
+    }
+    return n;
+  }
   function calc(){
-    var t = parseFloat(vol.value), ok = isFinite(t) && t > 0;
-    var C = {};
-    C.cons = t / 4;
-    C.tl = C.cons / 5;
-    C.sm = t > 1 ? Math.max(C.tl / 5, 1) : C.tl / 5;
-    C.cre = t > 1 ? Math.max(t / 50, 1) : t / 50;
-    C.fi = t > 1 ? Math.max(t / 50, 1) : t / 50;
-    C.rd = t / 50;
-    C.crm = C.cre / 3;
-    var men = 0, cost = 0;
-    rows.forEach(function(tr){
-      var n = C[tr.dataset.role], sal = n * parseFloat(tr.dataset.sal);
-      tr.querySelector('.mp-n').textContent = ok ? fmt(n) : 'X';
-      tr.querySelector('.mp-c').textContent = ok ? fmt(sal) : '—';
-      if(ok){ men += n; cost += sal; }
+    var t = parseFloat(vol.value), c = city.value === '' ? -1 : +city.value;
+    var ok = isFinite(t) && t > 0 && c >= 0;
+    var n = ok ? counts(c, t) : null, men = 0, cost = 0, anySal = false;
+    document.getElementById('mpHead').textContent = c >= 0 ? LBL[c] + ' Headcount' : 'Headcount';
+    rows.forEach(function(tr, i){
+      var s = parseFloat(tr.querySelector('.mp-sal').value), has = isFinite(s);
+      tr.querySelector('.mp-n').textContent = ok ? fmt(n[i]) : '—';
+      tr.querySelector('.mp-c').textContent = ok && has ? fmt(n[i]*s) : '—';
+      if(ok){ men += n[i]; if(has){ cost += n[i]*s; anySal = true; } }
     });
     document.getElementById('mpTot').textContent = ok ? fmt(men) : '—';
-    document.getElementById('mpCost').textContent = ok ? fmt(cost) : '—';
+    document.getElementById('mpCost').textContent = ok && anySal ? fmt(cost) : '—';
   }
   vol.addEventListener('input', calc);
+  city.addEventListener('change', calc);
+  document.querySelectorAll('#mpCalc .mp-sal').forEach(function(e){ e.addEventListener('input', calc); });
   calc();
 })();
 </script>
