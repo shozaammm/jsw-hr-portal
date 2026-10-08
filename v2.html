@@ -7264,14 +7264,46 @@ window.JX_TOC = [
         renderNode(measured, treeStartX, treeOffsetY);
 
         if (cat.coord && cat.coord.length > 0) {
+          var coordUses = {};
           cat.coord.forEach(function(cd){
             var n1 = nodeCoords[cd.from];
             var n2 = nodeCoords[cd.to];
             if (n1 && n2) {
-              var x1 = n1.cx, y1 = n1.bottomY;
-              var x2 = n2.cx, y2 = n2.bottomY;
-              var curveY = Math.max(y1, y2) + 16;
-              svgParts.push('<path d="M ' + x1 + ' ' + y1 + ' Q ' + ((x1+x2)/2) + ' ' + (curveY + 20) + ' ' + x2 + ' ' + y2 + '" class="line-dashed"/>');
+              // Straight orthogonal route through the gaps between rows (never curved,
+              // offset from the solid connector stems at node centres, never through a box).
+              var up = n1.topY <= n2.topY ? n1 : n2;
+              var lo = up === n1 ? n2 : n1;
+              var sign = lo.cx >= up.cx ? 1 : -1;
+              var offOf = function(n){ var u = coordUses[n.cx + ',' + n.topY] = (coordUses[n.cx + ',' + n.topY] || 0) + 1; return 33 - (u - 1) * 18; };
+              var xu = up.cx + sign * offOf(up);
+              var pts;
+              if (lo.topY === up.topY) {
+                var laneS = up.bottomY + 12;
+                var xs = lo.cx - sign * offOf(lo);
+                pts = [[xu, up.bottomY], [xu, laneS], [xs, laneS], [xs, lo.bottomY]];
+              } else {
+                var xl = lo.cx - sign * offOf(lo);
+                var laneLo = lo.topY - 12, laneUp = up.bottomY + 12;
+                var blocked = function(x){
+                  for (var k in nodeCoords) {
+                    var b = nodeCoords[k];
+                    if (b.y < laneLo && b.y + 50 > laneUp && x > b.x - 6 && x < b.x + 132 + 6) return true;
+                  }
+                  return false;
+                };
+                var xv = xu;
+                for (var step = 0; step < 600 && blocked(xv); step++) {
+                  var d = Math.ceil((step + 1) / 2) * 4 * (step % 2 ? -1 : 1);
+                  if (!blocked(xu + d)) { xv = xu + d; break; }
+                }
+                pts = [[xl, lo.topY], [xl, laneLo], [xv, laneLo], [xv, laneUp], [xu, laneUp], [xu, up.bottomY]];
+              }
+              var dStr = '';
+              pts.forEach(function(p, pi){
+                if (pi > 0 && p[0] === pts[pi-1][0] && p[1] === pts[pi-1][1]) return;
+                dStr += (pi ? ' L ' : 'M ') + p[0] + ' ' + p[1];
+              });
+              svgParts.push('<path d="' + dStr + '" class="line-dashed"/>');
             }
           });
         }
