@@ -2773,9 +2773,9 @@ kbd{
 </style>
 <style id="jx-mp">
 .mp-calc{margin:14px 0 8px}
-.mp-table{width:100%;border-collapse:collapse;font-size:15px}
+.mp-table{width:100%;min-width:0;border-collapse:collapse;font-size:15px;table-layout:fixed}
 .mp-table th,.mp-table td{border:1px solid var(--border,#d2d2d2);padding:10px 9px;text-align:left;vertical-align:middle}
-.mp-table thead th{background:var(--ink,#1b1b1d);color:#fff;font-weight:600}
+.mp-table thead th{background:var(--ink,#1b1b1d);color:#fff;font-weight:600;white-space:normal;overflow-wrap:break-word;line-height:1.35}
 .mp-table tfoot td{font-weight:600;background:rgba(0,0,0,.04)}
 .mp-ask input{width:100%;padding:10px 12px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:15px;background:#fff;color:#1b1b1d;margin-bottom:10px}
 .mp-table .mp-n{font-weight:700;text-align:center;width:90px}
@@ -2784,17 +2784,29 @@ kbd{
 .mp-ask{display:flex;gap:10px;flex-wrap:wrap}
 .mp-ask input,.mp-ask select{flex:1 1 260px}
 .mp-ask select{padding:10px 12px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:15px;background:#fff;color:#1b1b1d;margin-bottom:10px}
-.mp-scroll{overflow-x:auto}
-.mp-sal{width:142px;min-width:0;padding:6px 8px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:14px;background:#fff;color:#1b1b1d}
-.mp-table .mp-sg,.mp-table .mp-c{text-align:right;white-space:nowrap}
-.mp-table .mp-n{width:auto;white-space:nowrap}
-.mp-act{width:142px;min-width:0;padding:6px 8px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:14px;background:#fff;color:#1b1b1d}
+.mp-scroll{overflow:visible}
+.mp-sal{width:100%;max-width:142px;min-width:0;box-sizing:border-box;padding:6px 8px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:14px;background:#fff;color:#1b1b1d}
+.mp-table .mp-sg,.mp-table .mp-c{text-align:right}
+.mp-table .mp-n{width:auto}
+.mp-table th,.mp-table td{overflow-wrap:anywhere}
+.mp-act{width:100%;max-width:142px;min-width:0;box-sizing:border-box;padding:6px 8px;border:1px solid #b1b1b1;border-radius:6px;font:inherit;font-size:14px;background:#fff;color:#1b1b1d}
 .mp-avg{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin:0 0 12px;padding:10px 12px;border:1px solid #d2d2d2;border-radius:6px;font-size:15px}
 .mp-avg b{font-size:17px}
 .mp-note{margin-top:10px;font-size:13px;color:#46474c;max-width:none}
 .jx-lc{text-transform:none!important;letter-spacing:0!important}
 .meta-row[data-solo]{grid-template-columns:1fr!important}
-@media(max-width:720px){.mp-table{min-width:760px}}
+@media(max-width:720px){
+.mp-table{font-size:11px}
+.mp-table th,.mp-table td{padding:5px 2px;overflow-wrap:normal}
+.mp-table td:first-child{overflow-wrap:anywhere;hyphens:auto;padding-left:4px}
+.mp-table thead th{font-size:8.5px;letter-spacing:0;line-height:1.25;text-transform:none;padding:6px 2px;overflow-wrap:anywhere;word-break:break-word;white-space:normal;text-align:center}
+.mp-table tfoot td{font-size:10px;padding:5px 1px}
+.mp-table tfoot .mp-n{font-size:10px}
+.mp-table th:first-child,.mp-table td:first-child{width:25%}
+.mp-table .mp-sg,.mp-table .mp-c,.mp-table .mp-n{white-space:nowrap;text-align:center;font-size:11px}
+.mp-act,.mp-sal{padding:5px 2px;font-size:11px;text-align:center}
+.mp-act::placeholder,.mp-sal::placeholder{font-size:9px}
+}
 
 .fx-node:not(.fx-link){cursor:pointer}
 .fx-node.fx-on{outline:2px solid #1b1b1d;outline-offset:3px;box-shadow:0 6px 18px rgba(0,0,0,.18);transition:box-shadow .2s}
@@ -3067,7 +3079,7 @@ kbd{
 <select id="mpCity" aria-label="Select your city category"><option value="">Select your city category</option><option value="0">X Plus</option><option value="1">X</option><option value="2">Y</option><option value="3">Z</option><option value="4">ZNext Extended</option><option value="5">ZNext Standalone</option></select>
 <input id="mpExp" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter your total salary expenditure" aria-label="Enter your total salary expenditure"></div>
 <div class="mp-avg"><span>Your average salary per employee</span><b id="mpAvg">&mdash;</b></div>
-<div class="mp-scroll"><table class="mp-table"><thead><tr><th>Roles</th><th id="mpHead">Suggested Headcount</th><th>Actual Headcount</th><th>Suggested Salary per Month (&#8377;)</th><th>Actual Salary per Month (&#8377;)</th><th>Total Salary per Month (&#8377;)</th></tr></thead><tbody>
+<div class="mp-scroll"><table class="mp-table"><thead><tr><th>Roles</th><th id="mpHead">Suggested Headcount</th><th>Actual Headcount</th><th>Suggested Salary per Month (&#8377;)</th><th>Actual Salary per Month (&#8377;)</th><th>Total Actual Salary per Month (&#8377;)</th></tr></thead><tbody>
 <tr data-i="0"><td>DP / CEO</td><td class="mp-n">&mdash;</td><td><input class="mp-act" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter a number" aria-label="Actual headcount for DP / CEO"></td><td class="mp-sg">250,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for DP / CEO"></td><td class="mp-c">&mdash;</td></tr>
 <tr data-i="1"><td>CFO</td><td class="mp-n">&mdash;</td><td><input class="mp-act" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter a number" aria-label="Actual headcount for CFO"></td><td class="mp-sg">75,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for CFO"></td><td class="mp-c">&mdash;</td></tr>
 <tr data-i="2"><td>CR Head (Sales)</td><td class="mp-n">&mdash;</td><td><input class="mp-act" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter a number" aria-label="Actual headcount for CR Head (Sales)"></td><td class="mp-sg">65,000</td><td><input class="mp-sal" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter amount" aria-label="Actual salary per month for CR Head (Sales)"></td><td class="mp-c">&mdash;</td></tr>
@@ -3139,13 +3151,14 @@ kbd{
     document.getElementById('mpActTot').textContent = anyAct ? fmt(act) : '—';
     document.getElementById('mpAvg').textContent = isFinite(x) && act > 0 ? fmt(x/act) : '—';  /* N4 = N3/H33 */
     rows.forEach(function(tr, i){
-      var s = parseFloat(tr.querySelector('.mp-sal').value), has = isFinite(s);
+      var s = parseFloat(tr.querySelector('.mp-sal').value), a = parseFloat(tr.querySelector('.mp-act').value), has = isFinite(s) && isFinite(a);
       tr.querySelector('.mp-n').textContent = ok ? fmt(n[i]) : '—';
-      tr.querySelector('.mp-c').textContent = ok && has ? fmt(n[i]*s) : '—';
-      if(ok){ men += n[i]; if(has){ cost += n[i]*s; anySal = true; } }
+      tr.querySelector('.mp-c').textContent = has ? fmt(a*s) : '—';  /* Total Actual Salary = Actual Headcount * Actual Salary */
+      if(ok) men += n[i];
+      if(has){ cost += a*s; anySal = true; }
     });
     document.getElementById('mpTot').textContent = ok ? fmt(men) : '—';
-    document.getElementById('mpCost').textContent = ok && anySal ? fmt(cost) : '—';
+    document.getElementById('mpCost').textContent = anySal ? fmt(cost) : '—';
   }
   vol.addEventListener('input', calc);
   city.addEventListener('change', calc);
