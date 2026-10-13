@@ -6067,7 +6067,7 @@ window.JX_TOC = [
       res = { page: pageOf(ch, t), target: t };
     }
     if(res && res.page && res.page.ch){
-      if(['i', 'ii', 'iii', '1', '2'].indexOf(res.page.ch.num) === -1){
+      if(false){
         return null; // Locked chapter routes back to home
       }
     }
@@ -6098,7 +6098,7 @@ window.JX_TOC = [
       box.appendChild(el('div', 'jx-nav-group-label',
         g.name && g.name !== g.short ? '<b>' + esc(g.short) + '</b><span>' + esc(g.name) + '</span>' : '<b' + (g.short === 'Annexure' ? ' class="jx-lc"' : '') + '>' + esc(g.short) + '</b>'));
       g.chapters.forEach(function(ch){
-        var isLocked = ['i', 'ii', 'iii', '1', '2'].indexOf(ch.num) === -1;
+        var isLocked = false;
         var wrap = el('div', 'jx-nav-chapter' + (isLocked ? ' is-disabled is-locked' : ''));
         var actionHtml = '';
         var item = el('button', 'jx-nav-item' + (isLocked ? ' is-disabled' : ''), '<span class="jx-nav-num">' + esc(ch.num) + '</span><span>' + esc(ch.label) + '</span>' + actionHtml);
@@ -6278,7 +6278,7 @@ window.JX_TOC = [
       var i = flatPages.indexOf(page);
       res = { prev: flatPages[i - 1] || null, next: flatPages[i + 1] || null };
     }
-    if(res.next && res.next.ch && ['i', 'ii', 'iii', '1', '2'].indexOf(res.next.ch.num) === -1){
+    if(false){
       res.next = null;
     }
     return res;
@@ -6646,7 +6646,7 @@ window.JX_TOC = [
 
     var i = 0;
     chapters.forEach(function(ch){
-      var isLocked = ['i', 'ii', 'iii', '1', '2'].indexOf(ch.num) === -1;
+      var isLocked = false;
       var n = ch.pageable ? ch.pages.filter(function(p){ return !p.lead; }).length : (ch.subs ? ch.subs.length : ch.jumps.length);
       var meta = esc(ch.group.short) + (n ? ' · ' + n + ' sections' : '');
       var actionGo = isLocked
