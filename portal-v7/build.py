@@ -15,14 +15,19 @@ from pathlib import Path
 
 import docx
 import flowcharts as fc
+import v9extras as X
 from docx.oxml.ns import qn
 from docx.table import Table
 from docx.text.paragraph import Paragraph
 
 REPO = Path(__file__).resolve().parent.parent
 BASE_COMMIT = '9abbb59'
-DOCX = Path.home() / 'Downloads' / 'HR Manual V7 01.10.26.docx'
-OUT = REPO / 'v2.html'
+import os
+# V9 carries tracked changes + comments: build from an all-changes-accepted copy
+SRC_DOCX = Path(os.environ.get('JX_DOCX', Path.home() / 'Downloads' / 'HR Manual V9 13.10.26.docx'))
+DOCX = Path('/tmp') / ('jx-accepted-' + SRC_DOCX.stem.replace(' ', '_') + '.docx')
+subprocess.run([sys.executable, str(Path(__file__).parent / 'accept_changes.py'), str(SRC_DOCX), str(DOCX)], check=True)
+OUT = Path(os.environ.get('JX_OUT', REPO / 'v2.html'))
 
 HEAD_BLUE = '0F4761'
 MINOR_GREY = '595959'
@@ -734,6 +739,8 @@ def make_hooks(T, D, chunks):
         b = blocks[i]
         cid = R.cid
         if b['k'] == 'tbl':
+            if not any(c.text.strip() for r in b['t'].rows for c in r.cells):
+                return '', 1        # V9 leaves an empty table under 11.1 I.
             first = b['t'].rows[0].cells[0].text.strip()
             if cid == 'ch8' and first == 'Work Area':
                 rows = [[c.text.strip() for c in cells_of(r)] for r in b['t'].rows]
@@ -757,9 +764,22 @@ def make_hooks(T, D, chunks):
             if h == IMG_CAL_FINAL: return fc.module_snake(*CAL_FINAL) + tail, 1
             if h == IMG_SAMPLE_PLAN: return plan_table_html(*SAMPLE_PLAN) + tail, 1
             if h == IMG_UNIFIED: return fc.unified(*UNIFIED) + tail, 1
+            if h == X.IMG_ONEAPP: return X.oneapp() + tail, 1
+            if h == X.IMG_ATTRITION: return X.attrition() + tail, 1
             if h == IMG_ABSENT: return fc.absent_flow() + tail, 1
             if h == IMG_LMS: return fc.chevrons(LMS_STEPS) + tail, 1
             return None
+        if t == '[CALCULATOR ADDED IN HTML]':
+            return '<!--MPCALC-->', 1     # V9's note for the §1.2 calculator the portal already has
+        if t.startswith('[a visual infographic to be added here') and i + 1 < len(blocks) \
+                and blocks[i + 1]['imgs'] and blocks[i + 1]['imgs'][0][3] == X.IMG_ATTRITION:
+            return X.attrition(), 2       # the note asks for this infographic; the sample diagram is its source
+        if cid == 'ch6' and t == 'Learning design should be scientifically driven using the following techniques:':
+            items = []
+            while blocks[i + 1 + len(items)]['num'] and blocks[i + 1 + len(items)]['k'] == 'p':
+                items.append(blocks[i + 1 + len(items)]['text'])
+            assert len(items) == 5, items
+            return f'<p>{b["html"]}</p>' + X.learning_design(items), 1 + len(items)
         if cid == 'ch6' and t == 'i. Training delivery coverage':
             a, b2 = texts_after(blocks, i, 2), blocks[i + 3]
             assert b2['text'] == 'ii. Effectiveness'
@@ -823,8 +843,7 @@ def build():
 
     r = Renderer(D, 'fm-iii'); r.render(chunks['About the Manual']['blocks'])
     about = '\n'.join(r.out)
-    about = about.replace('<p><strong>Introduction to Unified Apps</strong></p>', '<h3 class="sub-title subhead">Introduction to Unified Apps</h3>')
-    assert 'Introduction to Unified Apps</h3>' in about
+    assert 'v9-hub' in about        # V9: three paragraphs + the JSW-OneApp picture
     fm_iii_html = article('fm-iii', 'iii.', 'About the Manual', about)
 
     # ── chapters 3-12 ─────────────────────────────────────────────
@@ -837,7 +856,7 @@ def build():
         annex_all.append((n, title, r.annex))
 
     # ── annexure (consolidated from the chapters' own ANNEXURE lists) ──
-    jd_annex = [('2A', 'Job Description Template'), ('2B', 'All Job Descriptions'), ('2C', 'Competencies')]
+    jd_annex = [('2A', 'Job Description Template'), ('2B', 'All Job Descriptions')]   # V9 drops 2C
     annex_all.insert(0, ('2', 'Job Descriptions', jd_annex))
     ab = []
     for n, title, items in annex_all:
@@ -846,6 +865,7 @@ def build():
         ab.append(f'<h3 class="sub-title subhead" id="annex-{n}">{esc(n + ". " + title)}</h3>')
         ab.append('\n'.join(annex_html(c, t) for c, t in items))
     annex_html_ = article('annexure', 'ANNEXURE', 'Annexures', '\n'.join(ab))
+    annex_html_ += '\n    ' + article('compliances', 'ANNEXURE', 'List of Compliances', X.compliances(chunks['List of Compliances']['blocks']))
 
     # ── splice ────────────────────────────────────────────────────
     a = base.find('    <article class="jx-chapter" id="chap-fm-i"')
@@ -870,7 +890,6 @@ def build():
     html_out = html_out.replace(tabs, "        (function(a){ var x = a[0]; a.splice(0, 1, Object.assign({}, x, {label: 'X Category'}), Object.assign({}, x, {label: 'XPlus Category'})); })(window.ORG_CATEGORIES);\n" + tabs)
     # one chapter-opening order: Purpose, the two Benefit lists, then Principles after them
     html_out = reorder_openers(html_out)
-    html_out = about_manual(html_out)
     # reading emphasis — markup only; text content must be byte-identical
     import readability
     a = html_out.find('    <article class="jx-chapter" id="chap-fm-i"')
@@ -887,6 +906,7 @@ def build():
     html_out = patch_toc(html_out, toc_subs)
     html_out = inject_css(html_out)
     html_out = finish(html_out)
+    html_out = v9_notes(html_out)
     OUT.write_text(html_out)
     print('wrote', OUT, len(html_out))
 
@@ -1011,8 +1031,25 @@ CALC_ROWS = [('cons', 'No. Sales Consultants required', 40000, 4), ('tl', 'No. o
              ('crm', 'No. of CRM Sales required', 45000, 3)]
 
 
+def v9_notes(h):
+    """V9 reviewer comments addressed to the HTML."""
+    # "Note for html: SC is yellow color so volume based" (on Chart 1.5 ZNext Category (Standalone))
+    a = h.index('"label": "ZNext (Standalone)"'); e = h.index('"label": ', a + 10)
+    seg = h[a:e]
+    old = '"name": "Sales Consultant", "basis": "dp"'
+    assert seg.count(old) == 1
+    h = h[:a] + seg.replace(old, '"name": "Sales Consultant", "basis": "volume"') + h[e:]
+    # "Link to L&D chapter (TMS section)" on 5. Joining: "Create induction training batch in training management system"
+    old = 'Create induction training batch in <em>training management system</em>'
+    assert h.count(old) == 1
+    h = h.replace(old, 'Create induction training batch in <em><a class="v7-ref" href="#ch6-2">training management system</a></em>')
+    return h
+
+
 def calculator(h):
     pat = re.compile(r'<div class="table-wrap"><table><thead><tr><th><strong>Sales Manpower Productivity \(Month\)</strong></th>.*?</table></div>', re.S)
+    if '<!--MPCALC-->' in h:
+        h = h.replace('<!--MPCALC-->', '<div class="table-wrap"><table><thead><tr><th><strong>Sales Manpower Productivity (Month)</strong></th></tr></thead></table></div>')
     assert len(pat.findall(h)) == 1
     rows = ['<tr data-role="%s" data-sal="%d"><td>%s</td><td class="mp-n">X</td><td class="mp-c">&mdash;</td></tr>' % (k, sal, label) for k, label, sal, div in CALC_ROWS]
     return pat.sub(lambda m: CALC.replace('@@ROWS@@', '\n'.join(rows)), h)
@@ -1096,6 +1133,12 @@ def patch_ch1_ch2(mid, D, chunks, toc_subs):
         a = f'font-weight:700;">{lab}</h4>'
         assert mid.count(a) == 1
         mid = mid.replace(a, f'font-weight:700;">{lab}:</h4>')
+    # V9 removes annexure 2C (Competencies) from Ch.2's list
+    c2 = re.search(r'\n    <div class="annex-file-item" title="View 2C\. Competencies".*?View File\n      </div>\n    </div>', mid, re.S)
+    assert c2 and mid.count('title="View 2C. Competencies"') == 1
+    mid = mid[:c2.start()] + mid[c2.end():]
+    mid, nh = re.subn(r'(<div style="display:none">[^<]*?2B\. All Job Descriptions)\s+2C\. Competencies', r'\1', mid)
+    assert nh == 1
     blocks = chunks['Dealership Organisation Structure']['blocks']
     k = next(i for i, b in enumerate(blocks) if b['k'] == 'p' and b['text'].startswith('1.2 Build My Organisation'))
     r = Renderer(D, 'ch2'); r.subs = [('ch2-1', '1.1 Recommended Organisation Chart')]; r.seen_h2 = True
@@ -1158,7 +1201,7 @@ def patch_toc(h, subs):
            + item('ch10', '10', 'Discipline and Conduct', S['ch10']) + ',\n'
            + item('ch11', '11', 'Employee Exit Management', S['ch11']) + ',\n'
            + item('ch12', '12', 'Organisation Policies', S['ch12']) + ',\n  ]},\n'
-           + "  {group:'ANNEXURE', items:[\n" + item('annexure', '', 'Annexures') + '\n  ]},\n];')
+           + "  {group:'ANNEXURE', items:[\n" + item('annexure', '', 'Annexures') + ',\n' + item('compliances', '', 'List of Compliances') + '\n  ]},\n];')
     a = h.find('window.JX_TOC = ['); b = h.find('];', a) + 2
     return h[:a] + toc + h[b:]
 
@@ -1303,8 +1346,8 @@ CSS = '''<style id="jx-v7">
 
 def inject_css(h):
     assert 'id="jx-v7"' not in h
-    css = CSS.replace('</style>', (Path(__file__).with_name('flow.css')).read_text() + '</style>')
-    return h.replace('</head>', css + '</head>', 1)
+    css = CSS.replace('</style>', (Path(__file__).with_name('flow.css')).read_text() + X.CSS + '</style>')
+    return h.replace('</head>', css + '</head>', 1).replace('</body>', X.JS + '</body>', 1)
 
 
 if __name__ == '__main__':
