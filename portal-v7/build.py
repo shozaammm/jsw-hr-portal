@@ -25,7 +25,8 @@ BASE_COMMIT = '9abbb59'
 import os
 # V9 carries tracked changes + comments: build from an all-changes-accepted copy
 SRC_DOCX = Path(os.environ.get('JX_DOCX', Path.home() / 'Downloads' / 'HR Manual V9 13.10.26.docx'))
-DOCX = Path('/tmp') / ('jx-accepted-' + SRC_DOCX.stem.replace(' ', '_') + '.docx')
+import tempfile
+DOCX = Path(tempfile.mkdtemp(prefix='jx-accept-')) / 'accepted.docx'
 subprocess.run([sys.executable, str(Path(__file__).parent / 'accept_changes.py'), str(SRC_DOCX), str(DOCX)], check=True)
 OUT = Path(os.environ.get('JX_OUT', REPO / 'v2.html'))
 

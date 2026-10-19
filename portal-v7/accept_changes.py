@@ -8,7 +8,7 @@ zin=zipfile.ZipFile(src); zout=zipfile.ZipFile(dst,'w',zipfile.ZIP_DEFLATED)
 for it in zin.infolist():
     data=zin.read(it.filename)
     if it.filename in('word/document.xml','word/footnotes.xml','word/endnotes.xml') or re.match(r'word/(header|footer)\d*\.xml',it.filename):
-        root=etree.fromstring(data)
+        root=etree.fromstring(data, etree.XMLParser(resolve_entities=False, no_network=True, load_dtd=False, huge_tree=False))
         for tag in ('del','moveFrom'):
             for e in root.iter(q(tag)):
                 pass
