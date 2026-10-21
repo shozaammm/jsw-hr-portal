@@ -1488,6 +1488,12 @@ button:active{transform: scale(0.97);}
   transition: all 0.18s ease !important;
   white-space: nowrap !important;
 }
+@media (max-width: 600px) {
+  .annex-file-item { padding: 12px !important; gap: 10px !important; }
+  .annex-file-left { flex: 1 1 auto; min-width: 0; gap: 10px; }
+  .annex-file-name { min-width: 0; overflow-wrap: anywhere; }
+  .annex-view-badge, .annex-dl-badge { flex: 0 0 auto; padding: 6px 10px !important; }
+}
 .annex-file-item:hover .annex-view-badge {
   background: #374151 !important;
   color: #ffffff !important;
@@ -2891,6 +2897,17 @@ kbd{
 .table-wrap.tw-fit table{min-width:0;table-layout:fixed;width:100%}
 .table-wrap.tw-fit *{white-space:normal !important}
 .table-wrap.tw-fit th,.table-wrap.tw-fit td{font-size:12.5px;padding:10px 8px;overflow-wrap:anywhere;word-break:normal;vertical-align:top;white-space:normal !important;min-width:0 !important}
+@media(max-width:600px){
+section.chap .table-wrap:is(.tw-fit,:not(:is(:has(th:nth-child(4)),:has(td ul)))){overflow-x:visible}
+section.chap .table-wrap:is(.tw-fit,:not(:is(:has(th:nth-child(4)),:has(td ul)))) table{min-width:0;table-layout:fixed;width:100%}
+section.chap .table-wrap:is(.tw-fit,:not(:is(:has(th:nth-child(4)),:has(td ul)))) :is(th,td){font-size:12.5px;padding:10px 8px;overflow-wrap:anywhere;word-break:normal;vertical-align:top;white-space:normal !important;min-width:0 !important}
+section.chap .table-wrap:is(.tw-fit,:not(:is(:has(th:nth-child(4)),:has(td ul)))) th{font-size:11px;letter-spacing:.04em}
+section.chap .table-wrap.tw-fit:has(th:nth-child(5)){overflow-x:auto}
+section.chap .table-wrap.tw-fit:has(th:nth-child(5)) table{min-width:780px;table-layout:auto}
+section.chap .table-wrap.tw-fit:has(th:nth-child(5)) :is(th,td){min-width:96px !important;overflow-wrap:normal}
+section.chap .table-wrap:not(.tw-fit):is(:has(th:nth-child(4)),:has(td ul)) table{min-width:620px}
+section.chap .table-wrap:not(.tw-fit):is(:has(th:nth-child(4)),:has(td ul)) :is(th,td){padding:10px;overflow-wrap:normal;word-break:normal}
+}
 </style>
 <style id="jx-principles">
 .pr-grid{list-style:none;margin:14px 0 22px;padding:0;display:grid;gap:14px;grid-template-columns:repeat(3,1fr);counter-reset:none}
@@ -2949,6 +2966,18 @@ kbd{
 .fx-node:not(.fx-link){cursor:pointer}
 .fx-node.fx-on{outline:2px solid #1b1b1d;outline-offset:3px;box-shadow:0 6px 18px rgba(0,0,0,.18);transition:box-shadow .2s}
 .fx-node:focus-visible{outline:2px solid #1b1b1d;outline-offset:3px}
+</style>
+<style id="jx-mp-fix">
+@media(max-width:720px){
+.mp-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border,#d2d2d2);border-radius:8px}
+.mp-table{min-width:660px;table-layout:auto;font-size:13px}
+.mp-table th,.mp-table td{padding:8px 8px;overflow-wrap:normal}
+.mp-table td:first-child{overflow-wrap:normal;hyphens:none;min-width:130px}
+.mp-table thead th{font-size:11px;line-height:1.3;padding:8px;overflow-wrap:normal;word-break:normal}
+.mp-table tfoot td,.mp-table tfoot .mp-n{font-size:12px;padding:8px}
+.mp-table .mp-sg,.mp-table .mp-c,.mp-table .mp-n{font-size:13px}
+.mp-sal,.mp-act{min-width:84px;max-width:none}
+}
 </style></head>
 <body>
 <a class="jx-skip" href="#jxMain">Skip to content</a>
