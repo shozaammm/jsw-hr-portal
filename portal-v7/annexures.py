@@ -215,7 +215,8 @@ h = re.sub(r'<script id="jx-annex-docs">.*?</script>\n?', '', h, flags=re.S)
 # 1) per-chapter lists (chapters 3-5, 7-12; ch6 untouched; ch2 JD list already uses the viewer)
 sec_start = {int(m.group(1)): m.start() for m in re.finditer(r'<section class="chap" id="ch(\d+)">', h)}
 order = sorted(sec_start.items(), key=lambda kv: kv[1])
-LIST_RE = re.compile(r'(<p><strong style="color:var\(--ink\)">Annexure</strong></p>\n)((?:<a class="annex-file-item"[^\n]*</a>\n?|<div class="annex-file-list">.*?</div>\n?)+)', re.S)
+LIST_RE = re.compile(r'(<p><strong style="color:var\(--ink\)">Annexure</strong></p>\n)(?:<!--annex-list-->.*?<!--/annex-list-->\n?|(?:<a class="annex-file-item"[^\n]*</a>\n?)+)', re.S)
+wrap = lambda items: '<!--annex-list-->' + '<div class="annex-file-list">' + items + '</div>' + '<!--/annex-list-->\n'
 done = []
 for i in range(len(order) - 1, -1, -1):
     n, st = order[i]
@@ -226,7 +227,7 @@ for i in range(len(order) - 1, -1, -1):
     codes = chap_codes(n)
     if not codes:
         continue
-    new, k = LIST_RE.subn(lambda m: m.group(1) + '<div class="annex-file-list">' + ''.join(item(c, False) for c in codes) + '</div>\n', seg, count=1)
+    new, k = LIST_RE.subn(lambda m: m.group(1) + wrap(''.join(item(c, False) for c in codes)), seg, count=1)
     if k:
         h = h[:st] + new + h[en:]
         done.append(n)
@@ -238,8 +239,11 @@ app = h[a0:a1]
 for n in range(2, 13):
     if n == 6:
         continue
-    pat = re.compile(rf'((?:<a id="annex-{n}[A-Z]"[^\n]*</a>\n?)+)')
-    app = pat.sub(lambda m: '<div class="annex-file-list">' + ''.join(item(c, True) for c in chap_codes(n)) + '</div>\n', app, count=1)
+    pat = re.compile(rf'(?:<!--annex-list-->.*?<!--/annex-list-->\n?|(?:<a id="annex-{n}[A-Z]"[^\n]*</a>\n?)+)', re.S)
+    # appendix: a list per chapter heading, so only look after that chapter's <h3>
+    hs = app.index(f'id="annex-{n}"')
+    tail = pat.sub(lambda m: wrap(''.join(item(c, True) for c in chap_codes(n))), app[hs:], count=1)
+    app = app[:hs] + tail
 h = h[:a0] + app + h[a1:]
 
 # 3) docs + css just before the viewer script
