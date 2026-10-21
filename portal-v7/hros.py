@@ -6,10 +6,10 @@ h = open(P, encoding='utf-8').read()
 # --- brand: sidebar, hero banner, footer
 h = h.replace('<span>HR Operations Manual</span>', '<span>HROS</span>')
 h = re.sub(r'<span class="jx-hero-word" aria-label="TRUST">.*?</span></span>\s*<span class="jx-hero-line">JSW HR Operations Manual</span>',
-           '<span class="jx-hero-word" aria-label="HROS">' + ''.join(f'<span aria-hidden="true" style="--i:{i}">{c}</span>' for i, c in enumerate('HROS')) + '</span>\n          <span class="jx-hero-line">Human Resource Operating System</span>',
+           '<span class="jx-hero-word" aria-label="HROS">' + ''.join(f'<span aria-hidden="true" style="--i:{i}">{c}</span>' for i, c in enumerate('HROS')) + '</span>\n          <span class="jx-hero-line">Human Resource Operating Standards</span>',
            h, flags=re.S)
 h = re.sub(r'\s*<ul class="jx-pillars">.*?</ul>', '', h, count=1, flags=re.S)
-h = h.replace('<p>TRUST: JSW HR Operations Manual</p>', '<p>HROS: Human Resource Operating System</p>')
+h = h.replace('<p>TRUST: JSW HR Operations Manual</p>', '<p>HROS: Human Resource Operating Standards</p>')
 
 # --- principles infographic (first flat list after each Principles heading)
 def cards(m):
