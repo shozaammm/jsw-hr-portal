@@ -140,6 +140,7 @@ h = ''.join(out)
 if 'id="jx-ch6-fb-css"' not in h:
     CSS = r'''<style id="jx-ch6-fb-css">
 .v7-ord{font-size:.62em;line-height:0;vertical-align:.5em;font-weight:inherit;letter-spacing:.01em;margin-left:.04em}
+@media(pointer:coarse){.jx-chapter a.v7-ref{position:relative}.jx-chapter a.v7-ref::after{content:'';position:absolute;inset:-11px -7px}}
 .annex-doc-sheet{margin:22px 0 8px;font-size:13px;font-weight:700;color:#1e293b}
 .annex-doc-sheet:first-child{margin-top:0}
 
