@@ -173,22 +173,18 @@ for mm in reversed(blocks):  # appendix is the later one
     h = h[:mm.start()] + new + h[mm.end():]
 
 # ---------------------------------------------------------------- css
-import base64
-TEX = 'url(data:image/avif;base64,' + base64.b64encode((Path.home() / 'Desktop/abstract-background-gray-texture-grainy_474888-5046.avif').read_bytes()).decode() + ')'
 CSS = r'''<style id="jx-oct22b-css">
-/* Vision and Foundation: two separate panels, both on the grainy grey texture */
-.jx-chapter #fm-i .vf-part{border-radius:22px;overflow:hidden;margin:0 0 36px;border:1.5px solid rgba(0,0,0,.55);background:#6a6a6a __TEX__ center/cover;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.18)}
-.jx-chapter #fm-i .vf-head{padding:26px 34px 22px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,.28)}
-.jx-chapter #fm-i .vf-head::before{content:'';flex:none;width:6px;align-self:stretch;border-radius:3px;background:#fff}
-.jx-chapter #fm-i .vf-group .vf-head{background:rgba(255,255,255,.16)}
-.jx-chapter #fm-i .vf-motors .vf-head{background:rgba(0,0,0,.34);border-bottom-color:rgba(255,255,255,.18)}
-.jx-chapter #fm-i .vf-head h3.sub-title{margin:0 !important;padding:0 !important;border:0 !important;font-size:clamp(26px,3.4vw,38px) !important;line-height:1.1 !important;letter-spacing:-.025em !important;font-weight:800 !important;color:#fff !important}
+/* Vision and Foundation: two separate panels, one shared grey */
+.jx-chapter #fm-i .vf-part{border-radius:22px;overflow:hidden;margin:0 0 36px;border:1.5px solid #8d8d90;background:#d4d4d2;color:#1b1b1d;box-shadow:0 8px 24px rgba(0,0,0,.10)}
+.jx-chapter #fm-i .vf-head{padding:26px 34px 22px;display:flex;align-items:center;gap:16px;background:rgba(0,0,0,.07);border-bottom:1px solid #8d8d90}
+.jx-chapter #fm-i .vf-head::before{content:'';flex:none;width:6px;align-self:stretch;border-radius:3px;background:#1b1b1d}
+.jx-chapter #fm-i .vf-head h3.sub-title{margin:0 !important;padding:0 !important;border:0 !important;font-size:clamp(26px,3.4vw,38px) !important;line-height:1.1 !important;letter-spacing:-.025em !important;font-weight:800 !important;color:#111 !important}
 .jx-chapter #fm-i .vf-body{padding:8px 34px 30px}
 .jx-chapter #fm-i .vf-body>*:first-child{margin-top:20px}
 .jx-chapter #fm-i .vf-body h4{margin-top:30px}
-.jx-chapter #fm-i .vf-body :is(h4,h5){color:#fff !important}
-.jx-chapter #fm-i .vf-body p{color:#f1f1f1 !important}
-.jx-chapter #fm-i .vf-body :is(h4,h5,p,hr){border-color:rgba(255,255,255,.28) !important}
+.jx-chapter #fm-i .vf-body :is(h4,h5){color:#111 !important}
+.jx-chapter #fm-i .vf-body p{color:#2a2a2d !important}
+.jx-chapter #fm-i .vf-body :is(h4,h5,p,hr){border-color:#9a9a9d !important}
 @media(max-width:620px){.jx-chapter #fm-i .vf-head{padding:20px 20px 16px}.jx-chapter #fm-i .vf-body{padding:4px 20px 22px}.jx-chapter #fm-i .vf-part{border-radius:16px}}
 
 /* 9B certificate */
@@ -219,7 +215,6 @@ CSS = r'''<style id="jx-oct22b-css">
 .cert-quote{margin:2.4cqw 0 0;font-size:2.4cqw;line-height:1.45;font-style:italic;color:#555;max-width:80%}
 </style>
 '''
-CSS = CSS.replace('__TEX__', TEX)
 if 'id="jx-oct22b-css"' in h:
     h = re.sub(r'<style id="jx-oct22b-css">.*?</style>\n', lambda _: CSS, h, flags=re.S)
 else:
