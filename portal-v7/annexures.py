@@ -58,10 +58,39 @@ def fmt(v, nf):
     return str(v)
 
 
+def _theme_colors():
+    """Workbook theme palette in openpyxl's theme-index order (lt1, dk1, lt2, dk2, accent1-6)."""
+    x = wb.loaded_theme.decode() if isinstance(wb.loaded_theme, bytes) else (wb.loaded_theme or '')
+    pal = {}
+    for k in ('lt1', 'dk1', 'lt2', 'dk2', 'accent1', 'accent2', 'accent3', 'accent4', 'accent5', 'accent6'):
+        m = re.search(rf'<a:{k}>.*?(?:val|lastClr)="([0-9A-Fa-f]{{6}})"', x, re.S)
+        if k in ('lt1', 'dk1'):
+            m = re.search(rf'<a:{k}>.*?lastClr="([0-9A-Fa-f]{{6}})"', x, re.S) or m
+        pal[k] = m.group(1) if m else None
+    order = ['lt1', 'dk1', 'lt2', 'dk2', 'accent1', 'accent2', 'accent3', 'accent4', 'accent5', 'accent6']
+    return [pal[k] for k in order]
+
+
+THEME = _theme_colors()
+
+
+def _tint(hex6, t):
+    import colorsys
+    r, g, b = (int(hex6[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    h, l, s_ = colorsys.rgb_to_hls(r, g, b)
+    l = l * (1 + t) if t < 0 else l * (1 - t) + t
+    r, g, b = colorsys.hls_to_rgb(h, l, s_)
+    return '#%02x%02x%02x' % tuple(round(v * 255) for v in (r, g, b))
+
+
 def rgb(c):
     try:
-        if c is not None and c.type == 'rgb' and isinstance(c.rgb, str) and len(c.rgb) == 8 and c.rgb[:2] != '00':
+        if c is None:
+            return None
+        if c.type == 'rgb' and isinstance(c.rgb, str) and len(c.rgb) == 8 and c.rgb[:2] != '00':
             return '#' + c.rgb[2:]
+        if c.type == 'theme' and c.theme is not None and c.theme < len(THEME) and THEME[c.theme]:
+            return _tint(THEME[c.theme], c.tint or 0)
     except Exception:
         pass
     return None
@@ -109,7 +138,7 @@ def render(ws, wsv, img_data=None):
         w = d.width if d and d.width else 9
         widths.append(max(w, 4))
     tw = sum(widths) or 1
-    out = [f'<div class="annex-doc-scroll"><table class="annex-xl" style="min-width:{max(640, int(tw * 7.5))}px"><colgroup>']
+    out = [f'<div class="annex-doc-scroll"><table class="annex-xl" data-cols="{len(cols)}" style="min-width:{max(640, int(tw * 7.5))}px"><colgroup>']
     out += [f'<col style="width:{w / tw * 100:.2f}%">' for w in widths]
     out.append('</colgroup><tbody>')
     for r in range(first, maxr + 1):
@@ -182,6 +211,23 @@ CSS = """<style id="jx-annex-docs-css">
 table.annex-xl{border-collapse:collapse;table-layout:fixed;width:100%;min-width:640px;font-size:12.5px;line-height:1.45;color:#1e293b}
 table.annex-xl td{padding:5px 8px;vertical-align:top;overflow-wrap:anywhere;word-break:normal}
 .annex-doc-img{display:block;max-width:100%;height:auto;margin-top:14px;border:1px solid #e2e8f0}
+@media(max-width:600px){
+.annex-modal-backdrop{padding:12px 10px !important}
+.annex-modal-dialog{max-height:92vh !important;max-height:92dvh !important}
+.annex-modal-header{padding:12px 14px !important;gap:10px !important;align-items:flex-start !important;flex-wrap:wrap !important}
+.annex-modal-title-group{flex:1 1 100%;min-width:0;order:1}
+.annex-modal-actions{flex:1 1 100%;order:2;gap:8px !important;justify-content:space-between}
+.annex-modal-sub{letter-spacing:1px !important;font-size:9.5px !important}
+.annex-modal-title{font-size:16px !important;line-height:1.3 !important;overflow-wrap:anywhere}
+.annex-modal-actions .annex-modal-dl-btn{flex:1 1 auto;justify-content:center;white-space:nowrap !important;padding:8px 12px !important;min-width:0}
+.annex-modal-close{flex:0 0 auto;font-size:28px !important;padding:0 6px !important}
+.annex-modal-body{padding:14px 12px !important}
+.annex-modal-footer{padding:10px 12px !important;gap:10px !important;flex-wrap:wrap !important}
+.annex-modal-footer-note{flex:1 1 140px;min-width:0;font-size:11px !important;line-height:1.35}
+.annex-modal-footer .annex-modal-dl-btn{flex:0 0 auto;white-space:nowrap !important;padding:8px 14px !important}
+table.annex-xl[data-cols="1"],table.annex-xl[data-cols="2"],table.annex-xl[data-cols="3"]{min-width:0 !important;table-layout:auto}
+table.annex-xl[data-cols="2"] td,table.annex-xl[data-cols="3"] td{overflow-wrap:break-word}
+}
 </style>"""
 
 JS = ('<script id="jx-annex-docs">window.ANNEX_DOCS = '
