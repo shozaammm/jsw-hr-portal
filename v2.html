@@ -2728,8 +2728,8 @@ kbd{
 .jx-chapter .fx-spot-hub{display:flex;align-items:center;gap:12px;width:max-content;margin:0 auto;padding:10px 26px 10px 18px;border-radius:999px;background:#1B1B1D;color:#fff;font-size:17px;font-weight:800;letter-spacing:.06em;position:relative}
 .jx-chapter .fx-spot-hub .fx-star{width:34px;height:34px;flex:none}
 .jx-chapter .fx-spot-row{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:26px;margin-top:56px}
-.jx-chapter .fx-spot-row::before{content:'';position:absolute;left:calc(50% / var(--n));right:calc(50% / var(--n));top:-28px;height:2px;background:#1B1B1D}
-.jx-chapter .fx-spot-row .fx-node::after{display:block;content:'';position:absolute;left:50%;top:-30px;width:2px;height:30px;background:#1B1B1D;-webkit-mask:none;mask:none}
+.jx-chapter .fx-spot-row::before{content:'';position:absolute;left:calc((100% - (var(--n) - 1) * 26px) / (2 * var(--n)));right:calc((100% - (var(--n) - 1) * 26px) / (2 * var(--n)));top:-28px;height:2px;background:#1B1B1D}
+.jx-chapter .fx-spot-row .fx-node::after{display:block;content:'';position:absolute;left:50%;margin-left:-1px;top:-28px;width:2px;height:28px;background:#1B1B1D;-webkit-mask:none;mask:none}
 .jx-chapter .fx-spot .fx-spot-hub::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:28px;background:#1B1B1D}
 
 @media (max-width:900px){
