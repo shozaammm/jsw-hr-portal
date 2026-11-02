@@ -2036,19 +2036,19 @@ kbd{
 }
 
 /* 11 Motion ---------------------------------------------------------------------------------- */
-@keyframes jxRise{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:none}}
-@keyframes jxLetter{from{opacity:0;transform:translate3d(0,.35em,0) rotate(4deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes jxRise{from{opacity:0}to{opacity:1}}
+@keyframes jxLetter{from{opacity:0}to{opacity:1}}
 /* page entrance: starts partly visible so a page change never flashes empty;
    opacity + transform only (no blur — costly on tall pages on phones) */
-@keyframes jxEnter{from{opacity:.4;transform:translate3d(0,10px,0)}to{opacity:1;transform:none}}
+@keyframes jxEnter{from{opacity:0}to{opacity:1}}
 @keyframes jxGlow{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-6%,4%,0) scale(1.12)}}
 @keyframes jxPop{from{opacity:0;transform:translate3d(0,-8px,0) scale(.98)}to{opacity:1;transform:none}}
 
 @media (prefers-reduced-motion:no-preference){
   .jx-hero-glow{animation:jxGlow 16s ease-in-out infinite alternate}
-  .jx-play .jx-hero-eyebrow,.jx-play .jx-hero-line{animation:jxRise .8s var(--jx-ease) backwards}
+  .jx-play .jx-hero-eyebrow,.jx-play .jx-hero-line{animation:jxRise .6s ease-out backwards}
   .jx-play .jx-hero-line{animation-delay:.06s}
-  .jx-play .jx-hero-word > span{animation:jxLetter .9s var(--jx-ease) backwards;animation-delay:calc(.14s + var(--i, 0) * .06s)}
+  .jx-play .jx-hero-word > span{animation:jxLetter .6s ease-out backwards}
   .jx-play .jx-pillars li{animation:jxRise .8s var(--jx-ease) backwards;animation-delay:calc(.42s + var(--i, 0) * .05s)}
   .jx-play .jx-hero-quote{animation:jxRise .8s var(--jx-ease) .68s backwards}
   .jx-play .jx-card{animation:jxRise .6s var(--jx-ease) backwards;animation-delay:calc(var(--i, 0) * .035s)}
