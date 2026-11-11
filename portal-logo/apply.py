@@ -73,10 +73,6 @@ LOGO_CSS = r'''
 /* home footer */
 .jx-foot{display:flex;flex-direction:column;align-items:center;gap:14px}
 .jx-foot .jx-logo-h{--lh:16px}
-/* chapter header: emblem sits opposite the chapter title */
-.jx-head-row{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
-.jx-head-row > .jx-head-mark{--lh:30px;margin-top:6px}
-@media (max-width:640px){ .jx-head-row > .jx-head-mark{--lh:22px;margin-top:4px} }
 /* official viewers (org chart / annexures): white lockup on the dark header */
 .annex-modal-header .jx-modal-mark{color:#fff;--lh:15px;margin-right:18px;padding-right:18px;box-sizing:content-box;border-right:1px solid rgba(255,255,255,.22);align-self:center}
 @media (max-width:640px){ .annex-modal-header .jx-modal-mark{display:none} }
@@ -373,9 +369,6 @@ def apply(s):
     sub(r'(<button class="jx-nav-brand"[^>]*>)(\s*<span>HROS</span>)', r'\1' + H() + r'\2')
     sub(r'(<div class="jx-hero-glow" aria-hidden="true"></div>)', r'\1<div class="jx-hero-brand">' + H() + '</div>')
     sub(r'(<footer class="jx-foot">)', r'\1' + H())
-    n = sub(r'(<header class="jx-head"><div class="jx-head-row"><div>.*?</div>)(</div></header>)',
-            r'\1' + E('jx-head-mark', label=False) + r'\2', count=0)
-    assert n == 15, n
     n = sub(r'(<div class="annex-modal-header">)', r'\1' + H('jx-modal-mark'), count=0)
     assert n == 2, n
 
