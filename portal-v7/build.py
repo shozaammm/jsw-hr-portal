@@ -597,13 +597,13 @@ LEARNER_JOURNEY = [
      'chips': ['Role-specific Training Assessment']},
 ]
 TMS_FLOW = ('Training Process Flow in TMS for JSW Trainings', [
-    ('Step 1 — Training Calendar Release', 'JSW Motors releases monthly training calendar & nominates dealer manpower'),
-    ('Step 2 — Nomination Confirmation', 'Nomination available on Training Management System to respective IDT for review & confirmation'),
-    ('Step 3 — Attend Scheduled Training', 'Confirmed manpower attends scheduled training at venue'),
-    ('Step 4 — Attendance Capture', 'Attendance marked digitally in TMS by the trainee under Trainer’s Supervision'),
-    ('Step 5 — Pre & Post Training Assessment', 'Pre & Post training assessment conducted digitally on Training Management System'),
-    ('Step 6 — Results Published & Visibility', 'Assessment results generated & published in real-time, immediate visibility for Trainers & Dealers'),
-    ('Step 7 — Training Feedback', 'Feedback is captured to measure participant satisfaction and learning experience'),
+    ('Training Calendar Release', 'JSW Motors releases monthly training calendar & nominates dealer manpower'),
+    ('Nomination Confirmation', 'Nomination available on Training Management System to respective IDT for review & confirmation'),
+    ('Attend Scheduled Training', 'Confirmed manpower attends scheduled training at venue'),
+    ('Attendance Capture', 'Attendance marked digitally in TMS by the trainee under Trainer’s Supervision'),
+    ('Pre & Post Training Assessment', 'Pre & Post training assessment conducted digitally on Training Management System'),
+    ('Results Published & Visibility', 'Assessment results generated & published in real-time, immediate visibility for Trainers & Dealers'),
+    ('Training Feedback', 'Feedback is captured to measure participant satisfaction and learning experience'),
 ])
 TNA_TABLE = ('TNA Process', ['Parameter', 'Methods', 'Applicable Category'], [
     ('Knowledge Check', 'Assessments', ['Product', 'Process']),
