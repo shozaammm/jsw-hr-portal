@@ -19,10 +19,21 @@ orig_len = len(s)
 def P(x, y):
     return f'{x:.1f},{y:.1f}'
 
+# Portal graphite theme (16-Nov-2026): hues replaced by the monochrome ramp used across v2.
+def _lum(h):
+    c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    c = [v / 12.92 if v <= .04045 else ((v + .055) / 1.055) ** 2.4 for v in c]
+    return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]
+
+def fg(h):
+    """white or ink text, whichever contrasts more with fill h"""
+    L = _lum(h)
+    return '#fff' if (1.05 / (L + .05)) >= ((L + .05) / (_lum('#1d1d1f') + .05)) else '#1d1d1f'
+
 def addie():
     cx, cy, R, r = 110, 104, 74, 27
-    items = [('A', 'Analyse', '#B5453A'), ('D', 'Design', '#93AA4E'), ('D', 'Develop', '#7A5494'),
-             ('I', 'Implement', '#5A9AB4'), ('E', 'Evaluate', '#E28A3E')]
+    items = [('A', 'Analyse', '#1D1D1F'), ('D', 'Design', '#3A3B40'), ('D', 'Develop', '#55565B'),
+             ('I', 'Implement', '#6B6B70'), ('E', 'Evaluate', '#8A8A8F')]
     pts = [(cx + R * math.cos(math.radians(-90 + 72 * i)), cy + R * math.sin(math.radians(-90 + 72 * i))) for i in range(5)]
     g = []
     for i, (L, word, col) in enumerate(items):
@@ -33,13 +44,13 @@ def addie():
     for i, (L, word, col) in enumerate(items):
         x, y = pts[i]
         g.append(f'<g><title>{word}</title><circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="{col}"/>'
-                 f'<text x="{x:.1f}" y="{y + 8.5:.1f}" text-anchor="middle" font-size="25" font-weight="800" fill="#fff">{L}</text></g>')
+                 f'<text x="{x:.1f}" y="{y + 8.5:.1f}" text-anchor="middle" font-size="25" font-weight="800" fill="{fg(col)}">{L}</text></g>')
     return ('<svg viewBox="0 0 220 210" role="img" aria-label="ADDIE cycle: Analyse, Design, Develop, Implement, Evaluate">'
             + ''.join(g) + '</svg>')
 
 def pie():
     cx, cy, r = 100, 100, 84
-    segs = [(70, '#F6C944', 172, '70%'), (20, '#56C5BB', 64, '20%'), (10, '#EC5E45', 136, '10%')]
+    segs = [(70, '#1D1D1F', 172, '70%'), (20, '#6B6B70', 64, '20%'), (10, '#B4B4B8', 136, '10%')]
     g = []
     for pct, col, start, lab in segs:
         a0, a1 = start, start + pct * 3.6
@@ -53,15 +64,15 @@ def pie():
         k = .55 if pct > 10 else .62
         fs = 30 if pct == 70 else 22 if pct == 20 else 18
         tx, ty = cx + ox + r * k * math.cos(mid), cy + oy + r * k * math.sin(mid)
-        g.append(f'<text x="{tx:.1f}" y="{ty + fs * .35:.1f}" text-anchor="middle" font-size="{fs}" font-weight="800" fill="#fff">{lab}</text>')
+        g.append(f'<text x="{tx:.1f}" y="{ty + fs * .35:.1f}" text-anchor="middle" font-size="{fs}" font-weight="800" fill="{fg(col)}">{lab}</text>')
     return ('<svg viewBox="-6 -6 212 212" role="img" aria-label="70% experience, 20% social interaction, 10% formal training">'
             + ''.join(g) + '</svg>')
 
 def pyramid():
-    rows = [('5%', 'Lecture', '#1D6F86', '#17576A'), ('10%', 'Reading', '#1BB5C4', '#167C86'),
-            ('20%', 'Audio/Visual', '#E0475F', '#A23246'), ('30%', 'Demonstration', '#D63FA6', '#A0307D'),
-            ('50%', 'Discussion Group', '#8C52D9', '#6A3AA6'), ('75%', 'Practice by Doing', '#3A97C2', '#2B6F8E'),
-            ('90%', 'Teach Others', '#8CC43C', '#5C7F23')]
+    rows = [('5%', 'Lecture', '#DCDCD8', '#C8C8C6'), ('10%', 'Reading', '#C4C4C6', '#ADADB0'),
+            ('20%', 'Audio/Visual', '#A8A8AC', '#909095'), ('30%', 'Demonstration', '#8A8A8F', '#727277'),
+            ('50%', 'Discussion Group', '#6B6B70', '#55565B'), ('75%', 'Practice by Doing', '#46474C', '#303136'),
+            ('90%', 'Teach Others', '#1D1D1F', '#111113')]
     cx, top, bot, half = 104, 6, 204, 100
     h = (bot - top) / len(rows)
     w = lambda y: (y - top) / (bot - top) * half
@@ -75,21 +86,21 @@ def pyramid():
         ym = (y0 + y1) / 2
         fs = 9 + i * 1.3
         if i:
-            g.append(f'<text x="{cx + w(ym) * .42:.1f}" y="{ym + fs * .36:.1f}" text-anchor="middle" font-size="{fs:.1f}" font-weight="700" fill="#fff">{pct}</text>')
+            g.append(f'<text x="{cx + w(ym) * .42:.1f}" y="{ym + fs * .36:.1f}" text-anchor="middle" font-size="{fs:.1f}" font-weight="700" fill="{fg(col)}">{pct}</text>')
         else:
-            g.append(f'<text x="{cx:.1f}" y="{ym + 5:.1f}" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">{pct}</text>')
+            g.append(f'<text x="{cx:.1f}" y="{ym + 5:.1f}" text-anchor="middle" font-size="8" font-weight="700" fill="{fg(col)}">{pct}</text>')
         tx = cx + w(ym) + 6
         g.append(f'<path d="M{P(tx, ym - 10)} L{P(tx + 104, ym - 10)} L{P(tx + 112, ym)} L{P(tx + 104, ym + 10)} L{P(tx, ym + 10)}Z" fill="{tab}"/>'
-                 f'<text x="{tx + 54:.1f}" y="{ym + 3.6:.1f}" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">{lab}</text>')
+                 f'<text x="{tx + 54:.1f}" y="{ym + 3.6:.1f}" text-anchor="middle" font-size="10" font-weight="600" fill="{fg(tab)}">{lab}</text>')
     return ('<svg viewBox="0 0 330 210" role="img" aria-label="Learning pyramid: ' +
             ', '.join(f'{l} {p}' for p, l, _, _ in rows) + '">' + ''.join(g) + '</svg>')
 
 def kolb():
     cx, cy, r = 120, 120, 96
-    q = [('Active', 'Experimentation', ['Trying out what', 'you have Learned'], '#E2B162', -1, -1),
-         ('Concrete', 'Experience', ['Having actual', 'Experience'], '#22BDEB', 1, -1),
-         ('Reflective', 'Observation', ['Reflecting on', 'Experience'], '#C2DD86', 1, 1),
-         ('Abstract', 'Conceptualisation', ['Learning from', 'Experience'], '#F6AFC0', -1, 1)]
+    q = [('Active', 'Experimentation', ['Trying out what', 'you have Learned'], '#9A9A9F', -1, -1),
+         ('Concrete', 'Experience', ['Having actual', 'Experience'], '#E4E4E2', 1, -1),
+         ('Reflective', 'Observation', ['Reflecting on', 'Experience'], '#CFCFD1', 1, 1),
+         ('Abstract', 'Conceptualisation', ['Learning from', 'Experience'], '#B4B4B8', -1, 1)]
     g = []
     starts = {(-1, -1): 180, (1, -1): 270, (1, 1): 0, (-1, 1): 90}
     for t1, t2, sub, col, sx, sy in q:
@@ -98,10 +109,10 @@ def kolb():
                  f'A{r} {r} 0 0 1 {P(cx + r * math.cos(a1), cy + r * math.sin(a1))}Z" fill="{col}"/>')
         tx, ty = cx + sx * 47, cy + sy * 42 - 10
         fs2 = 8.6 if len(t2) > 12 else 11.5
-        g.append(f'<text text-anchor="middle" font-weight="800" fill="#1d1d1f" x="{tx}" y="{ty}">'
+        g.append(f'<text text-anchor="middle" font-weight="800" fill="{fg(col)}" x="{tx}" y="{ty}">'
                  f'<tspan font-size="13">{t1}</tspan>'
                  f'<tspan x="{tx}" dy="13" font-size="{fs2}">{t2}</tspan></text>'
-                 f'<text text-anchor="middle" font-weight="600" font-size="7.4" fill="#1d1d1f" x="{tx}" y="{ty + 26}">{sub[0]}'
+                 f'<text text-anchor="middle" font-weight="600" font-size="7.4" fill="{fg(col)}" x="{tx}" y="{ty + 26}">{sub[0]}'
                  f'<tspan x="{tx}" dy="9">{sub[1]}</tspan></text>')
     R = r + 6
     for k in range(4):
@@ -115,24 +126,24 @@ def kolb():
             'Abstract Conceptualisation, Active Experimentation">' + ''.join(g) + '</svg>')
 
 def kirk():
-    lv = [((14, 192), (226, 192), (206, 146), (34, 146), '#2C5EA3', '#1F4680', 'Level 1', 'Reaction', 174),
-          ((38, 144), (202, 144), (184, 100), (56, 100), '#1A88CF', '#14659A', 'Level 2', 'Learning', 127),
-          ((60, 98), (180, 98), (164, 58), (76, 58), '#7AB7E6', '#4C8FC4', 'Level 3', 'Behavior', 83)]
+    lv = [((14, 192), (226, 192), (206, 146), (34, 146), '#B4B4B8', '#9A9A9F', 'Level 1', 'Reaction', 174),
+          ((38, 144), (202, 144), (184, 100), (56, 100), '#6B6B70', '#55565B', 'Level 2', 'Learning', 127),
+          ((60, 98), (180, 98), (164, 58), (76, 58), '#3A3B40', '#26272B', 'Level 3', 'Behavior', 83)]
     g = []
     for a, b, c, d, col, sh, l1, l2, ty in lv:
         g.append(f'<path d="M{P(*a)} L{P(*b)} L{P(*c)} L{P(*d)}Z" fill="{col}"/>')
         g.append(f'<path d="M{P(*d)} L{P(d[0] + 10, d[1])} L{P(d[0] + 1, d[1] + 12)}Z M{P(*c)} L{P(c[0] - 10, c[1])} L{P(c[0] - 1, c[1] + 12)}Z" fill="{sh}"/>')
-        g.append(f'<text x="120" y="{ty - 12}" text-anchor="middle" font-size="9.5" fill="#fff">{l1}</text>'
-                 f'<text x="120" y="{ty + 2}" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">{l2}</text>')
-    g.append('<path d="M120 2 L168 34 L150 34 L150 56 L90 56 L90 34 L72 34Z" fill="#8CBF5A"/>'
+        g.append(f'<text x="120" y="{ty - 12}" text-anchor="middle" font-size="9.5" fill="{fg(col)}">{l1}</text>'
+                 f'<text x="120" y="{ty + 2}" text-anchor="middle" font-size="13" font-weight="800" fill="{fg(col)}">{l2}</text>')
+    g.append('<path d="M120 2 L168 34 L150 34 L150 56 L90 56 L90 34 L72 34Z" fill="#1D1D1F"/>'
              '<text x="120" y="38" text-anchor="middle" font-size="9.5" fill="#fff">Level 4</text>'
              '<text x="120" y="52" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">Results</text>')
     return ('<svg viewBox="0 0 240 196" role="img" aria-label="Kirkpatrick levels: Level 1 Reaction, Level 2 Learning, '
             'Level 3 Behavior, Level 4 Results">' + ''.join(g) + '</svg>')
 
-LEGEND = ('<ul class="ig-ldm-key"><li><i style="background:#F6C944"></i>70% experience</li>'
-          '<li><i style="background:#56C5BB"></i>20% social interaction</li>'
-          '<li><i style="background:#EC5E45"></i>10% formal training</li></ul>')
+LEGEND = ('<ul class="ig-ldm-key"><li><i style="background:#1D1D1F"></i>70% experience</li>'
+          '<li><i style="background:#6B6B70"></i>20% social interaction</li>'
+          '<li><i style="background:#B4B4B8"></i>10% formal training</li></ul>')
 
 # Titles/glosses = V9 docx wording; only "Klob’s" corrected to "Kolb’s" (spelt Kolb’s in the PPT).
 CARDS = [('Addie instructional design model', 'Analyse, Design, Develop, Implement, Evaluate', addie(), ''),
