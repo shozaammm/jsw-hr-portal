@@ -181,7 +181,7 @@ def patch_shell(h, subs):
     assert h.count(old) == 1
     h = h.replace(old, "' + cleanCatLabel + '</text>")
     # brand: the docx cover is "JSW HR Operations Manual: TRUST"
-    h = h.replace('<span>HROS</span>', '<span>HR Operations Manual</span>', 1)
+    h = h.replace('<span>HROS</span>', '<span>TRUST</span>', 1)
     hero = re.search(r'<h1 class="jx-hero-title">.*?</h1>', h, re.S).group(0)
     pillars = ['<b>T</b>alent Development', '<b>R</b>eliability', '<b>U</b>nified Standards', '<b>S</b>hared Growth', '<b>T</b>eamwork for Customers']
     newhero = ('<h1 class="jx-hero-title"><span class="jx-hero-word" aria-label="TRUST">' + ''.join(f'<span aria-hidden="true" style="--i:{i}">{c}</span>' for i, c in enumerate('TRUST'))
