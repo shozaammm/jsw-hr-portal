@@ -77,28 +77,6 @@ AS_CSS = '''<style id="as-css2">
   line-height: 1.55 !important;
   color: #2c2c2e !important;
 }
-.as-culture-box {
-  margin: 0 18px 18px !important;
-  padding: 14px 16px !important;
-  background: #f8f8fa !important;
-  border-radius: 12px !important;
-  border-left: 3px solid #151515 !important;
-}
-.as-culture-box-tag {
-  font-size: 10.5px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.08em !important;
-  color: #636366 !important;
-  margin-bottom: 4px !important;
-}
-.as-culture-box-text {
-  font-size: 13px !important;
-  line-height: 1.45 !important;
-  color: #1d1d1f !important;
-  margin: 0 !important;
-  font-weight: 550 !important;
-}
 @media (max-width: 960px) {
   .ig-pr.ig-pr-3cols {
     grid-template-columns: 1fr !important;
@@ -128,7 +106,7 @@ AS_CSS = '''<style id="as-css2">
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  margin-bottom: 18px !important;
+  margin-bottom: 14px !important;
   flex-wrap: wrap !important;
   gap: 10px !important;
 }
@@ -150,55 +128,15 @@ AS_CSS = '''<style id="as-css2">
 .as-goal-badge.as-badge-role {
   background: #2c2c2e !important;
 }
-.as-goal-sub {
-  font-size: 12px !important;
-  color: #636366 !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
+.as-goal-text {
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  color: #2c2c2e !important;
+  margin: 0 !important;
 }
-.as-kpi-metrics-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 16px !important;
-}
-.as-metric-tile {
-  background: #ffffff !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  border-radius: 14px !important;
-  padding: 16px 18px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
-}
-.as-goal-sa .as-metric-tile {
-  background: #fbfbfd !important;
-}
-.as-m-lbl {
-  font-size: 11.5px !important;
-  font-weight: 650 !important;
-  color: #636366 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
-  margin-bottom: 6px !important;
-}
-.as-m-val {
-  font-size: 24px !important;
-  font-weight: 800 !important;
+.as-goal-text strong {
   color: #111113 !important;
-  line-height: 1.15 !important;
-  letter-spacing: -0.02em !important;
-}
-.as-m-unit {
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  color: #8e8e93 !important;
-}
-.as-m-desc {
-  font-size: 12.5px !important;
-  color: #48484a !important;
-  margin-top: 6px !important;
-  line-height: 1.4 !important;
+  font-weight: 750 !important;
 }
 .as-goal-cascade {
   position: relative !important;

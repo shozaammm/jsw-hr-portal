@@ -282,103 +282,72 @@ def smart_kpi_card():
   <div class="as-goal-block as-goal-dealership">
     <div class="as-goal-header">
       <div class="as-goal-badge">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 7V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v3M9 10h2M13 10h2M9 14h2M13 14h2M9 18h2M13 18h2"/></svg>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 7V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v3M9 10h2M13 10h2M9 14h2M13 14h2M9 18h2M13 18h2"/></svg>
         <span>Dealership Goal</span>
       </div>
-      <span class="as-goal-sub">Annual Aftersales Business Plan</span>
     </div>
-    <div class="as-kpi-metrics-grid">
-      <div class="as-metric-tile">
-        <span class="as-m-lbl">Monthly Workshop Throughput</span>
-        <div class="as-m-val">1,200 <span class="as-m-unit">RO / mo</span></div>
-        <span class="as-m-desc">Supported by 8 Service Advisors</span>
-      </div>
-      <div class="as-metric-tile">
-        <span class="as-m-lbl">Customer Satisfaction</span>
-        <div class="as-m-val">&gt; 95% <span class="as-m-unit">CSI score</span></div>
-        <span class="as-m-desc">Aftersales benchmark standard</span>
-      </div>
-      <div class="as-metric-tile">
-        <span class="as-m-lbl">Monthly Workshop Revenue</span>
-        <div class="as-m-val">₹48L <span class="as-m-unit">total</span></div>
-        <span class="as-m-desc">₹18L Labour (avg ₹1,500) + ₹30L Parts (avg ₹2,500)</span>
-      </div>
+    <div class="as-goal-text">
+      Monthly Workshop Throughput = 1,200 repair orders (with 8 Service Advisors) | CSI score of &gt; 95% | Labour revenue of ₹18 lakh and parts revenue of ₹30 lakh per month (assumed average of ₹1,500 labour and ₹2,500 parts per repair order) (this is derived from the Annual Aftersales Business Plan of the dealership)
     </div>
   </div>
 
   <div class="as-goal-cascade">
     <div class="as-cascade-pill">
       <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-      <span>Cascaded to Individual Service Advisor Target</span>
+      <span>Service Advisor KPI</span>
     </div>
   </div>
 
   <div class="as-goal-block as-goal-sa">
     <div class="as-goal-header">
       <div class="as-goal-badge as-badge-role">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>
         <span>Service Advisor KPI</span>
       </div>
-      <span class="as-goal-sub">Quarterly Operational Target</span>
     </div>
-    <div class="as-kpi-metrics-grid">
-      <div class="as-metric-tile">
-        <span class="as-m-lbl">Quarterly Throughput</span>
-        <div class="as-m-val">450 <span class="as-m-unit">RO / quarter</span></div>
-        <span class="as-m-desc">Average per SA (~150 RO/month)</span>
-      </div>
-      <div class="as-metric-tile">
-        <span class="as-m-lbl">Customer Experience</span>
-        <div class="as-m-val">95% <span class="as-m-unit">CSI score</span></div>
-        <span class="as-m-desc">For all customers handled in month</span>
-      </div>
-      <div class="as-metric-tile">
-        <span class="as-m-lbl">Quarterly Revenue Target</span>
-        <div class="as-m-val">₹18L <span class="as-m-unit">per quarter</span></div>
-        <span class="as-m-desc">₹6.75L Labour + ₹11.25L Parts</span>
-      </div>
+    <div class="as-goal-text">
+      Handle an average of 450 repair orders per quarter per SA in the financial year | CSI score of 95% for all customers handled in the month | Generate labour revenue of ₹6.75 lakh and parts revenue of ₹11.25 lakh per quarter
     </div>
   </div>
 
   <div class="as-smart-breakdown">
     <div class="as-smart-heading">
-      <span class="as-smart-title">How is it SMART?</span>
-      <span class="as-smart-tag">Goal Validation Framework</span>
+      <span class="as-smart-title">How is it SMART</span>
     </div>
     <div class="as-smart-grid">
       <div class="as-smart-item">
         <div class="as-smart-letter">S</div>
         <div class="as-smart-content">
           <div class="as-smart-name">Specific</div>
-          <p class="as-smart-text">Average <strong>450 repair orders per quarter</strong>, with <strong>₹1,500 labour</strong> and <strong>₹2,500 parts</strong> revenue per repair order | CSI score of <strong>95%</strong></p>
+          <p class="as-smart-text">Average 450 repair orders per quarter, with ₹1,500 labour and ₹2,500 parts revenue per repair order | CSI score of 95%</p>
         </div>
       </div>
       <div class="as-smart-item">
         <div class="as-smart-letter">M</div>
         <div class="as-smart-content">
           <div class="as-smart-name">Measurable</div>
-          <p class="as-smart-text"><strong>150 repair orders per month</strong> (quarterly repair orders / 3), tracked in the DMS | Labour revenue of <strong>₹2.25 lakh</strong> and parts revenue of <strong>₹3.75 lakh</strong> per month (monthly repair orders × avg labour and parts value per repair order), measured through DMS invoicing | Measurable through CSI survey and post-service follow-up (PSF) feedback</p>
+          <p class="as-smart-text">150 repair orders per month (quarterly repair orders / 3), tracked in the DMS | Labour revenue of ₹2.25 lakh and parts revenue of ₹3.75 lakh per month (monthly repair orders × average labour and parts value per repair order), measured through DMS invoicing | Measurable through the CSI survey and post-service follow-up (PSF) feedback</p>
         </div>
       </div>
       <div class="as-smart-item">
         <div class="as-smart-letter">A</div>
         <div class="as-smart-content">
           <div class="as-smart-name">Achievable</div>
-          <p class="as-smart-text">The goal is realistically achievable based on dealership capacity and assigned workshop bays.</p>
+          <p class="as-smart-text">The goal is realistically achievable</p>
         </div>
       </div>
       <div class="as-smart-item">
         <div class="as-smart-letter">R</div>
         <div class="as-smart-content">
           <div class="as-smart-name">Relevant</div>
-          <p class="as-smart-text">Repair order volume, labour and parts revenue, and CSI score are all directly relevant to the core role of Service Advisor.</p>
+          <p class="as-smart-text">Repair order volume, labour and parts revenue, and CSI score are all relevant for the role of Service Advisor</p>
         </div>
       </div>
       <div class="as-smart-item">
         <div class="as-smart-letter">T</div>
         <div class="as-smart-content">
           <div class="as-smart-name">Time-bound</div>
-          <p class="as-smart-text">Per quarter target, measured every quarter and formally reviewed at the Annual Performance Cycle.</p>
+          <p class="as-smart-text">Per quarter target, measured every quarter and reviewed at Annual Cycle</p>
         </div>
       </div>
     </div>
@@ -392,13 +361,13 @@ def sample_email_card():
     <span class="as-win-dot as-win-red"></span>
     <span class="as-win-dot as-win-yel"></span>
     <span class="as-win-dot as-win-grn"></span>
-    <span class="as-win-title">Quarterly Performance Review Summary Email Template</span>
+    <span class="as-win-title">Sample email</span>
   </div>
   <div class="as-email-headers">
     <div class="as-email-hdr-row"><span class="as-hdr-lbl">From:</span><span class="as-hdr-val">[Reporting Manager Email Address]</span></div>
     <div class="as-email-hdr-row"><span class="as-hdr-lbl">To:</span><span class="as-hdr-val">[Employee Email Address]</span></div>
     <div class="as-email-hdr-row"><span class="as-hdr-lbl">Cc:</span><span class="as-hdr-val">[HR Manager Email Address]</span></div>
-    <div class="as-email-hdr-row"><span class="as-hdr-lbl">Subject:</span><span class="as-hdr-val"><strong>Quarterly / Mid-year Performance Review Summary</strong></span></div>
+    <div class="as-email-hdr-row"><span class="as-hdr-lbl">Subject:</span><span class="as-hdr-val"><strong>Quarterly/Mid-year Performance Review Summary</strong></span></div>
   </div>
   <div class="as-email-body">
     <p>Hi [Employee First Name],</p>
@@ -407,27 +376,24 @@ def sample_email_card():
     <div class="as-email-section-title">a. Favourable results</div>
     <p>Your hard work reflected in several areas this quarter:</p>
     <ul class="list-clean" style="margin-left: 12px; margin-bottom: 12px;">
-      <li>CSI score of <strong>96%</strong> against a target of <strong>95%</strong></li>
-      <li>Handled <strong>460 repair orders</strong>, exceeding the quarterly target of <strong>450</strong></li>
-      <li>Demonstrated strong ownership during high workshop load periods</li>
+      <li>CSI score of 96% against a target of 95%</li>
+      <li>Labour revenue of ₹1,650 per repair order against a target of ₹1,500</li>
+      <li>No repeat repairs on the jobs you handled</li>
     </ul>
 
-    <div class="as-email-section-title">b. Areas for development</div>
-    <p>To help you continue growing toward your career goals:</p>
+    <div class="as-email-section-title">b. Performance issues</div>
+    <p>You finished the quarter averaging 110 repair orders per month, while our standard is a minimum of 150 repair orders per month.</p>
+
+    <div class="as-email-section-title">c. Solution</div>
+    <p>We have committed to the following action plan over the next 30 days:</p>
     <ul class="list-clean" style="margin-left: 12px; margin-bottom: 12px;">
-      <li>Focus on improving VAS (Value Added Services) penetration from <strong>18%</strong> to <strong>25%</strong></li>
-      <li>Ensure timely follow-up on parts backorder communication with customers</li>
+      <li>Complete a 100% vehicle walk-around with a complete job card at reception for every vehicle</li>
+      <li>Attend the IDT’s roleplay sessions on vehicle reception and estimate explanation every week</li>
     </ul>
 
-    <div class="as-email-section-title">c. Action steps agreed</div>
-    <p>We agreed on the following next steps:</p>
-    <ul class="list-clean" style="margin-left: 12px; margin-bottom: 16px;">
-      <li>Complete the VAS Customer Consultation e-learning module by the 15th of next month</li>
-      <li>Weekly check-in on parts tracking and repeat visit prevention</li>
-    </ul>
-
-    <p>Please reply to confirm that this accurately captures our discussion. I look forward to working together toward these milestones!</p>
-    <p style="margin-top: 18px; margin-bottom: 0;">Warm regards,<br><strong>[Reporting Manager Name]</strong><br><span style="color: #636366; font-size: 13px;">[Designation] – Aftersales</span></p>
+    <p>We will review your repair orders, labour and parts revenue and job card quality in the DMS every Friday to track your progress and ensure you have the support you need to hit these numbers.</p>
+    <p>I have great confidence in your ability to hit these targets, and I am fully committed to helping you succeed. Please reply directly to this email to confirm that this accurately reflects our conversation and your commitment to the plan.</p>
+    <p style="margin-top: 18px; margin-bottom: 0;">Best regards,<br><strong>[Your Name]</strong><br>Service Manager<br>[Dealership Name]</p>
   </div>
 </div>'''
 
@@ -437,35 +403,32 @@ def perks_card():
   <div class="as-perks-header">
     <div class="as-perks-badge">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><circle cx="18" cy="12" r="2"/></svg>
-      <span>Dealership Employee Benefits &amp; Perks</span>
+      <span>Perks</span>
     </div>
   </div>
   <div class="as-perks-grid">
     <div class="as-perk-item">
       <div class="as-perk-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
       </div>
       <div class="as-perk-text">
-        <strong>Mobile Allowance</strong>
-        <span>Official communication support for eligible operational roles</span>
+        <strong>Mobile allowance</strong>
       </div>
     </div>
     <div class="as-perk-item">
       <div class="as-perk-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
       </div>
       <div class="as-perk-text">
-        <strong>Travel &amp; Food Allowance</strong>
-        <span>Official duty travel reimbursement and daily meals support</span>
+        <strong>Travel + food allowance</strong>
       </div>
     </div>
     <div class="as-perk-item">
       <div class="as-perk-icon">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
       <div class="as-perk-text">
-        <strong>Night Transport for Women</strong>
-        <span>Safe, dedicated point-to-point drop facility during late hours</span>
+        <strong>Transport at night for women</strong>
       </div>
     </div>
   </div>
@@ -477,7 +440,7 @@ def ijp_card():
   <div class="as-ijp-grid">
     <div class="as-ijp-box">
       <div class="as-ijp-title">
-        <span class="as-ijp-step">01</span>
+        <span class="as-ijp-step">1</span>
         <h4>How to make an IJP</h4>
       </div>
       <ul class="list-clean">
@@ -488,23 +451,36 @@ def ijp_card():
     </div>
     <div class="as-ijp-box">
       <div class="as-ijp-title">
-        <span class="as-ijp-step">02</span>
+        <span class="as-ijp-step">2</span>
         <h4>Who can apply for an IJP</h4>
       </div>
       <ul class="list-clean">
-        <li>Completed at least <strong>12 months</strong> in the current role</li>
-        <li>Not under a performance improvement plan (PIP)</li>
+        <li>Completed at least 12 months in the current role</li>
+        <li>Not under a performance improvement plan</li>
         <li>No live disciplinary case</li>
       </ul>
-      <p class="as-ijp-note">*Note that every internal candidate will also go through the same interview process as external applicants.</p>
+      <p class="as-ijp-note">*Note that every internal candidate will also have to go through the same interview process as listed in the flowchart above.</p>
     </div>
     <div class="as-ijp-box">
       <div class="as-ijp-title">
-        <span class="as-ijp-step">03</span>
-        <h4>IJP Validity</h4>
+        <span class="as-ijp-step">3</span>
+        <h4>How to apply for an IJP</h4>
       </div>
-      <p style="margin: 0 0 10px; font-size: 14px; line-height: 1.5;">Every IJP should be open for applications for a minimum period of <strong>7 working days</strong>.</p>
-      <div class="as-ijp-tag">Minimum 7 Working Days Window</div>
+      <ul class="list-clean">
+        <li>Check the Internal Job postings notice board and electronic platforms</li>
+        <li>Apply for the position by filling up 3C. Internal Job Posting Application Form</li>
+        <li>Email the form to the HR Manager</li>
+      </ul>
+    </div>
+    <div class="as-ijp-box">
+      <div class="as-ijp-title">
+        <span class="as-ijp-step">4</span>
+        <h4>Points to note</h4>
+      </div>
+      <ul class="list-clean">
+        <li>The releasing manager should not intentionally hold/block an internal movement</li>
+        <li>A notice period of up to 30 days is suggested for effective handover of responsibilities</li>
+      </ul>
     </div>
   </div>
 </div>'''
