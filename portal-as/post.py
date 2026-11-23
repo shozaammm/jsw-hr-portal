@@ -554,6 +554,8 @@ def run(h):
     print('annex chips', len(used), 'missing', sorted(used - codes))
     reg = re.sub(r'<span class="v7-ref">(\d{1,2}[A-Z])</span>',
                  lambda m: f'<a class="v7-ref" href="#annex-{m.group(1)}">{m.group(1)}</a>' if m.group(1) in codes else m.group(0), reg)
+    import ig2
+    reg = ig2.run(reg)
     h = h[:a] + reg + h[e:]
-    h = h.replace('</head>', AS_CSS + '</head>', 1)
+    h = h.replace('</head>', AS_CSS + ig2.CSS + '</head>', 1)
     return h

@@ -180,17 +180,11 @@ def patch_shell(h, subs):
     old = "Recommended Structure: ' + cleanCatLabel + ' &#183; Defined as per volume norms and city category</text>"
     assert h.count(old) == 1
     h = h.replace(old, "' + cleanCatLabel + '</text>")
-    # brand: the docx cover is "JSW HR Operations Manual: TRUST"
-    h = h.replace('<span>HROS</span>', '<span>TRUST</span>', 1)
-    hero = re.search(r'<h1 class="jx-hero-title">.*?</h1>', h, re.S).group(0)
-    pillars = ['<b>T</b>alent Development', '<b>R</b>eliability', '<b>U</b>nified Standards', '<b>S</b>hared Growth', '<b>T</b>eamwork for Customers']
-    newhero = ('<h1 class="jx-hero-title"><span class="jx-hero-word" aria-label="TRUST">' + ''.join(f'<span aria-hidden="true" style="--i:{i}">{c}</span>' for i, c in enumerate('TRUST'))
-               + '</span><span class="jx-hero-line">JSW HR Operations Manual</span></h1>'
-               '\n        <ul class="jx-pillars">' + ''.join(f'<li style="--i:{i}">{p}</li>' for i, p in enumerate(pillars)) + '</ul>'
-               '\n        <p class="jx-hero-quote">“Building a dealership network our customers can trust.”</p>')
-    h = h.replace(hero, newhero, 1)
-    h = h.replace('<p>HROS: Human Resource Operating Standards</p>', '<p>TRUST: JSW HR Operations Manual</p>')
-    h = h.replace('<title>JSW HR Operations Manual · Service</title>', '<title>JSW HR Operations Manual: TRUST</title>', 1)
+    # brand: same name as v2.html (HROS / Human Resource Operating Standards) - kept from the shell
+    h = h.replace('<title>JSW HR Operations Manual · Service</title>', '<title>JSW HR Operations Manual</title>', 1)
+    old = "(n ? ' · ' + n + ' sections' : '')"
+    assert h.count(old) == 1
+    h = h.replace(old, "(n ? ' · ' + n + (n === 1 ? ' section' : ' sections') : '')")
     h = h.replace('across all 26+ JSW policy chapters...', 'the manual...').replace('No matching policies found for', 'No matching results found for')
     h = h.replace('JSW Motors Dealership Operations Manual &middot; Controlled Document', 'JSW HR Operations Manual')
     h = h.replace('</head>', AS_CSS + '</head>', 1)
