@@ -74,11 +74,16 @@ def glance(D, chunks):
             cur[1].append(x.strip())
     gh = []
     for name, items in groups:
+        extra_box = ''
+        if name == 'Culture':
+            extra_box = ('<div class="as-culture-box"><div class="as-culture-box-tag">Core Foundation</div>'
+                         '<p class="as-culture-box-text">Building high-performing teams anchored in integrity, ownership, and psychological safety.</p></div>')
         gh.append('<div class="ig-pr-card" role="listitem"><div class="ig-pr-head"><span class="ig-ico" aria-hidden="true">'
                   '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" '
                   f'stroke-linecap="round" stroke-linejoin="round">{ICO[name]}</svg></span><h4 class="ig-pr-title">{esc(name)}</h4></div>'
-                  '<ul class="list-clean">' + ''.join(f'<li>{esc(x)}</li>' for x in items) + '</ul></div>')
-    out.append('<div class="ig-pr" role="list">' + ''.join(gh) + '</div>')
+                  '<ul class="list-clean">' + ''.join(f'<li>{esc(x)}</li>' for x in items) + '</ul>'
+                  + extra_box + '</div>')
+    out.append('<div class="ig-pr ig-pr-3cols" role="list">' + ''.join(gh) + '</div>')
     k = next(i for i, b in enumerate(bl) if b['text'] == 'KEY HR GUIDELINES FOR DEALERS')
     out.append(f'<h3 class="sub-title subhead">{esc(bl[k]["text"].title().replace("Hr ", "HR ").replace("For ", "for "))}</h3>')
     out.append(f'<p>{esc(bl[k + 1]["text"])}</p>')

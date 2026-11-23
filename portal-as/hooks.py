@@ -220,12 +220,18 @@ def normalize(blocks):
         if t.strip() in (':', ''):
             continue
         m = GLUE.match(t)
-        if m and not b['num'] or (m and m.group(2) and m.group(1) == 'Objective'):
-            label = clone(b, 'Objective'); label['num'] = None
-            out.append(label)
-            item = clone(b, m.group(2)); item['num'] = b['num'] or bullet
-            out.append(item); lab = True
-            continue
+        if m:
+            g2 = (m.group(2) or '').strip()
+            if g2 in (':', ''):
+                label = clone(b, 'Objective'); label['num'] = None
+                out.append(label); lab = True
+                continue
+            if not b['num'] or (m.group(1) == 'Objective'):
+                label = clone(b, 'Objective'); label['num'] = None
+                out.append(label)
+                item = clone(b, g2); item['num'] = b['num'] or bullet
+                out.append(item); lab = True
+                continue
         if re.match(r'^:?\s*(Objective|Purpose|Principles|Benefits? (for|to))', t) and t.endswith(':') or t in (':', ':  Objective'):
             nb = clone(b, 'Objective' if 'Objective' in t else t.rstrip(':')); nb['num'] = None
             out.append(nb); lab = True; continue
@@ -271,6 +277,239 @@ def attrition_card(bl, i):
     return out, 6
 
 
+def smart_kpi_card():
+    return '''<div class="as-smart-card reveal">
+  <div class="as-goal-block as-goal-dealership">
+    <div class="as-goal-header">
+      <div class="as-goal-badge">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 7V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v3M9 10h2M13 10h2M9 14h2M13 14h2M9 18h2M13 18h2"/></svg>
+        <span>Dealership Goal</span>
+      </div>
+      <span class="as-goal-sub">Annual Aftersales Business Plan</span>
+    </div>
+    <div class="as-kpi-metrics-grid">
+      <div class="as-metric-tile">
+        <span class="as-m-lbl">Monthly Workshop Throughput</span>
+        <div class="as-m-val">1,200 <span class="as-m-unit">RO / mo</span></div>
+        <span class="as-m-desc">Supported by 8 Service Advisors</span>
+      </div>
+      <div class="as-metric-tile">
+        <span class="as-m-lbl">Customer Satisfaction</span>
+        <div class="as-m-val">&gt; 95% <span class="as-m-unit">CSI score</span></div>
+        <span class="as-m-desc">Aftersales benchmark standard</span>
+      </div>
+      <div class="as-metric-tile">
+        <span class="as-m-lbl">Monthly Workshop Revenue</span>
+        <div class="as-m-val">₹48L <span class="as-m-unit">total</span></div>
+        <span class="as-m-desc">₹18L Labour (avg ₹1,500) + ₹30L Parts (avg ₹2,500)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="as-goal-cascade">
+    <div class="as-cascade-pill">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      <span>Cascaded to Individual Service Advisor Target</span>
+    </div>
+  </div>
+
+  <div class="as-goal-block as-goal-sa">
+    <div class="as-goal-header">
+      <div class="as-goal-badge as-badge-role">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>
+        <span>Service Advisor KPI</span>
+      </div>
+      <span class="as-goal-sub">Quarterly Operational Target</span>
+    </div>
+    <div class="as-kpi-metrics-grid">
+      <div class="as-metric-tile">
+        <span class="as-m-lbl">Quarterly Throughput</span>
+        <div class="as-m-val">450 <span class="as-m-unit">RO / quarter</span></div>
+        <span class="as-m-desc">Average per SA (~150 RO/month)</span>
+      </div>
+      <div class="as-metric-tile">
+        <span class="as-m-lbl">Customer Experience</span>
+        <div class="as-m-val">95% <span class="as-m-unit">CSI score</span></div>
+        <span class="as-m-desc">For all customers handled in month</span>
+      </div>
+      <div class="as-metric-tile">
+        <span class="as-m-lbl">Quarterly Revenue Target</span>
+        <div class="as-m-val">₹18L <span class="as-m-unit">per quarter</span></div>
+        <span class="as-m-desc">₹6.75L Labour + ₹11.25L Parts</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="as-smart-breakdown">
+    <div class="as-smart-heading">
+      <span class="as-smart-title">How is it SMART?</span>
+      <span class="as-smart-tag">Goal Validation Framework</span>
+    </div>
+    <div class="as-smart-grid">
+      <div class="as-smart-item">
+        <div class="as-smart-letter">S</div>
+        <div class="as-smart-content">
+          <div class="as-smart-name">Specific</div>
+          <p class="as-smart-text">Average <strong>450 repair orders per quarter</strong>, with <strong>₹1,500 labour</strong> and <strong>₹2,500 parts</strong> revenue per repair order | CSI score of <strong>95%</strong></p>
+        </div>
+      </div>
+      <div class="as-smart-item">
+        <div class="as-smart-letter">M</div>
+        <div class="as-smart-content">
+          <div class="as-smart-name">Measurable</div>
+          <p class="as-smart-text"><strong>150 repair orders per month</strong> (quarterly repair orders / 3), tracked in the DMS | Labour revenue of <strong>₹2.25 lakh</strong> and parts revenue of <strong>₹3.75 lakh</strong> per month (monthly repair orders × avg labour and parts value per repair order), measured through DMS invoicing | Measurable through CSI survey and post-service follow-up (PSF) feedback</p>
+        </div>
+      </div>
+      <div class="as-smart-item">
+        <div class="as-smart-letter">A</div>
+        <div class="as-smart-content">
+          <div class="as-smart-name">Achievable</div>
+          <p class="as-smart-text">The goal is realistically achievable based on dealership capacity and assigned workshop bays.</p>
+        </div>
+      </div>
+      <div class="as-smart-item">
+        <div class="as-smart-letter">R</div>
+        <div class="as-smart-content">
+          <div class="as-smart-name">Relevant</div>
+          <p class="as-smart-text">Repair order volume, labour and parts revenue, and CSI score are all directly relevant to the core role of Service Advisor.</p>
+        </div>
+      </div>
+      <div class="as-smart-item">
+        <div class="as-smart-letter">T</div>
+        <div class="as-smart-content">
+          <div class="as-smart-name">Time-bound</div>
+          <p class="as-smart-text">Per quarter target, measured every quarter and formally reviewed at the Annual Performance Cycle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>'''
+
+
+def sample_email_card():
+    return '''<div class="as-email-card reveal">
+  <div class="as-email-window-bar">
+    <span class="as-win-dot as-win-red"></span>
+    <span class="as-win-dot as-win-yel"></span>
+    <span class="as-win-dot as-win-grn"></span>
+    <span class="as-win-title">Quarterly Performance Review Summary Email Template</span>
+  </div>
+  <div class="as-email-headers">
+    <div class="as-email-hdr-row"><span class="as-hdr-lbl">From:</span><span class="as-hdr-val">[Reporting Manager Email Address]</span></div>
+    <div class="as-email-hdr-row"><span class="as-hdr-lbl">To:</span><span class="as-hdr-val">[Employee Email Address]</span></div>
+    <div class="as-email-hdr-row"><span class="as-hdr-lbl">Cc:</span><span class="as-hdr-val">[HR Manager Email Address]</span></div>
+    <div class="as-email-hdr-row"><span class="as-hdr-lbl">Subject:</span><span class="as-hdr-val"><strong>Quarterly / Mid-year Performance Review Summary</strong></span></div>
+  </div>
+  <div class="as-email-body">
+    <p>Hi [Employee First Name],</p>
+    <p>Thank you for sitting down with me today for your quarterly performance review. As discussed, this email summarises our meeting to ensure we are fully aligned moving forward.</p>
+    
+    <div class="as-email-section-title">a. Favourable results</div>
+    <p>Your hard work reflected in several areas this quarter:</p>
+    <ul class="list-clean" style="margin-left: 12px; margin-bottom: 12px;">
+      <li>CSI score of <strong>96%</strong> against a target of <strong>95%</strong></li>
+      <li>Handled <strong>460 repair orders</strong>, exceeding the quarterly target of <strong>450</strong></li>
+      <li>Demonstrated strong ownership during high workshop load periods</li>
+    </ul>
+
+    <div class="as-email-section-title">b. Areas for development</div>
+    <p>To help you continue growing toward your career goals:</p>
+    <ul class="list-clean" style="margin-left: 12px; margin-bottom: 12px;">
+      <li>Focus on improving VAS (Value Added Services) penetration from <strong>18%</strong> to <strong>25%</strong></li>
+      <li>Ensure timely follow-up on parts backorder communication with customers</li>
+    </ul>
+
+    <div class="as-email-section-title">c. Action steps agreed</div>
+    <p>We agreed on the following next steps:</p>
+    <ul class="list-clean" style="margin-left: 12px; margin-bottom: 16px;">
+      <li>Complete the VAS Customer Consultation e-learning module by the 15th of next month</li>
+      <li>Weekly check-in on parts tracking and repeat visit prevention</li>
+    </ul>
+
+    <p>Please reply to confirm that this accurately captures our discussion. I look forward to working together toward these milestones!</p>
+    <p style="margin-top: 18px; margin-bottom: 0;">Warm regards,<br><strong>[Reporting Manager Name]</strong><br><span style="color: #636366; font-size: 13px;">[Designation] – Aftersales</span></p>
+  </div>
+</div>'''
+
+
+def perks_card():
+    return '''<div class="as-perks-container reveal">
+  <div class="as-perks-header">
+    <div class="as-perks-badge">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><circle cx="18" cy="12" r="2"/></svg>
+      <span>Dealership Employee Benefits &amp; Perks</span>
+    </div>
+  </div>
+  <div class="as-perks-grid">
+    <div class="as-perk-item">
+      <div class="as-perk-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
+      <div class="as-perk-text">
+        <strong>Mobile Allowance</strong>
+        <span>Official communication support for eligible operational roles</span>
+      </div>
+    </div>
+    <div class="as-perk-item">
+      <div class="as-perk-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div class="as-perk-text">
+        <strong>Travel &amp; Food Allowance</strong>
+        <span>Official duty travel reimbursement and daily meals support</span>
+      </div>
+    </div>
+    <div class="as-perk-item">
+      <div class="as-perk-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="as-perk-text">
+        <strong>Night Transport for Women</strong>
+        <span>Safe, dedicated point-to-point drop facility during late hours</span>
+      </div>
+    </div>
+  </div>
+</div>'''
+
+
+def ijp_card():
+    return '''<div class="as-ijp-container reveal">
+  <div class="as-ijp-grid">
+    <div class="as-ijp-box">
+      <div class="as-ijp-title">
+        <span class="as-ijp-step">01</span>
+        <h4>How to make an IJP</h4>
+      </div>
+      <ul class="list-clean">
+        <li>The HR Manager should use <em>3B. Internal Job Posting (IJP) Template</em> to notify the position internally</li>
+        <li>The HR Manager should display the IJP on notice boards across organisation and share over electronic platforms</li>
+        <li>The HR Manager should reach out to the reporting manager for any recommendation for promotion</li>
+      </ul>
+    </div>
+    <div class="as-ijp-box">
+      <div class="as-ijp-title">
+        <span class="as-ijp-step">02</span>
+        <h4>Who can apply for an IJP</h4>
+      </div>
+      <ul class="list-clean">
+        <li>Completed at least <strong>12 months</strong> in the current role</li>
+        <li>Not under a performance improvement plan (PIP)</li>
+        <li>No live disciplinary case</li>
+      </ul>
+      <p class="as-ijp-note">*Note that every internal candidate will also go through the same interview process as external applicants.</p>
+    </div>
+    <div class="as-ijp-box">
+      <div class="as-ijp-title">
+        <span class="as-ijp-step">03</span>
+        <h4>IJP Validity</h4>
+      </div>
+      <p style="margin: 0 0 10px; font-size: 14px; line-height: 1.5;">Every IJP should be open for applications for a minimum period of <strong>7 working days</strong>.</p>
+      <div class="as-ijp-tag">Minimum 7 Working Days Window</div>
+    </div>
+  </div>
+</div>'''
+
+
 # ───────────────────────── hooks ─────────────────────────
 def lms_steps(items):
     steps = []
@@ -294,6 +533,14 @@ def make(T, ctx):
             if not any(c.text.strip() for r in b['t'].rows for c in r.cells):
                 return '', 1
             first = b['t'].rows[0].cells[0].text.strip()
+            if cid == 'ch7' and first == 'Dealership Goal':
+                return smart_kpi_card(), 1
+            if cid == 'ch7' and first == 'Sample email':
+                return sample_email_card(), 1
+            if cid == 'ch4' and first == 'Perks':
+                return perks_card(), 1
+            if cid == 'ch3' and first.startswith('How to make an IJP'):
+                return ijp_card(), 1
             if cid == 'ch5' and first in ('KEY COMPONENTS OF EMPLOYEE INDUCTION',):
                 return '', 1
             if cid == 'ch5' and first == 'Overview' and len(b['t'].rows) == 2 and len(B.cells_of(b['t'].rows[0])) == 4:

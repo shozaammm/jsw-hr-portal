@@ -8,6 +8,11 @@ import service_data as S
 esc = lambda s: html.escape(s, quote=False)
 escq = lambda s: html.escape(s, quote=True)
 
+try:
+    import avatar_data
+except ImportError:
+    avatar_data = None
+
 JD_ANNEX = [('2A', 'Job Description Template'), ('2B', 'All Job Descriptions'), ('2C', 'Competencies')]
 LBL = re.compile(r'^:?\s*(Objective|Purpose|Principles|Benefits?\s+(?:for|to)\s+(?:the\s+)?(?:Dealers?|Dealerships?|Customers?))\s*:?\s*$', re.I)
 
@@ -129,6 +134,10 @@ def initials(name):
 
 
 def avatar(name):
+    if avatar_data:
+        pic = avatar_data.get_avatar(name)
+        if pic:
+            return pic
     svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="#d9d9dd"/>'
            f'<text x="40" y="49" font-family="Helvetica,Arial,sans-serif" font-size="28" font-weight="700" text-anchor="middle" fill="#3b3b40">{esc(initials(name))}</text></svg>')
     return 'data:image/svg+xml;base64,' + base64.b64encode(svg.encode()).decode()
