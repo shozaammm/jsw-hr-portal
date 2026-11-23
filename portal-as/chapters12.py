@@ -20,6 +20,8 @@ def opener(blocks):
         if b['k'] != 'p' or b['lvl'] == 2:
             break
         t = b['text']
+        if t.strip() == ':':
+            i += 1; continue
         if b['style'] == 'Intense Quote' or (pull is None and t[:1] in '"“' and not b['num']):
             pull = t; i += 1; continue
         m = LBL.match(t)
@@ -117,7 +119,7 @@ def display(title):
     def w(tok):
         if tok.strip('()') in ACR:
             return tok
-        return '-'.join(p.capitalize() for p in tok.split('-')) if tok != '&' else tok
+        return '/'.join('-'.join(p.capitalize() for p in q.split('-')) for q in tok.split('/')) if tok != '&' else tok
     return ' '.join(w(t) for t in title.split(' '))
 
 

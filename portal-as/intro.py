@@ -60,7 +60,8 @@ def glance(D, chunks):
     bl = [b for b in chunks['Contents']['blocks'] if b['k'] == 'p']
     t = [b['text'] for b in bl]
     assert t[0] == 'HR SYSTEMS AT A GLANCE'
-    out = [f'<h3 class="sub-title subhead" style="margin-top:0">{esc(t[1])}</h3>', f'<p>{esc(t[2])}</p>']
+    out = [f'<h3 class="sub-title subhead" style="margin-top:0">{esc(t[0].title().replace("Hr ", "HR ").replace(" At A ", " at a "))}</h3>',
+           f'<h4 class="item-title">{esc(t[1])}</h4>', f'<p>{esc(t[2])}</p>']
     # three groups: bold list-paragraph heading followed by its bullets
     groups, cur = [], None
     for b in bl[3:]:
@@ -90,13 +91,13 @@ def glance(D, chunks):
         m = LEVEL_RE.match(b['text']); assert m, b['text']
         nm, rest = m.group(1), m.group(2)
         # "1.  Manpower planning & talent acquisition 2 Employee 3. Compensation & Rewards management"
-        items = [x.strip() for x in re.split(r'(?:(?<=\s)|^)\d{1,2}\s*\.?\s+(?=[A-Z])', rest) if x.strip()]
+        items = [(int(n), x.strip()) for n, x in re.findall(r'(?:(?<=\s)|^)(\d{1,2})\s*\.?\s+([A-Z][^\d]*?)(?=\s+\d{1,2}\s*\.?\s+[A-Z]|\s*$)', rest)]
         lv.append((nm, desc[nm], items))
     out.append('<div class="as-levels">' + ''.join(
         f'<div class="as-level as-level-{i}"><div class="as-level-h"><span class="as-level-n">{i}</span><h4>{esc(nm)}</h4></div>'
-        f'<p class="as-level-d">{esc(d)}</p><ol class="as-level-l">' + ''.join(f'<li>{esc(x)}</li>' for x in items) + '</ol></div>'
+        f'<p class="as-level-d">{esc(d)}</p><ol class="as-level-l">' + ''.join(f'<li value="{n}">{esc(x)}</li>' for n, x in items) + '</ol></div>'
         for i, (nm, d, items) in enumerate(lv, 1)) + '</div>')
-    return B.article('fm-iii', 'iii.', 'HR Systems at a Glance', '\n'.join(out))
+    return B.article('fm-iii', 'iii.', 'How to Read the Manual', '\n'.join(out))
 
 
 def pages(D, chunks, ctx):

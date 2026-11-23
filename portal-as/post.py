@@ -30,6 +30,23 @@ AS_CSS = '''<style id="as-css2">
 @media(max-width:860px){.as-levels{grid-template-columns:1fr}}
 .as-note{font-size:14px;margin-top:10px}
 .pr-grid.pr-n5{grid-template-columns:repeat(3,1fr)}
+.rd-detail .chip{text-transform:none}
+.fx-lj-body{text-align:left;display:flex;flex-direction:column;gap:8px}
+.as-lj-when{font-weight:700;font-size:15px}
+.as-lj-obj{font-size:13.5px;font-weight:500;line-height:1.5}
+.as-theme{margin:6px 0 0;font-weight:700;font-size:14px}
+.as-tg th,.as-tg td{text-align:center;vertical-align:middle}
+.as-tg-r{background:#151515!important;color:#fff!important;width:90px}
+.as-tg-c{font-weight:600}
+.as-tg-0{background:#f1f1f2}.as-tg-1{background:#e1e1e4}.as-tg-2{background:#c9c9ce}.as-tg-3{background:#a9a9b0}.as-tg-4{background:#8b8b93;color:#fff}
+.as-attr{margin:14px 0;display:grid;gap:12px}
+.as-attr-f{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:#151515;color:#fff;border-radius:12px;padding:16px 20px;font-size:17px;font-weight:700}
+.as-attr-f b{opacity:.7}
+.as-attr-n{font-size:13.5px;margin:0}
+.as-attr-e{border:1px solid rgba(0,0,0,.14);border-left:4px solid #151515;border-radius:12px;background:rgba(255,255,255,.72);padding:14px 18px}
+.as-attr-e h5{margin:0 0 8px}
+.as-attr-e ul{margin:0;padding-left:18px;line-height:1.7}
+.as-attr-r{font-weight:700;font-size:1.05em;list-style:none;margin-left:-18px;margin-top:6px;padding:8px 12px;background:#151515;color:#fff;border-radius:8px}
 </style>'''
 
 

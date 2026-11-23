@@ -108,7 +108,7 @@ def journey_html(cards):
         steps, links = c['steps'], c['links']
         track = []
         for i, (head, lines) in enumerate(steps):
-            body = '<br>'.join(esc(x) for x in lines)
+            body = f'<strong class="as-lj-when">{esc(lines[0])}</strong>' + ''.join(f'<span class="as-lj-obj">{esc(x)}</span>' for x in lines[1:])
             track.append(f'<div class="fx-lj-step"><div class="fx-lj-head">{esc(head)}</div><div class="fx-lj-body">{body}</div></div>')
             if i < len(steps) - 1:
                 lab = links[i] if i < len(links) else ''
@@ -163,7 +163,7 @@ def sample_plan(grp):
     cap = next(s for s in grp if s['paras'] and s['paras'][0] == 'SAMPLE WEEK-WISE TRAINING PLAN')
     note = next(s for s in grp if s['paras'] and s['paras'][0].startswith('TNA (N Month)'))
     cards = ''.join(
-        f'<li class="fx-chev-step" style="--c:{fc.SEQ[(i + 1) % len(fc.SEQ)]}"><div class="fx-chev-head"><span class="fx-chev-n">{i + 1}</span>{esc(w["paras"][0])} — {esc(w["paras"][1])}</div>'
+        f'<li class="fx-chev-step" style="--c:{fc.SEQ[(i + 1) % len(fc.SEQ)]}"><div class="fx-chev-head"><span class="fx-chev-n">{i + 1}</span>{esc(w["paras"][0])}</div><p class="as-theme">{esc(w["paras"][1])}</p>'
         f'<p class="fx-text">{esc(w["paras"][2])}</p></li>' for i, w in enumerate(weeks))
     return (f'<h5 class="item-title v7-h5">{esc(cap["paras"][0].capitalize())}</h5><figure class="fx-fig"><ol class="fx-chev">{cards}</ol></figure>'
             f'<p class="as-note"><strong>{esc(note["paras"][0].split(" | ")[0])}</strong> | {esc(" | ".join(note["paras"][0].split(" | ")[1:]))}</p>')
@@ -217,6 +217,8 @@ def normalize(blocks):
         if b['k'] != 'p' or not in_open or b['lvl']:
             out.append(b); continue
         t = PUA.sub('', b['text'])
+        if t.strip() in (':', ''):
+            continue
         m = GLUE.match(t)
         if m and not b['num'] or (m and m.group(2) and m.group(1) == 'Objective'):
             label = clone(b, 'Objective'); label['num'] = None
@@ -234,6 +236,39 @@ def normalize(blocks):
             nb = clone(b, t); nb['num'] = b['num']; out.append(nb); continue
         out.append(b)
     return out
+
+
+def talent_grid(t):
+    rows = [[c.text.strip() for c in B.cells_of(r)] for r in t.rows]
+    head = rows[0]
+    tone = {('High', 2): 3, ('High', 3): 2, ('Medium', 3): 2}
+    body = ''
+    for r in rows[1:]:
+        cells = ''
+        for j, x in enumerate(r[1:], 1):
+            lvl = {'High': 2, 'Medium': 1, 'Low': 0}[r[0]] + {1: 0, 2: 1, 3: 2}[j]
+            cells += f'<td class="as-tg-c as-tg-{lvl}">{esc(x)}</td>'
+        body += f'<tr><th scope="row" class="as-tg-r">{esc(r[0])}</th>{cells}</tr>'
+    ths = ''.join(f'<th>{esc(h)}</th>' for h in head[1:])
+    return (f'<div class="table-wrap as-tg"><table><thead><tr><th class="as-tg-corner">{esc(head[0])}</th>{ths}</tr></thead>'
+            f'<tbody>{body}</tbody></table></div>')
+
+
+def attrition_card(bl, i):
+    t = bl[i]['text']
+    f, _, note = t.partition('\n')
+    if not note:
+        m = re.match(r'^(.*?x 100)\s*(Note:.*)$', t, re.S)
+        f, note = (m.group(1), m.group(2)) if m else (t, '')
+    k = i + 1
+    assert bl[k]['text'].startswith('Example:')
+    lines = [bl[k + j]['text'] for j in range(1, 5)]
+    eq = ''
+    out = (f'<div class="as-attr"><div class="as-attr-f"><span>Manpower Attrition</span><b>=</b><span>Manpower Left / (Manpower Opening + Manpower Joined) x 100</span></div>'
+           + (f'<p class="as-attr-n">{esc(note.strip())}</p>' if note.strip() else '')
+           + f'<div class="as-attr-e"><h5>{esc(bl[k]["text"])}</h5><ul>' + ''.join(f'<li>{esc(x)}</li>' for x in lines[:3])
+           + f'<li class="as-attr-r">{esc(lines[3])}</li></ul></div></div>')
+    return out, 6
 
 
 # ───────────────────────── hooks ─────────────────────────
@@ -271,6 +306,8 @@ def make(T, ctx):
                 cap, _, note = nxt.partition('\n')
                 assert cap.startswith('Chart 8.1'), cap
                 return G.career_matrix(T, rows, cap.strip()) + (f'\n<p>{esc(note.strip())}</p>' if note.strip() else ''), 2
+            if cid == 'ch13' and first.startswith('Potential'):
+                return talent_grid(b['t']), 1
             if cid == 'ch9' and first == 'Month':
                 import calendar_as
                 return calendar_as.build(T, ctx, b), 1
@@ -282,6 +319,8 @@ def make(T, ctx):
             if h == IMG_TMS: return fc.vlist(*TMS_FLOW), 1
             if h == IMG_ENQUIRY: return fc.vlist(*ENQUIRY), 1
             return None
+        if cid == 'ch11' and t.startswith('Manpower Attrition ='):
+            return attrition_card(bl, i)
         if cid == 'ch6' and t.startswith('Learning design should be scientifically driven'):
             n = 0
             while bl[i + 1 + n]['num']: n += 1

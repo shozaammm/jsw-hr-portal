@@ -84,9 +84,10 @@ def tree_stores():
                    for i, c in enumerate(ORG))
 
 
-def annex_item(code, name):
+def annex_item(code, name, with_id=False):
     title = f'{code}. {name}'
-    return (f'<div class="annex-file-item as-annex-item" id="annex-{code}" title="{escq(title)}">'
+    idattr = f' id="annex-{code}"' if with_id else ''
+    return (f'<div class="annex-file-item as-annex-item"{idattr} title="{escq(title)}">'
             f'<div class="annex-file-left"><div class="annex-file-icon">📄</div><div class="annex-file-name">{esc(title)}</div></div></div>')
 
 
@@ -115,7 +116,7 @@ TOC_GROUPS = [
 ]
 TITLES = {
     'fm-i': ('i', 'Foreword'), 'fm-ii': ('ii', 'JSW Group and JSW Motors Vision and Foundation'),
-    'fm-iii': ('iii', 'HR Systems at a Glance'),
+    'fm-iii': ('iii', 'How to Read the Manual'),
     'ch2': ('1', 'Dealership Organisation Structure'), 'ch1': ('2', 'Job Descriptions'),
     'ch3': ('3', 'Recruitment and Selection'), 'ch4': ('4', 'Compensation, Benefits and Incentive Policy'),
     'ch5': ('5', 'Joining and Confirmation'), 'ch6': ('6', 'Learning and Development'),

@@ -75,7 +75,7 @@ def build():
     head = subprocess.run(['git', 'show', 'HEAD:v2.html'], cwd=REPO, capture_output=True, text=True, check=True).stdout
     import hooks
     B.META = re.compile(r'^:?\s*(Objective|Purpose|Principles|Benefits?\s+(?:for|to)\s+(?:the\s+)?(?:Dealers?|Dealerships?|Customers?))\s*:?\s*$', re.I)
-    B.annex_html = S.annex_item
+    B.annex_html = lambda c, t: S.annex_item(c, t)
     ctx = {'D': D, 'docs': docs, 'chunks': chunks, 'T': T}
     B.Renderer.hooks = hooks.make(T, ctx)
     toc_subs, annex_all = {}, []
@@ -102,7 +102,7 @@ def build():
         if not items:
             continue
         ab.append(f'<h3 class="sub-title subhead" id="annex-{n}">{esc(n + ". " + title)}</h3>')
-        ab.append('<div class="annex-file-list as-annex">' + '\n'.join(S.annex_item(c, t) for c, t in items) + '</div>')
+        ab.append('<div class="annex-file-list as-annex">' + '\n'.join(S.annex_item(c, t, True) for c, t in items) + '</div>')
     annex_art = article('annexure', 'ANNEXURE', 'Annexures', '\n'.join(ab))
 
     # ── splice into the v2 shell ────────────────────────────────
