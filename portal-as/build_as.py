@@ -36,6 +36,16 @@ def chunks_of(docs):
     bl = [b for b in docs[3].blocks if not (b['k'] == 'p' and b['text'].startswith('Chapter 13 –'))]
     bl = [b for b in bl if not (b['k'] == 'p' and re.match(r'^CHAPTER\s+13$', b['text']))]
     assert bl[0]['text'] == 'Leadership Practices', bl[0]['text']
+    for b in bl:
+        if b['k'] != 'p' or b['num']:
+            continue
+        t = b['text']
+        m = re.match(r'^[A-Z]\.\s+(\d{1,2}\.\d{1,2}\s+\S.*)$', t)          # stray list letters: "D. 13.2 Communication"
+        if m and len(t) < 60:
+            b['text'] = m.group(1); b['html'] = esc(m.group(1)); t = b['text']
+        if len(t) < 90 and not t.endswith('.'):
+            if A.H3_RE.match(t): b['lvl'] = 3
+            elif A.H2_RE.match(t): b['lvl'] = 2
     chunks['Leadership Practices'] = {'title': 'Leadership Practices', 'blocks': bl[1:]}
     return chunks
 
