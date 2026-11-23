@@ -106,12 +106,9 @@ def js(s):
     return s.replace('\\', '\\\\').replace("'", "\\'")
 
 
-TOC_GROUPS = [
+TOC_GROUPS = [   # the Contents table of the docx is flat: i-iii, then chapters 1-13
     ('Introduction', ['fm-i', 'fm-ii', 'fm-iii']),
-    ('Manpower Planning and Selection', ['ch2', 'ch1', 'ch3', 'ch4', 'ch5']),
-    ('Manpower Development', ['ch6', 'ch7', 'ch8', 'ch9']),
-    ('Manpower Governance', ['ch10', 'ch11', 'ch12']),
-    ('Leadership', ['ch13']),
+    ('Chapters', ['ch2', 'ch1', 'ch3', 'ch4', 'ch5', 'ch6', 'ch7', 'ch8', 'ch9', 'ch10', 'ch11', 'ch12', 'ch13']),
     ('Annexure', ['annexure']),
 ]
 TITLES = {
@@ -173,5 +170,28 @@ def patch_shell(h, subs):
     a = h.find('window.ANNEX_DOCS = ')
     b = h.find('</script>', a)
     h = h[:a] + 'window.ANNEX_DOCS = {};\n' + h[b:]
+    # org chart: no split into X / XPlus tabs (the docx has one chart "XPlus & X Category"); download header from the docx picture titles
+    sp = "        (function(a){ var x = a[0]; a.splice(0, 1, Object.assign({}, x, {label: 'X Category'}), Object.assign({}, x, {label: 'XPlus Category'})); })(window.ORG_CATEGORIES);\n"
+    assert h.count(sp) == 1
+    h = h.replace(sp, '')
+    old = "JSW MOTORS &#183; DEALERSHIP ORGANISATION STRUCTURE"
+    assert h.count(old) == 1
+    h = h.replace(old, 'Dealer Service Manpower Organization Chart')
+    old = "Recommended Structure: ' + cleanCatLabel + ' &#183; Defined as per volume norms and city category</text>"
+    assert h.count(old) == 1
+    h = h.replace(old, "' + cleanCatLabel + '</text>")
+    # brand: the docx cover is "JSW HR Operations Manual: TRUST"
+    h = h.replace('<span>HROS</span>', '<span>HR Operations Manual</span>', 1)
+    hero = re.search(r'<h1 class="jx-hero-title">.*?</h1>', h, re.S).group(0)
+    pillars = ['<b>T</b>alent Development', '<b>R</b>eliability', '<b>U</b>nified Standards', '<b>S</b>hared Growth', '<b>T</b>eamwork for Customers']
+    newhero = ('<h1 class="jx-hero-title"><span class="jx-hero-word" aria-label="TRUST">' + ''.join(f'<span aria-hidden="true" style="--i:{i}">{c}</span>' for i, c in enumerate('TRUST'))
+               + '</span><span class="jx-hero-line">JSW HR Operations Manual</span></h1>'
+               '\n        <ul class="jx-pillars">' + ''.join(f'<li style="--i:{i}">{p}</li>' for i, p in enumerate(pillars)) + '</ul>'
+               '\n        <p class="jx-hero-quote">“Building a dealership network our customers can trust.”</p>')
+    h = h.replace(hero, newhero, 1)
+    h = h.replace('<p>HROS: Human Resource Operating Standards · Service</p>', '<p>TRUST: JSW HR Operations Manual</p>')
+    h = h.replace('<title>JSW HR Operations Manual · Service</title>', '<title>JSW HR Operations Manual: TRUST</title>', 1)
+    h = h.replace('across all 26+ JSW policy chapters...', 'the manual...').replace('No matching policies found for', 'No matching results found for')
+    h = h.replace('JSW Motors Dealership Operations Manual &middot; Controlled Document', 'JSW HR Operations Manual')
     h = h.replace('</head>', AS_CSS + '</head>', 1)
     return h

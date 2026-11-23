@@ -28,7 +28,7 @@ def events(ctx):
             E.append({**rule, 'title': act.replace('\n', ' '), 'category': 'engagement', 'freq': guide.replace('\n', ' · ').strip(' ·'),
                       'audience': att, 'chapter': 'ch9-1', 'chapterLabel': 'Ch.9 · 9.1 Employee Engagement Activities',
                       'desc': f'Purpose: {purpose} · Arranged by: {by}'})
-    E.append({'m': 11, 'day': None, 'title': 'Employee Engagement Calendar is published', 'category': 'engagement',
+    E.append({'m': 11, 'day': None, 'title': 'Employee Engagement Calendar is published in December month of the previous year', 'category': 'engagement',
               'freq': 'December month of the previous year', 'audience': 'All', 'chapter': 'ch9-1',
               'chapterLabel': 'Ch.9 · 9.1 Employee Engagement Activities',
               'desc': 'Employee Engagement Calendar is published in December month of the previous year on digital platforms and also placed on the notice board'})
@@ -52,12 +52,20 @@ def events(ctx):
         E.append({'m': 'all', 'day': day, 'title': act, 'category': 'incentive', 'freq': f'{date} of every month',
                   'audience': who, 'chapter': 'ch4-4', 'chapterLabel': 'Ch.4 · 4.4 Incentive Scheme',
                   'desc': 'It is a monthly performance reward program for achieving business targets.'})
-    rev_desc = 'Two weeks before the review is due, HR should remind the reporting manager to conduct the review meeting'
-    for m, t in ((5, 'Quarterly reviews are held in June and December'), (11, 'Quarterly reviews are held in June and December'),
-                 (8, 'Mid-year review is held in September'), (2, 'Annual review is held in March')):
-        E.append({'m': m, 'day': None, 'title': t, 'category': 'reviews', 'freq': 'For April to March cycle',
-                  'audience': 'Employee, Reporting Manager, HR Manager', 'chapter': 'ch7-1',
-                  'chapterLabel': 'Ch.7 · 7.1 Career Driven Performance Management', 'desc': rev_desc})
+    # performance reviews: the cycle shape (who / when) and the 7.1 table (what happens) in chapter 7
+    pm = ch['Performance Management']['blocks']
+    cyc = next(g for b in pm if b['k'] == 'shape' for g in b['groups'] if 'STEP 1' in ' '.join(' '.join(s['paras']) for s in g))
+    stages = {int(s['paras'][0].split()[1]): s['paras'] for s in cyc if s['prst'] == 'ellipse' and s['paras'] and s['paras'][0].startswith('STEP')}
+    what = {r[1]: r[2] for r in next(t for t in tables(ch, 'Performance Management') if t[0][0] == 'Step')[1:]}
+    MON = {'April': 3, 'June': 5, 'December': 11, 'September': 8, 'March': 2}
+    for n, p in stages.items():
+        title, who, when = p[1], p[2], p[3]
+        months = [MON[m] for m in re.findall(r'April|June|December|September|March', when)]
+        if n == 5:
+            continue
+        for m in months:
+            E.append({'m': m, 'day': None, 'title': title, 'category': 'reviews', 'freq': when, 'audience': who,
+                      'chapter': 'ch7-1', 'chapterLabel': 'Ch.7 · 7.1 Career Driven Performance Management', 'desc': what.get(title, '')})
     # training calendar finalisation: the cards that state a timeline
     import hooks
     blocks = [b for b in ch['Learning and Development']['blocks'] if b['k'] == 'shape']

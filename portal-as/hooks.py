@@ -283,8 +283,6 @@ def lms_steps(items):
 def make(T, ctx):
     chunks = ctx['chunks']
     head = subprocess.run(['git', 'show', 'HEAD:v2.html'], cwd=asdoc.HERE.parent, capture_output=True, text=True, check=True).stdout
-    a = head.find('id="chap-ch6"'); a = head.find('<!--ld-orig', a); a = head.find('-->', a) + 3
-    LD = head[a:B._div_end(head, head.find('<div class="ig-ldm"', a))]
     texts_after = lambda bl, i, n: [bl[i + 1 + k]['text'] for k in range(n)]
     state = {'learning': False}
 
@@ -325,7 +323,8 @@ def make(T, ctx):
             n = 0
             while bl[i + 1 + n]['num']: n += 1
             assert n == 5, n
-            return f'<p>{b["html"]}</p>' + LD, 1 + n
+            import v9extras as X9
+            return f'<p>{b["html"]}</p>' + X9.learning_design(texts_after(bl, i, 5)), 1 + n
         if cid == 'ch6' and t.startswith('The LMS learning path comprises'):
             n = 0
             while bl[i + 1 + n]['num']: n += 1
@@ -345,6 +344,6 @@ def make(T, ctx):
         if cid == 'ch7' and t == 'Review performance expectations against the set KPIs:':
             return f'<p>{b["html"]}</p>' + fc.review(texts_after(bl, i, 4)), 5
         if cid == 'ch9' and t.startswith('Managers should immediately recognise'):
-            return f'<p>{b["html"]}</p>' + fc.spot(texts_after(bl, i, 3), 'SPOT'), 4
+            return f'<p>{b["html"]}</p>' + fc.spot(texts_after(bl, i, 3), 'Spot Recognition'), 4
         return None
     return hook

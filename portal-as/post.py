@@ -109,10 +109,5 @@ def run(h):
     reg = re.sub(r'<span class="v7-ref">(\d{1,2}[A-Z])</span>',
                  lambda m: f'<a class="v7-ref" href="#annex-{m.group(1)}">{m.group(1)}</a>' if m.group(1) in codes else m.group(0), reg)
     h = h[:a] + reg + h[e:]
-    # brand
-    h = h.replace('<title>JSW HR Operations Manual</title>', '<title>JSW HR Operations Manual · Service</title>', 1)
-    h = h.replace('<span class="jx-hero-line">Human Resource Operating Standards</span>',
-                  '<span class="jx-hero-line">Human Resource Operating Standards · Service</span>', 1)
-    h = h.replace('<p>HROS: Human Resource Operating Standards</p>', '<p>HROS: Human Resource Operating Standards · Service</p>', 1)
     h = h.replace('</head>', AS_CSS + '</head>', 1)
     return h
