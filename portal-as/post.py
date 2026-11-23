@@ -488,8 +488,8 @@ AS_CSS = '''<style id="as-css2">
   border: 2.5px solid #111113 !important;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
   object-fit: cover !important;
-  object-position: center top !important;
-  filter: grayscale(100%) contrast(1.1) !important;
+  object-position: center center !important;
+  filter: grayscale(100%) contrast(1.05) !important;
   background: #f0f0f2 !important;
 }
 </style>'''
