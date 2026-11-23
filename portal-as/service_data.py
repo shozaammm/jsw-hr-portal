@@ -189,7 +189,7 @@ def patch_shell(h, subs):
                '\n        <ul class="jx-pillars">' + ''.join(f'<li style="--i:{i}">{p}</li>' for i, p in enumerate(pillars)) + '</ul>'
                '\n        <p class="jx-hero-quote">“Building a dealership network our customers can trust.”</p>')
     h = h.replace(hero, newhero, 1)
-    h = h.replace('<p>HROS: Human Resource Operating Standards · Service</p>', '<p>TRUST: JSW HR Operations Manual</p>')
+    h = h.replace('<p>HROS: Human Resource Operating Standards</p>', '<p>TRUST: JSW HR Operations Manual</p>')
     h = h.replace('<title>JSW HR Operations Manual · Service</title>', '<title>JSW HR Operations Manual: TRUST</title>', 1)
     h = h.replace('across all 26+ JSW policy chapters...', 'the manual...').replace('No matching policies found for', 'No matching results found for')
     h = h.replace('JSW Motors Dealership Operations Manual &middot; Controlled Document', 'JSW HR Operations Manual')
