@@ -124,6 +124,8 @@ def build():
     h = S.patch_shell(h, toc_subs)
     import post
     h = post.run(h)
+    import qc2
+    h = qc2.apply(h)
     OUT.write_text(h)
     print('wrote', OUT, len(h))
 
